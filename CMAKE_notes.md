@@ -206,7 +206,7 @@ add_executable(app main.cpp)
 target_link_libraries(app calcLib)
 ```
 calcApp\main.cpp
-```
+``` CPP
 #include <iostream>
 #include "../calcLib/include/Calc.h"
  
@@ -214,6 +214,28 @@ int main() {
     Calc calc;
     std::cout << "Hello World 12+7 = " << calc.add(12,7) << "\n";
 }
+```
+mycmakescript.sh
+``` Bash
+#!/bin/bash
+
+echo "####removing build####"
+rm -r build 
+sleep 3
+echo "####making build####"
+mkdir build
+sleep 3
+echo "####cd build####"
+sleep 3
+cd build
+sleep 3
+echo "####cmake ..####"
+cmake ..
+# sleep 3
+# echo "####cmake --build .####"
+#cmake --build .
+echo "####make####"
+make
 ```
 -----------------------------------------------------------------------------------------------
 # CMAKE CPP with Gtest:
