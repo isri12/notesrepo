@@ -139,7 +139,83 @@ cd build
 ./app
 testing hello world from cpp file! 
 ----------------------------------------------------------------------------------------------
+# CMake with cpp and header file example
 
+```
+CmakeCplusplusCalculator
+│   README.md
+│   CMakeLists.txt    
+│   mycmakescript.sh
+│
+└───calcLib
+│   │ CMakeLists.txt
+│   │
+│   └───include
+│       │   calc.h
+│   └───src
+│       │   calc.cpp
+└───calcApp
+    │   CMakeLists.txt
+    │   main.cpp
+```
+
+./CMakeLists.txt
+``` CMake
+cmake_minimum_required(VERSION 3.5)
+project(cmake-calculator-project-example)
+ 
+add_subdirectory(calcLib)
+add_subdirectory(calcApp)
+```
+
+calcLib/CMakeLists.txt
+``` CMake
+add_library(calcLib src/Calc.cpp)
+message("CalcLib current source dir = ${CMAKE_CURRENT_SOURCE_DIR}") 
+target_include_directories( calcLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+```
+calcLib\include\calc.h
+``` CPP
+#ifndef CALCLIB_INCLUDE_CALC_CALC_H_
+#define CALCLIB_INCLUDE_CALC_CALC_H_
+ 
+class Calc {
+public:
+    int add(int a,int b);
+    int sub(int a,int b);
+};
+
+#endif /* CALCLIB_INCLUDE_CALC_CALC_H_ */
+```
+calcLib\src\Calc.cpp
+```
+#include "../include/Calc.h"
+ 
+int Calc::add(int a, int b) {
+    return a+b;
+}
+ 
+int Calc::sub(int a, int b) {
+    return a-b;
+}
+```
+calcApp\CMakeLists.txt
+``` CMake
+add_executable(app main.cpp)
+ 
+target_link_libraries(app calcLib)
+```
+calcApp\main.cpp
+```
+#include <iostream>
+#include "../calcLib/include/Calc.h"
+ 
+int main() {
+    Calc calc;
+    std::cout << "Hello World 12+7 = " << calc.add(12,7) << "\n";
+}
+```
+-----------------------------------------------------------------------------------------------
 # CMAKE CPP with Gtest:
 
 build/ is where code is built - like where executables are.
