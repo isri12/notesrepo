@@ -119,39 +119,32 @@ cd build
 testing hello world from cpp file! 
 ----------------------------------------------------------------------------------------------
 
-
-
-
-add_executable()
-cmake_minimum_required()
-project()
+cmake_minimum_required(VERSION 2.8)
 CMAKE_CXX_STANDARD
 CMAKE_CXX_STANDARD_REQUIRED
-set()
 
-cmake_minimum_required(VERSION 2.8)
-# Options. Turn on with 'cmake -Dmyvarname=ON'.
-option(test "Build all tests." OFF) # Makes boolean 'test' available.
 
-# Make PROJECT_SOURCE_DIR, PROJECT_BINARY_DIR, and PROJECT_NAME available.
-set(PROJECT_NAME MyProject)
+project() # Project name
 project(${PROJECT_NAME})
+project(HelloWorldTest)
 
-set(CMAKE_CXX_FLAGS "-g -Wall")
 
-# Normal Libraries & Executables
+add_library() #add library
 add_library(project1_lib project1.cpp)
-add_executable(project1 main.cpp)
-# Key idea: SEPARATE OUT your main() function into its own file so it can be its
-# own executable. Separating out main() means you can add this library to be
-# used elsewhere.
 
-target_link_libraries(project1 project1_lib)
+add_executable()  #Create the executable file called app
+add_executable(app main.cpp)
 
+target_link_libraries(app proj1lib)
 
 
+set()
+set(CMAKE_CXX_FLAGS "-g -Wall")
+set(PROJECT_NAME MyProject) //Make PROJECT_SOURCE_DIR, PROJECT_BINARY_DIR, and PROJECT_NAME available.
 
+option(test "Build all tests." OFF) # Makes boolean 'test' available. Options. Turn on with 'cmake -Dmyvarname=ON'.
 
+-----------------------------------------------------------------------------------------------------------------------------
 # CMAKE CPP with Gtest:
 
 build/ is where code is built - like where executables are.
