@@ -2,6 +2,32 @@
 
 CMake is a tool to manage building of source code. 
 
+cmake_minimum_required(VERSION 2.8)
+CMAKE_CXX_STANDARD
+CMAKE_CXX_STANDARD_REQUIRED
+
+
+project() # Project name
+project(${PROJECT_NAME})
+project(HelloWorldTest)
+
+
+add_library() #add library
+add_library(project1_lib project1.cpp)
+
+add_executable()  #Create the executable file called app
+add_executable(app main.cpp)
+
+target_link_libraries(app proj1lib)
+
+
+set()
+set(CMAKE_CXX_FLAGS "-g -Wall")
+set(PROJECT_NAME MyProject) //Make PROJECT_SOURCE_DIR, PROJECT_BINARY_DIR, and PROJECT_NAME available.
+
+option(test "Build all tests." OFF) # Makes boolean 'test' available. Options. Turn on with 'cmake -Dmyvarname=ON'.
+-----------------------------------------------------------------------------------------------------------------------------
+
 ## simple hello world cpp file with cmake
 
 Sample Project
@@ -119,32 +145,6 @@ cd build
 testing hello world from cpp file! 
 ----------------------------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 2.8)
-CMAKE_CXX_STANDARD
-CMAKE_CXX_STANDARD_REQUIRED
-
-
-project() # Project name
-project(${PROJECT_NAME})
-project(HelloWorldTest)
-
-
-add_library() #add library
-add_library(project1_lib project1.cpp)
-
-add_executable()  #Create the executable file called app
-add_executable(app main.cpp)
-
-target_link_libraries(app proj1lib)
-
-
-set()
-set(CMAKE_CXX_FLAGS "-g -Wall")
-set(PROJECT_NAME MyProject) //Make PROJECT_SOURCE_DIR, PROJECT_BINARY_DIR, and PROJECT_NAME available.
-
-option(test "Build all tests." OFF) # Makes boolean 'test' available. Options. Turn on with 'cmake -Dmyvarname=ON'.
-
------------------------------------------------------------------------------------------------------------------------------
 # CMAKE CPP with Gtest:
 
 build/ is where code is built - like where executables are.
