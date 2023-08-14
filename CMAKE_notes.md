@@ -2,23 +2,101 @@
 
 CMake is a tool to manage building of source code. 
 
-build/ is where code is built - like where executables are.
-lib/ includes gtest-1.6.0.
-Rest of code in root:
--CMakeLists.txt must be in each subdirectory of the project
--main.cpp is just a driver file - the common place to run the normal application
--project1.cpp and project1.h have code for the class 'Project1'
--test_project1.cpp has code to test Project1
+## simple hello world cpp file with cmake
 
-
+Sample Project
+     |
+     | -- CMakeLists.txt
+     | -- hello.h
+     | -- hello.cpp
+     | -- main.cpp
+     | - mymakescript.sh 
 
 File to edit:
 CMakeLists.txt
+``` CMake
+# CMake version requirement
+cmake_minimum_required(VERSION 3.10)
 
-mkdir build
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED On)
+#add_compile_options(-std=c++11)
+
+# Project name
+project(HelloWorldTest)
+# add library
+add_library(proj1lib hello.cpp)
+# Create the executable
+add_executable(app main.cpp)
+target_link_libraries(app proj1lib)
+```
+
+hello.cpp
+
+``` cpp
+#include<iostream>
+#include "hello.h"
+
+void hello()
+{
+    std::cout<<"testing hello world from cpp file! "<<std::endl;
+}
+```
+
+hello.h
+```
+#ifndef HELLO_H
+#define HELLO_H
+
+void hello();
+
+#endif
+```
+``` cpp
+#include<iostream>
+#include "hello.h"
+
+int main ()
+{
+    hello();
+    return 0;
+}
+```
+
+ ./mymakescript.sh 
+####removing build####
+####making build####
+####cd build####
+####cmake ..####
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /mnt/c/Users/Owner/Documents/code/cplusplus/CmakeCplusplus1/build
+####make####
+[ 25%] Building CXX object CMakeFiles/proj1lib.dir/hello.cpp.o
+[ 50%] Linking CXX static library libproj1lib.a
+[ 50%] Built target proj1lib
+[ 75%] Building CXX object CMakeFiles/app.dir/main.cpp.o
+[100%] Linking CXX executable app
+[100%] Built target app
+
 cd build
-cmake ..
-make
+./app
+testing hello world from cpp file! 
+----------------------------------------------------------------------------------------------
+
+
 
 
 add_executable()
@@ -51,6 +129,15 @@ target_link_libraries(project1 project1_lib)
 
 
 
+# CMAKE CPP with Gtest:
+
+build/ is where code is built - like where executables are.
+lib/ includes gtest-1.6.0.
+Rest of code in root:
+-CMakeLists.txt must be in each subdirectory of the project
+-main.cpp is just a driver file - the common place to run the normal application
+-project1.cpp and project1.h have code for the class 'Project1'
+-test_project1.cpp has code to test Project1
 
 
 
@@ -93,23 +180,36 @@ and if you did cmake with test=ON:
 `cmake -Dtest=ON` turns on the variable 'test', which is specified in the root
 CMakeLists.txt file. This is handy if you want to build in certain ways. Clear
 description
-[here](http://stackoverflow.com/questions/5998186/cmake-adding-command-line-options).
 
-## My experience
-I spent a lot of time figuring out how I wanted to reference the gtest library.  
-
-[On StackOverflow](http://stackoverflow.com/questions/9689183/cmake-googletest)
-there are ways to download the svn repo when you cmake, but that's internet
-connection dependent. There is also a way to set a variable for where gtest is
-installed on your system, but that got a bit tedious.  
-
-In the end I opted to just have a copy of gtest locally in whatever application
-I have that uses gtest.  
-[This user's edited
-solution](http://stackoverflow.com/questions/8507723/how-to-start-working-with-gtest-and-cmake)
-and [my own question's
-response](http://stackoverflow.com/questions/14148145/gtest-detects-method-only-when-the-method-is-implemented-in-h-not-in-cpp-cma/14157405#14157405)
-helped me out.
 
 
 good example: https://github.com/dmonopoly/gtest-cmake-example/tree/master 
+
+
+
+mymakescript.sh
+
+```
+#!/bin/bash
+
+echo "####removing build####"
+rm -r build 
+sleep 3
+echo "####making build####"
+mkdir build
+sleep 3
+echo "####cd build####"
+sleep 3
+cd build
+sleep 3
+echo "####cmake ..####"
+cmake ..
+sleep 3
+# echo "####cmake --build .####"
+#cmake --build .
+echo "####make####"
+make
+```
+```
+chmod +X mymakescript.sh
+```
