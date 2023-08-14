@@ -44,7 +44,7 @@ void hello()
 ```
 
 hello.h
-```
+``` cpp
 #ifndef HELLO_H
 #define HELLO_H
 
@@ -62,7 +62,7 @@ int main ()
     return 0;
 }
 ```
-
+```
  ./mymakescript.sh 
 ####removing build####
 ####making build####
@@ -90,7 +90,7 @@ int main ()
 [ 75%] Building CXX object CMakeFiles/app.dir/main.cpp.o
 [100%] Linking CXX executable app
 [100%] Built target app
-
+```
 cd build
 ./app
 testing hello world from cpp file! 
