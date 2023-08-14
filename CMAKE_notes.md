@@ -237,6 +237,9 @@ cmake ..
 echo "####make####"
 make
 ```
+cd build\calcApp\app
+./app
+Hello World 12+7 = 19
 -----------------------------------------------------------------------------------------------
 # CMAKE CPP with Gtest:
 
