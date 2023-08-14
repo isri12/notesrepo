@@ -24,13 +24,13 @@ option(test "Build all tests." OFF) # Makes boolean 'test' available. Options. T
 
 ## simple hello world cpp file with cmake
 
-Sample Project
-     |
-     | -- CMakeLists.txt
-     | -- hello.h
-     | -- hello.cpp
-     | -- main.cpp
-     | - mymakescript.sh 
+Sample Project dir
+.
+├──  CMakeLists.txt
+├── hello.h
+├── hello.cpp
+├── main.cpp
+├── mymakescript.sh
 
 File to edit:
 CMakeLists.txt
