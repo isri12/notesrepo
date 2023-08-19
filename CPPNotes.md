@@ -221,39 +221,125 @@ In C++, OOP provides several advantages over procedural programming such as fast
 	- **setters**:write into data members
 	- **getters**:return the values
 -.h header file: contain class definations and function declarations
--.cpp implementation file: contain executable code,must contain header file. 
+-.cpp implementation file: contain executable code,must contain header file.
+The #ifndef and #define statements are used to prevent the header file from being included multiple times in the same program.
 ```cpp   
-//mycar.h
-	class car
-		{
-	Public:
-		std::string get_name();
-		int get_model();
-		void set_year(int y);
-	Private:
-		std::string name;                       // class- or data member 
-		int year;				// class member 
-		unsigned char car_purpose;		// class member 
-		std::string model;				// class member 
-		}
+//car.h
+#include<string>
+
+#ifndef CAR_H
+#define CAR_H
+
+class Car
+{
+    public:
+        int get_year();
+        void set_year(int caryear);
+            
+        std::string get_name();
+        void set_name(std::string carname);
+
+        std::string get_model();
+        void set_model(std::string carmodel);      
+    private:
+        int year;
+        std::string name;
+        std::string model;
+};
+
+#endif
+
 ```
 ```cpp
-//mycar.cpp
+//car.cpp
+#include"car.h"
+
+int year;
+std::string name;
+std::string model;
+
+int Car::get_year(){
+    return year;
+}
+void Car::set_year(int caryear)
+{
+    year=caryear;
+}
+
+
+std::string Car::get_name()
+{
+    return name;
+}
+void Car::set_name(std::string carname)
+{
+    name=carname;
+}
+
+
+std::string Car::get_model()
+{
+    return model;
+}
+void Car::set_model(std::string carmodel)
+{
+    model=carmodel; 
+}
+```
+``` cpp
+//main.cpp
+
+#include <iostream>
+#include <memory>
 #include "car.h"
 
-std::string get_name()
+int main()
 {
-	return name;
-}
-int get_model()
-{
-	return model;
-}
-void set_year(int y)
-{
-	year=y;
-}
+    std::cout<<"Testing Hello world!"<<std::endl;
 
+    Car mycar1;
+    mycar1.set_year(2005);
+    mycar1.set_name("Toyota");
+    mycar1.set_model("sienna");
+    std::cout<<"my car1 is: "<<mycar1.get_year()<<" "<<mycar1.get_name()<<" "<<mycar1.get_model()<<std::endl;
+
+    Car *mycar2= new Car;
+    mycar2 ->set_year(2023); 
+    mycar2 ->set_name("Toyota"); 
+    mycar2 ->set_model("Camery"); 
+    std::cout<<"my car2(ptr) is: "<<mycar2->get_year()<<" "<<mycar2->get_name()<<" "<<mycar2->get_model()<<std::endl;
+
+    // Create a smart pointer to a Car object.
+    std::shared_ptr<Car> myCar3(new Car());
+    myCar3 ->set_year(2005); 
+    myCar3 ->set_name("Toyota"); 
+    myCar3 ->set_model("Camery");
+    std::cout<<"my car3(smart ptr) is: "<<myCar3->get_year()<<" "<<myCar3->get_name()<<" "<<myCar3->get_model()<<std::endl;
+
+
+}
+```
+``` cpp
+cmake_minimum_required(VERSION 2.8)
+# CMAKE_CXX_STANDARD
+# CMAKE_CXX_STANDARD_REQUIRED
+
+#set()
+#set(CMAKE_CXX_FLAGS "-g -Wall")
+
+# Make PROJECT_SOURCE_DIR, PROJECT_BINARY_DIR, and PROJECT_NAME available.
+set(PROJECT_NAME cars)
+project(${PROJECT_NAME})
+
+#add library
+add_library(car_proj_lib car.cpp)
+
+#add_executable()  #Create the executable file called app
+add_executable(app main.cpp)
+target_link_libraries(app car_proj_lib)
+
+
+#option(test "Build all tests." OFF) # Makes boolean 'test' available. Options. Turn on with 'cmake -Dmyvarname=ON'.
 ```
 -
 - **Construcror**:
