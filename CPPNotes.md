@@ -246,7 +246,6 @@ class Car
         std::string name;
         std::string model;
 };
-
 #endif
 
 ```
@@ -341,6 +340,18 @@ target_link_libraries(app car_proj_lib)
 
 #option(test "Build all tests." OFF) # Makes boolean 'test' available. Options. Turn on with 'cmake -Dmyvarname=ON'.
 ```
+ 	mkdir build
+ 	cd build
+  	cmake ..
+   	make
+    	./app
+     
+	Testing Hello world!
+	my car1 is: 2005 Toyota sienna
+	my car2(ptr) is: 2023 Toyota Camery
+	my car3(smart ptr) is: 2005 Toyota Camery
+
+
 -
 - **Construcror**:
 - - **Destructor**
