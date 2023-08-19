@@ -118,6 +118,8 @@ int main () {
 }
 
 ```
+-----------------------------------------------------------------------------------------------------------------------
+
 ### References 
 -we can get the memory address of a variable by using the & operator
 ```cpp
@@ -134,6 +136,7 @@ int main()
 ```
 > Toyota
 > 0x7fff996e11f0
+
 ### Pointers
 -variables that store the memory addresses of other variables. 
 - Special data type for memory address
@@ -166,42 +169,22 @@ int main()
     std::cout<<"changeValue a : "<<a<<std::endl;  // 20
 }
 ```
+---------------------------------------------------------------------------------------------------------------------
+## Object Oriented programming
 
+Object-oriented programming (OOP) is a programming paradigm based on the concept of "objects", which can contain **data** and **code**: data in the form of fields (often known as attributes or properties), and code, in the form of procedures (often known as methods).¹ C++ is an object-oriented programming language that allows you to create classes that encapsulate data and functions. Classes are user-defined types that can be used to create objects. 
 
+**class** = is a blueprint for an object, which defines its data members and member functions.
+**Object** = an instance of a class that contains **data** and **functions**. aka grouped data
+**Methods** = the procedures that an object performs 
 
-
-
-
-
- 
-
-
-
-
-### Dynamic Programming and Heap
-
-### Preprocessor directives 
-	#include<iostream>    //file will be search in a pre-defined location 
-	#define CAPACITY 5000  //the preprocessor will replace everything with 5000
-	
-
-	
-### Type casting 
-	-  Explicitly specifying the data type of an expression.
-	-  Suppose you want to have several lines of code that print data out for debugging purposes, but you don't want those lines to make it to the final application, for efficiency reasons. Which of the following achieves the desired behavior by using preprocessor directives?
-
-
-### DEBUGGING
-	// comment the following line for the final application 
-	#define DEBUGGING 
-
-	// copy and customize this for every debugging line 
-	#ifdef DEBUGGING 
-	cout<<"Var1 = "<<var1<<endl; 
-	#endif
+In C++, OOP provides several advantages over procedural programming such as faster and easier execution, clear structure for programs, helps keep the code DRY (Don't Repeat Yourself), makes the code easier to maintain, modify and debug, and makes it possible to create full reusable applications with less code and shorter development time.
 
 ### Structure 
+- abstraction i.e collection of individual properties of real-world object. 
 - containers of hetrogenous data mambers
+- the diffrence betwen struct and class is **class is private by default** and **struct is public by default**.
+- 
 ```cpp   
 	struct car {
 		string name;
@@ -225,10 +208,10 @@ int main()
 	}
 ```
 ### Classes
-- may contain data and member functions
+- may contain** data member **and **member functions**
   	- Example car.make, car.paint()
-- contain Public Constructor, data, and methods
-- Private data and methods
+- contain Public Constructor, data, and methods ???
+- data member (recommended to be Private) and member functions
 - Separate declarations and definitions in the h and cpp file respectively
 - Instance of class is called object eg. Cout,cin 
 		○ Example : make, model, year…..
@@ -272,11 +255,21 @@ void set_year(int y)
 }
 
 ```
+-
 - **Construcror**:
 - - **Destructor**
 - **Operator Overload**: 
 -pragma once **vs** #ifdef CAR_H .... #define CAR_H.....#endif //CAR_H (include gard)
-
+-class and struct keywords: Used to define classes and structures.
+-Member variables: Data attributes stored within a class.
+-Member functions: Methods that define the behavior of objects.
+-Access specifiers: public, private, and protected to control member visibility.
+-Constructors and destructors: Special methods to initialize and clean up objects.
+-Inheritance: class Derived : public Base to create derived classes.
+-Polymorphism: Achieved through virtual functions and dynamic dispatch.
+-Operator overloading: Defining custom behaviors for operators like +, -, ==, etc.
+-Templates: Used to create generic classes and functions.
+-Namespaces: Used for organizing and managing code.
 
 **Review code**
 ```cpp
@@ -338,3 +331,25 @@ void calculateStudentAverage(void *object, double *avg)
     // Code to calculate and store average grade
 }
 ```
+----------------------------------------------------------------------------------------------------------------
+### Dynamic Programming and Heap
+
+### Preprocessor directives 
+	#include<iostream>    //file will be search in a pre-defined location 
+	#define CAPACITY 5000  //the preprocessor will replace everything with 5000
+	
+
+	
+### Type casting 
+	-  Explicitly specifying the data type of an expression.
+	-  Suppose you want to have several lines of code that print data out for debugging purposes, but you don't want those lines to make it to the final application, for efficiency reasons. Which of the following achieves the desired behavior by using preprocessor directives?
+
+
+### DEBUGGING
+	// comment the following line for the final application 
+	#define DEBUGGING 
+
+	// copy and customize this for every debugging line 
+	#ifdef DEBUGGING 
+	cout<<"Var1 = "<<var1<<endl; 
+	#endif
