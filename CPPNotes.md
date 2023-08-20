@@ -33,19 +33,18 @@
 
 ### Notes 
 #### How big are all these data types? 
- 	- Use sizeof operator sizeof(int) will return the number of bytes in an int. Or check <limits> file for max/min size of various data types.
+ - Use sizeof operator sizeof(int) will return the number of bytes in an int. Or check <limits> file for max/min size of various data types.
 
 char <= short <= int <= long <= long long
 
-	- You may have come across code where integer types are expressed as int16_t or uint32_t. Use #include <cstdint>.  There you will find std::uint32_t, std::int16_t etc.  But declared within the std:: namespace. **std::uint32_t should be preferred over uint32_t.**
+- You may have come across code where integer types are expressed as int16_t or uint32_t.
+- Use #include <cstdint>.  There you will find std::uint32_t, std::int16_t etc.  But declared within the std:: namespace.
+-  **std::uint32_t should be preferred over uint32_t.**
 
 ##### Topics
 	-Serializing data.
 	-Packing data tightly and predictably.
 	-Performing bit operations.
-
-------------------------------------------------------------------
-
 
 ----------------------------------------------------------------------
 ## 2. Compound Data Types
@@ -170,7 +169,7 @@ int main()
 }
 ```
 ---------------------------------------------------------------------------------------------------------------------
-## Object Oriented programming
+## 3 Object Oriented programming
 
 Object-oriented programming (OOP) is a programming paradigm based on the concept of "objects", which can contain **data** and **code**: data in the form of fields (often known as attributes or properties), and code, in the form of procedures (often known as methods).¹ C++ is an object-oriented programming language that allows you to create classes that encapsulate data and functions. Classes are user-defined types that can be used to create objects. 
 
