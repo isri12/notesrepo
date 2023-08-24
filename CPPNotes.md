@@ -137,7 +137,7 @@ int main()
 > 0x7fff996e11f0
 
 ### Pointers
--variables that store the memory addresses of other variables. 
+-**variables** that store the memory addresses of other variables. 
 - Special data type for memory address
 - Same pointer maybe used to access many different variables. 
 Example 
@@ -351,10 +351,58 @@ target_link_libraries(app car_proj_lib)
 	my car3(smart ptr) is: 2005 Toyota Camery
 
 
--
+
 - **Construcror**:
 - - **Destructor**
-- **Operator Overload**: 
+- **Operator Overload**:
+===============================================================================================================================================================================================
+TOPICS
+-**namespace**
+  Namespaces give you one mechanism to modularize code. A namespace allows you to label
+your types, functions, and variables with a unique name so that, using the scope resolution
+operator, you can give a fully qualified name. The advantage is that you know exactly which
+item will be called. The disadvantage is that using a fully qualified name you are in effect
+switching off C++'s argument-dependent lookup mechanism for overloaded functions where
+the compiler will choose the function that has the best fit according to the arguments passed
+to the function.
+```cpp
+#include <iostream>
+namespace apple 
+{ 
+    namespace function {
+    void print(const char* text)
+    {
+        std::cout<<"apple:: "<<text<<std::endl;
+    }
+                        }
+}
+namespace mango
+{
+    void print(const char* text)
+    {
+        std::cout<<"mando:: "<<text<<std::endl;
+    }
+}
+int main()
+{
+    apple::function::print("Hello World");
+    mango::print("Hello World");
+    using namespace apple::function;
+    print("Hello from apple::function ");
+    return 0;
+}
+```
+
+avoiding **using namespace X**; is a form of future-proofing, a way of making sure a change to the libraries and/or header files in use is not going to break a program.
+Consider two libraries called Foo and Bar:
+``` cpp
+using namespace foo;
+using namespace bar;
+```
+Everything works fine, and you can call Blah() from Foo and Quux() from Bar without problems. But one day you upgrade to a new version of Foo 2.0, which now offers a function called Quux(). Now you've got a conflict: Both Foo 2.0 and Bar import Quux() into your global namespace. This is going to take some effort to fix, especially if the function parameters happen to match.
+If you had used foo::Blah() and bar::Quux(), then the introduction of foo::Quux() would have been a non-event.
+https://stackoverflow.com/questions/1452721/why-is-using-namespace-std-considered-bad-practice 
+------------------------------------------------------------------------------------------------------------
 -pragma once **vs** #ifdef CAR_H .... #define CAR_H.....#endif //CAR_H (include gard)
 -class and struct keywords: Used to define classes and structures.
 -Member variables: Data attributes stored within a class.
