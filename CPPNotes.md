@@ -392,9 +392,8 @@ int main()
     return 0;
 }
 ```
+avoiding **using namespace X**; is a form of future-proofing, a way of making sure a change to the libraries and/or header files in use is not going to break a program. Consider two libraries called Foo and Bar:
 
-avoiding **using namespace X**; is a form of future-proofing, a way of making sure a change to the libraries and/or header files in use is not going to break a program.
-Consider two libraries called Foo and Bar:
 ``` cpp
 using namespace foo;
 using namespace bar;
@@ -402,6 +401,7 @@ using namespace bar;
 Everything works fine, and you can call Blah() from Foo and Quux() from Bar without problems. But one day you upgrade to a new version of Foo 2.0, which now offers a function called Quux(). Now you've got a conflict: Both Foo 2.0 and Bar import Quux() into your global namespace. This is going to take some effort to fix, especially if the function parameters happen to match.
 If you had used foo::Blah() and bar::Quux(), then the introduction of foo::Quux() would have been a non-event.
 https://stackoverflow.com/questions/1452721/why-is-using-namespace-std-considered-bad-practice 
+
 ------------------------------------------------------------------------------------------------------------
 -pragma once **vs** #ifdef CAR_H .... #define CAR_H.....#endif //CAR_H (include gard)
 -class and struct keywords: Used to define classes and structures.
