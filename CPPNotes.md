@@ -139,7 +139,9 @@ int main()
 ### Pointers
 -**variables** that store the memory addresses of other variables. 
 - Special data type for memory address
-- Same pointer maybe used to access many different variables. 
+- Same pointer maybe used to access many different variables.
+- why? if you want to access data outside of a function. 
+- 
 Example 
 ```cpp
 #include <iostream>
@@ -356,8 +358,8 @@ target_link_libraries(app car_proj_lib)
 - - **Destructor**
 - **Operator Overload**:
 ===============================================================================================================================================================================================
-TOPICS
--**namespace**
+## TOPICS
+- **namespace**
   Namespaces give you one mechanism to modularize code. A namespace allows you to label
 your types, functions, and variables with a unique name so that, using the scope resolution
 operator, you can give a fully qualified name. The advantage is that you know exactly which
@@ -403,6 +405,56 @@ If you had used foo::Blah() and bar::Quux(), then the introduction of foo::Quux(
 https://stackoverflow.com/questions/1452721/why-is-using-namespace-std-considered-bad-practice 
 
 ------------------------------------------------------------------------------------------------------------
+Typedef 
+-typedef statement to create an alias for a type
+
+``` cpp
+#include <iostream>
+#include <typeinfo>
+#include <bits/stdc++.h>
+#include <stdint.h>
+//typedef unsigned int age_t; //or myagetype
+
+int main()
+{
+    typedef size_t age1_t;  //*_t convention for defined typedef
+    typedef unsigned int age2_t;
+    typedef std::bitset<8> bytetype;
+
+    age1_t age1 =20;
+    std::cout<<age1<<std::endl;
+    age1++;
+    std::cout<<age1<<std::endl;
+    
+    std::cout<<typeid(age1).hash_code()<<std::endl;
+    std::cout<<typeid(age1).name()<<std::endl;
+
+    
+    age2_t age2 =30;
+    std::cout<<age2<<std::endl;
+    age2++;
+    std::cout<<age2<<std::endl;
+    
+    std::cout<<typeid(age2).hash_code()<<std::endl;
+    std::cout<<typeid(age2).name()<<std::endl;
+    
+    bytetype mb=100;
+    std::cout<<"mb=100: "<<mb<<std::endl;
+ 
+    return 0;
+}
+```
+	20
+	21
+	14947210986724563927
+	m
+	30
+	31
+	10485857595211860659
+	j
+	mb=100: 01100100
+
+
 -pragma once **vs** #ifdef CAR_H .... #define CAR_H.....#endif //CAR_H (include gard)
 -class and struct keywords: Used to define classes and structures.
 -Member variables: Data attributes stored within a class.
