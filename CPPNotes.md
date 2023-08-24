@@ -407,6 +407,8 @@ https://stackoverflow.com/questions/1452721/why-is-using-namespace-std-considere
 ------------------------------------------------------------------------------------------------------------
 ### Typedef 
 -typedef statement to create an alias for a type
+-syntax: 
+	typedef existing_data_type new_data_type
 
 ``` cpp
 #include <iostream>
