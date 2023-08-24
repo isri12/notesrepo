@@ -359,7 +359,7 @@ target_link_libraries(app car_proj_lib)
 - **Operator Overload**:
 ===============================================================================================================================================================================================
 ## TOPICS
-- **namespace**
+### **namespace**
   Namespaces give you one mechanism to modularize code. A namespace allows you to label
 your types, functions, and variables with a unique name so that, using the scope resolution
 operator, you can give a fully qualified name. The advantage is that you know exactly which
@@ -405,7 +405,7 @@ If you had used foo::Blah() and bar::Quux(), then the introduction of foo::Quux(
 https://stackoverflow.com/questions/1452721/why-is-using-namespace-std-considered-bad-practice 
 
 ------------------------------------------------------------------------------------------------------------
-Typedef 
+### Typedef 
 -typedef statement to create an alias for a type
 
 ``` cpp
