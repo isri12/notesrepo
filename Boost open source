@@ -1,4 +1,56 @@
+#include <gtest/gtest.h>
+#include <boost/asio.hpp>
+#include "your_tcp_communication_class.h" // Include your TCP communication class
 
+// Define a fixture class for the test suite
+class TCPCommunicationTest : public ::testing::Test {
+protected:
+    // Set up the fixture (runs before each test)
+    void SetUp() override {
+        // Initialize any resources needed for tests
+    }
+
+    // Tear down the fixture (runs after each test)
+    void TearDown() override {
+        // Clean up resources after tests
+    }
+};
+
+// Define test cases
+
+// Test case for sending data
+TEST_F(TCPCommunicationTest, SendDataTest) {
+    // Create and set up your TCP communication object
+    YourTCPCommunicationClass tcpComm;
+
+    // Use Boost.Asio to establish a connection
+    // Send data using your communication object
+    // Assert the expected outcome
+    ASSERT_TRUE(tcpComm.SendData("Hello, server!"));
+}
+
+// Test case for receiving data
+TEST_F(TCPCommunicationTest, ReceiveDataTest) {
+    // Create and set up your TCP communication object
+    YourTCPCommunicationClass tcpComm;
+
+    // Use Boost.Asio to establish a connection
+    // Receive data using your communication object
+    std::string receivedData = tcpComm.ReceiveData();
+    
+    // Assert the expected outcome
+    ASSERT_EQ(receivedData, "Hello, client!");
+}
+
+// ... More test cases ...
+
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+
+
+------------
 #include <boost/asio.hpp>
 
 int main() {
