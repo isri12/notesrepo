@@ -1,6 +1,6 @@
 
 ```cpp
-//------------
+//--------basic Boost.Asio TCP client. This code sets up an asynchronous TCP connection to a server running on "localhost" at port 8080 and sends a "Hello, server!" //message.----
 #include <boost/asio.hpp>
 
 int main() {
