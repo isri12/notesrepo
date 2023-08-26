@@ -1,4 +1,5 @@
-``` cpp
+
+```cpp
 #include <gtest/gtest.h>
 #include <boost/asio.hpp>
 #include "your_tcp_communication_class.h" // Include your TCP communication class
@@ -49,8 +50,8 @@ int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
-
-
+```
+```
 //------------
 #include <boost/asio.hpp>
 
@@ -87,28 +88,26 @@ int main() {
 __________
 
 example of a basic TCP client implemented in C++ using the Boost.Asio library. Let's break down the code step by step:
-
+```
 ```cpp
 #include <boost/asio.hpp>
-```
-This line includes the necessary header file for using the Boost.Asio library, which provides networking and I/O functionality.
+
+//This line includes the necessary header file for using the Boost.Asio library, which provides networking and I/O functionality.
 
 ```cpp
 int main() {
     boost::asio::io_context io_context;
-```
-Here, an `io_context` object is created. The `io_context` is a core component of Boost.Asio, responsible for managing asynchronous I/O operations and providing an execution context for tasks.
 
-```cpp
+//Here, an `io_context` object is created. The `io_context` is a core component of Boost.Asio, responsible for managing asynchronous I/O operations and providing an execution context for tasks.
+
     boost::asio::ip::tcp::socket socket(io_context);
-```
-A TCP socket object is created. This socket will be used to communicate with the server.
 
-```cpp
+//A TCP socket object is created. This socket will be used to communicate with the server.
+
     boost::asio::ip::tcp::resolver resolver(io_context);
     boost::asio::ip::tcp::resolver::results_type endpoints = resolver.resolve("localhost", "8080");
+//A resolver object is created to convert the human-readable server address ("localhost") and port number ("8080") into a list of endpoint objects. These endpoints represent the possible network connections.
 ```
-A resolver object is created to convert the human-readable server address ("localhost") and port number ("8080") into a list of endpoint objects. These endpoints represent the possible network connections.
 
 ```cpp
     boost::asio::async_connect(socket, endpoints,
