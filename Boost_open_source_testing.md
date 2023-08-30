@@ -1,3 +1,47 @@
+UDP boost server 
+
+```cpp
+#include <iostream>
+#include <boost/asio.hpp>
+
+int main() {
+    boost::asio::io_context io_context;
+
+    boost::asio::ip::udp::socket socket(io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 12345));
+
+    char buffer[1];
+
+    while (true) {
+        boost::asio::ip::udp::endpoint client_endpoint;
+        socket.receive_from(boost::asio::buffer(buffer), client_endpoint);
+        std::cout << "Received: " << buffer[0] << std::endl;
+    }
+
+    return 0;
+}
+
+```
+
+udp client
+```cpp
+#include <iostream>
+#include <boost/asio.hpp>
+
+int main() {
+    boost::asio::io_context io_context;
+
+    boost::asio::ip::udp::socket socket(io_context);
+    socket.open(boost::asio::ip::udp::v4());
+
+    boost::asio::ip::udp::endpoint server_endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 12345);
+
+    char buffer[1] = {'C'};
+    socket.send_to(boost::asio::buffer(buffer), server_endpoint);
+
+    return 0;
+}
+```
+----------------------------
 
 ```cpp
 //--------basic Boost.Asio TCP client. This code sets up an asynchronous TCP connection to a server running on "localhost" at port 8080 and sends a "Hello, server!" //message.----
