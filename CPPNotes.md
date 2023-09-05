@@ -121,6 +121,12 @@ int main () {
 
 ### References 
 -we can get the memory address of a variable by using the & operator
+### Pointers
+-**variables** that store the memory addresses of other variables. 
+- Special data type for memory address
+- Same pointer maybe used to access many different variables.
+- why? if you want to access data outside of a function. 
+- pointers are variables so they can change
 ```cpp
 #include <iostream>
 #include <string>
@@ -128,20 +134,40 @@ int main () {
 int main()
 {
     std::string car = "Toyota"; // A car variable of type string
-
     std::cout << car << std::endl; // Outputs the value of food (Toyota)
     std::cout << &car; // Outputs the memory address of food (0x7fff996e11f0)
+ 
+    int num{10};
+    std::cout<<num<<std::endl; // 10
+    std::cout<<sizeof(num)<<std::endl; //4 bytes are allocated
+    std::cout<<&num<<std::endl;//0x7fff9ff31f14
+
+    int *p= nullptr;;
+    std::cout<<"P: " <<p<<std::endl; //0 or garbage if not assigned nullptr
+    std::cout<<"sizeof(p): "<<sizeof(p)<<std::endl;  //8 byte
+    std::cout<<"&p: "<<&p<<std::endl;  //&p: 0x7ffe1a95d050
+   // std::cout<<"*p: "<<*p<<std::endl; //null
+
+    // size of a pointer usually 8 byte (**it is really diffrent from size of what it points to**)
+     int *p1 {nullptr};
+     double *p2 {nullptr};
+     float *p3 {nullptr};
+     long long *p4 {nullptr};
+     std::vector<std::string> *p5 {nullptr};
+    std::cout<<"sizeof(p1): "<<sizeof(p)<<std::endl;  //sizeof(p1): 8
+    std::cout<<"sizeof(p2): "<<sizeof(p)<<std::endl;  //sizeof(p1): 8
+    std::cout<<"sizeof(p3): "<<sizeof(p)<<std::endl;  //sizeof(p1): 8
+    std::cout<<"sizeof(p4): "<<sizeof(p)<<std::endl;  //sizeof(p1): 8
+    std::cout<<"sizeof(p5): "<<sizeof(p)<<std::endl;  //sizeof(p1): 8
+
+    return 0;
 }
+
 ```
 > Toyota
 > 0x7fff996e11f0
 
-### Pointers
--**variables** that store the memory addresses of other variables. 
-- Special data type for memory address
-- Same pointer maybe used to access many different variables.
-- why? if you want to access data outside of a function. 
-- 
+
 Example 
 ```cpp
 #include <iostream>
@@ -172,6 +198,8 @@ int main()
 ```
 ---------------------------------------------------------------------------------------------------------------------
 ## 3 Object Oriented programming
+
+Introduction to OPPs in C++
 
 Object-oriented programming (OOP) is a programming paradigm based on the concept of "objects", which can contain **data** and **code**: data in the form of fields (often known as attributes or properties), and code, in the form of procedures (often known as methods).¹ C++ is an object-oriented programming language that allows you to create classes that encapsulate data and functions. Classes are user-defined types that can be used to create objects. 
 
@@ -353,6 +381,12 @@ target_link_libraries(app car_proj_lib)
 	my car3(smart ptr) is: 2005 Toyota Camery
 
 
+**Access Modifiers in C++
+Constructor in C++
+Encapsulation in C++
+Abstraction in C++
+Inheritance in C++
+Polymorphism in C++**
 
 - **Construcror**:
 - - **Destructor**
