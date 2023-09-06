@@ -134,40 +134,50 @@ int main () {
 int main()
 {
     std::string car = "Toyota"; // A car variable of type string
-    std::cout << car << std::endl; // Outputs the value of food (Toyota)
-    std::cout << &car; // Outputs the memory address of food (0x7fff996e11f0)
+    std::cout << car << std::endl; // Outputs the value of food (Toyota)  //> Toyota
+    std::cout << &car; // Outputs the memory address of food (0x7fff996e11f0) //> 0x7fff996e11f0
  
     int num{10};
     std::cout<<num<<std::endl; // 10
     std::cout<<sizeof(num)<<std::endl; //4 bytes are allocated
     std::cout<<&num<<std::endl;//0x7fff9ff31f14
 
-    int *p= nullptr;;
+    int *p= nullptr;
+    p=&num;	
     std::cout<<"P: " <<p<<std::endl; //0 or garbage if not assigned nullptr
     std::cout<<"sizeof(p): "<<sizeof(p)<<std::endl;  //8 byte
     std::cout<<"&p: "<<&p<<std::endl;  //&p: 0x7ffe1a95d050
    // std::cout<<"*p: "<<*p<<std::endl; //null
 
-    // size of a pointer usually 8 byte (**it is really diffrent from size of what it points to**)
+    // size of a pointer usually 4 or 8 byte(machine specific) (**it is really diffrent from size of what it points to**)
      int *p1 {nullptr};
      double *p2 {nullptr};
      float *p3 {nullptr};
      long long *p4 {nullptr};
      std::vector<std::string> *p5 {nullptr};
-    std::cout<<"sizeof(p1): "<<sizeof(p)<<std::endl;  //sizeof(p1): 8
-    std::cout<<"sizeof(p2): "<<sizeof(p)<<std::endl;  //sizeof(p1): 8
-    std::cout<<"sizeof(p3): "<<sizeof(p)<<std::endl;  //sizeof(p1): 8
-    std::cout<<"sizeof(p4): "<<sizeof(p)<<std::endl;  //sizeof(p1): 8
-    std::cout<<"sizeof(p5): "<<sizeof(p)<<std::endl;  //sizeof(p1): 8
+    std::cout<<"sizeof(p1): "<<sizeof(p1)<<std::endl;  //sizeof(p1): 8
+    std::cout<<"sizeof(p2): "<<sizeof(p)<<std::endl;  //sizeof(p2): 8
+    std::cout<<"sizeof(p3): "<<sizeof(p)<<std::endl;  //sizeof(p3): 8
+    std::cout<<"sizeof(p4): "<<sizeof(p)<<std::endl;  //sizeof(p4): 8
+    std::cout<<"sizeof(p5): "<<sizeof(p)<<std::endl;  //sizeof(p5): 8
+
+    int num{10};
+    std::cout<<num<<std::endl; // 10
+    std::cout<<sizeof(num)<<std::endl; //4 bytes are allocated
+    std::cout<<&num<<std::endl;//0x7fff366cf7bc
+    int *p= nullptr;
+    p=&num;	
+    //or // int *p=&num; 
+    std::cout<<"P: " <<p<<std::endl; //0x7fff366cf7bc
+    std::cout<<"sizeof(p): "<<sizeof(p)<<std::endl;  //8 byte
+    std::cout<<"&p: "<<&p<<std::endl;  //&p: 0x7fff366cf7c0
+   // std::cout<<"*p: "<<*p<<std::endl; //null
+    std::cout<<"&num " <<&num<<std::endl;//0x7fff366cf7c0
 
     return 0;
 }
 
 ```
-> Toyota
-> 0x7fff996e11f0
-
-
 Example 
 ```cpp
 #include <iostream>
@@ -196,6 +206,11 @@ int main()
     std::cout<<"changeValue a : "<<a<<std::endl;  // 20
 }
 ```
+#### dereferencing a pointer (access the data were pointing to)
+std::cout<<*ptr<<std::endl;
+
+
+
 ---------------------------------------------------------------------------------------------------------------------
 ## 3 Object Oriented programming
 
