@@ -537,7 +537,22 @@ int main()
 	10485857595211860659
 	j
 	mb=100: 01100100
+``` cpp
+typedef struct {   
+    char name[20];
+    char sex; 
+    int age; 
+} person_t;
 
+main()
+{
+    person_t p = {"Tom", 'M', 19};
+    printf("%s %c %d\n", p.name, p.sex, p.age);
+    return 0;
+}
+//> Tom M 19
+
+```
 
 -pragma once **vs** #ifdef CAR_H .... #define CAR_H.....#endif //CAR_H (include gard)
 -class and struct keywords: Used to define classes and structures.
