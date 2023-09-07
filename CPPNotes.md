@@ -209,8 +209,30 @@ int main()
 #### dereferencing a pointer (access the data were pointing to)
 std::cout<<*ptr<<std::endl;
 
+``` cpp
+    int score{10};
+    int *score_ptr{&score};
+    std::cout<<"score: "<<score<<std::endl; //10
+    std::cout<<"&score: "<<&score<<std::endl; //&score: 0x7ffd91be966c
+    std::cout<<"*score_ptr: "<<*score_ptr<<std::endl; //*score_ptr: 10
+    std::cout<<"score_ptr: "<<score_ptr<<std::endl; //score_ptr: 0x7ffd91be966c
+    *score_ptr=200;
+    std::cout<<"score: "<<score<<std::endl; //score: 200
+    std::cout<<"&score: "<<&score<<std::endl; //&score: 0x7ffd91be966c
+    std::cout<<"*score_ptr: "<<*score_ptr<<std::endl; //*score_ptr: 200
+    std::cout<<"score_ptr: "<<score_ptr<<std::endl; //score_ptr: 0x7ffd91be966c
 
+    int low_temp{60};
+    int high_temp{100};
+    int *tmp_ptr=&high_temp;
+    std::cout<<"low_temp: "<<low_temp<<std::endl; //low_temp: 60
+    std::cout<<"high_temp: "<<high_temp<<std::endl; //high_temp: 100
+    std::cout<<"&high_temp: "<<&high_temp<<std::endl; //high_temp: 100
+    std::cout<<"*tmp_ptr: "<<*tmp_ptr<<std::endl; //*tmp_ptr: 100
+    *tmp_ptr=low_temp;
+    std::cout<<"*tmp_ptr: "<<*tmp_ptr<<std::endl; //*tmp_ptr: 60
 
+```
 ---------------------------------------------------------------------------------------------------------------------
 ## 3 Object Oriented programming
 
