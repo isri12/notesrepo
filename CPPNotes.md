@@ -30,7 +30,6 @@
 
 **size_type or size_t**
 
-
 ### Notes 
 #### How big are all these data types? 
  - Use sizeof operator sizeof(int) will return the number of bytes in an int. Or check <limits> file for max/min size of various data types.
@@ -232,6 +231,18 @@ std::cout<<*ptr<<std::endl;
     *tmp_ptr=low_temp;
     std::cout<<"*tmp_ptr: "<<*tmp_ptr<<std::endl; //*tmp_ptr: 60
 
+    std::vector<std::string> *vector_ptr = &names;
+    std::cout<<(*vector_ptr).at(0)<<std::endl; //Bob
+    std::cout<<(*vector_ptr).at(2)<<std::endl;  //Smith
+
+    for(auto names:*vector_ptr)
+    {
+        std::cout<<"name: "<<names<<std::endl;
+    }
+    //name: Bob
+    //name: John
+    //name: Smith
+
 ```
 ---------------------------------------------------------------------------------------------------------------------
 ## 3 Object Oriented programming
@@ -428,7 +439,7 @@ Polymorphism in C++**
 - **Construcror**:
 - - **Destructor**
 - **Operator Overload**:
-===============================================================================================================================================================================================
+==================================================================================================================================================================
 ## TOPICS
 ### **namespace**
   Namespaces give you one mechanism to modularize code. A namespace allows you to label
