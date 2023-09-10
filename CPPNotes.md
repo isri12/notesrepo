@@ -429,15 +429,14 @@ target_link_libraries(app car_proj_lib)
 	my car3(smart ptr) is: 2005 Toyota Camery
 
 
-**Access Modifiers in C++
-Constructor in C++
-Encapsulation in C++
-Abstraction in C++
-Inheritance in C++
-Polymorphism in C++**
-
+**Access Modifiers in C++**
+**Constructor in C++**
+**Encapsulation in C++**
+**Abstraction in C++**
+**Inheritance in C++**
+**Polymorphism in C++**
 - **Construcror**:
-- - **Destructor**
+-  **Destructor**
 - **Operator Overload**:
 ==================================================================================================================================================================
 ## TOPICS
