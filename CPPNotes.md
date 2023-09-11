@@ -47,7 +47,7 @@ char <= short <= int <= long <= long long
 
 ----------------------------------------------------------------------
 ## 2. Compound Data Types
-### Array
+### 2.1 Array
 	-  Indexed from 0 to n-1 , n is #of elements 
 	- Implicit conversions 
 	- store multiple values in a single variable
@@ -61,14 +61,14 @@ char <= short <= int <= long <= long long
 -2d array
 > string cars [2] [3] = {{1,2,3},{4,5,6}}
 
-### Constants 
+### 2.2 Constants 
 - don’t change while execution 
 	1. With preprocessor or macros
 	#define  ROOMS 4
 	
 	2. Declarations 
 	const x =8;
-### String
+### 2.3 String
 - Supported as a class
 -  Not native in C++
 -  Arrays of character (better using string than char). string is actually a
@@ -118,9 +118,9 @@ int main () {
 ```
 -----------------------------------------------------------------------------------------------------------------------
 
-### References 
+### 2.4 References and Pointers
 -we can get the memory address of a variable by using the & operator
-### Pointers
+ 
 -**variables** that store the memory addresses of other variables. 
 - Special data type for memory address
 - Same pointer maybe used to access many different variables.
@@ -205,7 +205,7 @@ int main()
     std::cout<<"changeValue a : "<<a<<std::endl;  // 20
 }
 ```
-#### dereferencing a pointer (access the data were pointing to)
+#### 2.4.1 dereferencing a pointer (access the data were pointing to)
 std::cout<<*ptr<<std::endl;
 
 ``` cpp
@@ -244,6 +244,67 @@ std::cout<<*ptr<<std::endl;
     //name: Smith
 
 ```
+#### 2.4.2 Dynamic Memory Allocation 
+
+**Stack vs heap**
+
+In C++, memory allocation can be broadly categorized into two areas: the stack and the heap. These two areas have different characteristics and are used for different purposes. Here's an overview of the stack and heap in C++:
+
+Stack:
+
+The stack is a region of memory that is managed by the compiler and is typically of fixed size.
+It is used for storing local variables, function call information (such as return addresses and parameters), and for managing function call execution (stack frames).
+Memory allocation and deallocation on the stack are fast and deterministic since it involves simple pointer manipulations.
+The lifetime of variables on the stack is limited to the scope of the block or function they are declared in. They are automatically destroyed when they go out of scope.
+The stack is suitable for managing relatively small, short-lived objects.
+Example:
+
+``` cpp
+void foo() {
+    int x = 10; // 'x' is allocated on the stack
+}
+```
+Heap:
+
+The heap is a region of memory that is managed by the programmer, and it is typically larger and more flexible than the stack.
+It is used for dynamic memory allocation, where memory is allocated and deallocated manually during program execution.
+Memory allocation on the heap involves functions like new and malloc, and deallocation requires manual calls to delete and free.
+The lifetime of objects on the heap is not tied to a specific scope, and they must be explicitly deallocated to prevent memory leaks.
+The heap is suitable for managing objects with a longer and potentially unpredictable lifetime, such as objects that need to persist beyond the function or block where they were created.
+Example:
+
+``` cpp
+
+int* p = new int; // Allocate memory on the heap for an integer
+*p = 42;
+delete p; // Deallocate the memory when done
+```
+It's important to note that improper use of the heap, such as failing to deallocate memory when it's no longer needed, can lead to memory leaks and inefficient memory usage. Modern C++ provides smart pointers (e.g., std::shared_ptr and std::unique_ptr) to help manage dynamic memory more safely and reduce the risk of memory leaks.
+
+In summary, the choice between the stack and the heap depends on the specific requirements of your program. Use the stack for small, short-lived variables and the heap for dynamic memory allocation when the lifetime and size of objects are less predictable. Always be mindful of memory management to avoid resource leaks and excessive memory consumption.
+
+
+|Feature   |    Stack  | Heap  | 
+|---       |---        |---    |
+| Location  |  Part of the call stack      | Unallocated memory area      | 
+| Allocation  | Automatic  | Manual      | 
+| Deallocation  | Automatic  |  Manual     |  
+| Access speed  | Faster  |  Slower     |  
+| Size          |  Limited |  Unlimited     | 
+| Fragmentation  | Less likely  | More likely   | 
+
+
+
+| Heap (Dynamic Memory) |
+|---    |
+|Stack   |
+| static/global  |
+| code  |
+
+std::Vectors use allocating memory 
+
+
+
 ---------------------------------------------------------------------------------------------------------------------
 ## 3 Object Oriented programming
 
