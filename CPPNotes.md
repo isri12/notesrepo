@@ -250,7 +250,7 @@ std::cout<<*ptr<<std::endl;
 
 In C++, memory allocation can be broadly categorized into two areas: the stack and the heap. These two areas have different characteristics and are used for different purposes. Here's an overview of the stack and heap in C++:
 
-Stack:
+**Stack**:
 
 The stack is a region of memory that is managed by the compiler and is typically of fixed size.
 It is used for storing local variables, function call information (such as return addresses and parameters), and for managing function call execution (stack frames).
@@ -264,7 +264,7 @@ void foo() {
     int x = 10; // 'x' is allocated on the stack
 }
 ```
-Heap:
+**Heap**:
 
 The heap is a region of memory that is managed by the programmer, and it is typically larger and more flexible than the stack.
 It is used for dynamic memory allocation, where memory is allocated and deallocated manually during program execution.
@@ -301,10 +301,62 @@ In summary, the choice between the stack and the heap depends on the specific re
 | static/global  |
 | code  |
 
-std::Vectors use allocating memory 
 
+**Dynamic Memory Allocation**
+-std::Vectors use allocating memory 
+-
 
+``` cpp
+#include <iostream>
+int main()
+{
+    
+    int *int_ptr {nullptr};
+    //using new to allocate storage
+    int_ptr=new int; //allocate an intiger on the heap
+    
+    std::cout<<int_ptr<<std::endl; //0x556850761eb0
+    std::cout<<*int_ptr<<std::endl;//0
 
+    *int_ptr=100;
+    std::cout<<int_ptr<<std::endl; //0x556850761eb0
+    std::cout<<*int_ptr<<std::endl; //100
+    
+    delete int_ptr; //frees the allocated storage
+    
+    return 0;
+}
+```
+``` cpp
+#include <iostream>
+#include <memory>
+
+ void* operator new(size_t size)
+    {
+       std::cout<<"Allocating size: "<<size<<" bytes\n";
+       return malloc(size);
+    }
+
+void operator delete(void* memory, size_t size)
+{
+    std::cout<<"Freeing "<<size<<" Bytes\n";
+    free(memory);
+}
+int main()
+{   
+    int *array_ptr{nullptr};
+    size_t size {};
+    
+    std::cout<<"How big do you want the array? ";
+    std::cin>>size;
+    
+    array_ptr = new int[size]; //allocate array on the heap
+    
+    delete array_ptr;
+    
+    return 0;
+} 
+```
 ---------------------------------------------------------------------------------------------------------------------
 ## 3 Object Oriented programming
 
