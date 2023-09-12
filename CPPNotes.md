@@ -245,6 +245,7 @@ std::cout<<*ptr<<std::endl;
 
 ```
 #### 2.4.2 Dynamic Memory Allocation 
+-Dynamic Programming and Heap
 
 **Stack vs heap**
 
@@ -415,8 +416,6 @@ int main()
 
     return 0;
 }
-
-
 
 ```
 std::bad_alloc is a type of exception that occurs when the new operator fails to allocate the requested space. This type of exception is thrown  by the standard definitions of ​operator new (declaring a variable) and operator new[] (declaring an array) when they fail to allocate the  requested storage space.
@@ -783,7 +782,97 @@ main()
 ```
 ------------------------------------------------------------------------------------------------------------
 ### Template
+- the idea is to pass data type as a parameter so that we don’t need to write the same code for different data types.
+- two types: function Templates and Class templates
+  function Templates: 
+``` cpp
+//function Template 
+#include <iostream>
+template<typename Temp>
+void swap(Temp &x, Temp &y)
+{
+    Temp z{}; 
+    std::cout<<"origin: "<<x<<","<<" "<<y<<std::endl;
+    z=x;
+    x=y;
+    y=z;
+    std::cout<<"swapped: "<<x<<","<<" "<<y<<std::endl;
+}
 
+int main()
+{
+    char x{'a'};
+    char y{'b'};
+    swap(x,y); //origin: a, b  swapped: b, a
+    
+    int a=1;
+    int b=5;
+    swap(a,b);  //origin: 1, 5 swapped: 5, 1
+    
+    double i=200.5;
+    double j=53.9;
+    swap(i,j);  //origin: 200.5, 53.9 swapped: 53.9, 200.5
+    
+    return 0;
+}
+```
+Class templates: 
+
+
+
+
+------------------------------------------------------------------------------------------------------------
+### this pointer
+
+#include <iostream>
+#include <string>
+
+struct car
+{
+    std::string name;
+    int year;
+    car(){ }
+    car(std::string name,int year)
+    {
+        this ->name = name;
+        this ->year = year;
+    }
+    void getcar()
+    {
+        std::cout<<name<<" "<<year<<std::endl;
+    }
+
+};
+
+int main()
+{
+    car car1;
+    car1.year = 2005;
+    car1.name = "Toyota"; 
+    car1.getcar();  //Toyota 2005 
+    return 0;
+}
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+### Preprocessor directives 
+	#include<iostream>    //file will be search in a pre-defined location 
+	#define CAPACITY 5000  //the preprocessor will replace everything with 5000
+	
+
+------------------------------------------------------------------------------------------------------------	
+### Type casting 
+	-  Explicitly specifying the data type of an expression.
+	-  Suppose you want to have several lines of code that print data out for debugging purposes, but you don't want those lines to make it to the final application, for efficiency reasons. Which of the following achieves the desired behavior by using preprocessor directives?
+
+------------------------------------------------------------------------------------------------------------
+### DEBUGGING
+	// comment the following line for the final application 
+	#define DEBUGGING 
+
+	// copy and customize this for every debugging line 
+	#ifdef DEBUGGING 
+	cout<<"Var1 = "<<var1<<endl; 
+	#endif
 ------------------------------------------------------------------------------------------------------------
 -pragma once **vs** #ifdef CAR_H .... #define CAR_H.....#endif //CAR_H (include gard)
 -class and struct keywords: Used to define classes and structures.
@@ -796,7 +885,7 @@ main()
 -Operator overloading: Defining custom behaviors for operators like +, -, ==, etc.
 -Templates: Used to create generic classes and functions.
 -Namespaces: Used for organizing and managing code.
-
+------------------------------------------------------------------------------------------------------------
 **Review code**
 ```cpp
 // compile: g++ -std=c++11 -o pointers pointers.cpp
@@ -857,25 +946,6 @@ void calculateStudentAverage(void *object, double *avg)
     // Code to calculate and store average grade
 }
 ```
+
 ----------------------------------------------------------------------------------------------------------------
-### Dynamic Programming and Heap
 
-### Preprocessor directives 
-	#include<iostream>    //file will be search in a pre-defined location 
-	#define CAPACITY 5000  //the preprocessor will replace everything with 5000
-	
-
-	
-### Type casting 
-	-  Explicitly specifying the data type of an expression.
-	-  Suppose you want to have several lines of code that print data out for debugging purposes, but you don't want those lines to make it to the final application, for efficiency reasons. Which of the following achieves the desired behavior by using preprocessor directives?
-
-
-### DEBUGGING
-	// comment the following line for the final application 
-	#define DEBUGGING 
-
-	// copy and customize this for every debugging line 
-	#ifdef DEBUGGING 
-	cout<<"Var1 = "<<var1<<endl; 
-	#endif
