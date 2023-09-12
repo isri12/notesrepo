@@ -357,6 +357,122 @@ int main()
     return 0;
 } 
 ```
+``` cpp
+/******************************************************************************
+
+Welcome to GDB Online.
+  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
+  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
+  Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <iostream>
+#include <memory>
+
+struct AllocationMetrics
+{
+    uint32_t TotalAllocated =0;
+    uint32_t TotalFreed=0;
+    
+    uint32_t CurrentUsage(){
+        return TotalAllocated-TotalFreed; 
+    }
+};
+
+static AllocationMetrics s_AllocationMetrics;
+
+ void* operator new(size_t size)
+    {
+       s_AllocationMetrics.TotalAllocated += size;    
+       return malloc(size);
+    }
+
+void operator delete(void* memory, size_t size)
+{
+    s_AllocationMetrics.TotalFreed += size;
+    free(memory);
+}
+
+static void PrintMemoryUsage()
+{
+           std::cout<<"Memory Usage: "<<s_AllocationMetrics.CurrentUsage()<<" bytes\n";
+}
+
+int main()
+{  
+    PrintMemoryUsage();  
+    int *array_ptr{nullptr};
+    size_t size {}; 
+    std::cout<<"How big do you want the array? ";
+    std::cin>>size;
+    PrintMemoryUsage();
+    {
+    array_ptr = new int[size]; //allocate array on the heap
+    PrintMemoryUsage();
+    }
+    delete [] array_ptr;
+    PrintMemoryUsage();
+
+    return 0;
+}
+
+
+
+```
+std::bad_alloc is a type of exception that occurs when the new operator fails to allocate the requested space. This type of exception is thrown  by the standard definitions of ​operator new (declaring a variable) and operator new[] (declaring an array) when they fail to allocate the  requested storage space.
+see Exception handling
+see memory leak 
+``` cpp
+//below shows 
+  int *array_ptr{nullptr};
+    size_t size {9999999};
+    
+    //std::cout<<"How big do you want the array? ";
+    //std::cin>>size;
+    
+    
+    while (true){
+    array_ptr = new int[size]; //allocate array on the heap
+    }
+    delete array_ptr;
+```
+#### 2.4.3 The Relationship between arrays and pointers
+- The value of an array name is the address of the first element in the array
+- the value of a pointer variable is an address
+- if the pointer points to the same data type as the array element then the pointer and array name can be used interchangbly(almost)
+``` cpp
+#include <iostream>
+int main()
+{
+    int scores[] {100,95,89};
+    
+    std::cout<<scores[0]<<std::endl; //100
+    std::cout<<scores[1]<<std::endl; //95
+    std::cout<<scores[2]<<std::endl;  //89
+   
+    std::cout<<scores<<std::endl;  //0x7ffcdf7e608c  //the value of a pointer variable is an address
+    std::cout<<*scores<<std::endl;  //100 //The value of an array name is the address of the first element in the array
+    std::cout<<*(scores+1)<<std::endl;  //95
+    std::cout<<*(scores+2)<<std::endl;  //89  
+
+    int *score_ptr {scores};
+    std::cout<<*score_ptr<<std::endl;  //100 
+    std::cout<<*(score_ptr+1)<<std::endl;  //95 
+    std::cout<<*(score_ptr+2)<<std::endl;  //89 
+    
+    std::cout<<score_ptr<<std::endl;  //0x7ffcdf7e608c 
+    std::cout<<(score_ptr+1)<<std::endl;  //0x7ffcdf7e6090 //increased by 4 byte
+    std::cout<<(score_ptr+2)<<std::endl;  //0x7ffcdf7e6094 //increment by 4 byte
+    
+    std::cout<<score_ptr[0]<<std::endl; //100
+    std::cout<<score_ptr[1]<<std::endl; //95
+    std::cout<<score_ptr[2]<<std::endl;  //89
+    
+    return 0;
+}
+```
+
+    
 ---------------------------------------------------------------------------------------------------------------------
 ## 3 Object Oriented programming
 
