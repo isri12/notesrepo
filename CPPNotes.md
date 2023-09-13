@@ -304,7 +304,7 @@ In summary, the choice between the stack and the heap depends on the specific re
 
 
 **Dynamic Memory Allocation**
--std::Vectors use allocating memory 
+- std::Vectors use allocating memory 
 -
 
 ``` cpp
@@ -470,9 +470,46 @@ int main()
     return 0;
 }
 ```
+#### 2.4.4 pointer Arithmetric
+- pointers can be used in:
+  	- Assignment expression
+  	- arithmetric expressions
+  		-four arithmetic operators that can be used on pointers: ++, --, +, and -
+  	- comparision expressions
+- pointer arithmetric only makes sense with raw arrays
+	-ptr++ increments to the next array and ptr-- decrements to previous
+- increment pointer + and -
+	- (+) increment by n*sizeof(type) Eg: ptr+=n; or ptr=ptr+n;
+   	- (-) decrement pointer by n*sizeof(type) Eg:ptr-=n; or ptr=ptr-n;
+-both pointers must point the same data types
+-comparing two pointers == and !=
+	- -----------------------------------
 
-    
----------------------------------------------------------------------------------------------------------------------
+
+https://www.tutorialspoint.com/cplusplus/cpp_pointers.htm 
+    Sr.No 	Concept & Description
+1 	Null Pointers
+
+C++ supports null pointer, which is a constant with a value of zero defined in several standard libraries.
+2 	Pointer Arithmetic
+
+There are four arithmetic operators that can be used on pointers: ++, --, +, -
+3 	Pointers vs Arrays
+
+There is a close relationship between pointers and arrays.
+4 	Array of Pointers
+
+You can define arrays to hold a number of pointers.
+5 	Pointer to Pointer
+
+C++ allows you to have pointer on a pointer and so on.
+6 	Passing Pointers to Functions
+
+Passing an argument by reference or by address both enable the passed argument to be changed in the calling function by the called function.
+7 	Return Pointer from Functions
+
+C++ allows a function to return a pointer to local variable, static variable and dynamically allocated memory as well.
+-----------------------------------------------------------------------------------------------
 ## 3 Object Oriented programming
 
 Introduction to OPPs in C++
@@ -485,11 +522,63 @@ Object-oriented programming (OOP) is a programming paradigm based on the concept
 
 In C++, OOP provides several advantages over procedural programming such as faster and easier execution, clear structure for programs, helps keep the code DRY (Don't Repeat Yourself), makes the code easier to maintain, modify and debug, and makes it possible to create full reusable applications with less code and shorter development time.
 
-### Structure 
+What is an **instance**? In object-oriented programming (OOP), an instance is a specific realization of any object. An object may be different in several ways, and each realized variation of that object is an instance. The creation of a realized instance is called **instantiation**.????
+``` cpp
+#include <iostream>
+class Rectangle 
+{
+    public:    
+	 Rectangle(){}
+	 Rectangle(double width, double length)
+	 {
+	     this -> width = width;
+	     this -> length = length;
+	 }
+ 	 double setwidth(double width)
+ 	 {
+	     return (this -> width = width);
+ 	 }
+ 	 double getwidth()
+ 	 {
+ 	   return width;
+ 	 }
+  	 double setlength(double length){
+	     return (this -> length = length);
+  	 }
+  	 double getlength( )
+ 	 {
+ 	   return length;
+ 	 }
+  	 double area()
+  	 {
+  	    return getwidth()*getlength( );
+  	 }
+ 	~Rectangle(){};
+ 	private:
+ 	    double width;
+ 	    double length;
+};
+int main()
+{
+    Rectangle *obja;  //obja is a pointer that holds the address of Rectangle object
+   	obja= new Rectangle(); //instantiation
+    obja ->setlength(4);
+    obja -> setwidth(2);
+    std::cout<<"from Rectangle ptr: "<<obja -> area()<<std::endl;
+
+    Rectangle objb;
+    objb.setlength(4);
+    objb.setwidth(2);
+    std::cout<<"from Rectangle obj: "<<objb.area()<<std::endl;
+    return 0;
+}
+```
+----------------------------------------------------------------------------------------------------------------------
+### 3.1 Structure 
 - abstraction i.e collection of individual properties of real-world object. 
 - containers of hetrogenous data mambers
 - the diffrence betwen struct and class is **class is private by default** and **struct is public by default**.
-- 
+  
 ```cpp   
 	struct car {
 		string name;
@@ -498,7 +587,7 @@ In C++, OOP provides several advantages over procedural programming such as fast
 		string model;
 		}
 ```
-### enum
+### 3.2 enum
 -user-defined data type that consists of integral constants
 -one benefit over constant is they provide encapsulation 
 ```cpp
@@ -512,7 +601,7 @@ In C++, OOP provides several advantages over procedural programming such as fast
         std::cout................................... finish.................
 	}
 ```
-### Classes
+### 3.3 Classes and obj
 - may contain** data member **and **member functions**
   	- Example car.make, car.paint()
 - contain Public Constructor, data, and methods ???
@@ -817,10 +906,10 @@ int main()
 }
 ```
 Class templates: 
+- 
 
 
-
-
+- Advanced Template: https://learn.microsoft.com/en-us/cpp/cpp/class-templates?view=msvc-170
 ------------------------------------------------------------------------------------------------------------
 ### this pointer
 
