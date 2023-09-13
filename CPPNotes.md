@@ -302,11 +302,6 @@ In summary, the choice between the stack and the heap depends on the specific re
 | static/global  |
 | code  |
 
-
-**Dynamic Memory Allocation**
-- std::Vectors use allocating memory 
--
-
 ``` cpp
 #include <iostream>
 int main()
@@ -481,12 +476,111 @@ int main()
 - increment pointer + and -
 	- (+) increment by n*sizeof(type) Eg: ptr+=n; or ptr=ptr+n;
    	- (-) decrement pointer by n*sizeof(type) Eg:ptr-=n; or ptr=ptr-n;
+ ``` cpp
+#include <iostream>
+int main()
+{
+    int score[]={500,400,300,200,100};
+    int *score_ptr={score};  //score_ptr points to score[0], first array
+    while (*score_ptr != 100 )
+    {
+      //std::cout<<*score_ptr<<std::endl;
+      //score_ptr ++;
+      //or
+      std::cout<<*score_ptr++<<std::endl;
+	//or
+	//       std::cout<<*(score_ptr++)<<std::endl;
+    }
+    return 0;
+}
+	500
+	400
+	300
+	200
+```
 -both pointers must point the same data types
 -comparing two pointers == and !=
-	- -----------------------------------
+	-if two pointers point to the same location does not compare the data where they point.
+``` cpp
+#include <iostream>
+#include <string>
 
+int main()
+{
+    std::string s1{"Frank"};
+    std::string s2{"Frank"};
+    
+    std::string *p1 {&s1};
+    std::string *p3 {&s1};
+    
+    std::string *p2 {&s2};
+    
+    std::cout<<std::boolalpha<<(p1==p3)<<std::endl; //true
+    std::cout<<std::boolalpha<<(p1 == p2)<<std::endl; //false pointer comparision dont compare data.
+    
+    //to compare data deref. it
+    std::cout<<std::boolalpha<<(*p1==*p3)<<std::endl; //true
+    std::cout<<std::boolalpha<<(*p1 == *p2)<<std::endl; //true 
+    //---------------------------------------------------------------
+    char name[]{"Don"};
+    char *char_ptr1{name};
+    char *char_ptr2{name};
+    std::cout<<*char_ptr1<<std::endl; //D
+    std::cout<<*char_ptr2<<std::endl; //D
+    
+    char *char_ptr3{name};
+    std::cout<<char_ptr3<<std::endl; //Don ????
+    
+    char *char_ptr4=&name[0];
+    char *char_ptr5=&name[2];
+    char *char_ptr6=&name[3];
+    char *char_ptr7=&name[4];
+    std::cout<<*char_ptr4<<std::endl; //D
+    std::cout<<*char_ptr5<<std::endl; //n
+    std::cout<<*char_ptr6<<std::endl; //null
+    std::cout<<*char_ptr7<<std::endl; //null
 
-https://www.tutorialspoint.com/cplusplus/cpp_pointers.htm 
+    return 0;
+}
+```
+Example: Swap Pointers
+```cpp
+#include <iostream>
+#include <string>
+
+void swap_pointers(int* ptr1, int* ptr2) {
+    //-- Write your code below this line
+    
+    int *tmp = {ptr1};
+    ptr1=ptr2;
+    ptr2=tmp;
+     
+    std::cout<<*ptr1<<std::endl;
+    std::cout<<*ptr2<<std::endl; 
+    //-- Write your code above this line
+}
+
+int main()
+{
+    int a {5};
+    int b {10};
+ 
+    int* ptrA = &a;
+    int* ptrB = &b;
+    
+    std::cout<<*ptrA<<std::endl;
+    std::cout<<*ptrB<<std::endl;
+ 
+    swap_pointers(ptrA, ptrB);
+    
+    std::cout<<*ptrA<<std::endl;
+    std::cout<<*ptrB<<std::endl;
+
+    return 0;    
+} 
+```
+
+Pointers: https://www.tutorialspoint.com/cplusplus/cpp_pointers.htm 
     Sr.No 	Concept & Description
 1 	Null Pointers
 
