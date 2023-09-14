@@ -580,12 +580,14 @@ Example: Swap Pointers
 
 void swap_pointers(int* ptr1, int* ptr2) {
     //-- Write your code below this line
-    
-    int *tmp = {ptr1};
-    ptr1=ptr2;
-    ptr2=tmp;
-     
-    std::cout<<*ptr1<<std::endl;
+    //  int tmp = *ptr1;
+    // *ptr1=*ptr2;
+    // *ptr2= tmp;
+    //or
+    *ptr1=*ptr1+*ptr2;
+    *ptr2=*ptr1-*ptr2;
+    *ptr1=*ptr1-*ptr2;
+    std::cout<<"inside fun call "<<*ptr1<<" ";
     std::cout<<*ptr2<<std::endl; 
     //-- Write your code above this line
 }
@@ -598,17 +600,21 @@ int main()
     int* ptrA = &a;
     int* ptrB = &b;
     
-    std::cout<<*ptrA<<std::endl;
+    std::cout<<"before "<<*ptrA<<" ";
     std::cout<<*ptrB<<std::endl;
  
     swap_pointers(ptrA, ptrB);
     
-    std::cout<<*ptrA<<std::endl;
+    std::cout<<"after fun call "<<*ptrA<<" ";
     std::cout<<*ptrB<<std::endl;
 
     return 0;    
-} 
+}  
 ```
+	before 5 10
+	inside fun call 10 5
+	after fun call 10 5
+
 
 Pointers: https://www.tutorialspoint.com/cplusplus/cpp_pointers.htm 
     Sr.No 	Concept & Description
