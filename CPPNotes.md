@@ -615,6 +615,13 @@ int main()
 	inside fun call 10 5
 	after fun call 10 5
 
+#### Smart Pointers
+1 Unique pointer - 
+2 auto_ptr - 
+3 shared_ptr - 
+4 weak_ptr - 
+
+
 
 Pointers: https://www.tutorialspoint.com/cplusplus/cpp_pointers.htm 
     Sr.No 	Concept & Description
