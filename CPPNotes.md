@@ -614,6 +614,52 @@ int main()
 	before 5 10
 	inside fun call 10 5
 	after fun call 10 5
+#### 2.4.4 const and pointers
+several ways to qualify pointers using const
+- pointers to constants  **const int *high_ptr{&high_score};**
+ 	- the data pointed to by the pointer is constant and can not change
+    	- but can point to diffrent address
+```cpp
+    int high_score {100};
+    int low_score {50};
+    const int *high_ptr{&high_score};  //the data pointed to by the pointer 
+    //is constant and can not change
+    std::cout<<high_ptr<<std::endl;     //0x7ffd0d9a8208
+    std::cout<<&high_score<<std::endl; //0x7ffd0d9a8208
+    //*high_ptr=60;  //error: assignment of read-only location ‘* high_ptr’ //can not change
+    //but can point to diffrent address
+    high_ptr = &low_score;
+    std::cout<<high_ptr<<std::endl; //0x7ffd0d9a820c
+    std::cout<<&low_score<<std::endl; //0x7ffd0d9a820c
+```
+- constant pointers
+  	- very useful to **pass pointer to function**
+	- the data //the data can be changed
+  	- the pointer itself can not change and point somewhere else
+```cpp
+     ////////constant pointers/////////////////
+    int high_score {100};
+    int low_score {50};
+    int *const score_ptr {&high_score}; 
+    //the data can be changed
+    //the pointer itself can not change and point somewhere else
+    *score_ptr =60;
+    //score_ptr = &low_score;  //error: assignment of read-only variable ‘score_ptr’
+```   
+- constant pointers to constants
+ 	- the data pointed by the pointer can not change
+    	- the pointer itself cannot change and point to somewhere else
+```cpp
+    //Constant pointer to constants 
+    int high_score {100};
+    int low_score {50};
+    const int *const score_ptr {&high_score}; 
+    
+    *score_ptr =60; //error: assignment of read-only location ‘*(const int*)score_ptr’
+    score_ptr = &low_score;  //error: assignment of read-only variable ‘score_ptr’
+```
+
+#### 2.4.5
 
 #### Smart Pointers
 1 Unique pointer - 
@@ -1100,17 +1146,17 @@ int main()
 	cout<<"Var1 = "<<var1<<endl; 
 	#endif
 ------------------------------------------------------------------------------------------------------------
--pragma once **vs** #ifdef CAR_H .... #define CAR_H.....#endif //CAR_H (include gard)
--class and struct keywords: Used to define classes and structures.
--Member variables: Data attributes stored within a class.
--Member functions: Methods that define the behavior of objects.
--Access specifiers: public, private, and protected to control member visibility.
--Constructors and destructors: Special methods to initialize and clean up objects.
--Inheritance: class Derived : public Base to create derived classes.
--Polymorphism: Achieved through virtual functions and dynamic dispatch.
--Operator overloading: Defining custom behaviors for operators like +, -, ==, etc.
--Templates: Used to create generic classes and functions.
--Namespaces: Used for organizing and managing code.
+- pragma once **vs** #ifdef CAR_H .... #define CAR_H.....#endif //CAR_H (include gard)
+- class and struct keywords: Used to define classes and structures.
+- Member variables: Data attributes stored within a class.
+- Member functions: Methods that define the behavior of objects.
+- Access specifiers: public, private, and protected to control member visibility.
+- Constructors and destructors: Special methods to initialize and clean up objects.
+- Inheritance: class Derived : public Base to create derived classes.
+- Polymorphism: Achieved through virtual functions and dynamic dispatch.
+- Operator overloading: Defining custom behaviors for operators like +, -, ==, etc.
+- Templates: Used to create generic classes and functions.
+- Namespaces: Used for organizing and managing code.
 ------------------------------------------------------------------------------------------------------------
 **Review code**
 ```cpp
