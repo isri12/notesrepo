@@ -302,8 +302,6 @@ In summary, the choice between the stack and the heap depends on the specific re
 | static/global  |
 | code  |
 
-<<<<<<< Updated upstream
-=======
 
 **Dynamic Memory Allocation**
 - Dynamic memory allocation is a process in computer programming that allows you to allocate and manage memory for objects or data structures at **runtime**, rather than at compile time. This provides flexibility in handling memory, allowing you to create data structures whose size is not known until the program is running. Dynamic memory allocation is especially important when dealing with data structures like arrays, linked lists, trees, and other containers whose size can vary during program execution.
@@ -336,7 +334,6 @@ Failure to deallocate memory can result in memory leaks, where memory is allocat
 
 Dynamic memory allocation is essential when you need to create data structures whose size is not known at compile time, or when you want to manage memory explicitly. However, it also comes with responsibilities, such as ensuring proper deallocation and handling of exceptions that can occur if memory allocation fails (e.g., due to insufficient memory). In modern C++, smart pointers like std::shared_ptr and std::unique_ptr provide safer and more automated memory management, reducing the need for manual new and delete operations.
 
->>>>>>> Stashed changes
 ``` cpp
 #include <iostream>
 int main()
@@ -438,10 +435,7 @@ int main()
 
     return 0;
 }
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 ```
 std::bad_alloc is a type of exception that occurs when the new operator fails to allocate the requested space. This type of exception is thrown  by the standard definitions of ​operator new (declaring a variable) and operator new[] (declaring an array) when they fail to allocate the  requested storage space.
 see Exception handling
