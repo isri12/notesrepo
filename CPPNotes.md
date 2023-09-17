@@ -653,7 +653,47 @@ several ways to qualify pointers using const
     score_ptr = &low_score;  //error: assignment of read-only variable ‘score_ptr’
 ```
 
-#### 2.4.5
+#### 2.4.5 passng pointer to a function
+
+- adress of a variable or pointer variable
+
+```cpp
+//-----------pass by ref. with pointers---------------------
+#include <iostream>
+void double_data(int *int_ptr)
+{
+  *int_ptr *=2;  
+}
+
+int main()
+{
+    int value=10;
+    int *int_ptr=nullptr;
+    
+    std::cout<<value<<std::endl; //10
+    std::cout<<&value<<std::endl;  //0x7ffe00c0b5cc
+   
+    double_data(&value);
+    
+    std::cout<<value<<std::endl; //20
+    std::cout<<&value<<std::endl;  //0x7ffe00c0b5cc
+    
+    //------------------------------------------------------------
+    int_ptr=&value;
+    std::cout<<value<<std::endl; //20
+    std::cout<<&value<<std::endl;   //0x7ffe00c0b5cc
+    std::cout<<int_ptr<<std::endl;  //0x7ffe00c0b5cc
+
+    double_data(int_ptr);
+    std::cout<<value<<std::endl; //40
+    std::cout<<&value<<std::endl;   //0x7ffe00c0b5cc
+    std::cout<<int_ptr<<std::endl;  //0x7ffe00c0b5cc
+    
+    return 0;
+}
+
+```
+
 
 #### Smart Pointers
 1 Unique pointer - 
