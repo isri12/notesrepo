@@ -709,7 +709,7 @@ int main()
   - Ownership
 	- who owns the pointer?
 	- when should a pointer be deleted?
-- #include <memory>
+- #include<memory>
 - wrapper around raw pointers
 - Overloaded operators
   	- Dereferance (*)
@@ -821,6 +821,8 @@ int main()
 
 ``` 
 ##### B. shared_ptr 
+
+
 ##### c. weak_ptr 
 4. auto_ptr - has been Deprecated and we wont use it. 
 
