@@ -696,41 +696,156 @@ int main()
 
 
 #### Smart Pointers
-1 Unique pointer - 
-2 auto_ptr - 
-3 shared_ptr - 
-4 weak_ptr - 
+-C++ provides absolute flexiblity with memory mnanagement 
+	-Allocation
+ 	-Deallocation
+  	-Lifetime management 
+- the issues with raw pointers
+  	- unintalized (wild) pointers
+  	- Memory leaks
+  	- Dangling pointers
+  	   	-> one pointer points to a location thinks its valid but its been deallocated.  
+  	- not exception safe
+  - Ownership
+	- who owns the pointer?
+	- when should a pointer be deleted?
+- #include <memory>
+- wrapper around raw pointers
+- Overloaded operators
+  	- Dereferance (*)
+  	- Member selection (->)
+  	- pointer arithmetric not supported(++,--,etc.)
+```cpp
+{
+	std::smart_ptr<some_class> ptr_name = .....
+	ptr_name -> method();
+	cout<<(*ptr_name)<<endl;
+}
+// ptr will be destroyed automatically when no longer needed. 
+```
+**RAII** - Resource Acquisition is initalization
+	-RAII objects are allocated on a stack
+ 	- the idea of grabbing resources on the constractor and release resources in the destractor
+ Resource Acquisition
+ 	- open a file
+  	- Allocate memory
+   	- Acquire a lock
+-  Initialization 
+	- The resource is acquired in a constructor 
+- Resource relinquishing
+  	-happens in the destractor
+		- close the file
+   		- Deallocate the memory
+   		- Release the lock
+##### A. Unique pointer 
+- is a smart pointer that owns and manages another object through a pointer and disposes of that object when the unique_ptr goes out of scope.
+- The object is disposed of, using the associated deleter when either of the following happens:
+	- the managing unique_ptr object is destroyed
+	- the managing unique_ptr object is assigned another pointer via operator= or reset().
+- points to an object of type T on the heap. 
+- its unique- there can only be one unique_ptr<T> pointing to object on the heap
+- owns what it points to
+- can not be assigned or copies
+- can be moved
+- when the pointer is destroyed, what it points to is automatically destroyed.
+``` cpp
+#include <iostream>
+#include <memory>
+int main()
+{
+    std::unique_ptr<int> p1{new int {100}};
+    std::cout<<*p1<<std::endl; //100
+    *p1=200;
+    std::cout<<*p1<<std::endl;//200
+    std::cout<<p1.get()<<std::endl;//0x55e4e6d73eb0
+    std::cout<<*p1.get()<<std::endl;//200
+    p1.reset(); //memory is released. so p1 unique ptr wont work. released
+    std::cout<<*p1.get()<<std::endl;//0 or null
+    std::cout<<*p1<<std::endl;//0 or null
+    *p1=300; //won't execute
+    std::cout<<*p1.get()<<std::endl;// won't execute
+    std::cout<<*p1<<std::endl;//won't execute
+    return 0;
+} //p1 is out of scope , its automatically deleted
+```
+``` cpp
+//not working
+#include <iostream>
+#include <memory>
+#include <string>
+class Account
+{
+    public:
+    Account(std::string name)
+    {
+      this -> name = name; 
+    }
+    
+    int deposit()
+    {
+       return 0; 
+    }
+    int withdraw()
+    {
+      return 0;  
+    }
+    ~Account();
+    private:
+    std::string name;
+};
+
+int main()
+{
+    std::unique_ptr<Account> p1 {new Account{"Larry"}};
+    std::cout<<*p1<<std::endl;
+    return 0;
+}
+
+```
+``` cpp
+// not working
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
+
+int main()
+{
+        //std::unique_ptr<int> p1{new int {100}};
+
+    std::vector<std::unique_ptr<int>> vec;
+    //std::unique_ptr<int> ptr{new int {100}};
+    std::cout<<vec.at(0)<<std::endl;
+    return 0;
+}
+
+``` 
+##### B. shared_ptr 
+##### c. weak_ptr 
+4. auto_ptr - has been Deprecated and we wont use it. 
 
 
-
+#### POINTERS REVISION
 Pointers: https://www.tutorialspoint.com/cplusplus/cpp_pointers.htm 
     Sr.No 	Concept & Description
 1 	Null Pointers
-
-C++ supports null pointer, which is a constant with a value of zero defined in several standard libraries.
+- C++ supports null pointer, which is a constant with a value of zero defined in several standard libraries.
 2 	Pointer Arithmetic
-
-There are four arithmetic operators that can be used on pointers: ++, --, +, -
+- There are four arithmetic operators that can be used on pointers: ++, --, +, -
 3 	Pointers vs Arrays
-
-There is a close relationship between pointers and arrays.
+- There is a close relationship between pointers and arrays.
 4 	Array of Pointers
-
-You can define arrays to hold a number of pointers.
+- You can define arrays to hold a number of pointers.
 5 	Pointer to Pointer
-
-C++ allows you to have pointer on a pointer and so on.
+- C++ allows you to have pointer on a pointer and so on.
 6 	Passing Pointers to Functions
-
-Passing an argument by reference or by address both enable the passed argument to be changed in the calling function by the called function.
+- Passing an argument by reference or by address both enable the passed argument to be changed in the calling function by the called function.
 7 	Return Pointer from Functions
-
-C++ allows a function to return a pointer to local variable, static variable and dynamically allocated memory as well.
+- C++ allows a function to return a pointer to local variable, static variable and dynamically allocated memory as well.
 -----------------------------------------------------------------------------------------------
 ## 3 Object Oriented programming
 
 Introduction to OPPs in C++
-
 Object-oriented programming (OOP) is a programming paradigm based on the concept of "objects", which can contain **data** and **code**: data in the form of fields (often known as attributes or properties), and code, in the form of procedures (often known as methods).¹ C++ is an object-oriented programming language that allows you to create classes that encapsulate data and functions. Classes are user-defined types that can be used to create objects. 
 
 **class** = is a blueprint for an object, which defines its data members and member functions.
@@ -790,7 +905,6 @@ int main()
     return 0;
 }
 ```
-----------------------------------------------------------------------------------------------------------------------
 ### 3.1 Structure 
 - abstraction i.e collection of individual properties of real-world object. 
 - containers of hetrogenous data mambers
@@ -1129,7 +1243,7 @@ Class templates:
 - Advanced Template: https://learn.microsoft.com/en-us/cpp/cpp/class-templates?view=msvc-170
 ------------------------------------------------------------------------------------------------------------
 ### this pointer
-
+``` cpp
 #include <iostream>
 #include <string>
 
@@ -1158,6 +1272,7 @@ int main()
     car1.getcar();  //Toyota 2005 
     return 0;
 }
+```
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 ### Preprocessor directives 
