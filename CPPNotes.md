@@ -1077,8 +1077,1172 @@ target_link_libraries(app car_proj_lib)
 	my car1 is: 2005 Toyota sienna
 	my car2(ptr) is: 2023 Toyota Camery
 	my car3(smart ptr) is: 2005 Toyota Camery
+-------------------------------------------------------------------------------------------
+ 					
+ 	C++ Class Member Functions				
+	A member function of a class is a function that has its definition or its prototype within the class definition like any other variable. It operates on any object of the class of which it is a member, and has access to all the members of a class for that object.
+	 
+	Member functions can be defined within the class definition or separately using scope resolution operator, : −. Defining a member function within the class definition declares the function inline, even if you do not use the inline specifier. So either you can define Volume() function as below −
+	 
+	class Box {
+	   public:
+	      double length;      // Length of a box
+	      double breadth;     // Breadth of a box
+	      double height;      // Height of a box
+	   
+	      double getVolume(void) {
+	         return length * breadth * height;
+	      }
+	};
+	 
+	If you like, you can define the same function outside the class using the scope resolution operator (::) as follows −
+	 
+	double Box::getVolume(void) {
+	   return length * breadth * height;
+	}
+	Here, only important point is that you would have to use class name just before :: operator. A member function will be called using a dot operator (.) on a object where it will manipulate data related to that object only as follows −
+	 
+	Box myBox;          // Create an object
+	myBox.getVolume();  // Call member function for the object
+	 
+	Let us put above concepts to set and get the value of different class members in a class −
+	 Live Demo
+	 
+	#include <iostream>
+	using namespace std;
+	class Box {
+	   public:
+	      double length;         // Length of a box
+	      double breadth;        // Breadth of a box
+	      double height;         // Height of a box
+	      // Member functions declaration
+	      double getVolume(void);
+	      void setLength( double len );
+	      void setBreadth( double bre );
+	      void setHeight( double hei );
+	};
+	// Member functions definitions
+	double Box::getVolume(void) {
+	   return length * breadth * height;
+	}
+	void Box::setLength( double len ) {
+	   length = len;
+	}
+	void Box::setBreadth( double bre ) {
+	   breadth = bre;
+	}
+	void Box::setHeight( double hei ) {
+	   height = hei;
+	}
+	// Main function for the program
+	int main() {
+	   Box Box1;                // Declare Box1 of type Box
+	   Box Box2;                // Declare Box2 of type Box
+	   double volume = 0.0;     // Store the volume of a box here
+	 
+	   // box 1 specification
+	   Box1.setLength(6.0); 
+	   Box1.setBreadth(7.0); 
+	   Box1.setHeight(5.0);
+	   // box 2 specification
+	   Box2.setLength(12.0); 
+	   Box2.setBreadth(13.0); 
+	   Box2.setHeight(10.0);
+	   // volume of box 1
+	   volume = Box1.getVolume();
+
+ 							
+ 							
+ 							
+ 							
+ 							
+ 							
+ 							
+ 							
+ 							
+
+	   cout << "Volume of Box1 : " << volume <<endl;				
+	   // volume of box 2
+	   volume = Box2.getVolume();
+	   cout << "Volume of Box2 : " << volume <<endl;
+	   return 0;
+	}
+	When the above code is compiled and executed, it produces the following 
+
+	result −				
+	Volume of Box1 : 210
+	Volume of Box2 : 1560
+ 			Virtual Functions, Pure Virtual Functions and Abstract Classes		
+ 					
+ 			Classes (I) - C++ Tutorials (cplusplus.com)		
+ 					
+ 			Class player 		
+ 					
+
+ 							
+
+138. Accessing Class Members
+ 
+From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535572#content> 
+ 
+ 
+Two methods
+	1. class attribute (dot operator )
+	2.  arrow
+	
+	Class Account{
+	
+	};
+	 
+	 
+	Account frank_account;
+	frank_account.balance;
+	frank_account.deposit(1000.0);
+	 
+	3. Class methods , use the member of operator of pointer operator
+		a.  (arrow operator ) very often used
+		Account *frank_account;
+		frank_account -> balance
+		frank_account -> deposit(1000.0)
+	4. (dot operator)
+		(*frank_account).balance
+		(*frank_account).deposit(1000.0)
+ 
+#include <iostream>
+#include <string>
+class Player{
+public:
+    //attributes
+    std::string name;
+    int health;
+    int xp;
+    //methods
+    void talk(std::string text_to_say){
+        std::cout<<text_to_say<<std::endl;
+    }
+    bool is_dead();
+private:
+};
+class Account{
+public:
+//attr
+    std::string name;
+    double balance;
+    bool deposit(double bal);
+    bool withdraw(double bal);
+};
+ 
+ 
+int main () {
+    Player frank ;
+    Player *israel = new Player;
+ 
+    frank.xp =50;
+    frank.health =100;
+    frank.talk("hello frank");
+ 
+    israel->xp =150;   //Segmentation fault (core dumped) if you didnt add = new Player
+    std::cout<<israel->xp<<std::endl;
+    israel->health=200; //Segmentation fault (core dumped) if you didnt add = new Player
+    std::cout<<israel->health<<std::endl;
+    israel->talk("hello israel");
+ 
+    return 0;
+}
+140. Implementing Member Methods
+ 
+From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535576#content> 
+file.h specification 
+file.cpp implementation 
+Main.cpp
+// player.h file 
+#pragma once
+#include <iostream>
+#include <string>
+class Player{
+public:
+    //attributes
+    std::string name;
+    int health;
+    int xp;
+    //methods
+    void talk(std::string text_to_say){ std::cout<<"From Class talk():  "<<text_to_say<<std::endl;}
+    bool is_dead();
+private:
+};
+class Account{
+public:
+//attr
+    std::string name;
+    double balance;
+    bool deposit(double bal);
+    bool withdraw(double bal);
+};
+//main.cpp
+#include <iostream>
+#include <string>
+#include "player.h"
+int main () {
+    Player frank ;
+    Player *israel = new Player;
+    frank.xp =50;
+    frank.health =100;
+    frank.talk("hello frank");
+    israel->xp =150;   //Segmentation fault (core dumped) if you didnt add = new Player
+    std::cout<<"israel->xp"<<israel->xp<<std::endl;
+    israel->health=200; //Segmentation fault (core dumped) if you didnt add = new Player
+    std::cout<<"israel->health:"<<israel->health<<std::endl;
+    israel->talk("hello israel");
+ 
+    return 0;
+}
+								./a.out 
+								From Class talk():  hello frank
+								israel->xp150
+								israel->health:200
+								From Class talk():  hello israel
+141. Constructors and Destructors
+From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535578#content> 
+ 
+The Class Constructor
+A class constructor is a special member function of a class that is executed whenever we create new objects of that class.
+A constructor will have exact same name as the class and it does not have any return type at all, not even void. Constructors can be very useful for setting initial values for certain member variables
+ 
+ 
+class Line {
+   public:
+      void setLength( double len );
+      double getLength( void );
+      Line();  // This is the constructor
+   private:
+      double length;
+};
+ 
+ 
+Destructor: 
+Like a constructor, Destructor is also a member function of a class that has the same name as the class name preceded by a tilde(~) operator. It helps to deallocate the memory of an object. It is called while the object of the class is freed or deleted. In a class, there is always a single destructor without any parameters so it can’t be overloaded. It is always called in the reverse order of the constructor. if a class is inherited by another class and both the classes have a destructor then the destructor of the child class is called first, followed by the destructor of the parent or base class. 
+Syntax:  
+  ~ClassName()
+   { 
+       //Destructor's Body
+   }
+ 
+ 
+142. The Default Constructor
+ 
+From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535580#content> 
+ 
+	• Doesn’t expect no argument 
+	• Called when you instance a new obj
+	
+Class player{
+player ((std::string name, int val, int num ) ;
+ 
+};
+Int main(){
+Player frank;  //doesn’t work
+Player frank{"frank,100,13"};
+Frank.set_name{"Frank"};
+}
+ 
+ 
+#include <string>
+using namespace std;
+ 
+class Dog {
+private:
+    string name;
+    int age;
+public:
+ 
+//---- WRITE YOUR OVERLOADED CONSTRUCTOR BELOW THIS LINE
+    Dog(std::string n, int a){
+        name=n;
+        age=a;
+    }
+144. Constructor Initialization lists
+ 
+From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535584#overview> 
+#include<iostream>
+using namespace std;
+ 
+class Point {
+private:
+    int x;
+    int y;
+public:
+    Point(int i = 0, int j = 0):x(i), y(j) {}
+    /*  The above use of Initializer list is optional as the
+        constructor can also be written as:
+        Point(int i = 0, int j = 0) {
+            x = i;
+            y = j;
+        }
+    */   
+     
+    int getX() const {return x;}
+    int getY() const {return y;}
+};
+ 
+int main() {
+  Point t1(10, 15);
+  cout<<"x = "<<t1.getX()<<", ";
+  cout<<"y = "<<t1.getY();
+  return 0;
+}
+ 
+/* OUTPUT:
+   x = 10, y = 15
+*/
+ 
+https://www.geeksforgeeks.org/when-do-we-use-initializer-list-in-c/
+145. Delegating Constructors
+ 
+From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535586#overview> 
+ 
+To minimize duplicated code
+ 
+ 
+Player::player() 
+	: name{'none'},health{0},xp{0} { }
+	 
+To Delegating Constructors
+Player::player() 
+	: player{'none',0,0} { }
+ 
+ 
+Player::player(std::string name_val) 
+	: name{name_val},health{0},xp{0} { }
+To Delegating Constructors
+Player::player(std::string name_val) 
+	: player{name_val,0,0} { }
+	 
+ 
+Player::player(std::string name_val, int health_val, int xp_val) 
+		: name{name_val},health{health_val},xp{xp_val} { }
+	 
+To Delegating Constructors
+Player::player(std::string name_val, int health_val, int xp_val):
+		player(name_val,health_val,xp_val) { }
+146. Constructor Parameters and Default Values
+ 
+From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535588#overview> 
+Just like default function
+ 
+ 
+Class player{
+ 
+Public: 
+ 
+Player::player(std::string name_val = "none", int health_val = 0, int xp_val =0):
+ 
+}
+ 
+Player::player(std::string name_val, int health_val, int xp_val) 
+		: name{name_val},health{health_val},xp{xp_val} { }
+ 
 
 
+147. Copy Constructor(study more)
+used to initialize the members of a newly created object by copying the members of an already existing object.
+-when
+	Passing an obj by value as a parameter
+	Returning an object from a fun by value
+	Constructing one obj based on another of same class
+	 
+ClassName (const ClassName &old_obj); 
+ 			
+ 	 		#include <iostream>
+	// C++ program to demonstrate the working		using namespace std;
+	// of a COPY CONSTRUCTOR		class Line {
+	#include <iostream>		   public:
+	using namespace std;		      int getLength( void );
+	class Point {		      Line( int len );             // simple constructor
+	private:		      Line( const Line &obj);  // copy constructor
+	    int x, y;		      ~Line();                     // destructor
+	public:		   private:
+	    Point(int x1, int y1)		      int *ptr;
+	    {		};
+	        x = x1;		// Member functions definitions including constructor
+	        y = y1;		Line::Line(int len) {
+	    }		   cout << "Normal constructor allocating ptr" << endl;
+	    // Copy constructor		   
+	    Point(const Point& p1)		   // allocate memory for the pointer;
+	    {		   ptr = new int;
+	        x = p1.x;		   *ptr = len;
+	        y = p1.y;		}
+	    }		Line::Line(const Line &obj) {
+	    int getX() { return x; }		   cout << "Copy constructor allocating ptr." << endl;
+	    int getY() { return y; }		   ptr = new int;
+	};		   *ptr = *obj.ptr; // copy the value
+	int main()		}
+	{		Line::~Line(void) {
+	    Point p1(10, 15); // Normal constructor is called here		   cout << "Freeing memory!" << endl;
+	    Point p2 = p1; // Copy constructor is called here		   delete ptr;
+	    // Let us access values assigned by constructors		}
+	    cout << "p1.x = " << p1.getX()		int Line::getLength( void ) {
+	        << ", p1.y = " << p1.getY();		   return *ptr;
+	    cout << "\np2.x = " << p2.getX()		}
+	        << ", p2.y = " << p2.getY();		void display(Line obj) {
+	    return 0;		   cout << "Length of line : " << obj.getLength() <<endl;
+	}		}
+			// Main function for the program
+			int main() {
+			   Line line1(10);
+			   Line line2 = line1; // This also calls copy constructor
+			   display(line1);
+			   display(line2);
+			   return 0;
+			}
+			When the above code is compiled and executed, it produces the following result −
+			Normal constructor allocating ptr
+			Copy constructor allocating ptr.
+			Copy constructor allocating ptr.
+			Length of line : 10
+			Freeing memory!
+			Copy constructor allocating ptr.
+			Length of line : 10
+			Freeing memory!
+			Freeing memory!
+			Freeing memory!
+ 			
+148. Shallow Copying with the Copy Constructor
+ 
+Depending upon the resources like dynamic memory held by the object, either we need to perform Shallow Copy or Deep Copy in order to create a replica of the object. In general, if the variables of an object have been dynamically allocated, then it is required to do a Deep Copy in order to create a copy of the object.
+	// C++ program for the above approach
+	#include <iostream>
+	using namespace std;
+	// Box Class
+	class box {
+	private:
+		int length;
+		int breadth;
+		int height;
+	public:
+		// Function that sets the dimensions
+		void set_dimensions(int length1, int breadth1,
+							int height1)
+		{
+			length = length1;
+			breadth = breadth1;
+			height = height1;
+		}
+		// Function to display the dimensions
+		// of the Box object
+		void show_data()
+		{
+			cout << " Length = " << length
+				<< "\n Breadth = " << breadth
+				<< "\n Height = " << height
+				<< endl;
+		}
+	};
+	// Driver Code
+	int main()
+	{
+		// Object of class Box
+		box B1, B3;
+		// Set dimensions of Box B1
+		B1.set_dimensions(14, 12, 16);
+		B1.show_data();
+		// When copying the data of object
+		// at the time of initialization
+		// then copy is made through
+		// COPY CONSTRUCTOR
+		box B2 = B1;
+		B2.show_data();
+		// When copying the data of object
+		// after initialization then the
+		// copy is done through DEFAULT
+		// ASSIGNMENT OPERATOR
+		B3 = B1;
+		B3.show_data();
+		return 0;
+	}
+	Let us see the differences in a tabular form -:
+	 	Shallow Copy 	Deep copy
+	1.	When we create a copy of object by copying data of all member variables as it is, then it is called shallow copy 	When we create an object by copying data of another object along with the values of memory resources that reside outside the object, then it is called a deep copy
+	2.	A shallow copy of an object copies all of the member field values.	 Deep copy is performed by implementing our own copy constructor.
+	3.	In shallow copy, the two objects are not independent	It copies all fields, and makes copies of dynamically allocated memory pointed to by the fields
+	4.	It also creates a copy of the dynamically allocated objects	If we do not create the deep copy in a rightful way then the copy will point to the original, with disastrous consequences.
+	
+149. Deep Copying with the Copy Constructor
+ 
+From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535594#content> 
+ 
+In Deep copy, an object is created by copying data of all variables, and it also allocates similar memory resources with the same value to the object. In order to perform Deep copy, we need to explicitly define the copy constructor and assign dynamic memory as well, if required. Also, it is required to dynamically allocate memory to the variables in the other constructors, as well.
+// C++ program to implement the
+// deep copy
+#include <iostream>
+using namespace std;
+// Box Class
+class box {
+private:
+	int length;
+	int* breadth;
+	int height;
+public:
+	// Constructor
+	box()
+	{
+		breadth = new int;
+	}
+	// Function to set the dimensions
+	// of the Box
+	void set_dimension(int len, int brea,
+					int heig)
+	{
+		length = len;
+		*breadth = brea;
+		height = heig;
+	}
+	// Function to show the dimensions
+	// of the Box
+	void show_data()
+	{
+		cout << " Length = " << length
+			<< "\n Breadth = " << *breadth
+			<< "\n Height = " << height
+			<< endl;
+	}
+	// Parameterized Constructors for
+	// for implementing deep copy
+	box(box& sample)
+	{
+		length = sample.length;
+		breadth = new int;
+		*breadth = *(sample.breadth);
+		height = sample.height;
+	}
+	// Destructors
+	~box()
+	{
+		delete breadth;
+	}
+};
+// Driver Code
+int main()
+{
+	// Object of class first
+	box first;
+	// Set the dimensions
+	first.set_dimension(12, 14, 16);
+	// Display the dimensions
+	first.show_data();
+	// When the data will be copied then
+	// all the resources will also get
+	// allocated to the new object
+	box second = first;
+	// Display the dimensions
+	second.show_data();
+	return 0;
+}
+Let us see the differences in a tabular form -:
+ 	Shallow Copy 	Deep copy
+1.	When we create a copy of object by copying data of all member variables as it is, then it is called shallow copy 	When we create an object by copying data of another object along with the values of memory resources that reside outside the object, then it is called a deep copy
+2.	A shallow copy of an object copies all of the member field values.	 Deep copy is performed by implementing our own copy constructor.
+3.	In shallow copy, the two objects are not independent	It copies all fields, and makes copies of dynamically allocated memory pointed to by the fields
+4.	It also creates a copy of the dynamically allocated objects	If we do not create the deep copy in a rightful way then the copy will point to the original, with disastrous consequences.
+
+A constructor is a special type of member function that is called automatically when an object is created.
+
+From <https://www.programiz.com/cpp-programming/constructors> 
+
+In C++, a constructor has the same name as that of the class and it does not have a return type. For example,
+Class Wall{
+public:
+    // create a constructor 
+Wall() {
+    // code}
+};
+
+From <https://www.programiz.com/cpp-programming/constructors> 
+
+150. (come back for this) Move Constructors
+	- Study L value and R value
+
+From <https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535596#overview> 
+
+ 
+A move constructor of class T is a non-template constructor whose first parameter is T&&, const T&&, volatile T&&, or const volatile T&&, and either there are no other parameters, or the rest of the parameters all have default values.
+Syntax
+class-name ( class-name && )	(1)	(since C++11)
+class-name ( class-name && ) = default;	(2)	(since C++11)
+class-name ( class-name && ) = delete;	(3)	(since C++11)
+Where class-name must name the current class (or current instantiation of a class template), or, when declared at namespace scope or in a friend declaration, it must be a qualified class name.
+Explanation
+1) Typical declaration of a move constructor.
+2) Forcing a move constructor to be generated by the compiler.
+3) Avoiding implicit move constructor.
+The move constructor is typically called when an object is initialized (by direct-initialization or copy-initialization) from rvalue (xvalue or prvalue) (until C++17)xvalue (since C++17) of the same type, including
+• initialization: T a = std::move(b); or T a(std::move(b));, where b is of type T;
+• function argument passing: f(std::move(a));, where a is of type T and f is void f(T t);
+• function return: return a; inside a function such as T f(), where a is of type T which has a move constructor.
+When the initializer is a prvalue, the move constructor call is often optimized out (until C++17)never made (since C++17), see copy elision.
+Move constructors typically "steal" the resources held by the argument (e.g. pointers to dynamically-allocated objects, file descriptors, TCP sockets, I/O streams, running threads, etc.) rather than make copies of them, and leave the argument in some valid but otherwise indeterminate state. For example, moving from a std::string or from a std::vector may result in the argument being left empty. However, this behavior should not be relied upon. For some types, such as std::unique_ptr, the moved-from state is fully specified.
+Implicitly-declared move constructor
+If no user-defined move constructors are provided for a class type (struct, class, or union), and all of the following is true:
+• there are no user-declared copy constructors;
+• there are no user-declared copy assignment operators;
+• there are no user-declared move assignment operators;
+• there is no user-declared destructor.
+then the compiler will declare a move constructor as a non-explicit inline public member of its class with the signature T::T(T&&).
+A class can have multiple move constructors, e.g. both T::T(const T&&) and T::T(T&&). If some user-defined move constructors are present, the user may still force the generation of the implicitly declared move constructor with the keyword default.
+The implicitly-declared (or defaulted on its first declaration) move constructor has an exception specification as described in dynamic exception specification (until C++17)noexcept specification (since C++17)
+Deleted implicitly-declared move constructor
+The implicitly-declared or defaulted move constructor for class T is defined as deleted if any of the following is true:
+• T has non-static data members that cannot be moved (have deleted, inaccessible, or ambiguous move constructors);
+• T has direct or virtual base class that cannot be moved (has deleted, inaccessible, or ambiguous move constructors);
+• T has direct or virtual base class or a non-static data member with a deleted or inaccessible destructor;
+• T is a union-like class and has a variant member with non-trivial move constructor.
+A defaulted move constructor that is deleted is ignored by overload resolution (otherwise it would prevent copy-initialization from rvalue).
+Trivial move constructor
+The move constructor for class T is trivial if all of the following is true:
+• it is not user-provided (meaning, it is implicitly-defined or defaulted);
+• T has no virtual member functions;
+• T has no virtual base classes;
+• the move constructor selected for every direct base of T is trivial;
+• the move constructor selected for every non-static class type (or array of class type) member of T is trivial.
+A trivial move constructor is a constructor that performs the same action as the trivial copy constructor, that is, makes a copy of the object representation as if by std::memmove. All data types compatible with the C language (POD types) are trivially movable.
+
+From <https://en.cppreference.com/w/cpp/language/move_constructor> 
+
+151. The 'this' Pointer(study more)
+
+From <https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535598#content> 
+
+To understand ‘this’ pointer, it is important to know how objects look at functions and data members of a class.
+1. Each object gets its own copy of the data member.
+2. All-access the same function definition as present in the code segment.
+
+From <https://www.geeksforgeeks.org/this-pointer-in-c/> 
+
+
+Meaning each object gets its own copy of data members and all objects share a single copy of member functions.
+Then now question is that if only one copy of each member function exists and is used by multiple objects, how are the proper data members are accessed and updated?
+The compiler supplies an implicit pointer along with the names of the functions as ‘this’.
+The ‘this’ pointer is passed as a hidden argument to all nonstatic member function calls and is available as a local variable within the body of all nonstatic functions. ‘this’ pointer is not available in static member functions as static member functions can be called without any object (with class name).
+For a class X, the type of this pointer is ‘X* ‘. Also, if a member function of X is declared as const, then the type of this pointer is ‘const X *’ (see this GFact)
+In the early version of C++ would let ‘this’ pointer to be changed; by doing so a programmer could change which object a method was working on. This feature was eventually removed, and now this in C++ is an r-value.
+C++ lets object destroy themselves by calling the following code :
+
+delete this;
+As Stroustrup said ‘this’ could be the reference than the pointer, but the reference was not present in the early version of C++. If ‘this’ is implemented as a reference then, the above problem could be avoided and it could be safer than the pointer.
+Following are the situations where ‘this’ pointer is used:
+1) When local variable’s name is same as member’s name
+
+#include<iostream>
+using namespace std;
+  
+/* local variable is same as a member's name */
+class Test
+{
+private:
+   int x;
+public:
+   void setX (int x)
+   {
+       // The 'this' pointer is used to retrieve the object's x
+       // hidden by the local variable 'x'
+       this->x = x;
+   }
+   void print() { cout << "x = " << x << endl; }
+};
+  
+int main()
+{
+   Test obj;
+   int x = 20;
+   obj.setX(x);
+   obj.print();
+   return 0;
+}
+Output:
+ x = 20
+For constructors, initializer list can also be used when parameter name is same as member’s name.
+
+
+2) To return reference to the calling object
+
+/* Reference to the calling object can be returned */ 
+Test& Test::func ()
+{
+   // Some processing
+   return *this;
+} 
+When a reference to a local object is returned, the returned reference can be used to chain function calls on a single object.
+
+#include<iostream>
+using namespace std;
+  
+class Test
+{
+private:
+  int x;
+  int y;
+public:
+  Test(int x = 0, int y = 0) { this->x = x; this->y = y; }
+  Test &setX(int a) { x = a; return *this; }
+  Test &setY(int b) { y = b; return *this; }
+  void print() { cout << "x = " << x << " y = " << y << endl; }
+};
+  
+int main()
+{
+  Test obj1(5, 5);
+  
+  // Chained function calls.  All calls modify the same object
+  // as the same object is returned by reference
+  obj1.setX(10).setY(20);
+  
+  obj1.print();
+  return 0;
+}
+Output:
+x = 10 y = 20
+
+
+Exercise:
+Predict the output of following programs. If there are compilation errors, then fix them.
+Question 1
+
+#include<iostream>
+using namespace std;
+  
+class Test
+{
+private:
+  int x;
+public:
+  Test(int x = 0) { this->x = x; }
+  void change(Test *t) { this = t; }
+  void print() { cout << "x = " << x << endl; }
+};
+  
+int main()
+{
+  Test obj(5);
+  Test *ptr = new Test (10);
+  obj.change(ptr);
+  obj.print();
+  return 0;
+}
+
+
+Question 2
+
+#include<iostream>
+using namespace std;
+  
+class Test
+{
+private:
+  int x;
+  int y;
+public:
+  Test(int x = 0, int y = 0) { this->x = x; this->y = y; }
+  static void fun1() { cout << "Inside fun1()"; }
+  static void fun2() { cout << "Inside fun2()"; this->fun1(); }
+};
+  
+int main()
+{
+  Test obj;
+  obj.fun2();
+  return 0;
+}
+
+
+Question 3
+
+#include<iostream>
+using namespace std;
+  
+class Test
+{
+private:
+  int x;
+  int y;
+public:
+  Test (int x = 0, int y = 0) { this->x = x; this->y = y; }
+  Test setX(int a) { x = a; return *this; }
+  Test setY(int b) { y = b; return *this; }
+  void print() { cout << "x = " << x << " y = " << y << endl; }
+};
+  
+int main()
+{
+  Test obj1;
+  obj1.setX(10).setY(20);
+  obj1.print();
+  return 0;
+}
+
+
+Question 4
+
+#include<iostream>
+using namespace std;
+  
+class Test
+{
+private:
+  int x;
+  int y;
+public:
+  Test(int x = 0, int y = 0) { this->x = x; this->y = y; }
+  void setX(int a) { x = a; }
+  void setY(int b) { y = b; }
+  void destroy()  { delete this; }
+  void print() { cout << "x = " << x << " y = " << y << endl; }
+};
+  
+int main()
+{
+  Test obj;
+  obj.destroy();
+  obj.print();
+  return 0;
+}
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+From <https://www.geeksforgeeks.org/this-pointer-in-c/> 
+
+Every object in C++ has access to its own address through an important pointer called this pointer. The this pointer is an implicit parameter to all member functions. Therefore, inside a member function, this may be used to refer to the invoking object.
+Friend functions do not have a this pointer, because friends are not members of a class. Only member functions have a this pointer.
+Let us try the following example to understand the concept of this pointer −
+
+From <https://www.tutorialspoint.com/cplusplus/cpp_this_pointer.htm> 
+
+
+#include <iostream>
+ 
+using namespace std;
+class Box {
+   public:
+      // Constructor definition
+      Box(double l = 2.0, double b = 2.0, double h = 2.0) {
+         cout <<"Constructor called." << endl;
+         length = l;
+         breadth = b;
+         height = h;
+      }
+      double Volume() {
+         return length * breadth * height;
+      }
+      int compare(Box box) {
+         return this->Volume() > box.Volume();
+      }
+      
+   private:
+      double length;     // Length of a box
+      double breadth;    // Breadth of a box
+      double height;     // Height of a box
+};
+int main(void) {
+   Box Box1(3.3, 1.2, 1.5);    // Declare box1
+   Box Box2(8.5, 6.0, 2.0);    // Declare box2
+if(Box1.compare(Box2)) {
+      cout << "Box2 is smaller than Box1" <<endl;
+   } else {
+      cout << "Box2 is equal to or larger than Box1" <<endl;
+   }
+   
+   return 0;
+}
+
+From <https://www.tutorialspoint.com/cplusplus/cpp_this_pointer.htm> 
+
+C++ this Pointer
+In C++ programming, this is a keyword that refers to the current instance of the class. There can be 3 main usage of this keyword in C++.
+	• It can be used to pass current object as a parameter to another method.
+	• It can be used to refer current class instance variable.
+	• It can be used to declare indexers.
+
+C++ this Pointer Example
+Let's see the example of this keyword in C++ that refers to the fields of current class.
+1. #include <iostream>  
+2. using namespace std;  
+3. class Employee {  
+4.    public:  
+5.        int id; //data member (also instance variable)      
+6.        string name; //data member(also instance variable)  
+7.        float salary;  
+8.        Employee(int id, string name, float salary)    
+9.         {    
+10.              this->id = id;    
+11.             this->name = name;    
+12.             this->salary = salary;   
+13.         }    
+14.        void display()    
+15.         {    
+16.             cout<<id<<"  "<<name<<"  "<<salary<<endl;    
+17.         }    
+18. };  
+19. int main(void) {  
+20.     Employee e1 =Employee(101, "Sonoo", 890000); //creating an object of Employee   
+21.     Employee e2=Employee(102, "Nakul", 59000); //creating an object of Employee  
+22.     e1.display();    
+23.     e2.display();    
+24.     return 0;  
+25. } 
+
+From <https://www.javatpoint.com/cpp-this-pointer> 
+
+152. Using const with Classes(study more)
+
+From <https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535602#overview> 
+
+Const Player villlan {"Villan,100,55"} //attributes can not change
+
+Recommended Getters should be const
+
+std::string get_name()const {return name;}
+int get_health()const {return health;}
+int get_xp()const{return xp;} 
+
+
+Constant member functions are those functions which are denied permission to change the values of the data members of their class. To make a member function constant, the keyword “const” is appended to the function prototype and also to the function definition header.
+Like member functions and member function arguments, the objects of a class can also be declared as const. an object declared as const cannot be modified and hence, can invoke only const member functions as these functions ensure not to modify the object. 
+A const object can be created by prefixing the const keyword to the object declaration. Any attempt to change the data member of const objects results in a compile-time error. 
+Syntax: 
+(i)    For function declaration within a class.
+<return_type> <function_name>() const
+Example:
+Int get_data() const;
+(ii)    For function definition within the class declaration.
+<return_type> <function_name>() const
+{
+         //function body
+}
+Example:
+int get_data() const
+{
+               //function body
+}
+(iii)    For function definition outside the class.
+<return_type> <class_name> : : <function_name>() const
+{
+         //function body
+}
+Example:
+int Demo :: get_data() const
+{
+}
+• When a function is declared as const, it can be called on any type of object, const object as well as non-const objects.
+• Whenever an object is declared as const, it needs to be initialized at the time of declaration. however, the object initialization while declaring is possible only with the help of constructors.
+A function becomes const when the const keyword is used in the function’s declaration. The idea of const functions is not to allow them to modify the object on which they are called. It is recommended the practice to make as many functions const as possible so that accidental changes to objects are avoided.
+Following is a simple example of a const function. 
+• C++
+
+// Example: Not a constant member function.
+#include<iostream>
+using namespace std;
+ 
+class Demo
+{
+    int x;
+     
+      public:
+     
+    void set_data(int a)
+    {
+        x=a;
+    }
+  
+    int get_data()
+     {
+         ++x;
+         return x;
+     }
+  
+};
+ 
+ 
+main()
+{
+    Demo d;
+    d.set_data(10);
+    cout<<endl<<d.get_data();
+ 
+    return 0;
+}
+Output
+11
+• C++
+
+// Example: of Constant member function
+ 
+#include<iostream>
+using namespace std;
+ 
+class Demo
+{
+    int x;
+ 
+      public:
+     
+    void set_data(int a)
+    {
+        x=a;
+    }
+  
+     int get_data() const           //constant member function
+     {
+         ++x;                 // Error while attempting to modify the data member
+         return x;
+     }
+  
+};
+ 
+ 
+main()
+{
+    Demo d;
+    d.set_data(10);
+    cout<<endl<<d.get_data();
+ 
+    return 0;
+}
+• C++
+
+// Example: Constant member function defined outside the class
+ 
+#include<iostream>
+using namespace std;
+ 
+class Demo
+{
+    int x;
+ 
+      public:
+     
+    void set_data(int);
+  
+     int get_data() const;
+  
+};
+ 
+void Demo::set_data(int a)
+{
+    x=a;
+}
+ 
+ int Demo::get_data() const
+ {
+     return x;
+ }
+ 
+main()
+{
+    Demo d;
+    d.set_data(10);
+    cout<<endl<<d.get_data();
+ 
+    return 0;
+}
+Output
+10
+• CPP
+
+#include <iostream>
+using namespace std;
+ 
+class Test {
+    int value;
+ 
+public:
+    Test(int v = 0) { value = v; }
+ 
+    int getValue() const { return value; }
+};
+ 
+int main()
+{
+    Test t(20);
+    cout << t.getValue();
+    return 0;
+}
+Output
+20
+When a function is declared as const, it can be called on any type of object. Non-const functions can only be called by non-const objects. 
+For example the following program has compiler errors.  
+• CPP
+
+#include<iostream>
+using namespace std;
+ 
+class Test {
+    int value;
+public:
+    Test(int v = 0) {value = v;}
+    int getValue() {return value;}
+};
+ 
+int main() {
+    const Test t;
+    cout << t.getValue();
+    return 0;
+}
+Output: 
+ passing 'const Test' as 'this' argument of 'int 
+Test::getValue()' discards qualifiers
+Let’s look at another example:  
+• CPP
+
+// Demonstration of constant object,
+// show that constant object can only
+// call const member function
+#include<iostream>
+using namespace std;
+class Demo
+{
+    int value;
+    public:
+    Demo(int v = 0) {value = v;}
+    void showMessage()
+    {
+        cout<<"Hello World We are Tushar, "
+        "Ramswarup, Nilesh and Subhash Inside"
+        " showMessage() Function"<<endl;
+    }
+    void display()const
+    {
+        cout<<"Hello world I'm Rancho "
+        "Baba Inside display() Function"<<endl;
+    }
+};
+int main()
+{
+   //Constant object are initialised at the time of declaration using constructor
+    const Demo d1;
+    //d1.showMessage();Error occurred if uncomment.
+    d1.display();
+    return(0);
+}
+Output
+Hello world I'm Rancho Baba Inside display() Function
+OUTPUT : Hello world I'm Rancho Baba Inside display() Function
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+From <https://www.geeksforgeeks.org/const-member-functions-c/> 
+
+
+
+153. Static Class Members
+
+From <https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535604#overview> 
+
+Private:
+static int num_players; //static class member
+
+Public: 
+static int get_num_player();
+
+
+
+
+--------------------------------------------------------------------
 **Access Modifiers in C++**
 **Constructor in C++**
 **Encapsulation in C++**
