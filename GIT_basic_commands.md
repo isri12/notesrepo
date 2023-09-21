@@ -10,26 +10,22 @@
     
     git clone username@host:/path/to/repository
 ------
-    git add <filename>
+    git status
     
+    git add <filename>
     git add *
 
     git commit -m "Commit message"
-    
     git commit -a
-    
     git commit -am "Commit message"
-
-    git push origin master  # Send changes to the master branch of your remote repository:
     
-    git status
-
+    git push --set-upstream origin
+    git push origin master  # Send changes to the master branch of your remote repository:
+  
     git remote add origin <server> #If you haven't connected your local repository to a remote server, add the server to be able to push to it:
-
     git remote -v #List all currently configured remote repositories:
 
     git checkout -b <branchname> #Create a new branch and switch to it:
-    
     git checkout <branchname> #Switch from one branch to another:
  
     git branch
