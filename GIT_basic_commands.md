@@ -14,6 +14,7 @@
     
     git add <filename>
     git add *
+    git add -u #git add only modified changes and ignore untracked files
 
     git commit -m "Commit message"
     git commit -a

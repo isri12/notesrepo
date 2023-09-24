@@ -693,6 +693,137 @@ int main()
 }
 
 ```
+Example: Swap Pointers with ref. 
+
+``` cpp
+///```cpp
+#include <iostream>
+#include <string>
+
+void swap_pointers(int* ptr1, int* ptr2) {
+    //-- Write your code below this line
+     int tmp = *ptr1;
+    *ptr1=*ptr2;
+    *ptr2= tmp;
+    //or
+    // *ptr1=*ptr1+*ptr2;
+    // *ptr2=*ptr1-*ptr2;
+    // *ptr1=*ptr1-*ptr2;
+    std::cout<<"inside fun call "<<*ptr1<<" ";
+    std::cout<<*ptr2<<std::endl; 
+    //-- Write your code above this line
+}
+
+int main()
+{
+    int a {5};
+    int b {10};
+ 
+    // int* ptrA = &a;
+    // int* ptrB = &b;
+    
+    std::cout<<"before "<<a<<" ";
+    std::cout<<b<<std::endl;
+ 
+    swap_pointers(&a, &b);
+    
+    std::cout<<"after fun call "<<a<<" ";
+    std::cout<<b<<std::endl;
+
+    return 0;    
+}  
+```
+#### 2.4.5 returning a pointer to a function
+- should return pointers to 
+    - memory dynamically allocated in the function
+    - to data that was passed in
+- Never return a pointer to a local function variable!!!
+
+```cpp
+int *dont_do_this(){
+    int size{};
+    ...
+    return &size;
+}
+
+int or_this(){
+    int size{};
+    int *int_ptr{&size};
+    ...
+    return int_ptr;
+}
+
+```
+
+```cpp
+#include <iostream>
+
+int *largest_int(int *int_ptr1,int *int_ptr2){
+    if(*int_ptr1 > *int_ptr2)
+    {
+        return int_ptr1;
+    }else{
+        return int_ptr2;
+    }
+}
+int main()
+{
+    int a{10};
+    int b{100};
+    int *large_int{nullptr};
+    
+    large_int=largest_int(&a,&b);
+    std::cout<<*large_int<<std::endl;
+    
+    return 0;
+}
+```
+- returning dynamically allocated memory
+```cpp
+#include <iostream>
+
+int *create_array(size_t size, int value =0)
+{
+    int *new_storage{nullptr};
+    new_storage = new int[size]; //dynamically allocate memory
+    for (size_t i=0;i<size;++i)
+    {
+        *(new_storage+i)=value;
+    }
+    return new_storage;
+}
+
+
+int main()
+{
+    int *arraycreated={nullptr};
+    int size{5};
+    int val{100};
+    
+    arraycreated=create_array(size,val);
+    
+    for(int i=0;i<size;i++)
+    {
+       std::cout<<&arraycreated[i]<<std::endl; 
+       std::cout<<arraycreated[i]<<std::endl;
+    }
+    
+    delete [] arraycreated; //remember to delete after use
+    
+    return 0;
+}
+
+// 0x56391096aeb0
+// 100
+// 0x56391096aeb4
+// 100
+// 0x56391096aeb8
+// 100
+// 0x56391096aebc
+// 100
+// 0x56391096aec0
+// 100
+```
 
 
 #### Smart Pointers
