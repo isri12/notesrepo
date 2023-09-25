@@ -981,13 +981,88 @@ Pointers: https://www.tutorialspoint.com/cplusplus/cpp_pointers.htm
 Introduction to OPPs in C++
 Object-oriented programming (OOP) is a programming paradigm based on the concept of "objects", which can contain **data** and **code**: data in the form of fields (often known as attributes or properties), and code, in the form of procedures (often known as methods).¹ C++ is an object-oriented programming language that allows you to create classes that encapsulate data and functions. Classes are user-defined types that can be used to create objects. 
 
-**class** = is a blueprint for an object, which defines its data members and member functions.
-**Object** = an instance of a class that contains **data** and **functions**. aka grouped data
-**Methods** = the procedures that an object performs 
+### 3.3 Classes and obj
+#### 3.1 Declaring a class and creating object
+- may contain** data member **and **member functions**
+  	- Example car.make, car.paint()
+- contain Public Constructor, data, and methods ???
+- data member (recommended to be Private) and member functions
+- Separate declarations and definitions in the h and cpp file respectively
+- Instance of class is called object eg. Cout,cin 
+		○ Example : make, model, year…..
+- Members maybe **public** or **private** or **protected** 
+- by default class members are private
+- Two types of data access
+	- **setters**:write into data members
+	- **getters**:return the values
+-.h header file: contain class definations and function declarations
+-.cpp implementation file: contain executable code,must contain header file.
+The #ifndef and #define statements are used to prevent the header file from being included multiple times in the same program.
 
+**class** = is a blueprint for an object, which defines its data members and member functions. User defined types. 
+- has attributes **data**
+- has methods **function**
+- Example: Account, Employee, Car, std::vector, std::string.
+  
+**Object** = an instance of a class that contains **data** and **functions**. aka grouped data
+Example: 
+- int **highscore**
+- Account **sam_account**
+- Account **Smith_account**
+- std::vector<int> **scores**;
+- std::string **name**;
+
+**Methods** = the procedures that an object performs 
+**Encapsulation** = object contain data and operations that work on that data, abstract data type(ADT)
+**Inheritance** = can create a new classes in term of existing classes
 In C++, OOP provides several advantages over procedural programming such as faster and easier execution, clear structure for programs, helps keep the code DRY (Don't Repeat Yourself), makes the code easier to maintain, modify and debug, and makes it possible to create full reusable applications with less code and shorter development time.
 
 What is an **instance**? In object-oriented programming (OOP), an instance is a specific realization of any object. An object may be different in several ways, and each realized variation of that object is an instance. The creation of a realized instance is called **instantiation**.????
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+#include <typeinfo>
+
+class Player
+{
+public:
+    //methods
+    void talk(std::string name,int health, int xp);
+    bool is_playing();
+
+private:
+    // attributes
+    std::string name;
+    int health;
+    int xp;
+
+};
+
+
+int main()
+{
+    Player sam;
+    Player smith;
+    
+    Player *enemy1 = new Player(); //creating pointer dynamically allocate on the heap.
+    std::cout<<enemy1<<'\n';
+    delete enemy1;  //free 0x55555556aeb0
+    
+    Player players[] {sam, smith}; //array of objects
+    
+    Player sam1;
+    Player smith1;
+    std::vector<Player> player_vec{sam1};
+    std::cout<<typeid(player_vec).name() <<'\n'; //St6vectorI6PlayerSaIS0_EE
+    std::cout<<typeid(sam).name() <<'\n';  //6Player
+    player_vec.push_back(smith1);
+    
+    return 0;
+}
+
+```
+
 ``` cpp
 #include <iostream>
 class Rectangle 
@@ -1038,49 +1113,6 @@ int main()
     return 0;
 }
 ```
-### 3.1 Structure 
-- abstraction i.e collection of individual properties of real-world object. 
-- containers of hetrogenous data mambers
-- the diffrence betwen struct and class is **class is private by default** and **struct is public by default**.
-  
-```cpp   
-	struct car {
-		string name;
-		int year;
-		unsigned char car_purpose;
-		string model;
-		}
-```
-### 3.2 enum
--user-defined data type that consists of integral constants
--one benefit over constant is they provide encapsulation 
-```cpp
-	enum car_purpose {offroad,dailydriver,tow,camper};
-
-	int main(){
-	car mycar1;
-	mycar1.name= "Toyota";
-	mycar1.model="tacoma";
-	mycar1.car_purpose=offroad;
-        std::cout................................... finish.................
-	}
-```
-### 3.3 Classes and obj
-- may contain** data member **and **member functions**
-  	- Example car.make, car.paint()
-- contain Public Constructor, data, and methods ???
-- data member (recommended to be Private) and member functions
-- Separate declarations and definitions in the h and cpp file respectively
-- Instance of class is called object eg. Cout,cin 
-		○ Example : make, model, year…..
-- Members maybe **public** or **private** or **protected** 
-- by default class members are private
-- Two types of data access
-	- **setters**:write into data members
-	- **getters**:return the values
--.h header file: contain class definations and function declarations
--.cpp implementation file: contain executable code,must contain header file.
-The #ifndef and #define statements are used to prevent the header file from being included multiple times in the same program.
 ```cpp   
 //car.h
 #include<string>
@@ -1208,13 +1240,13 @@ target_link_libraries(app car_proj_lib)
 	my car1 is: 2005 Toyota sienna
 	my car2(ptr) is: 2023 Toyota Camery
 	my car3(smart ptr) is: 2005 Toyota Camery
--------------------------------------------------------------------------------------------
+
  					
- C++ Class Member Functions				
-	A member function of a class is a function that has its definition or its prototype within the class definition like any other variable. It operates on any object of the class of which it is a member, and has access to all the members of a class for that object.
+** C++ Class Member Functions			
+**	A member function of a class is a function that has its definition or its prototype within the class definition like any other variable. It operates on any object of the class of which it is a member, and has access to all the members of a class for that object.
 	 
 Member functions can be defined within the class definition or separately using scope resolution operator, : −. Defining a member function within the class definition declares the function inline, even if you do not use the inline specifier. So either you can define Volume() function as below −
-	 
+```cpp	 
 	class Box {
 	   public:
 	      double length;      // Length of a box
@@ -1225,20 +1257,20 @@ Member functions can be defined within the class definition or separately using 
 	         return length * breadth * height;
 	      }
 	};
-	 
-	If you like, you can define the same function outside the class using the scope resolution operator (::) as follows −
-	 
+```	 
+If you like, you can define the same function outside the class using the scope resolution operator (::) as follows −
+```cpp	 
 	double Box::getVolume(void) {
 	   return length * breadth * height;
 	}
-	Here, only important point is that you would have to use class name just before :: operator. A member function will be called using a dot operator (.) on a object where it will manipulate data related to that object only as follows −
-	 
+```
+Here, only important point is that you would have to use class name just before :: operator. A member function will be called using a dot operator (.) on a object where it will manipulate data related to that object only as follows −
+```cpp	 
 	Box myBox;          // Create an object
 	myBox.getVolume();  // Call member function for the object
-	 
-	Let us put above concepts to set and get the value of different class members in a class −
-	 Live Demo
-	 
+```
+Let us put above concepts to set and get the value of different class members in a class −
+```cpp
 	#include <iostream>
 	using namespace std;
 	class Box {
@@ -1292,28 +1324,16 @@ Member functions can be defined within the class definition or separately using 
 	result −				
 	Volume of Box1 : 210
 	Volume of Box2 : 1560
- 			Virtual Functions, Pure Virtual Functions and Abstract Classes		
+```	
  					
- 			Classes (I) - C++ Tutorials (cplusplus.com)		
- 					
- 			Class player 		
- 					
-
- 							
-
-138. Accessing Class Members
- 
-From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535572#content> 
- 
- 
+#### 3.2 Accessing Class Members
 Two methods
 	1. class attribute (dot operator )
-	2.  arrow
-	
+	2.  class methods  (arrow operator or member of pointer operator)
+```cpp	
+	1. using the dot operator
 	Class Account{
-	
 	};
-	 
 	 
 	Account frank_account;
 	frank_account.balance;
@@ -1321,13 +1341,16 @@ Two methods
 	 
 	3. Class methods , use the member of operator of pointer operator
 		a.  (arrow operator ) very often used
-		Account *frank_account;
+		Account *frank_account= new Account();
 		frank_account -> balance
 		frank_account -> deposit(1000.0)
 	4. (dot operator)
 		(*frank_account).balance
 		(*frank_account).deposit(1000.0)
- 
+	5 using smart pointer
+
+```
+```
 #include <iostream>
 #include <string>
 class Player{
@@ -1355,7 +1378,7 @@ public:
  
 int main () {
     Player frank ;
-    Player *israel = new Player;
+    Player *12; = new Player;
  
     frank.xp =50;
     frank.health =100;
@@ -1369,6 +1392,64 @@ int main () {
  
     return 0;
 }
+
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <typeinfo>
+
+class Player
+{
+public:
+    //methods
+    void talk(std::string text)
+    {
+        std::cout<<name<<" says "<<text<<'\n';
+    };
+    bool is_playing();
+
+//private:
+    // attributes
+    std::string name;
+    int health;
+    int xp;
+
+};
+
+class Account{
+public:
+//attr
+    std::string name;
+    double balance;
+//methods
+    bool deposit(double bal);
+    bool withdraw(double bal);
+};
+ 
+
+int main()
+{
+    
+    Player sam;
+    sam.name="SAM";
+    sam.health=100;
+    sam.xp=12;
+    
+    std::cout<<sam.name<<'\n';  //SAM
+    std::cout<<sam.health<<'\n'; //100
+    std::cout<<sam.xp<<'\n'; //12
+    sam.talk("hello!");  //SAM says hello!
+    
+    //Player smith;
+    
+
+    
+    return 0;
+}
+
+```
+
 140. Implementing Member Methods
  
 From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535576#content> 
@@ -2381,7 +2462,37 @@ REVIEW:
 **Inheritance in C++**
 **Polymorphism in C++**
 - Operator Overload:
-==================================================================================================================================================================
+=============================================================================================
+###  Structure 
+- abstraction i.e collection of individual properties of real-world object. 
+- containers of hetrogenous data mambers
+- the diffrence betwen struct and class is **class is private by default** and **struct is public by default**.
+  
+```cpp   
+	struct car {
+		string name;
+		int year;
+		unsigned char car_purpose;
+		string model;
+		}
+```
+###  enum
+-user-defined data type that consists of integral constants
+-one benefit over constant is they provide encapsulation 
+```cpp
+	enum car_purpose {offroad,dailydriver,tow,camper};
+
+	int main(){
+	car mycar1;
+	mycar1.name= "Toyota";
+	mycar1.model="tacoma";
+	mycar1.car_purpose=offroad;
+        std::cout................................... finish.................
+	}
+```
+
+
+=====================================================================
 ## TOPICS
 ### **namespace**
   Namespaces give you one mechanism to modularize code. A namespace allows you to label
