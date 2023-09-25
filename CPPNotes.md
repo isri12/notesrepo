@@ -1210,10 +1210,10 @@ target_link_libraries(app car_proj_lib)
 	my car3(smart ptr) is: 2005 Toyota Camery
 -------------------------------------------------------------------------------------------
  					
- 	C++ Class Member Functions				
+ C++ Class Member Functions				
 	A member function of a class is a function that has its definition or its prototype within the class definition like any other variable. It operates on any object of the class of which it is a member, and has access to all the members of a class for that object.
 	 
-	Member functions can be defined within the class definition or separately using scope resolution operator, : −. Defining a member function within the class definition declares the function inline, even if you do not use the inline specifier. So either you can define Volume() function as below −
+Member functions can be defined within the class definition or separately using scope resolution operator, : −. Defining a member function within the class definition declares the function inline, even if you do not use the inline specifier. So either you can define Volume() function as below −
 	 
 	class Box {
 	   public:
@@ -1281,17 +1281,6 @@ target_link_libraries(app car_proj_lib)
 	   Box2.setHeight(10.0);
 	   // volume of box 1
 	   volume = Box1.getVolume();
-
- 							
- 							
- 							
- 							
- 							
- 							
- 							
- 							
- 							
-
 	   cout << "Volume of Box1 : " << volume <<endl;				
 	   // volume of box 2
 	   volume = Box2.getVolume();
@@ -2374,15 +2363,24 @@ static int get_num_player();
 
 
 --------------------------------------------------------------------
-**Access Modifiers in C++**
-**Constructor in C++**
+REVIEW:
+- Dot and pointer operators
+- public and private access modifers 
+- methods,Constructors and destructors
+	- Class methods
+  	- default and overloaded constructors
+	- copy and move constractors
+   	- shallow vs deep copying
+      	- this pointer
+- static class members
+- virtual
+- struct vs. class
+- friend of class ????
 **Encapsulation in C++**
 **Abstraction in C++**
 **Inheritance in C++**
 **Polymorphism in C++**
-- **Construcror**:
--  **Destructor**
-- **Operator Overload**:
+- Operator Overload:
 ==================================================================================================================================================================
 ## TOPICS
 ### **namespace**
