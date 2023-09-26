@@ -2466,6 +2466,49 @@ static int get_num_player();
 
 
 --------------------------------------------------------------------
+### Operator Overloading 
+- Overloading means: giving meaning to
+- In C++, we can change the way operators work for user-defined types like objects and structures. This is known as operator overloading.
+- allows user defined types behave similar to built in types.
+- can make our code readable and writable
+-  not dont automatically (except for addignment operatoe : =)
+- without operator overloader
+  	- using function
+  	  	number result = multiply(add(a,b),divide(c,d))
+  	  - using member methods from class
+  	    	number result = ((a.add(b)).multiply(c.divide(d)));
+- using overloaded operators (we have to define first) (dont overload unless it makes sense)
+  	number result =(a+b)*(c/d);
+  - Almost all operators can be overloaded except a few. Following is the list of operators that cannot be overloaded. 
+	sizeof
+	typeid
+	Scope resolution (::)
+	Class member access operators (.(dot)
+	 .* (pointer to member operator))
+	Ternary or conditional (?:)
+- Examples:
+  	- operator with built in types
+  	  int
+  	  a=b+c
+  	  a<b
+  	  std::cout<<a
+  	  - user defined types
+**  	    std::string
+**  	    s1=s2+s3
+  	    s1<s2
+  	    std::cout<<s1
+	 **mystring**
+	    s1=s2+s3
+  	    s1<s2
+  	    std::cout<<s1
+       
+  	    
+  	  
+#### What 
+
+
+
+
 REVIEW:
 - Dot and pointer operators
 - public and private access modifers 
@@ -2483,7 +2526,7 @@ REVIEW:
 **Abstraction in C++**
 **Inheritance in C++**
 **Polymorphism in C++**
-- Operator Overload:
+
 =============================================================================================
 ###  Structure 
 - abstraction i.e collection of individual properties of real-world object. 
