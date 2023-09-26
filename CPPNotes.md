@@ -982,7 +982,7 @@ Introduction to OPPs in C++
 Object-oriented programming (OOP) is a programming paradigm based on the concept of "objects", which can contain **data** and **code**: data in the form of fields (often known as attributes or properties), and code, in the form of procedures (often known as methods).¹ C++ is an object-oriented programming language that allows you to create classes that encapsulate data and functions. Classes are user-defined types that can be used to create objects. 
 
 ### 3.3 Classes and obj
-#### 3.1 Declaring a class and creating object
+#### 3.3.1 Declaring a class and creating object
 - may contain** data member **and **member functions**
   	- Example car.make, car.paint()
 - contain Public Constructor, data, and methods ???
@@ -2466,7 +2466,8 @@ static int get_num_player();
 
 
 --------------------------------------------------------------------
-### Operator Overloading 
+### 3.4 Operator Overloading 
+#### 3.4.1 what is Operator Overloading
 - Overloading means: giving meaning to
 - In C++, we can change the way operators work for user-defined types like objects and structures. This is known as operator overloading.
 - allows user defined types behave similar to built in types.
@@ -2501,10 +2502,17 @@ static int get_num_player();
 	    s1=s2+s3
   	    s1<s2
   	    std::cout<<s1
-       
-  	    
-  	  
-#### What 
+
+
+   
+#### 3.4.2 Overloading the assignment operator (copy)
+
+#### 3.4.3 Overloading the assignment operator (move)
+
+#### 3.4.4 Overloading operators as a member functions
+
+#### 3.4.5 Overloading the assignment operator
+
 
 
 
@@ -2777,6 +2785,10 @@ int main()
 - Operator overloading: Defining custom behaviors for operators like +, -, ==, etc.
 - Templates: Used to create generic classes and functions.
 - Namespaces: Used for organizing and managing code.
+- Links
+	[google C++ style guide](https://google.github.io/styleguide/cppguide.html)
+	[C++ projects](https://github.com/practical-tutorials/project-based-learning#cc)
+	[Calculator project](https://github.com/microsoft/calculator) 
 ------------------------------------------------------------------------------------------------------------
 **Review code**
 ```cpp
