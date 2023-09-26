@@ -1423,8 +1423,17 @@ public:
     std::string name;
     double balance;
 //methods
-    bool deposit(double bal);
-    bool withdraw(double bal);
+    bool deposit(double bal)
+    {
+        balance += bal;
+        std::cout<<"deposit balance: "<<balance<<std::endl;
+    };
+    bool withdraw(double bal)
+    {
+        balance=-bal;
+        std::cout<<"withdraw balance: "<<balance<<std::endl;
+
+    };
 };
  
 
@@ -1440,11 +1449,24 @@ int main()
     std::cout<<sam.health<<'\n'; //100
     std::cout<<sam.xp<<'\n'; //12
     sam.talk("hello!");  //SAM says hello!
-    
-    //Player smith;
-    
 
+    Player *smith= new Player;
+    (*smith).name="SMITH";
+    (*smith).health=1000;
+    smith->xp=1;
     
+    std::cout<<(*smith).name<<'\n';  //SMITH
+    std::cout<<(*smith).health<<'\n'; //1000
+    std::cout<<(*smith).xp<<'\n'; //1
+    (*smith).talk("hello!");  //SMITH says hello!
+    smith->talk("i am using arrow!");  //SMITH says i am using arrow!
+     
+    Account sam_account;
+    sam_account.name="SAM'S";
+    sam_account.balance=1000;
+    sam_account.deposit(1000);//deposit balance: 2000
+    sam_account.withdraw(500);//withdraw balance: -500    
+
     return 0;
 }
 
