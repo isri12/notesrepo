@@ -1472,11 +1472,11 @@ int main()
 
 ```
 
-140. Implementing Member Methods
+#### 3.3 Implementing Member Methods
  
-From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535576#content> 
-file.h specification 
+ file.h specification 
 file.cpp implementation 
+```cpp
 Main.cpp
 // player.h file 
 #pragma once
@@ -1519,18 +1519,17 @@ int main () {
  
     return 0;
 }
+```
 								./a.out 
 								From Class talk():  hello frank
 								israel->xp150
 								israel->health:200
 								From Class talk():  hello israel
-141. Constructors and Destructors
-From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535578#content> 
+#### 3.4  Constructors and Destructors
  
 The Class Constructor
 A class constructor is a special member function of a class that is executed whenever we create new objects of that class.
 A constructor will have exact same name as the class and it does not have any return type at all, not even void. Constructors can be very useful for setting initial values for certain member variables
- 
  
 class Line {
    public:
@@ -1551,7 +1550,7 @@ Syntax:
    }
  
  
-142. The Default Constructor
+#### 3.5  The Default Constructor
  
 From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535580#content> 
  
@@ -1619,10 +1618,9 @@ int main() {
 */
  
 https://www.geeksforgeeks.org/when-do-we-use-initializer-list-in-c/
-145. Delegating Constructors
- 
-From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535586#overview> 
- 
+
+#### 3.6  Delegating Constructors
+  
 To minimize duplicated code
  
  
@@ -1666,7 +1664,7 @@ Player::player(std::string name_val, int health_val, int xp_val)
  
 
 
-147. Copy Constructor(study more)
+#### 3.7 Copy Constructor(study more)
 used to initialize the members of a newly created object by copying the members of an already existing object.
 -when
 	Passing an obj by value as a parameter
@@ -2505,14 +2503,6 @@ static int get_num_player();
   	    		std::cout<<s1
 
 ```cpp
-/******************************************************************************
-
-Welcome to GDB Online.
-GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
-C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
-Code, Compile, Run and Debug online from anywhere in world.
-
-*******************************************************************************/
 #include <iostream>
 #include <cstring>
 class Mystring
@@ -2522,12 +2512,14 @@ class Mystring
     public:
         Mystring():str{nullptr}    //no args constructor
         {
+          std::cout<<"no args constructor"<<std::endl;
           str=new char[1];
           *str='\0';
         }
         
         Mystring(const char *s):str{nullptr}   //overloaded constructor
         {
+            std::cout<<"overloaded constructor"<<std::endl;
             if (s==nullptr)
             {
                 str= new char[1];
@@ -2541,6 +2533,7 @@ class Mystring
         
         Mystring(const Mystring &source):str{nullptr} //copy constructor
         {
+            std::cout<<"copy constructor"<<std::endl;
             str=new char[std::strlen(source.str)+1];
             std::strcpy(str,source.str);
         }
@@ -2565,22 +2558,148 @@ class Mystring
 };
 int main()
 {
-    Mystring empity;
+    Mystring empity; //no args constructor
     empity.display(); //string=  :length= 0
     
-    Mystring a{"hello"};
+    Mystring a{"hello"}; //overloaded constructor
     a.display(); //string= hello :length= 5
     
-    Mystring *addressofa;  
-    addressofa=&a;
+   // Mystring *addressofa;  
+    //addressofa=&a;
+    Mystring *addressofa=&a;
     (*addressofa).display(); //string= hello :length= 5
     addressofa->display();  //string= hello :length= 5
+    
+    Mystring stooge {a}; //**copy constructor**
+    stooge.display(); //string= hello :length= 5
+    
     return 0;
 }
 ```
    
-#### 3.4.2 Overloading the assignment operator (copy)
+#### 3.4.2 Overloading the assignment operator (copy) (=)
+- 	assigns one object to another (not to confuse with initalization)
+- 	Mystring s1{"Frank"};// this is assignment
+- 	s2=s1; //assignment
+- 	Mystring s2 =s1;  copy constructor, not an assignment 
 
+- Default is memberwise assignment (shallow copy)
+- if we have raw pointer data member, we must deep copy
+- we use **operator=  ** to declare operators 
+
+- overloading the copy assignmant operator(deep copy)
+  ``` cpp
+  	Type &Type::operator=(const Type &rhs);
+	Mystring &Mystring::operator=(const Mystring &rhs);
+  	s2=s1; 
+  	s2.operator=(s1);  //operator method is called
+  ```
+
+```cpp
+#include <cstring>
+#include <iostream>
+#include "Mystring.h"
+
+// No-args constructor
+Mystring::Mystring() 
+    : str{nullptr} {
+    str = new char[1];
+    *str = '\0';
+}
+
+// Overloaded constructor
+Mystring::Mystring(const char *s) 
+    : str {nullptr} {
+        if (s==nullptr) {
+            str = new char[1];
+            *str = '\0';
+        } else {
+            str = new char[std::strlen(s)+1];
+            std::strcpy(str, s);
+        }
+}
+
+// Copy constructor
+Mystring::Mystring(const Mystring &source) 
+    : str{nullptr} {
+        str = new char[std::strlen(source.str) + 1];
+        std::strcpy(str, source.str);
+}
+
+// Destructor
+Mystring::~Mystring() {
+    delete [] str;
+}
+
+// Copy assignment
+Mystring &Mystring::operator=(const Mystring &rhs) {
+    std::cout << "Copy assignment" << std::endl;
+    if (this == &rhs)
+        return *this;
+    delete [] this->str;
+    str = new char[std::strlen(rhs.str) + 1];
+    std::strcpy(this->str, rhs.str);
+    return *this;
+}
+
+
+// Display method
+void Mystring::display() const {
+    std::cout << str << " : " << get_length() << std::endl;
+}
+
+// getters
+ int Mystring::get_length() const { return strlen(str); }
+ const char *Mystring::get_str() const { return str; }
+
+
+using namespace std;
+
+int main() {
+    Mystring a {"Hello"};                // overloaded constructor
+    Mystring b;                             // no-args contructor
+    b = a;                                      // copy assignment 
+                                                  // b.operator=(a)
+    b = "This is a test";                 // b.operator=("This is a test");
+  
+    Mystring empty;                      // no-args constructor
+    Mystring larry("Larry");             // overloaded constructor
+    Mystring stooge {larry};            // copy constructor 
+    Mystring stooges;                   // no-args constructor
+    
+    empty = stooge;                     // copy assignment operator
+    
+    empty.display();                      // Larry : 5
+    larry.display();                         // Larry : 5
+    stooge.display();                     // Larry : 5
+    empty.display();                      // Larry : 5
+    
+    stooges = "Larry, Moe, and Curly";  
+    stooges.display();                              // Larry, Moe, and Curly : 21
+    
+    vector<Mystring> stooges_vec;
+    stooges_vec.push_back("Larry");
+    stooges_vec.push_back("Moe");
+    stooges_vec.push_back("Curly");
+    
+    cout << "=== Loop 1 ==================" << endl;
+    for (const Mystring &s: stooges_vec) 
+        s.display();                                        // Larry
+                                                                // Moe
+                                                                //Curly
+    cout << "=== Loop 2 ==================" << endl;
+    for (Mystring &s: stooges_vec)
+        s = "Changed";                              // copy assignment
+        
+    cout << "=== Loop 3 ================" << endl;
+    for (const Mystring &s: stooges_vec) 
+        s.display();                                     // Changed
+                                                            // Changed
+                                                            // Changed
+    
+    return 0;
+}
+  ```
 #### 3.4.3 Overloading the assignment operator (move)
 
 #### 3.4.4 Overloading operators as a member functions
