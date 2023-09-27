@@ -2613,10 +2613,103 @@ If you had used foo::Blah() and bar::Quux(), then the introduction of foo::Quux(
 https://stackoverflow.com/questions/1452721/why-is-using-namespace-std-considered-bad-practice 
 
 ------------------------------------------------------------------------------------------------------------
+### Template
+- the idea is to pass data type as a parameter so that we don’t need to write the same code for different data types.
+- two types: function Templates and Class templates
+  function Templates:
+
+``` cpp
+//function Template 
+#include <iostream>
+template<typename Temp>
+void swap(Temp &x, Temp &y)
+{
+    Temp z{}; 
+    std::cout<<"origin: "<<x<<","<<" "<<y<<std::endl;
+    z=x;
+    x=y;
+    y=z;
+    std::cout<<"swapped: "<<x<<","<<" "<<y<<std::endl;
+}
+
+int main()
+{
+    char x{'a'};
+    char y{'b'};
+    swap(x,y); //origin: a, b  swapped: b, a
+    
+    int a=1;
+    int b=5;
+    swap(a,b);  //origin: 1, 5 swapped: 5, 1
+    
+    double i=200.5;
+    double j=53.9;
+    swap(i,j);  //origin: 200.5, 53.9 swapped: 53.9, 200.5
+    
+    return 0;
+}
+```
+Class templates: 
+- 
+
+
+- Advanced Template: https://learn.microsoft.com/en-us/cpp/cpp/class-templates?view=msvc-170
+
+------------------------------------------------------------------------------------------------------------
+### typename
+The typename keyword must be used if a name in a template definition is a qualified name that is dependent on a template argument; it's optional if the qualified name isn't dependent.
+The typename keyword is used in two different situations:
+1) When referring to a qualified member of a class template, the compiler cannot tell whether the name refers to a type, object, or function. Use typename before the qualified name to tell the compiler that it names a type.
+2)  In a template declaration, use typename to name a type parameter. In this context, class means the same thing as typename.
+
+The typename keyword can also be used in place of class in template parameter lists. For example, the following statements are semantically equivalent:
+```cpp
+template<class T1, class T2>...
+template<typename T1, typename T2>...
+```
+```cpp
+//#define _USE_MATH_DEFINES
+#include <cassert>  /// for assert
+#include <cmath>    /// for M_PI definition and pow()
+#include <cstdint>   /// for uint16_t datatype
+#include <iostream>  /// for IO operations
+
+namespace math {
+template <typename T>
+T square_area(T length) {
+    return length * length;
+}
+} 
+
+static void test() {
+    // I/O variables for testing
+    uint16_t int_length = 0;    // 16 bit integer length input
+
+    // 1st test
+    int_length = 5;
+    int_expected = 25;
+    int_area = math::square_area(int_length);
+    
+    std::cout << "AREA OF A SQUARE (int)" << std::endl;
+    std::cout << "Input Length: " << int_length << std::endl;
+    std::cout << "Expected Output: " << int_expected << std::endl;
+    std::cout << "Output: " << int_area << std::endl;
+    assert(int_area == int_expected);
+    std::cout << "TEST PASSED" << std::endl << std::endl;
+}
+int main()
+{
+    test();
+    return 0;
+}
+```
+------------------------------------------------------------------------------------------------------------
 ### Typedef 
+typedef keyword in C++ is used for aliasing existing data types, user-defined data types, and pointers to a more meaningful name. Typedefs allow you to give descriptive names to standard data types, which can also help you self-document your code. Mostly typedefs are used for aliasing, only if the predefined name is too long or complex to write again and again.  **The unnecessary use of typedef is generally not a good practice.**
+
 -typedef statement to create an alias for a type
 -syntax: 
-	typedef existing_data_type new_data_type
+	typedef < existing_data_type > < new_data_type >
 
 ``` cpp
 #include <iostream>
@@ -2680,46 +2773,7 @@ main()
 
 ```
 ------------------------------------------------------------------------------------------------------------
-### Template
-- the idea is to pass data type as a parameter so that we don’t need to write the same code for different data types.
-- two types: function Templates and Class templates
-  function Templates: 
-``` cpp
-//function Template 
-#include <iostream>
-template<typename Temp>
-void swap(Temp &x, Temp &y)
-{
-    Temp z{}; 
-    std::cout<<"origin: "<<x<<","<<" "<<y<<std::endl;
-    z=x;
-    x=y;
-    y=z;
-    std::cout<<"swapped: "<<x<<","<<" "<<y<<std::endl;
-}
 
-int main()
-{
-    char x{'a'};
-    char y{'b'};
-    swap(x,y); //origin: a, b  swapped: b, a
-    
-    int a=1;
-    int b=5;
-    swap(a,b);  //origin: 1, 5 swapped: 5, 1
-    
-    double i=200.5;
-    double j=53.9;
-    swap(i,j);  //origin: 200.5, 53.9 swapped: 53.9, 200.5
-    
-    return 0;
-}
-```
-Class templates: 
-- 
-
-
-- Advanced Template: https://learn.microsoft.com/en-us/cpp/cpp/class-templates?view=msvc-170
 ------------------------------------------------------------------------------------------------------------
 ### this pointer
 ``` cpp
