@@ -2493,17 +2493,91 @@ static int get_num_player();
   	  a=b+c
   	  a<b
   	  std::cout<<a
-  	  - user defined types
-**  	    std::string
-**  	    s1=s2+s3
-  	    s1<s2
-  	    std::cout<<s1
-	 **mystring**
-	    s1=s2+s3
-  	    s1<s2
-  	    std::cout<<s1
+  	  - 	**user defined types**
+  	    	std::string
+  	    	s1=s2+s3
+  	    	s1<s2
+  	    	std::cout<<s1
+	 	
+   			**mystring**
+	    		s1=s2+s3
+  	    		s1<s2
+  	    		std::cout<<s1
 
+```cpp
+/******************************************************************************
 
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
+C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <iostream>
+#include <cstring>
+class Mystring
+{
+    private:
+        char *str; // pointer to char[] that holds c style Mystring
+    public:
+        Mystring():str{nullptr}    //no args constructor
+        {
+          str=new char[1];
+          *str='\0';
+        }
+        
+        Mystring(const char *s):str{nullptr}   //overloaded constructor
+        {
+            if (s==nullptr)
+            {
+                str= new char[1];
+                *str='\0';
+            }else{
+                str=new char[std::strlen(s)+1];
+                std::strcpy(str,s);
+            }
+        }
+        
+        
+        Mystring(const Mystring &source):str{nullptr} //copy constructor
+        {
+            str=new char[std::strlen(source.str)+1];
+            std::strcpy(str,source.str);
+        }
+        
+        ~Mystring( ) //destructor
+        {
+            delete [] str;
+        }    
+        
+        void display() const 
+        {
+            std::cout<<"string= "<<str<<" :length= "<<get_length()<<std::endl;
+        }
+        int get_length() const   //getters
+        {
+            return std::strlen(str);
+        }
+        const char *get_str() const
+        {
+            return str;
+        }
+};
+int main()
+{
+    Mystring empity;
+    empity.display(); //string=  :length= 0
+    
+    Mystring a{"hello"};
+    a.display(); //string= hello :length= 5
+    
+    Mystring *addressofa;  
+    addressofa=&a;
+    (*addressofa).display(); //string= hello :length= 5
+    addressofa->display();  //string= hello :length= 5
+    return 0;
+}
+```
    
 #### 3.4.2 Overloading the assignment operator (copy)
 
