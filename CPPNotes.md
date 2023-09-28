@@ -1718,7 +1718,7 @@ int main() {
 The Class Constructor
 A class constructor is a special member function of a class that is executed whenever we create new objects of that class.
 A constructor will have exact same name as the class and it does not have any return type at all, not even void. Constructors can be very useful for setting initial values for certain member variables
- 
+``` cpp 
 class Line {
    public:
       void setLength( double len );
@@ -1727,7 +1727,19 @@ class Line {
    private:
       double length;
 };
- 
+ ```
+```cpp
+class Account {
+private:
+    // attributes
+    std::string name;
+    double balance;
+public:
+	//Constructor
+	Account(); //no args constructor
+	Account(std::string name);
+	Account(std::string name,double balance);
+```
  
 Destructor: 
 Like a constructor, Destructor is also a member function of a class that has the same name as the class name preceded by a tilde(~) operator. It helps to deallocate the memory of an object. It is called while the object of the class is freed or deleted. In a class, there is always a single destructor without any parameters so it can’t be overloaded. It is always called in the reverse order of the constructor. if a class is inherited by another class and both the classes have a destructor then the destructor of the child class is called first, followed by the destructor of the parent or base class. 
@@ -1737,39 +1749,62 @@ Syntax:
        //Destructor's Body
    }
  
- 
+ ```cpp
+class Account {
+private:
+    // attributes
+    std::string name;
+    double balance;
+public:
+	//Constructor
+	Account(); //no args constructor
+	Account(std::string name);
+	Account(std::string name,double balance);
+	//Destructor
+	~Account();
+```
+```
+Class player{
+private:
+	name;
+
+player ((std::string name, int val, int num ) ;
+Player ();
+set_name(std::string name){
+
+};
+};
+Int main(){
+Player frank;  
+Player frank{"frank,100,13"};
+Frank.set_name{"Frank"};
+
+Player *enemy=new Player; //no args constructor, calling Player ();
+enemy ->setname
+}
+```
+
 #### 3.5  The Default Constructor
- 
-From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535580#content> 
- 
+
 	• Doesn’t expect no argument 
 	• Called when you instance a new obj
 	
 Class player{
-player ((std::string name, int val, int num ) ;
+player ((std::string name, int val, int num ) 
+{
+	name=name_val;
+ 	health=health_val;
+  	num=num=val;
+};
  
 };
 Int main(){
-Player frank;  //doesn’t work
+Player frank;  //doesn’t work Default Constructor will not automatically be generated. 
 Player frank{"frank,100,13"};
 Frank.set_name{"Frank"};
 }
  
  
-#include <string>
-using namespace std;
- 
-class Dog {
-private:
-    string name;
-    int age;
-public:
- 
-//---- WRITE YOUR OVERLOADED CONSTRUCTOR BELOW THIS LINE
-    Dog(std::string n, int a){
-        name=n;
-        age=a;
-    }
 144. Constructor Initialization lists
  ```
 #include<iostream>
