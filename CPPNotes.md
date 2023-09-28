@@ -1350,7 +1350,7 @@ Two methods
 	5 using smart pointer
 
 ```
-```
+```cpp
 #include <iostream>
 #include <string>
 class Player{
@@ -1374,8 +1374,8 @@ public:
     bool deposit(double bal);
     bool withdraw(double bal);
 };
- 
- 
+ ```
+ ```cpp
 int main () {
     Player frank ;
     Player *12; = new Player;
@@ -1392,8 +1392,8 @@ int main () {
  
     return 0;
 }
-
-
+```
+```cpp
 #include <iostream>
 #include <string>
 #include <vector>
@@ -1435,7 +1435,6 @@ public:
 
     };
 };
- 
 
 int main()
 {
@@ -1471,62 +1470,251 @@ int main()
 }
 
 ```
+#### 3.3 public,private and protected
+* public:
+    - accessable everywhere
+* private:
+    - accessable only by members or friends of class
+    - by default everything in class is private if not specified
+       - forexaple: want to control health and only setup upto 100 and dont want users to directly change xp. 
 
-#### 3.3 Implementing Member Methods
- 
- file.h specification 
-file.cpp implementation 
+       ```cpp
+       class Player
+       {
+            private:
+                xp;
+            public:
+                set_xp{
+                    if (xp<100)
+                    {
+                        ...
+                    }else{
+
+                    }
+                }
+       }
+       ```
+* protected:
+    - used with inheretance
+
+#### 3.4 Implementing Member Methods
+  
+- public methods has direct access to private attributes.
+- separating specification from implementation
+    - A header(for ex. **file.h** specification) file in C++ is a file that contains declarations of functions, classes, variables, constants, or macros that can be shared by multiple source files. Header files allow you to reuse code and avoid duplication. Header files usually have the extension .h or .hpp, and they are included in the source files using the #include preprocessor directive. 
+    - file.cpp implementation
+
+- include guards
+    -  An include guard is a way of preventing a header file from being included more than once in a source file. It can help avoid errors such as multiple definitions or declarations of the same entity. An include guard consists of three preprocessor directives: #ifndef, #define, and #endif.
 ```cpp
-Main.cpp
-// player.h file 
-#pragma once
-#include <iostream>
-#include <string>
-class Player{
-public:
-    //attributes
-    std::string name;
-    int health;
-    int xp;
-    //methods
-    void talk(std::string text_to_say){ std::cout<<"From Class talk():  "<<text_to_say<<std::endl;}
-    bool is_dead();
-private:
+    #ifndef MYHEADER_H 
+    #define MYHEADER_H
+
+    // code for the header file
+
+    #endif // MYHEADER_H
+```
+
+```cpp
+//car.h
+
+#include<string>
+
+#ifndef CAR_H
+#define CAR_H
+
+class Car
+{
+    public:
+        int get_year();
+        void set_year(int caryear);
+            
+        std::string get_name();
+        void set_name(std::string carname);
+
+        std::string get_model();
+        void set_model(std::string carmodel);      
+    private:
+        int year;
+        std::string name;
+        std::string model;
 };
-class Account{
-public:
-//attr
+
+#endif //CAR_H
+
+```
+```cpp
+//car.cpp
+#include"car.h"
+
+int Car::get_year(){
+    return year;
+}
+void Car::set_year(int caryear)
+{
+    year=caryear;
+}
+
+std::string Car::get_name()
+{
+    return name;
+}
+void Car::set_name(std::string carname)
+{
+    name=carname;
+}
+
+std::string Car::get_model()
+{
+    return model;
+}
+void Car::set_model(std::string carmodel)
+{
+    model=carmodel; 
+}
+```
+```cpp
+#include <iostream>
+#include <memory>
+#include "car.h"
+
+int main()
+{
+    std::cout<<"Testing Hello world!"<<std::endl;
+
+    Car mycar1;
+    mycar1.set_year(2005);
+    mycar1.set_name("Toyota");
+    mycar1.set_model("sienna");
+    std::cout<<"my car1 is: "<<mycar1.get_year()<<" "<<mycar1.get_name()<<" "<<mycar1.get_model()<<std::endl;
+
+    Car *mycar2= new Car;
+    mycar2 ->set_year(2023); 
+    mycar2 ->set_name("Toyota"); 
+    mycar2 ->set_model("Camery"); 
+    std::cout<<"my car2(ptr) is: "<<mycar2->get_year()<<" "<<mycar2->get_name()<<" "<<mycar2->get_model()<<std::endl;
+
+    // Create a smart pointer to a Car object.
+    std::shared_ptr<Car> myCar3(new Car());
+    myCar3 ->set_year(2005); 
+    myCar3 ->set_name("Toyota"); 
+    myCar3 ->set_model("Camery");
+    std::cout<<"my car3(smart ptr) is: "<<myCar3->get_year()<<" "<<myCar3->get_name()<<" "<<myCar3->get_model()<<std::endl;
+}
+```
+```cmake
+cmake_minimum_required(VERSION 2.8)
+
+# Make PROJECT_SOURCE_DIR, PROJECT_BINARY_DIR, and PROJECT_NAME available.
+set(PROJECT_NAME cars)
+project(${PROJECT_NAME})
+
+#add library
+add_library(car_proj_lib car.cpp)
+
+#Create the executable file called app
+add_executable(app main.cpp)
+target_link_libraries(app car_proj_lib)
+
+```
+    $ ./app
+    Testing Hello world!
+    my car1 is: 2005 Toyota sienna
+    my car2(ptr) is: 2023 Toyota Camery
+    my car3(smart ptr) is: 2005 Toyota Camery
+---------------------------------
+Account program.
+
+```cpp
+// account.h file 
+#ifndef _ACCOUNT_H_
+#define _ACCOUNT_H_
+#include <string>
+
+class Account {
+private:
+    // attributes
     std::string name;
     double balance;
-    bool deposit(double bal);
-    bool withdraw(double bal);
+    
+public:
+    // methods
+    // declared inline
+    void set_balance(double bal) { balance = bal; }
+    double get_balance() { return balance; }
+    
+    // methods will be declared outside the class declaration
+    void set_name(std::string n);
+    std::string get_name();
+    
+    bool deposit(double amount);
+    bool withdraw(double amount);
 };
+
+#endif // _ACCOUNT_H_
+```
+```cpp
+//account.cpp
+#include "Account.h"
+
+void Account::set_name(std::string n) {
+    name = n;
+}
+
+std::string Account::get_name() {
+    return name;
+}
+
+bool Account::deposit(double amount) {
+    // if verify amount
+    balance += amount;
+    return true;
+}
+
+bool Account::withdraw(double amount) {
+    if (balance-amount >= 0) {
+        balance -= amount;
+        return true;
+    } else {
+        return false;
+    }
+}
+
+```
+```cpp 
+// Section 13
+// Implementing member methods 2
 //main.cpp
 #include <iostream>
-#include <string>
-#include "player.h"
-int main () {
-    Player frank ;
-    Player *israel = new Player;
-    frank.xp =50;
-    frank.health =100;
-    frank.talk("hello frank");
-    israel->xp =150;   //Segmentation fault (core dumped) if you didnt add = new Player
-    std::cout<<"israel->xp"<<israel->xp<<std::endl;
-    israel->health=200; //Segmentation fault (core dumped) if you didnt add = new Player
-    std::cout<<"israel->health:"<<israel->health<<std::endl;
-    israel->talk("hello israel");
- 
+#include "Account.h"
+
+using namespace std;
+
+int main() {
+    Account frank_account;
+    frank_account.set_name("Frank's account");
+    frank_account.set_balance(1000.0);
+    
+    if (frank_account.deposit(200.0))
+        cout << "Deposit OK" << endl;
+    else 
+        cout << "Deposit Not allowed" << endl;
+        
+    if (frank_account.withdraw(500.0))
+        cout << "Withdrawal OK" << endl;
+    else
+        cout << "Not sufficient funds" << endl;
+        
+    if (frank_account.withdraw(1500.0))
+        cout << "Withdraw OK" << endl;
+    else
+        cout << "Not sufficient funds" << endl; 
+    
     return 0;
 }
 ```
-								./a.out 
-								From Class talk():  hello frank
-								israel->xp150
-								israel->health:200
-								From Class talk():  hello israel
-#### 3.4  Constructors and Destructors
- 
+#### 3.4 Constructors and Destructors
+
 The Class Constructor
 A class constructor is a special member function of a class that is executed whenever we create new objects of that class.
 A constructor will have exact same name as the class and it does not have any return type at all, not even void. Constructors can be very useful for setting initial values for certain member variables
@@ -1583,8 +1771,7 @@ public:
         age=a;
     }
 144. Constructor Initialization lists
- 
-From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535584#overview> 
+ ```
 #include<iostream>
 using namespace std;
  
@@ -1616,11 +1803,12 @@ int main() {
 /* OUTPUT:
    x = 10, y = 15
 */
- 
+ ```
 https://www.geeksforgeeks.org/when-do-we-use-initializer-list-in-c/
-
-#### 3.6  Delegating Constructors
-  
+145. Delegating Constructors
+ 
+From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535586#overview> 
+ 
 To minimize duplicated code
  
  
