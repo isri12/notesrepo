@@ -1,5 +1,5 @@
 
-/*
+/* Hacker rank - For Loop
 # Practice
 ## 1) For Loop
 ### In this challenge, you will use a for loop to increment a variable through a range.
