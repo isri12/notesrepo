@@ -1514,6 +1514,43 @@ int main()
 
     #endif // MYHEADER_H
 ```
+```cpp
+//dog.h exercise
+#ifndef __DOG_H__
+#define __DOG_H__
+#include <string>
+using namespace std;
+
+class Dog {
+private:
+    string name;
+    int age;
+public:
+
+//---- WRITE YOUR CLASS FUNCTIONS BELOW THIS LINE----
+string get_name()
+{
+  return name;
+}
+string set_name(string name)
+{
+     return this -> name = name;  
+}
+
+int get_age()
+{
+  return age;
+}
+int set_age(int age)
+{
+   return this -> age = age;  
+}
+
+//---- WRITE YOUR CLASS FUNCTIONS ABOVE THIS LINE----
+};
+#endif 
+
+```
 
 ```cpp
 //car.h
@@ -1763,32 +1800,11 @@ public:
 	//Destructor
 	~Account();
 ```
-```
-Class player{
-private:
-	name;
-
-player ((std::string name, int val, int num ) ;
-Player ();
-set_name(std::string name){
-
-};
-};
-Int main(){
-Player frank;  
-Player frank{"frank,100,13"};
-Frank.set_name{"Frank"};
-
-Player *enemy=new Player; //no args constructor, calling Player ();
-enemy ->setname
-}
-```
-
 #### 3.5  The Default Constructor
 
 	• Doesn’t expect no argument 
 	• Called when you instance a new obj
-	
+```	cpp
 Class player{
 player ((std::string name, int val, int num ) 
 {
@@ -1798,15 +1814,128 @@ player ((std::string name, int val, int num )
 };
  
 };
+
+
 Int main(){
-Player frank;  //doesn’t work Default Constructor will not automatically be generated. 
+Player frank;  //doesn’t work, Default Constructor will not automatically be generated. 
 Player frank{"frank,100,13"};
 Frank.set_name{"Frank"};
 }
+``` 
  
- 
-144. Constructor Initialization lists
- ```
+#### 3.6 Overloading Constractors
+```cpp
+//player.h
+Class player{
+private:
+	std::string name;
+    int health;
+    int xp;
+public: 
+//overloaded constructors 
+Player ();
+Player(std::string name);
+player (std::string name, int health, int xp ) ;
+};
+```
+```cpp
+//player.cpp
+#include "player.h"
+
+Player::Player() {
+        name = "None";
+        health = 0;
+        xp = 0;
+    }
+Player::Player(std::string name) {
+       this -> name = name;
+        health = 100;
+        xp = 3;
+    }
+Player::Player(std::string name_val, int health_val, int xp_val) {
+        name = name_val;
+        health = health_val;
+        xp = xp_val;
+    }
+
+```
+```cpp
+//main.cpp
+
+int main() {
+    Player empity;
+    Player hero{"Hero"};
+    Player frank {"Frank", 100, 13};
+    
+    Player *enemy=new Player("");
+    return 0;
+}
+
+
+```
+#### 3.7 Constructor Initialization lists 
+
+- initalize lit immediately follows parameter list
+- are more efficient
+```cpp
+//Previous way
+Player::Player() {
+        name = "None";//this is assignment not initalization
+        health = 0;
+        xp = 0;
+    }
+```
+```cpp
+//better way
+Player::Player() 
+    : name{"None"}, health{0}, xp{0} { //this is initalization
+}
+
+```
+```cpp
+// Section 13
+// Constructor Initialization Lists
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Player
+{
+private:
+   std::string name {"XXXXXXX"};
+   int health;
+   int xp;
+public:
+// Overloaded Constructors
+    Player();
+    Player(std::string name_val);
+    Player(std::string name_val, int health_val, int xp_val);
+};
+
+Player::Player() 
+    : name{"None"}, health{0}, xp{0} {
+}
+
+Player::Player(std::string name_val) 
+   : name{name_val}, health{0}, xp{0} {
+}
+  
+Player::Player(std::string name_val, int health_val, int xp_val) 
+    : name{name_val}, health{health_val}, xp{xp_val} {
+    
+}
+
+int main() {
+    
+    Player empty;
+    Player frank {"Frank"};
+    Player villain {"Villain", 100, 55};
+    
+    return 0;
+}
+```
+ ```cpp
 #include<iostream>
 using namespace std;
  
@@ -1839,117 +1968,260 @@ int main() {
    x = 10, y = 15
 */
  ```
-https://www.geeksforgeeks.org/when-do-we-use-initializer-list-in-c/
-145. Delegating Constructors
- 
-From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535586#overview> 
+
+#### 3.8 Delegating Constructors
  
 To minimize duplicated code
- 
- 
+ #efficient
+
+ ```cpp
+//Constructor Initialization list
 Player::player() 
 	: name{'none'},health{0},xp{0} { }
 	 
-To Delegating Constructors
+//To Delegating Constructors
 Player::player() 
 	: player{'none',0,0} { }
  
- 
+```
+```cpp 
 Player::player(std::string name_val) 
 	: name{name_val},health{0},xp{0} { }
 To Delegating Constructors
 Player::player(std::string name_val) 
 	: player{name_val,0,0} { }
 	 
- 
+```
+``` cpp
 Player::player(std::string name_val, int health_val, int xp_val) 
 		: name{name_val},health{health_val},xp{xp_val} { }
 	 
-To Delegating Constructors
-Player::player(std::string name_val, int health_val, int xp_val):
-		player(name_val,health_val,xp_val) { }
-146. Constructor Parameters and Default Values
+//To Delegating Constructors  //you keep the deligated constructor 
+Player::Player(std::string name_val, int health_val, int xp_val) 
+    : name{name_val}, health{health_val}, xp{xp_val} {
+            cout << "Three-args constructor" << endl;
+}
+```
+```cpp
+// Section 13
+// Delegating Constructors
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Player
+{
+private:
+   std::string name;
+   int health;
+   int xp;
+public:
+// Overloaded Constructors
+    Player();
+    Player(std::string name_val);
+    Player(std::string name_val, int health_val, int xp_val);
+};
+
+Player::Player() 
+    : Player {"None",0,0} {
+        cout << "No-args constructor" << endl;
+}
+
+Player::Player(std::string name_val) 
+   : Player {name_val,0, 0}  {
+           cout << "One-arg constructor" << endl;
+}
+  
+Player::Player(std::string name_val, int health_val, int xp_val) 
+    : name{name_val}, health{health_val}, xp{xp_val} {
+            cout << "Three-args constructor" << endl;
+}
+
+int main() {
+    
+    Player empty;
+    Player frank {"Frank"};
+    Player villain {"Villain", 100, 55};
+    
+    return 0;
+}
+
+```
+#### 3.9 Constructor Parameters and Default Values
+  
+- Just like default function
+- to reduce number of overloaded constructors
  
-From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535588#overview> 
-Just like default function
- 
- 
-Class player{
+ ```cpp
+Class Player{
  
 Public: 
- 
-Player::player(std::string name_val = "none", int health_val = 0, int xp_val =0):
+Player::Player(std::string name_val = "none", 
+                        int health_val = 0, 
+                        int xp_val =0)
  
 }
- 
-Player::player(std::string name_val, int health_val, int xp_val) 
-		: name{name_val},health{health_val},xp{xp_val} { }
- 
+```
 
 
-#### 3.7 Copy Constructor(study more)
-used to initialize the members of a newly created object by copying the members of an already existing object.
--when
-	Passing an obj by value as a parameter
-	Returning an object from a fun by value
-	Constructing one obj based on another of same class
-	 
-ClassName (const ClassName &old_obj); 
- 			
- 	 		#include <iostream>
-	// C++ program to demonstrate the working		using namespace std;
-	// of a COPY CONSTRUCTOR		class Line {
-	#include <iostream>		   public:
-	using namespace std;		      int getLength( void );
-	class Point {		      Line( int len );             // simple constructor
-	private:		      Line( const Line &obj);  // copy constructor
-	    int x, y;		      ~Line();                     // destructor
-	public:		   private:
-	    Point(int x1, int y1)		      int *ptr;
-	    {		};
-	        x = x1;		// Member functions definitions including constructor
-	        y = y1;		Line::Line(int len) {
-	    }		   cout << "Normal constructor allocating ptr" << endl;
-	    // Copy constructor		   
-	    Point(const Point& p1)		   // allocate memory for the pointer;
-	    {		   ptr = new int;
-	        x = p1.x;		   *ptr = len;
-	        y = p1.y;		}
-	    }		Line::Line(const Line &obj) {
-	    int getX() { return x; }		   cout << "Copy constructor allocating ptr." << endl;
-	    int getY() { return y; }		   ptr = new int;
-	};		   *ptr = *obj.ptr; // copy the value
-	int main()		}
-	{		Line::~Line(void) {
-	    Point p1(10, 15); // Normal constructor is called here		   cout << "Freeing memory!" << endl;
-	    Point p2 = p1; // Copy constructor is called here		   delete ptr;
-	    // Let us access values assigned by constructors		}
-	    cout << "p1.x = " << p1.getX()		int Line::getLength( void ) {
-	        << ", p1.y = " << p1.getY();		   return *ptr;
-	    cout << "\np2.x = " << p2.getX()		}
-	        << ", p2.y = " << p2.getY();		void display(Line obj) {
-	    return 0;		   cout << "Length of line : " << obj.getLength() <<endl;
-	}		}
-			// Main function for the program
-			int main() {
-			   Line line1(10);
-			   Line line2 = line1; // This also calls copy constructor
-			   display(line1);
-			   display(line2);
-			   return 0;
-			}
-			When the above code is compiled and executed, it produces the following result −
-			Normal constructor allocating ptr
-			Copy constructor allocating ptr.
-			Copy constructor allocating ptr.
-			Length of line : 10
-			Freeing memory!
-			Copy constructor allocating ptr.
-			Length of line : 10
-			Freeing memory!
-			Freeing memory!
-			Freeing memory!
- 			
+
+```cpp
+// Section 13
+// Delegating Constructors
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Player
+{
+private:
+   std::string name;
+   int health;
+   int xp;
+public:
+    // Delegating Constructors here
+    Player(std::string name_val="None", int health_val=0, int xp_val=0);
+    std::string getname()
+    {
+        return name;
+    }
+    int gethealth()
+    {
+        return health;
+    }
+    int getxp()
+    {
+        return xp;
+    }
+};
+
+ // Delegating Constructors 
+Player::Player(std::string name_val, int health_val, int xp_val) 
+    : name{name_val}, health{health_val}, xp{xp_val} {
+            //cout << "Three-args constructor" << endl;
+}
+
+int main() {
+    
+    Player empty;
+    std::cout<< empty.getname()<<'\n';      //none
+    std::cout<< empty.gethealth()<<'\n';    //0
+    std::cout<< empty.getxp()<<'\n';        //0
+    
+    Player frank {"Frank"};
+    std::cout<< frank.getname()<<'\n';      //Frank
+    std::cout<< frank.gethealth()<<'\n';    //0
+    std::cout<< frank.getxp()<<'\n';        //0
+    
+    
+    Player bob{"Bob",20};
+    std::cout<< bob.getname()<<'\n';        //Bob
+    std::cout<< bob.gethealth()<<'\n';      //20
+    std::cout<< bob.getxp()<<'\n';          //0
+    
+    Player villain {"Villain", 100, 55};
+    std::cout<< villain.getname()<<'\n';    //villan
+    std::cout<< villain.gethealth()<<'\n';  //100
+    std::cout<< villain.getxp()<<'\n';      //55
+    
+    
+    return 0;
+}
+```
+#### 3.10 Copy Constructor
+- when objects are copied C++ must create a new object from an existing object. 
+- used to initialize the members of a newly created object by copying the members of an already existing object.
+- when is a cioy of an object made?
+    - when Passing an obj by value as a parameter 
+    - Returning an object from a fun by value 
+    - Constructing one obj based on another of same class. 
+
+- Declaring the copy constructor
+eg.
+```cpp
+    Type::Type(const Type &source);
+    Player::Player(const Player &source);
+    Account::Account(const Account &source);
+```
+- Implementing copy constructor 
+```cpp
+    Type::Type(const Type &source)
+    {
+        ....
+    }
+```
+```cpp
+Player villain {"Villain", 100, 55};
+
+void display_player(Player p)
+{
+    //p is a copy of hero object
+    //p is local to the function
+    //when p is out of scope the Destructor is called
+}
+
+display_player(hero);
+
+```	 
+ ```cpp			
+ 	// Section 13
+// Copy Constructor
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Player
+{
+private:
+   std::string name;
+   int health;
+   int xp;
+public:
+    std::string get_name() { return name; }
+    int get_health() { return health; }
+    int get_xp() {return xp; } 
+    // Delegating Constructors
+    Player(std::string name_val ="None", int health_val = 0, int xp_val = 0);
+    // Copy constructor
+    Player(const Player &source);
+    // Destructor
+    ~Player() { cout << "Destructor called for: " << name << endl; }
+};
+
+Player::Player(std::string name_val, int health_val, int xp_val) 
+    : name{name_val}, health{health_val}, xp{xp_val} {
+            cout << "Three-args constructor for " + name << endl;
+}
+//copy constructor
+Player::Player(const Player &source)
+   // : name(source.name), health(source.health), xp{source.xp} {
+       : Player {source.name, source.health, source.xp}  {
+        cout << "Copy constructor - made copy of: " << source.name << endl; 
+}
+
+void display_player(Player p) {
+    cout << "Name: " << p.get_name() << endl;
+    cout << "Health: " << p.get_health() << endl;
+    cout << "XP: " << p.get_xp() << endl;    
+}
+
+int main() {    
+    Player empty {"XXXXXX", 100, 50};
+    
+    Player my_new_object {empty};
+    
+    display_player(empty);
+    
+    Player frank {"Frank"};
+    Player hero {"Hero", 100};
+    Player villain {"Villain", 100, 55};
+        
+    return 0;
+}
+ ```		
 148. Shallow Copying with the Copy Constructor
  
 Depending upon the resources like dynamic memory held by the object, either we need to perform Shallow Copy or Deep Copy in order to create a replica of the object. In general, if the variables of an object have been dynamically allocated, then it is required to do a Deep Copy in order to create a copy of the object.
@@ -2012,7 +2284,6 @@ Depending upon the resources like dynamic memory held by the object, either we n
 	
 149. Deep Copying with the Copy Constructor
  
-From < https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535594#content> 
  
 In Deep copy, an object is created by copying data of all variables, and it also allocates similar memory resources with the same value to the object. In order to perform Deep copy, we need to explicitly define the copy constructor and assign dynamic memory as well, if required. Also, it is required to dynamically allocate memory to the variables in the other constructors, as well.
 // C++ program to implement the
@@ -2981,7 +3252,7 @@ REVIEW:
 ```
 
 
-=====================================================================
+-----------------------------------------------------------
 ## TOPICS
 ### **namespace**
   Namespaces give you one mechanism to modularize code. A namespace allows you to label
