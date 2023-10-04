@@ -2222,9 +2222,10 @@ int main() {
     return 0;
 }
  ```		
-148. Shallow Copying with the Copy Constructor
+#### 3.11 Shallow Copying with the Copy Constructor
  
 Depending upon the resources like dynamic memory held by the object, either we need to perform Shallow Copy or Deep Copy in order to create a replica of the object. In general, if the variables of an object have been dynamically allocated, then it is required to do a Deep Copy in order to create a copy of the object.
+```cpp
 	// C++ program for the above approach
 	#include <iostream>
 	using namespace std;
@@ -2275,14 +2276,8 @@ Depending upon the resources like dynamic memory held by the object, either we n
 		B3.show_data();
 		return 0;
 	}
-	Let us see the differences in a tabular form -:
-	 	Shallow Copy 	Deep copy
-	1.	When we create a copy of object by copying data of all member variables as it is, then it is called shallow copy 	When we create an object by copying data of another object along with the values of memory resources that reside outside the object, then it is called a deep copy
-	2.	A shallow copy of an object copies all of the member field values.	 Deep copy is performed by implementing our own copy constructor.
-	3.	In shallow copy, the two objects are not independent	It copies all fields, and makes copies of dynamically allocated memory pointed to by the fields
-	4.	It also creates a copy of the dynamically allocated objects	If we do not create the deep copy in a rightful way then the copy will point to the original, with disastrous consequences.
-	
-149. Deep Copying with the Copy Constructor
+```	
+#### Deep Copying with the Copy Constructor
  
  
 In Deep copy, an object is created by copying data of all variables, and it also allocates similar memory resources with the same value to the object. In order to perform Deep copy, we need to explicitly define the copy constructor and assign dynamic memory as well, if required. Also, it is required to dynamically allocate memory to the variables in the other constructors, as well.
@@ -2373,7 +2368,7 @@ Wall() {
 
 From <https://www.programiz.com/cpp-programming/constructors> 
 
-150. (come back for this) Move Constructors
+#### Move Constructors
 	- Study L value and R value
 
 From <https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535596#overview> 
@@ -2422,9 +2417,7 @@ A trivial move constructor is a constructor that performs the same action as the
 
 From <https://en.cppreference.com/w/cpp/language/move_constructor> 
 
-151. The 'this' Pointer(study more)
-
-From <https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535598#content> 
+#### The 'this' Pointer(study more)
 
 To understand ‘this’ pointer, it is important to know how objects look at functions and data members of a class.
 1. Each object gets its own copy of the data member.
@@ -2676,35 +2669,35 @@ In C++ programming, this is a keyword that refers to the current instance of the
 
 C++ this Pointer Example
 Let's see the example of this keyword in C++ that refers to the fields of current class.
-1. #include <iostream>  
-2. using namespace std;  
-3. class Employee {  
-4.    public:  
-5.        int id; //data member (also instance variable)      
-6.        string name; //data member(also instance variable)  
-7.        float salary;  
-8.        Employee(int id, string name, float salary)    
-9.         {    
-10.              this->id = id;    
-11.             this->name = name;    
-12.             this->salary = salary;   
-13.         }    
-14.        void display()    
-15.         {    
-16.             cout<<id<<"  "<<name<<"  "<<salary<<endl;    
-17.         }    
-18. };  
-19. int main(void) {  
-20.     Employee e1 =Employee(101, "Sonoo", 890000); //creating an object of Employee   
-21.     Employee e2=Employee(102, "Nakul", 59000); //creating an object of Employee  
-22.     e1.display();    
-23.     e2.display();    
-24.     return 0;  
-25. } 
+ #include <iostream>  
+using namespace std;  
+class Employee {  
+    public:  
+        int id; //data member (also instance variable)      
+        string name; //data member(also instance variable)  
+        float salary;  
+        Employee(int id, string name, float salary)    
+         {    
+              this->id = id;    
+             this->name = name;    
+             this->salary = salary;   
+         }    
+        void display()    
+         {    
+             cout<<id<<"  "<<name<<"  "<<salary<<endl;    
+         }    
+ };  
+ int main(void) {  
+     Employee e1 =Employee(101, "Sonoo", 890000); //creating an object of Employee   
+     Employee e2=Employee(102, "Nakul", 59000); //creating an object of Employee  
+     e1.display();    
+     e2.display();    
+     return 0;  
+ } 
 
 From <https://www.javatpoint.com/cpp-this-pointer> 
 
-152. Using const with Classes(study more)
+#### Using const with Classes(study more)
 
 From <https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535602#overview> 
 
