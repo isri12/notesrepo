@@ -2224,6 +2224,191 @@ int main() {
  ```		
 #### 3.11 Shallow Copying with the Copy Constructor
  
+- consider a class that contains a pointer as a data member
+
+- constructor allocates atorage dynamically and initalizes the pointer
+- destructor releases the memory allocated by the constructor 
+- what happens in the default copy constructor?
+- we can do deep or shallow copy.
+- memberwise copy
+- each data member is copied from the source subject
+- the pointer is copied not what it points to(shallow copy)
+- **problem** when we release the storage in the destructor, the other object still refers to the released storage! 
+Soln - deep copy to avoid the error. 
+
+    - example 
+```cpp
+        class Shallow
+        {
+            private:
+                int *data;   //pointer data mamber
+            public: 
+                Shallow(int d); //constructor
+                Shallow(const shallow &source); //copy constructor
+                ~Shallow();     //destructor
+        };
+ ```
+```cpp
+    //constructor
+    Shallow::Shallow(int d)
+    {
+        data=new int //allocate storage
+        *data=d;
+    }
+
+    //since we allocate dynamically, lets be sure to deallocate the memory
+    ~Shallow::Shallow()
+    {
+        delete data; //free storage
+        std::cout<<"Destructor freeing data"<<endl;
+    }
+
+    //shallow copy constructor
+
+    Shallow::Shallow(const Shallow &source):data(source.data)
+    {
+        std::cout<<"copy constructor - shallow"<<'\n'; 
+    }
+
+```
+- **shallow copy** only the pointer is copied, not what it is pointing to.
+- **Problem:** source and the newley created object BOTH point to the same **data**!!! so when destructor called the object s is pointing to  invalid data and cant be accessable. 
+
+```cpp
+// Section 13
+// Copy Constructor - Shallow Copy
+// Note: this program will crash
+#include <iostream>
+
+using namespace std;
+
+class Shallow {
+private:
+    int *data;
+public:
+    void set_data_value(int d) { *data = d; }
+    int get_data_value() { return *data; }
+    // Constructor
+    Shallow(int d);
+    // Copy Constructor
+    Shallow(const Shallow &source);
+    // Destructor
+    ~Shallow();
+};
+//constructor
+Shallow::Shallow(int d) {
+    data = new int;
+    *data = d;
+}
+//copy constructor
+Shallow::Shallow(const Shallow &source) //copying the pointer not what its pointing to
+    : data(source.data) {
+        cout << "Copy constructor  - shallow copy" << endl;
+}
+//Descructor
+Shallow::~Shallow() {
+    delete data;
+    cout << "Destructor freeing data" << endl;
+}
+
+void display_shallow(Shallow s) {
+    cout << s.get_data_value() << endl;
+}
+
+int main() {
+    
+    Shallow obj1 {100};
+    display_shallow(obj1);//willl crash here ,Shallow s is freed so the object s is pointing to  invalid data
+    
+    Shallow obj2 {obj1};
+    obj2.set_data_value(1000);
+    
+    return 0;
+}
+
+
+
+```
+
+When a class contains a pointer as a data member, it's important to manage the pointer properly to prevent memory leaks and ensure proper behavior. You typically need to consider the following:
+
+1. **Constructor and Destructor:**
+   - In the constructor, allocate memory for the pointer (e.g., using `new`).
+   - In the destructor, deallocate the memory (e.g., using `delete`).
+
+2. **Copy Constructor and Assignment Operator:**
+   - Define a copy constructor and an assignment operator to handle deep copying of the pointer when instances of the class are copied or assigned.
+
+Here's a simple example demonstrating these concepts:
+
+```cpp
+#include <iostream>
+
+class MyClass {
+private:
+    int* ptr;
+
+public:
+    // Constructor
+    MyClass(int value) {
+        ptr = new int(value);
+    }
+
+    // Destructor
+    ~MyClass() {
+        delete ptr;
+    }
+
+    // Copy Constructor
+    MyClass(const MyClass& other) {
+        ptr = new int(*other.ptr);
+    }
+
+    // Assignment Operator
+    MyClass& operator=(const MyClass& other) {
+        if (this == &other)
+            return *this;
+
+        // Delete existing memory
+        delete ptr;
+
+        // Allocate new memory and copy value
+        ptr = new int(*other.ptr);
+
+        return *this;
+    }
+
+    void displayValue() const {
+        std::cout << "Value: " << *ptr << std::endl;
+    }
+};
+
+int main() {
+    MyClass obj1(42);
+    obj1.displayValue();
+
+    MyClass obj2 = obj1;  // Copy constructor
+    obj2.displayValue();
+
+    MyClass obj3(10);
+    obj3.displayValue();
+
+    obj3 = obj1;  // Assignment operator
+    obj3.displayValue();
+
+    return 0;
+}
+```
+
+In this example:
+- `MyClass` has a pointer to an integer as a data member.
+- The constructor allocates memory for the integer.
+- The destructor deallocates the memory.
+- The copy constructor and assignment operator handle deep copying to ensure each object has its own memory for the integer.
+
+It's important to follow the rule of three (or rule of five in modern C++) when dealing with classes that manage resources like pointers to prevent memory leaks and undefined behavior.
+
+
 Depending upon the resources like dynamic memory held by the object, either we need to perform Shallow Copy or Deep Copy in order to create a replica of the object. In general, if the variables of an object have been dynamically allocated, then it is required to do a Deep Copy in order to create a copy of the object.
 ```cpp
 	// C++ program for the above approach
@@ -3487,6 +3672,117 @@ int main()
 }
 ```
 ------------------------------------------------------------------------------------------------------------
+### The Rule of 5 in modern C++
+The Rule of 5 in modern C++ refers to a set of guidelines related to resource management and object semantics. It complements the Rule of 3 (which involves implementing custom destructors, copy constructors, and copy assignment operators) by extending it to handle move semantics.
+
+As of C++11, with the introduction of move semantics and move constructors/move assignment operators, the Rule of 5 is as follows:
+
+1. **Destructor (`~MyClass()`):**
+   - Implement a destructor to clean up resources when an object is destroyed.
+
+2. **Copy Constructor (`MyClass(const MyClass&)`):**
+   - Implement a copy constructor to perform a deep copy of resources from one object to another.
+
+3. **Copy Assignment Operator (`MyClass& operator=(const MyClass&)`):**
+   - Implement a copy assignment operator to handle proper resource cleanup and deep copying when assigning one object to another.
+
+4. **Move Constructor (`MyClass(MyClass&&) noexcept`):**
+   - Implement a move constructor to transfer ownership of resources from a temporary object (rvalue) to the current object.
+
+5. **Move Assignment Operator (`MyClass& operator=(MyClass&&) noexcept`):**
+   - Implement a move assignment operator to transfer ownership of resources when moving from one object to another.
+
+Here's a brief example demonstrating the Rule of 5 in action:
+
+```cpp
+#include <iostream>
+
+class MyClass {
+private:
+    int* ptr;
+
+public:
+    // Constructor
+    MyClass(int value) {
+        ptr = new int(value);
+    }
+
+    // Destructor
+    ~MyClass() {
+        delete ptr;
+    }
+
+    // Copy Constructor
+    MyClass(const MyClass& other) {
+        ptr = new int(*other.ptr);
+    }
+
+    // Copy Assignment Operator
+    MyClass& operator=(const MyClass& other) {
+        if (this == &other)
+            return *this;
+
+        // Delete existing memory
+        delete ptr;
+
+        // Allocate new memory and copy value
+        ptr = new int(*other.ptr);
+
+        return *this;
+    }
+
+    // Move Constructor
+    MyClass(MyClass&& other) noexcept : ptr(other.ptr) {
+        other.ptr = nullptr;  // Reset the source object's pointer
+    }
+
+    // Move Assignment Operator
+    MyClass& operator=(MyClass&& other) noexcept {
+        if (this == &other)
+            return *this;
+
+        // Delete existing memory
+        delete ptr;
+
+        // Transfer ownership of the pointer
+        ptr = other.ptr;
+        other.ptr = nullptr;  // Reset the source object's pointer
+
+        return *this;
+    }
+
+    void displayValue() const {
+        std::cout << "Value: " << (ptr ? *ptr : 0) << std::endl;
+    }
+};
+
+int main() {
+    MyClass obj1(42);
+    obj1.displayValue();
+
+    MyClass obj2 = obj1;  // Copy constructor
+    obj2.displayValue();
+
+    MyClass obj3(10);
+    obj3.displayValue();
+
+    obj3 = obj1;  // Copy assignment operator
+    obj3.displayValue();
+
+    MyClass obj4(std::move(obj1));  // Move constructor
+    obj4.displayValue();
+    obj1.displayValue();  // After move, obj1 should have nullptr
+
+    MyClass obj5(99);
+    obj5 = std::move(obj2);  // Move assignment operator
+    obj5.displayValue();
+    obj2.displayValue();  // After move, obj2 should have nullptr
+
+    return 0;
+}
+```
+
+In this example, we've defined and used all the Rule of 5 members: destructor, copy constructor, copy assignment operator, move constructor, and move assignment operator. These ensure proper resource management and efficient handling of objects in C++.
 ------------------------------------------------------------------------------------------------------------
 ### Preprocessor directives 
 	#include<iostream>    //file will be search in a pre-defined location 
