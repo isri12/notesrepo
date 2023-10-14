@@ -3804,6 +3804,11 @@ In this example, we've defined and used all the Rule of 5 members: destructor, c
 	cout<<"Var1 = "<<var1<<endl; 
 	#endif
 ------------------------------------------------------------------------------------------------------------
+ ### Libraries(static Vs dynamic)
+ - There are two parts in a library usually: includes and libraries. İnclude directory has a bunch of header files and lib directory has those pre-built binaries.
+- Dynamic library is loaded(linked) into program at runtime, dynamic library can be anywhere and you do the linking whereas static library is put(compiled) into your executable program
+- We have to point our compiler to header files (include files) and then we also have to point out our linker to library files.
+------------------------------------------------------------------------------------------------------------
 - pragma once **vs** #ifdef CAR_H .... #define CAR_H.....#endif //CAR_H (include gard)
 - class and struct keywords: Used to define classes and structures.
 - Member variables: Data attributes stored within a class.
