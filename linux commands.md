@@ -1,4 +1,4 @@
-# Linux Basic commands
+## Linux Basic commands
 
 df -h
 
@@ -7,7 +7,12 @@ ifconfig
 sudo yum update 
 
 
-# CMAKE BASICS 
+
+## Topics 
+### PATH environment
+
+
+## CMAKE BASICS 
 ```
 cmake [options] -S <path-to-source> -B <path-to-build>
 ```
