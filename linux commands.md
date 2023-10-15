@@ -10,7 +10,58 @@ sudo yum update
 
 ## Topics 
 ### PATH environment
+In Linux, the PATH environment variable is a system-wide variable that specifies a list of directories where executable files and scripts are located. When you enter a command in the terminal, the system searches these directories for the corresponding executable.
 
+Here's how to work with the PATH environment variable in Linux:
+
+1. **Viewing the PATH Variable:**
+   
+   To view the current value of the PATH variable, you can use the `echo` command:
+   
+   ```bash
+   echo $PATH
+   ```
+
+2. **Modifying the PATH Variable:**
+   
+   To add a directory to the PATH variable, you can modify your shell's configuration file, such as `.bashrc` for Bash or `.zshrc` for Zsh. Open the appropriate file in a text editor (e.g., `nano`, `vi`, `gedit`) and add the following line, replacing `/your/directory/path` with the actual directory you want to add:
+   
+   ```bash
+   export PATH=$PATH:/your/directory/path
+   ```
+
+   After making the changes, save and exit the file. To apply the changes, either log out and log back in, or source the file:
+   
+   ```bash
+   source ~/.bashrc   # For Bash
+   source ~/.zshrc    # For Zsh
+   ```
+
+3. **Removing a Directory from the PATH Variable:**
+
+   To remove a directory from the PATH variable, edit the shell configuration file and remove the corresponding line that sets the PATH.
+
+4. **Temporary Modification:**
+
+   If you want to temporarily modify the PATH for the current session, you can use the `export` command directly in the terminal:
+   
+   ```bash
+   export PATH=$PATH:/your/temporary/directory
+   ```
+
+   This change will be effective for the current session only.
+
+5. **Checking for Executables:**
+
+   To check if a particular executable is in the PATH, you can use the `which` command. For example:
+   
+   ```bash
+   which executable_name
+   ```
+
+   Replace `executable_name` with the actual name of the executable you're looking for.
+
+Keep in mind that modifying the PATH variable should be done with caution to ensure that the system can locate essential executables and scripts needed for its normal operation.
 
 ## CMAKE BASICS 
 ```
