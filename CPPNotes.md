@@ -2462,7 +2462,7 @@ Depending upon the resources like dynamic memory held by the object, either we n
 		return 0;
 	}
 ```	
-#### 3.12 Deep Copying with the Copy Constructor
+#### 3.11 Deep Copying with the Copy Constructor
  In Deep copy, an object is created by copying data of all variables, and it also allocates similar memory resources with the same value to the object. In order to perform Deep copy, we need to explicitly define the copy constructor and assign dynamic memory as well, if required. Also, it is required to dynamically allocate memory to the variables in the other constructors, as well.
 
 
@@ -2486,14 +2486,30 @@ public:
     ~Deep();
 };
 
+
+  // Shallow constructor
+    // Shallow::Shallow(int d)
+    // {
+    //     data=new int //allocate storage
+    //     *data=d;
+    // }
+
 Deep::Deep(int d) {
-    data = new int;
+    data = new int; //added this for deep
     *data = d;
+    std::cout<<"inside Deep Constructor data: "<<*data<<" addr: "<<data<<'\n';
 }
 
+//copy Shallow constructor
+//Shallow::Shallow(const Shallow &source) //copying the pointer not what its pointing to
+//    : data(source.data) {
+//        cout << "Copy constructor  - shallow copy" << endl;
+//}
+
+//copy Deep constructor
 Deep::Deep(const Deep &source)
     : Deep {*source.data} {
-    cout << "Copy constructor  - deep copy" << endl;
+    cout << "inside Copy constructor - deep copy: " <<*source.data<<" addr: "<<&source<< endl;
 }
 
 Deep::~Deep() {
@@ -2503,24 +2519,31 @@ Deep::~Deep() {
 
 void display_deep(Deep s) {
     cout << s.get_data_value() << endl;
+    
 }
 
 int main() {
     
-    Deep obj1 {100};
-    display_deep(obj1);
+    Deep obj1 {100}; //inside Deep Constructor data: 100 addr: 0x55c2040442e0
+    display_deep(obj1);  //inside Copy constructor - deep copy: 100 addr: 0x7ffca68fc4e8
+                            //100
+                        //Destructor freeing data
     
-    Deep obj2 {obj1};
-    
-    obj2.set_data_value(1000);
-  
+    Deep obj2 {obj1};  //inside Deep Constructor data: 100 addr: 0x55c2040442e0
+                        //inside Copy constructor - deep copy: 100 addr: 0x7ffca68fc4e8
+                        
+    obj2.set_data_value(1000);   
+    std::cout<<"new obj2 val: "; display_deep(obj2);  //new obj2 val: inside Deep Constructor data: 1000 addr: 0x55da55476300
+                                               //inside Copy constructor - deep copy: 1000 addr: 0x7ffdc47209a8
+                                               //Destructor freeing data
+                                                //Destructor freeing data
+                                                //Destructor freeing data
+
     return 0;
 }
+
 ```
-
-
-
- 
+```
 // C++ program to implement the
 // deep copy
 #include <iostream>
@@ -2587,76 +2610,20 @@ int main()
 	second.show_data();
 	return 0;
 }
+
+```
 Let us see the differences in a tabular form -:
  	Shallow Copy 	|     Deep copy
-1.	When we create a copy of object by copying data of all member variables as it is, then it is called shallow copy  |	When we create an object by copying data of another object along with the values of memory resources that reside outside the object, then it is called a deep copy
-2.	A shallow copy of an object copies all of the member field values.	 Deep copy is performed by implementing our own copy constructor.
-3.	In shallow copy, the two objects are not independent	It copies all fields, and makes copies of dynamically allocated memory pointed to by the fields
-4.	It also creates a copy of the dynamically allocated objects	If we do not create the deep copy in a rightful way then the copy will point to the original, with disastrous consequences.
+1. |	When we create a copy of object by copying data of all member variables as it is, then it is called shallow copy  |	When we create an object by copying data of another object along with the values of memory resources that reside outside the object, then it is called a deep copy
+2. |	A shallow copy of an object copies all of the member field values. |	 Deep copy is performed by implementing our own copy constructor.
+3. |	In shallow copy, the two objects are not independent |	It copies all fields, and makes copies of dynamically allocated memory pointed to by the fields
+4. |	It also creates a copy of the dynamically allocated objects |	If we do not create the deep copy in a rightful way then the copy will point to the original, with disastrous consequences.
 
-A constructor is a special type of member function that is called automatically when an object is created.
 
-From <https://www.programiz.com/cpp-programming/constructors> 
-
-In C++, a constructor has the same name as that of the class and it does not have a return type. For example,
-Class Wall{
-public:
-    // create a constructor 
-Wall() {
-    // code}
-};
-
-From <https://www.programiz.com/cpp-programming/constructors> 
-
-#### 3.13 Move Constructors
+#### 3.12 Move Constructors
 	- Study L value and R value
 
-From <https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535596#overview> 
-
  
-A move constructor of class T is a non-template constructor whose first parameter is T&&, const T&&, volatile T&&, or const volatile T&&, and either there are no other parameters, or the rest of the parameters all have default values.
-Syntax
-class-name ( class-name && )	(1)	(since C++11)
-class-name ( class-name && ) = default;	(2)	(since C++11)
-class-name ( class-name && ) = delete;	(3)	(since C++11)
-Where class-name must name the current class (or current instantiation of a class template), or, when declared at namespace scope or in a friend declaration, it must be a qualified class name.
-Explanation
-1) Typical declaration of a move constructor.
-2) Forcing a move constructor to be generated by the compiler.
-3) Avoiding implicit move constructor.
-The move constructor is typically called when an object is initialized (by direct-initialization or copy-initialization) from rvalue (xvalue or prvalue) (until C++17)xvalue (since C++17) of the same type, including
-• initialization: T a = std::move(b); or T a(std::move(b));, where b is of type T;
-• function argument passing: f(std::move(a));, where a is of type T and f is void f(T t);
-• function return: return a; inside a function such as T f(), where a is of type T which has a move constructor.
-When the initializer is a prvalue, the move constructor call is often optimized out (until C++17)never made (since C++17), see copy elision.
-Move constructors typically "steal" the resources held by the argument (e.g. pointers to dynamically-allocated objects, file descriptors, TCP sockets, I/O streams, running threads, etc.) rather than make copies of them, and leave the argument in some valid but otherwise indeterminate state. For example, moving from a std::string or from a std::vector may result in the argument being left empty. However, this behavior should not be relied upon. For some types, such as std::unique_ptr, the moved-from state is fully specified.
-Implicitly-declared move constructor
-If no user-defined move constructors are provided for a class type (struct, class, or union), and all of the following is true:
-• there are no user-declared copy constructors;
-• there are no user-declared copy assignment operators;
-• there are no user-declared move assignment operators;
-• there is no user-declared destructor.
-then the compiler will declare a move constructor as a non-explicit inline public member of its class with the signature T::T(T&&).
-A class can have multiple move constructors, e.g. both T::T(const T&&) and T::T(T&&). If some user-defined move constructors are present, the user may still force the generation of the implicitly declared move constructor with the keyword default.
-The implicitly-declared (or defaulted on its first declaration) move constructor has an exception specification as described in dynamic exception specification (until C++17)noexcept specification (since C++17)
-Deleted implicitly-declared move constructor
-The implicitly-declared or defaulted move constructor for class T is defined as deleted if any of the following is true:
-• T has non-static data members that cannot be moved (have deleted, inaccessible, or ambiguous move constructors);
-• T has direct or virtual base class that cannot be moved (has deleted, inaccessible, or ambiguous move constructors);
-• T has direct or virtual base class or a non-static data member with a deleted or inaccessible destructor;
-• T is a union-like class and has a variant member with non-trivial move constructor.
-A defaulted move constructor that is deleted is ignored by overload resolution (otherwise it would prevent copy-initialization from rvalue).
-Trivial move constructor
-The move constructor for class T is trivial if all of the following is true:
-• it is not user-provided (meaning, it is implicitly-defined or defaulted);
-• T has no virtual member functions;
-• T has no virtual base classes;
-• the move constructor selected for every direct base of T is trivial;
-• the move constructor selected for every non-static class type (or array of class type) member of T is trivial.
-A trivial move constructor is a constructor that performs the same action as the trivial copy constructor, that is, makes a copy of the object representation as if by std::memmove. All data types compatible with the C language (POD types) are trivially movable.
-
-From <https://en.cppreference.com/w/cpp/language/move_constructor> 
-
 #### The 'this' Pointer(study more)
 
 To understand ‘this’ pointer, it is important to know how objects look at functions and data members of a class.
@@ -2939,7 +2906,7 @@ From <https://www.javatpoint.com/cpp-this-pointer>
 
 #### Using const with Classes(study more)
 
-From <https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535602#overview> 
+
 
 Const Player villlan {"Villan,100,55"} //attributes can not change
 
