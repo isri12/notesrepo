@@ -2462,10 +2462,65 @@ Depending upon the resources like dynamic memory held by the object, either we n
 		return 0;
 	}
 ```	
-#### Deep Copying with the Copy Constructor
+#### 3.12 Deep Copying with the Copy Constructor
+ In Deep copy, an object is created by copying data of all variables, and it also allocates similar memory resources with the same value to the object. In order to perform Deep copy, we need to explicitly define the copy constructor and assign dynamic memory as well, if required. Also, it is required to dynamically allocate memory to the variables in the other constructors, as well.
+
+
+``` cpp
+// Copy Constructor - Deep Copy
+#include <iostream>
+
+using namespace std;
+
+class Deep {
+private:
+    int *data;
+public:
+    void set_data_value(int d) { *data = d; }
+    int get_data_value() { return *data; }
+    // Constructor
+    Deep(int d);
+    // Copy Constructor
+    Deep(const Deep &source);
+    // Destructor
+    ~Deep();
+};
+
+Deep::Deep(int d) {
+    data = new int;
+    *data = d;
+}
+
+Deep::Deep(const Deep &source)
+    : Deep {*source.data} {
+    cout << "Copy constructor  - deep copy" << endl;
+}
+
+Deep::~Deep() {
+    delete data;
+    cout << "Destructor freeing data" << endl;
+}
+
+void display_deep(Deep s) {
+    cout << s.get_data_value() << endl;
+}
+
+int main() {
+    
+    Deep obj1 {100};
+    display_deep(obj1);
+    
+    Deep obj2 {obj1};
+    
+    obj2.set_data_value(1000);
+  
+    return 0;
+}
+```
+
+
+
  
- 
-In Deep copy, an object is created by copying data of all variables, and it also allocates similar memory resources with the same value to the object. In order to perform Deep copy, we need to explicitly define the copy constructor and assign dynamic memory as well, if required. Also, it is required to dynamically allocate memory to the variables in the other constructors, as well.
 // C++ program to implement the
 // deep copy
 #include <iostream>
@@ -2533,8 +2588,8 @@ int main()
 	return 0;
 }
 Let us see the differences in a tabular form -:
- 	Shallow Copy 	Deep copy
-1.	When we create a copy of object by copying data of all member variables as it is, then it is called shallow copy 	When we create an object by copying data of another object along with the values of memory resources that reside outside the object, then it is called a deep copy
+ 	Shallow Copy 	|     Deep copy
+1.	When we create a copy of object by copying data of all member variables as it is, then it is called shallow copy  |	When we create an object by copying data of another object along with the values of memory resources that reside outside the object, then it is called a deep copy
 2.	A shallow copy of an object copies all of the member field values.	 Deep copy is performed by implementing our own copy constructor.
 3.	In shallow copy, the two objects are not independent	It copies all fields, and makes copies of dynamically allocated memory pointed to by the fields
 4.	It also creates a copy of the dynamically allocated objects	If we do not create the deep copy in a rightful way then the copy will point to the original, with disastrous consequences.
@@ -2553,7 +2608,7 @@ Wall() {
 
 From <https://www.programiz.com/cpp-programming/constructors> 
 
-#### Move Constructors
+#### 3.13 Move Constructors
 	- Study L value and R value
 
 From <https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535596#overview> 
