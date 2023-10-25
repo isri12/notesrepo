@@ -2462,7 +2462,7 @@ Depending upon the resources like dynamic memory held by the object, either we n
 		return 0;
 	}
 ```	
-#### 3.11 Deep Copying with the Copy Constructor
+#### 3.12 Deep Copying with the Copy Constructor
  In Deep copy, an object is created by copying data of all variables, and it also allocates similar memory resources with the same value to the object. In order to perform Deep copy, we need to explicitly define the copy constructor and assign dynamic memory as well, if required. Also, it is required to dynamically allocate memory to the variables in the other constructors, as well.
 
 
@@ -2620,11 +2620,60 @@ Let us see the differences in a tabular form -:
 4. |	It also creates a copy of the dynamically allocated objects |	If we do not create the deep copy in a rightful way then the copy will point to the original, with disastrous consequences.
 
 
-#### 3.12 Move Constructors
+#### 3.13 Move Constructors
 	- Study L value and R value
+ - copy constructors doing deep coping can have a performance bottleneck. 
+ - Optional but recommended when you have raw pointer
+ - moves an object rather than copying it.
 
+R value referances
+ - they use && operator
+ - used in moving semantics and perfect forwarding
+```cpp
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
+C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <iostream>
+ void func(int &num) //l value
+{
+    std::cout<<num<<std::endl;
+}
+
+void func(int &&num)//R value 
+{
+    std::cout<<num<<std::endl;
+}
+
+
+int main()
+{
+    int x{100};
+    
+    int &l_ref=x; //l value referance
+    l_ref=10;    //change x to 10
+    
+    int &&r_ref=200; //r-value ref
+    r_ref=300;  //change r_ref to 300
+    
+    //int &&x_ref=x;  //compiler error
+    //error: cannot bind rvalue reference of type ‘int&&’ to lvalue of type ‘int’
+    
+    int y{5000};
+    func(y);  //calls l-value  //5000
+    func(200); //calls r- value  //200
+    
+    return 0;
+}
+
+
+```
  
-#### The 'this' Pointer(study more)
+#### 3.14 The 'this' Pointer(study more)
 
 To understand ‘this’ pointer, it is important to know how objects look at functions and data members of a class.
 1. Each object gets its own copy of the data member.
@@ -2829,7 +2878,7 @@ Let us try the following example to understand the concept of this pointer −
 
 From <https://www.tutorialspoint.com/cplusplus/cpp_this_pointer.htm> 
 
-
+```cpp
 #include <iostream>
  
 using namespace std;
@@ -2865,7 +2914,7 @@ if(Box1.compare(Box2)) {
    
    return 0;
 }
-
+```
 From <https://www.tutorialspoint.com/cplusplus/cpp_this_pointer.htm> 
 
 C++ this Pointer
