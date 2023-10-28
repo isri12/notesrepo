@@ -2462,7 +2462,7 @@ Depending upon the resources like dynamic memory held by the object, either we n
 		return 0;
 	}
 ```	
-#### 3.12 Deep Copying with the Copy Constructor
+#### 3.12 Deep Copying with the Copy Constructor (study more)
  In Deep copy, an object is created by copying data of all variables, and it also allocates similar memory resources with the same value to the object. In order to perform Deep copy, we need to explicitly define the copy constructor and assign dynamic memory as well, if required. Also, it is required to dynamically allocate memory to the variables in the other constructors, as well.
 
 
@@ -2613,6 +2613,7 @@ int main()
 
 ```
 Let us see the differences in a tabular form -:
+
  	Shallow Copy 	|     Deep copy
 1. |	When we create a copy of object by copying data of all member variables as it is, then it is called shallow copy  |	When we create an object by copying data of another object along with the values of memory resources that reside outside the object, then it is called a deep copy
 2. |	A shallow copy of an object copies all of the member field values. |	 Deep copy is performed by implementing our own copy constructor.
@@ -2620,7 +2621,7 @@ Let us see the differences in a tabular form -:
 4. |	It also creates a copy of the dynamically allocated objects |	If we do not create the deep copy in a rightful way then the copy will point to the original, with disastrous consequences.
 
 
-#### 3.13 Move Constructors
+#### 3.13 Move Constructors (study more)
 	- Study L value and R value
  - copy constructors doing deep coping can have a performance bottleneck. 
  - Optional but recommended when you have raw pointer
@@ -2670,31 +2671,113 @@ int main()
     return 0;
 }
 
+```
+
+```cpp
+// Section 13
+// Move Constructor 
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Move {
+private:
+    int *data;
+public:
+    void set_data_value(int d) { *data = d; }
+    int get_data_value() { return *data; }
+    // Constructor
+    Move(int d);
+    // Copy Constructor
+    Move(const Move &source);
+    // Move Constructor
+    Move(Move &&source) noexcept;
+    // Destructor
+    ~Move();
+};
+
+ Move::Move(int d)  {
+    data = new int;
+    *data = d;
+    cout << "Constructor for: " << d << endl;
+}
+
+// Copy ctor
+Move::Move(const Move &source)
+    : Move {*source.data} {
+        cout << "Copy constructor  - deep copy for: " << *data << endl;
+}
+
+//Move ctor
+Move::Move(Move &&source) noexcept 
+    : data {source.data} {
+        source.data = nullptr;
+        cout << "Move constructor - moving resource: " << *data << endl;
+}
+
+Move::~Move() {
+    if (data != nullptr) {
+        cout << "Destructor freeing data for: " << *data << endl;
+    } else {
+        cout << "Destructor freeing data for nullptr" << endl;
+    }
+    delete data;
+}
+
+int main() {
+    vector<Move> vec;
+
+    vec.push_back(Move{10});
+
+    vec.push_back(Move{20});
+    vec.push_back(Move{30});
+    vec.push_back(Move{40});
+     vec.push_back(Move{50});
+    vec.push_back(Move{60});
+    vec.push_back(Move{70});
+    vec.push_back(Move{80});
+
+
+    return 0;
+}
+
 
 ```
  
-#### 3.14 The 'this' Pointer(study more)
+#### 3.14 The 'this' Pointer
 
 To understand ‘this’ pointer, it is important to know how objects look at functions and data members of a class.
-1. Each object gets its own copy of the data member.
+1. Each object gets its own copy of the data member. to access data members and methods. 
 2. All-access the same function definition as present in the code segment.
+```cpp
+void Account::set_balance(double balance)
+{
+balance=balance; //which balance??? very confusing
+}
 
-From <https://www.geeksforgeeks.org/this-pointer-in-c/> 
+void Account::set_balance(double balance)
+{
+this->balance =balance; //Unambiguous
+}
+```
 
 
 Meaning each object gets its own copy of data members and all objects share a single copy of member functions.
 Then now question is that if only one copy of each member function exists and is used by multiple objects, how are the proper data members are accessed and updated?
 The compiler supplies an implicit pointer along with the names of the functions as ‘this’.
 The ‘this’ pointer is passed as a hidden argument to all nonstatic member function calls and is available as a local variable within the body of all nonstatic functions. ‘this’ pointer is not available in static member functions as static member functions can be called without any object (with class name).
+
 For a class X, the type of this pointer is ‘X* ‘. Also, if a member function of X is declared as const, then the type of this pointer is ‘const X *’ (see this GFact)
 In the early version of C++ would let ‘this’ pointer to be changed; by doing so a programmer could change which object a method was working on. This feature was eventually removed, and now this in C++ is an r-value.
 C++ lets object destroy themselves by calling the following code :
-
+```cpp
 delete this;
+```
 As Stroustrup said ‘this’ could be the reference than the pointer, but the reference was not present in the early version of C++. If ‘this’ is implemented as a reference then, the above problem could be avoided and it could be safer than the pointer.
 Following are the situations where ‘this’ pointer is used:
 1) When local variable’s name is same as member’s name
-
+```cpp
 #include<iostream>
 using namespace std;
   
@@ -2724,18 +2807,19 @@ int main()
 Output:
  x = 20
 For constructors, initializer list can also be used when parameter name is same as member’s name.
-
+```
 
 2) To return reference to the calling object
-
+```cpp
 /* Reference to the calling object can be returned */ 
 Test& Test::func ()
 {
    // Some processing
    return *this;
-} 
+}
+```
 When a reference to a local object is returned, the returned reference can be used to chain function calls on a single object.
-
+```cpp
 #include<iostream>
 using namespace std;
   
@@ -2762,13 +2846,6 @@ int main()
   obj1.print();
   return 0;
 }
-Output:
-x = 10 y = 20
-
-
-Exercise:
-Predict the output of following programs. If there are compilation errors, then fix them.
-Question 1
 
 #include<iostream>
 using namespace std;
@@ -2868,10 +2945,7 @@ int main()
   obj.print();
   return 0;
 }
-Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
-
-From <https://www.geeksforgeeks.org/this-pointer-in-c/> 
-
+```
 Every object in C++ has access to its own address through an important pointer called this pointer. The this pointer is an implicit parameter to all member functions. Therefore, inside a member function, this may be used to refer to the invoking object.
 Friend functions do not have a this pointer, because friends are not members of a class. Only member functions have a this pointer.
 Let us try the following example to understand the concept of this pointer −
