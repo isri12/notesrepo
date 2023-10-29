@@ -2225,7 +2225,6 @@ int main() {
 #### 3.11 Shallow Copying with the Copy Constructor
  
 - consider a class that contains a pointer as a data member
-
 - constructor allocates atorage dynamically and initalizes the pointer
 - destructor releases the memory allocated by the constructor 
 - what happens in the default copy constructor?
@@ -2999,6 +2998,7 @@ In C++ programming, this is a keyword that refers to the current instance of the
 
 C++ this Pointer Example
 Let's see the example of this keyword in C++ that refers to the fields of current class.
+```cpp
  #include <iostream>  
 using namespace std;  
 class Employee {  
@@ -3026,28 +3026,18 @@ class Employee {
  } 
 
 From <https://www.javatpoint.com/cpp-this-pointer> 
-
-#### Using const with Classes(study more)
-
-
-
-Const Player villlan {"Villan,100,55"} //attributes can not change
-
-Recommended Getters should be const
-
-std::string get_name()const {return name;}
-int get_health()const {return health;}
-int get_xp()const{return xp;} 
-
-
+```
+#### 3.15 Using const with Classes(study more)
 Constant member functions are those functions which are denied permission to change the values of the data members of their class. To make a member function constant, the keyword “const” is appended to the function prototype and also to the function definition header.
 Like member functions and member function arguments, the objects of a class can also be declared as const. an object declared as const cannot be modified and hence, can invoke only const member functions as these functions ensure not to modify the object. 
+
 A const object can be created by prefixing the const keyword to the object declaration. Any attempt to change the data member of const objects results in a compile-time error. 
 Syntax: 
 (i)    For function declaration within a class.
 <return_type> <function_name>() const
 Example:
 Int get_data() const;
+
 (ii)    For function definition within the class declaration.
 <return_type> <function_name>() const
 {
@@ -3067,33 +3057,28 @@ Example:
 int Demo :: get_data() const
 {
 }
+
 • When a function is declared as const, it can be called on any type of object, const object as well as non-const objects.
 • Whenever an object is declared as const, it needs to be initialized at the time of declaration. however, the object initialization while declaring is possible only with the help of constructors.
 A function becomes const when the const keyword is used in the function’s declaration. The idea of const functions is not to allow them to modify the object on which they are called. It is recommended the practice to make as many functions const as possible so that accidental changes to objects are avoided.
 Following is a simple example of a const function. 
-• C++
-
+``` Cpp
 // Example: Not a constant member function.
 #include<iostream>
 using namespace std;
- 
 class Demo
 {
-    int x;
-     
-      public:
-     
+    int x;   
+      public:    
     void set_data(int a)
     {
         x=a;
     }
-  
     int get_data()
      {
          ++x;
          return x;
      }
-  
 };
  
  
@@ -3130,9 +3115,7 @@ class Demo
          ++x;                 // Error while attempting to modify the data member
          return x;
      }
-  
 };
- 
  
 main()
 {
@@ -3142,8 +3125,8 @@ main()
  
     return 0;
 }
-• C++
-
+```
+```cpp
 // Example: Constant member function defined outside the class
  
 #include<iostream>
@@ -3181,8 +3164,8 @@ main()
 }
 Output
 10
-• CPP
-
+```
+```cpp
 #include <iostream>
 using namespace std;
  
@@ -3203,10 +3186,11 @@ int main()
 }
 Output
 20
+```
 When a function is declared as const, it can be called on any type of object. Non-const functions can only be called by non-const objects. 
 For example the following program has compiler errors.  
-• CPP
 
+```cpp
 #include<iostream>
 using namespace std;
  
@@ -3226,11 +3210,12 @@ Output:
  passing 'const Test' as 'this' argument of 'int 
 Test::getValue()' discards qualifiers
 Let’s look at another example:  
-• CPP
+```
 
 // Demonstration of constant object,
 // show that constant object can only
 // call const member function
+```cpp
 #include<iostream>
 using namespace std;
 class Demo
@@ -3261,21 +3246,81 @@ int main()
 Output
 Hello world I'm Rancho Baba Inside display() Function
 OUTPUT : Hello world I'm Rancho Baba Inside display() Function
-Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+```
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+#include <typeinfo>
 
-From <https://www.geeksforgeeks.org/const-member-functions-c/> 
+class Player
+{
+public:
+    //methods
+    Player()
+    {
+        
+    }
+    
+    Player(std::string name_val, int health_val, int xp_val) 
+    : name{name_val}, health{health_val}, xp{xp_val} {
+            std::cout << "Three-args constructor for " + name << std::endl;
+    }
 
 
+    void talk(std::string name,int health, int xp);
+    bool is_playing();
+    
+    void set_name(std::string name)
+    {
+        this-> name=name;
+    }
+    
+    std::string get_name() { return name; }
+    
+    std::string get_name_const() const 
+    {
+        return name;
+    }
+    
+ 
+private:
+    // attributes
+    std::string name;
+    int health;
+    int xp;
 
-153. Static Class Members
+};
 
-From <https://www.udemy.com/course/beginning-c-plus-plus-programming/learn/lecture/9535604#overview> 
+void display_player_name_const(const Player &p)
+    {
+        std::cout<<p.get_name_const()<<std::endl;
+    }
+    
+void display_player_name(Player &p)
+    {
+        std::cout<<p.get_name_const()<<std::endl;
+    }
+int main()
+{
+    const Player Constvillain {"villain",100,55};
+    //Constvillain.set_name("abc");  //error: passing ‘const Player’ as ‘this’ argument discards qualifiers [-fpermissive]
+    //std::cout<<Constvillain.get_name()<<std::endl; //error: passing ‘const Player’ as ‘this’ argument discards qualifiers [-fpermissive]
+    
+    Player nonConstVillain {"non-villain",100,55};//
+    nonConstVillain.set_name("cdf"); //
+    std::cout<<nonConstVillain.get_name()<<std::endl; //cdf
 
-Private:
-static int num_players; //static class member
-
-Public: 
-static int get_num_player();
+   // display_player_name(nonConstVillain);//main.cpp:33:30: error: passing ‘const Player’ as ‘this’ argument discards qualifiers [-fpermissive]
+    //solution lets set std::string get_name_const() const;
+    
+    display_player_name(nonConstVillain);//cdf
+    
+    display_player_name_const(nonConstVillain);//cdf//we can view but not modify this method is better: std::string get_name_const() const 
+    return 0;
+}
+```
+#### 3.16  Static Class Members
 
 
 
