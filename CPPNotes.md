@@ -4076,7 +4076,7 @@ void calculateStudentAverage(void *object, double *avg)
 }
 ```
 ----------------------------------------------------------------------------------------------------------------
-
+```cpp
 class Config {
 public:
     static Config& getinstance() {
@@ -4119,8 +4119,9 @@ int main() {
 
     return 0;
 }
-
+```
 ----------------------------------------------------------------------------------------------------------------
+```cpp
 #include <gtest/gtest.h>
 #include "Config.h" // Assuming you have a Config class defined in Config.h
 
@@ -4151,6 +4152,6 @@ int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
-
+```
 ----------------------------------------------------------------------------------------------------------------
 
