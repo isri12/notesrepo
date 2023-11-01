@@ -4075,6 +4075,82 @@ void calculateStudentAverage(void *object, double *avg)
     // Code to calculate and store average grade
 }
 ```
+----------------------------------------------------------------------------------------------------------------
+
+class Config {
+public:
+    static Config& getinstance() {
+        static Config instance; // This will be created only once
+        return instance;
+    }
+
+    void setSetting(const std::string& key, const std::string& value) {
+        settings[key] = value;
+    }
+
+    std::string getSetting(const std::string& key) {
+        if (settings.find(key) != settings.end()) {
+            return settings[key];
+        }
+        return "Setting not found";
+    }
+
+private:
+    std::map<std::string, std::string> settings;
+
+    // Private constructor to prevent external instantiation
+    Config() {
+        // Initialize any default settings here
+    }
+
+    // Private copy constructor and assignment operator to prevent copying
+    Config(const Config&) = delete;
+    Config& operator=(const Config&) = delete;
+};
+
+int main() {
+    Config& config = Config::getinstance();
+
+    config.setSetting("ServerIP", "192.168.0.1");
+    config.setSetting("Port", "8080");
+
+    std::cout << "Server IP: " << config.getSetting("ServerIP") << std::endl;
+    std::cout << "Port: " << config.getSetting("Port") << std::endl;
+
+    return 0;
+}
+
+----------------------------------------------------------------------------------------------------------------
+#include <gtest/gtest.h>
+#include "Config.h" // Assuming you have a Config class defined in Config.h
+
+class ConfigTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        // Initialize the config instance before each test
+        config = &Config::getinstance();
+    }
+
+    // Member variables
+    Config* config;
+};
+
+TEST_F(ConfigTest, TestSettingAndGettingValues) {
+    config->setSetting("Key1", "Value1");
+    config->setSetting("Key2", "Value2");
+
+    EXPECT_EQ(config->getSetting("Key1"), "Value1");
+    EXPECT_EQ(config->getSetting("Key2"), "Value2");
+}
+
+TEST_F(ConfigTest, TestDefaultValueForNonExistentSetting) {
+    EXPECT_EQ(config->getSetting("NonExistentKey"), "Setting not found");
+}
+
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
 
 ----------------------------------------------------------------------------------------------------------------
 
