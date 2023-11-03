@@ -58,6 +58,74 @@ void calculateStudentAverage(void *object, double *avg)
     // Code to calculate and store average grade
 }
 ```
+- defines a Student structure, some functions to prompt the user for input, and a function to calculate the student's average grade
+```cpp
+#include <iostream>
+#include <string>
+
+struct Student {
+    int id;
+    std::string f_name;
+    std::string l_name;
+    int n_assignments;
+    double *grades;
+};
+
+int promptInt(const std::string &message, int min, int max) {
+    int value;
+    do {
+        std::cout << message;
+        std::cin >> value;
+    } while (value < min || value > max);
+    return value;
+}
+
+double promptDouble(const std::string &message, double min, double max) {
+    double value;
+    do {
+        std::cout << message;
+        std::cin >> value;
+    } while (value < min || value > max);
+    return value;
+}
+
+void calculateStudentAverage(Student &student, double &avg) {
+    double total = 0.0;
+    for (int i = 0; i < student.n_assignments; i++) {
+        total += student.grades[i];
+    }
+    avg = total / student.n_assignments;
+}
+
+int main() {
+    Student student;
+    double average;
+
+    student.id = 1;
+    student.f_name = "John";
+    student.l_name = "Doe";
+
+    student.n_assignments = promptInt("Enter the number of assignments: ", 1, 100);
+
+    student.grades = new double[student.n_assignments];
+    for (int i = 0; i < student.n_assignments; i++) {
+        student.grades[i] = promptDouble("Enter grade for assignment " + std::to_string(i + 1) + ": ", 0.0, 100.0);
+    }
+
+    calculateStudentAverage(student, average);
+
+    std::cout << "Student ID: " << student.id << std::endl;
+    std::cout << "First Name: " << student.f_name << std::endl;
+    std::cout << "Last Name: " << student.l_name << std::endl;
+    std::cout << "Average Grade: " << average << std::endl;
+
+    // Clean up dynamic memory
+    delete[] student.grades;
+
+    return 0;
+}
+
+```
 ----------------------------------------------------------------------------------------------------------------
 ```cpp
 class Config {
