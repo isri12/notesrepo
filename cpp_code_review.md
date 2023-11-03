@@ -327,7 +327,6 @@ int main(int argc, char** argv) {
 ----------------------------------------------------------------------------------------------------------------
 - You can iterate over a set of string keys and check for the presence of key1 and key2. If both keys are found, you can print a message indicating that they have been found. Here's an example of how you can do this in C++:
 ```cpp
-*******************************************************************************/
 #include <iostream>
 #include <set>
 #include <string>
