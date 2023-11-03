@@ -325,4 +325,39 @@ int main(int argc, char** argv) {
 ```
 
 ----------------------------------------------------------------------------------------------------------------
+- You can iterate over a set of string keys and check for the presence of key1 and key2. If both keys are found, you can print a message indicating that they have been found. Here's an example of how you can do this in C++:
+```cpp
+*******************************************************************************/
+#include <iostream>
+#include <set>
+#include <string>
 
+int main() {
+      
+    
+    std::set<std::string> keySet{"key1","ke2","key3","key4","key5"};
+
+    // // Add keys to the set
+    // keySet.insert("key1");
+    // keySet.insert("key2");
+    // keySet.insert("key3");
+    // keySet.insert("key4");
+
+    // Print a message if both keys are found
+for ( std::set<std::string>::iterator it=keySet.begin(); it!=keySet.end(); ++it)
+{
+    if (*it == "key1") {
+        std::cout << "key1 and key2 found" << std::endl;   //key1 and key2 found
+    }
+
+}
+
+    //std::set<std::string>::iterator it2;
+    // Check if key1 present
+    std::set<std::string>::iterator it2 = keySet.find("key1"); //!= keySet.end();
+    std::cout<<*it2<<std::endl;
+ 
+    return 0;
+}
+
+```
