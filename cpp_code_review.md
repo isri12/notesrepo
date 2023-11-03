@@ -428,3 +428,143 @@ for ( std::set<std::string>::iterator it=keySet.begin(); it!=keySet.end(); ++it)
 }
 
 ```
+- Config class with the member functions loadRecovery and load:
+
+```cpp
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <map>
+
+class Config {
+public:
+    // Load a configuration file with a specified prefix into a map
+    void load(std::string const &file_name, std::string const &prefix, std::map<std::string, std::string> &map) {
+        std::ifstream file(file_name);
+        if (!file.is_open()) {
+            std::cerr << "Error: Could not open file " << file_name << std::endl;
+            return;
+        }
+
+        std::string line;
+        while (std::getline(file, line)) {
+            // Check if the line starts with the specified prefix
+            if (line.find(prefix) == 0) {
+                // Extract the key-value pair
+                size_t equalSignPos = line.find('=');
+                if (equalSignPos != std::string::npos) {
+                    std::string key = line.substr(prefix.length(), equalSignPos - prefix.length());
+                    std::string value = line.substr(equalSignPos + 1);
+                    map[key] = value;
+                }
+            }
+        }
+
+        file.close();
+    }
+
+    // Load a recovery configuration file into the map
+    void loadRecovery(std::map<std::string, std::string> &map) {
+        load("recovery.conf", "recovery.", map);
+    }
+};
+
+int main() {
+    Config config;
+
+    std::map<std::string, std::string> configMap;
+
+    // Load a recovery configuration file
+    config.loadRecovery(configMap);
+
+    // Print the loaded configuration
+    for (const auto& pair : configMap) {
+        std::cout << pair.first << " = " << pair.second << std::endl;
+    }
+
+    return 0;
+}
+
+```
+```cpp
+#include <gtest/gtest.h>
+#include "Config.h" // Include the header for your Config class
+
+class ConfigTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        // Setup any common test fixtures here if needed
+    }
+};
+
+TEST_F(ConfigTest, TestLoad) {
+    Config config;
+
+    std::map<std::string, std::string> configMap;
+    config.load("test_config.txt", "test_prefix.", configMap);
+
+    // You can add assertions to check if the loaded configuration matches the expected values.
+    // For example, assume "test_config.txt" contains "test_prefix.key1=value1" and "test_prefix.key2=value2".
+    
+    EXPECT_EQ(configMap["key1"], "value1");
+    EXPECT_EQ(configMap["key2"], "value2");
+}
+
+TEST_F(ConfigTest, TestLoadNonExistentFile) {
+    Config config;
+
+    std::map<std::string, std::string> configMap;
+    config.load("non_existent_file.txt", "prefix.", configMap);
+
+    // Expect the map to be empty since the file does not exist
+    EXPECT_TRUE(configMap.empty());
+}
+
+TEST_F(ConfigTest, TestLoadEmptyFile) {
+    Config config;
+
+    std::map<std::string, std::string> configMap;
+    config.load("empty_config.txt", "prefix.", configMap);
+
+    // Expect the map to be empty since the file is empty
+    EXPECT_TRUE(configMap.empty());
+}
+
+TEST_F(ConfigTest, TestLoadWithComments) {
+    Config config;
+
+    std::map<std::string, std::string> configMap;
+    config.load("config_with_comments.txt", "prefix.", configMap);
+
+    // Expect the map to contain key-value pairs without comments
+    EXPECT_EQ(configMap["key1"], "value1");
+    EXPECT_EQ(configMap["key2"], "value2");
+    // Commented out key should not be present
+    EXPECT_EQ(configMap.find("key3"), configMap.end());
+}
+
+TEST_F(ConfigTest, TestLoadDuplicateKeys) {
+    Config config;
+
+    std::map<std::string, std::string> configMap;
+    config.load("config_with_duplicates.txt", "prefix.", configMap);
+
+    // Expect the map to contain the last occurrence of each key
+    EXPECT_EQ(configMap["key1"], "value3");
+    EXPECT_EQ(configMap["key2"], "value2");
+}
+
+TEST_F(ConfigTest, TestLoadWithoutPrefix) {
+    Config config;
+
+    std::map<std::string, std::string> configMap;
+    config.load("config_without_prefix.txt", "", configMap);
+
+    // Expect the map to contain key-value pairs without a prefix
+    EXPECT_EQ(configMap["key1"], "value1");
+    EXPECT_EQ(configMap["key2"], "value2");
+}
+
+```
+
+
