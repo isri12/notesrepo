@@ -961,3 +961,39 @@ int main(int argc, char** argv) {
 }
 
 ```
+#include <iostream>
+#include <set>
+#include <string>
+
+int main() {
+    // Create a std::set of strings
+    std::set<std::string> keys = {"key1", "key2", "key3", "key4", "key5"};
+
+    // Define the character to check for
+    char characterToCheck = '2';
+
+    // Flag to indicate if the character exists
+    bool characterExists = false;
+
+    // Iterate through the strings in the set and check for the character
+    for (const std::string& key : keys) {
+        if (key.find(characterToCheck) != std::string::npos) {
+            characterExists = true;
+            break; // Exit the loop as soon as the character is found
+        }
+    }
+
+    if (characterExists) {
+        std::cout << "The character '" << characterToCheck << "' exists in at least one of the strings." << std::endl;
+    } else {
+        std::cout << "The character '" << characterToCheck << "' does not exist in any of the strings." << std::endl;
+    }
+
+    return 0;
+}
+
+```cpp
+
+
+```
+
