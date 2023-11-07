@@ -566,5 +566,219 @@ TEST_F(ConfigTest, TestLoadWithoutPrefix) {
 }
 
 ```
+----------------------------------------------------------------------------------------------------------------
+
+- map vs set vs vector vs pair
+
+```cpp
+#include <iostream>
+#include <set>
+#include<map>
+#include<vector>
+#include <string>
+//using namespace std;
+
+int main()
+{
+    // Simple comparison demo.
+    //std::set<std::string> example = {"key1", "key2", "key3", "key4","key5"};
+
+    std::map<std::string, std::string> m{{"key6", "val6"}, {"key7", "val7"}, {"key8", "val8"}};
+
+//map
+    
+    //   std::cout << "key7 " << m.find("key7")->second << '\n';
+    //   //std::cout<<""<<;
+      
+    //   //int k;
+    //   std::string k;
+    //   std::cout << typeid(k).name() << std::endl;
+    //   std::cout << typeid(m.find("key6")->second).name() << std::endl;
+  
+       
+    //   if (auto search = m.find("key6"); search != m.end())
+    //   {
+    //     std::cout<< search->first << ' ' << search->second << '\n';
+    //   }
+    //     else
+    //     {
+    //     std::cout << "Not found\n";
+    //     }
+        
+        
+//vector
+
+    std::vector<std::string> key, value;
+    for(std::map<std::string,std::string>::iterator it = m.begin(); it != m.end(); ++it) 
+    {
+        key.push_back(it->first);
+        value.push_back(it->second);
+        //std::cout << "Key: " << it->first << std::endl;
+        //std::cout << "Value: " << it->second << std::endl;
+    }
+
+    for (auto i : key)
+        std::cout << ' ' << i;
+    std::cout << '\n';
+    
+    std::cout<<key[0]<<std::endl;
+    std::cout<< key.at(0) << '\n';
+    
+    
+ //set   
+    std::set<std::string> keys;
+     for(std::map<std::string,std::string>::iterator itr = m.begin(); itr != m.end(); ++itr) 
+    {
+        keys.insert(itr->first);
+        std::cout << "Key: " << itr->first << std::endl;
+        //std::cout << "Value: " << it->second << std::endl;
+    }
+    
+    std::string lk = {"key6"};
+    std::string str{"NULL"} ;
+    if (auto search = keys.find(lk); search != keys.end()){
+        std::cout << "Found " <<*search<< '\n';
+        str=*search;
+    }
+    else{
+        std::cout << "Not found\n";
+    }
+//   bool check;
+//   if (char == key.at(0))
+    
+      // verifying the result
+      
+    std::cout <<str<<"==";
+    std::cout <<key.at(0) <<"\n";
+      
+    if (str == key.at(0))
+    {
+        // printing success message if found
+        std::cout << "Substring Found" << std::endl;
+    }
+    else
+    {
+        // else printing the error message
+        std::cout << "Substring not Found" << std::endl;
+    }
+    
+    
+    
+    //std::cout<<keys[0]<<std::endl;
+    //std::cout<< keys.at(0) << '\n';
+    // if (key.at(0) == "key6")
+    // {
+    //     std::cout<<"found it"
+    // }
+        
+        
+    //  for (auto i : key){    
+    // bool isFound = key.find("key") != string::npos;
+
+    // // verifying the result
+    // if (isFound)
+    // {
+    //     // printing success message if found
+    //     cout << "Substring Found" << endl;
+    // }
+    // else
+    // {
+    //     // else printing the error message
+    //     cout << "Substring not Found" << endl;
+    // }   
+    //  }    
+    
+    // if (std::find(key.begin(), key.end(), "k") != key.end()) {
+    //     std::cout << "Element found";
+    // }
+    // else {
+    //     std::cout << "Element not found";
+    // }
+    
+    // size_t size=key.size();
+    // std::cout << size;
+    // std::string my_str= "k";
+    
+    // for ( int i = 0; i < size; i++ )
+    // {
+    //     if (strcmp(my_str, key[i]) == 0 )
+    //         {
+    //         std::cout << "Element found";
+    //         }
+    //      else 
+    //          {
+    //      std::cout << "Element not found";
+    //         }   
+        
+    // }    
+        
+        
+}   
+        
+    
+    //test m["key6"]=10;
 
 
+ 
+//   auto p = m.equal_range("key6");
+    
+//     for (auto& q = p.first; q != p.second; ++q)
+//         std::cout << "m[" << q->first << "] = " << q->second << '\n';
+    
+    
+//     //std::set<std::string>::iterator it2 = m.find("key6");
+//     std::string it2 = m.find("key6");
+//     std::cout<<*it2<<std::endl; 
+    //std::string expectedkey{NULL};
+    
+    // std::cout <<expectedkey<<std::endl;
+
+    // std::map<char,int>::iterator it;
+    
+     //std::set<std::string>::iterator it2;
+    // Check if key1 present
+    // std::set<std::string>::iterator it2 = m.equal_range("key6");
+    // std::cout<<*it2<<std::endl;   
+        
+
+    // if (auto search = example.find(3); search != example.end())
+    //     std::cout << "Found " << (*search) << '\n';
+    // else
+    //     std::cout << "Not found\n";
+    
+    
+// std::set< std::string >::iterator itr = example.find("key3");
+//     if (itr != example.end()) 
+//     {
+//   // do something with *it
+//   std::cout<<"found it!"<<itr[0]<<std::endl;
+//     }
+
+// std::set<std::string> keys;
+// for (auto iter = example.begin(); iter!=example.end();++iter)
+// {
+    
+   
+//     if (*iter=="key2")
+//     {
+//       //std::cout<<*iter<<std::endl;
+//       keys.insert(*iter);  
+//     }
+    
+//     if (*iter=="key4")
+//     {
+//       //std::cout<<*iter<<std::endl;
+//       keys.insert(*iter);  
+//     }
+// }
+
+
+// for (auto iter2 = keys.begin(); iter2!=keys.end();++iter2)
+// {
+//       std::cout<<*iter2<<std::endl;
+    
+// }
+
+//}
+
+----------------------------------------------------------------------------------------------------------------
