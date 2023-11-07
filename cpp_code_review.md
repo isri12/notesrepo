@@ -782,3 +782,182 @@ int main()
 //}
 
 ----------------------------------------------------------------------------------------------------------------
+ ```cpp
+#include <iostream>
+#include <string>
+#include <set>
+
+// Define a callback class for testing
+class Callback {
+public:
+    void add(const std::string& key) {
+        std::cout << "Callback received key: " << key << std::endl;
+    }
+};
+
+class Config {
+public:
+    using CallbackType = Callback; // Assuming Callback is the callback type
+
+    void subscribe(CallbackType& callback) {
+        std::set<std::string> Keys = {"key1", "key2", "key3", "key4", "key5"};
+
+        for (const std::string& key : Keys) {
+            callback.add(key);
+        }
+
+        callback.add("keys");
+    }
+};
+
+int main() {
+    Config config;
+    Callback callback;
+
+    // Subscribe to the config and trigger the callback
+    config.subscribe(callback);
+
+    return 0;
+}
+
+```
+```cpp
+#include <gtest/gtest.h>
+#include "config.h"  // Include your config class header here
+#include "callback.h"  // Include the header for your callback type here
+
+// Define a mock Callback class for testing
+class MockCallback : public Callback {
+public:
+    void add(const std::string& key) {
+        keysReceived.push_back(key);
+    }
+
+    const std::vector<std::string>& getKeysReceived() const {
+        return keysReceived;
+    }
+
+private:
+    std::vector<std::string> keysReceived;
+};
+
+TEST(ConfigSubscribeTest, CallbackReceivesExpectedKeys) {
+    Config config;  // Create an instance of the config class
+
+    // Create a mocked Callback object for testing
+    MockCallback mockCallback;
+
+    // Subscribe to the config and trigger the subscribe function
+    config.subscribe(mockCallback);
+
+    // Check if the Callback received the expected keys
+    const std::vector<std::string>& keysReceived = mockCallback.getKeysReceived();
+    const std::vector<std::string> expectedKeys = {"key1", "key2", "key3", "key4", "key5"};
+    EXPECT_EQ(keysReceived, expectedKeys);
+
+    // Check if the Callback received the string "keys"
+    ASSERT_FALSE(keysReceived.empty());
+    EXPECT_EQ(keysReceived.back(), "keys");
+}
+
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+
+```
+```cpp
+#include <gtest/gtest.h>
+#include "config.h"  // Include your config class header here
+
+TEST(ConfigSubscribeTest, CallbackFunctionIsCalled) {
+    Config config;  // Create an instance of the config class
+
+    // Define a callback function that we can track if it's called
+    bool callbackCalled = false;
+    Config::CallbackType callback = [&callbackCalled](void, std::string) {
+        callbackCalled = true;
+    };
+
+    // Subscribe and trigger the callback
+    config.subscribe(callback);
+
+    // Check if the callback was called
+    EXPECT_TRUE(callbackCalled);
+}
+
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+
+
+#include <gtest/gtest.h>
+#include "config.h"  // Include your config class header here
+#include "callback.h"  // Include the header for your callback type here
+
+// Mocked callback class for testing
+class MockCallback {
+public:
+    void add(const std::string& message) {
+        // Simulate adding a message to the callback
+        messages.push_back(message);
+    }
+
+    const std::vector<std::string>& getMessages() const {
+        return messages;
+    }
+
+private:
+    std::vector<std::string> messages;
+};
+
+TEST(ConfigSubscribeTest, CallbackFunctionAddsMessage) {
+    Config config;  // Create an instance of the config class
+
+    // Create a mocked callback object for testing
+    MockCallback mockCallback;
+
+    // Subscribe and trigger the subscribe function
+    config.subscribe(mockCallback);
+
+    // Check if the message was added to the callback
+    const std::vector<std::string>& messages = mockCallback.getMessages();
+    ASSERT_EQ(messages.size(), 1);
+    EXPECT_EQ(messages[0], "message");
+}
+
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+
+
+#include <iostream>
+#include <set>
+#include <gtest/gtest.h>
+
+bool CompareStringSets(const std::set<std::string>& set1, const std::set<std::string>& set2) {
+    return set1 == set2;
+}
+
+TEST(StringSetComparison, SetsAreEqual) {
+    std::set<std::string> set1 = {"apple", "banana", "cherry"};
+    std::set<std::string> set2 = {"banana", "cherry", "apple"};
+    
+    EXPECT_TRUE(CompareStringSets(set1, set2));
+}
+
+TEST(StringSetComparison, SetsAreNotEqual) {
+    std::set<std::string> set1 = {"apple", "banana", "cherry"};
+    std::set<std::string> set2 = {"banana", "cherry", "date"};
+    
+    EXPECT_FALSE(CompareStringSets(set1, set2));
+}
+
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+
+```
