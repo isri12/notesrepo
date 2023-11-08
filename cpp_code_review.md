@@ -961,6 +961,7 @@ int main(int argc, char** argv) {
 }
 
 ```
+```cpp
 #include <iostream>
 #include <set>
 #include <string>
@@ -992,8 +993,75 @@ int main() {
     return 0;
 }
 
-```cpp
-
-
 ```
 
+
+```cpp
+void config::subscribe(callback<void,std::string>::ClassType callback)
+
+/*This code defines a function called subscribe that takes a callback object as an argument. The callback object is a function that takes a string as an argument and returns void. The function subscribe adds the callback object to a set of callback objects. */
+
+std::set<std::string> Keys = {"key1", "key2", "key3", "key4","key5"};
+for(std::set<std::string>::iterator itr = Keys.begin(); itr != Keys.end(); ++itr) 
+{
+    Callback -> callback(*itr);
+}
+
+
+config myConfig;
+callback myCallback;
+
+myConfig.subscribe(myCallback);
+
+myCallback("Hello, world!");
+
+
+
+#include <iostream>
+#include <set>
+#include <functional>
+
+using namespace std;
+
+class config {
+public:
+    void subscribe(callback<void, std::string>::ClassType callback) {
+        callback_objects_.insert(callback);
+    }
+
+    void notify(const std::string& key) {
+        for (const callback<void, std::string>::ClassType& callback : callback_objects_) {
+            callback(key);
+        }
+    }
+
+private:
+    set<callback<void, std::string>::ClassType> callback_objects_;
+};
+
+void callback1(const std::string& key) {
+    cout << "Callback 1 received key: " << key << endl;
+}
+
+void callback2(const std::string& key) {
+    cout << "Callback 2 received key: " << key << endl;
+}
+
+int main() {
+    config myConfig;
+
+    callback<void, std::string>::ClassType callback1_lambda = [](const std::string& key) {
+        cout << "Callback 1 lambda received key: " << key << endl;
+    };
+
+    myConfig.subscribe(callback1);
+    myConfig.subscribe(callback2);
+    myConfig.subscribe(callback1_lambda);
+
+    myConfig.notify("key1");
+    myConfig.notify("key2");
+
+    return 0;
+}
+
+```
