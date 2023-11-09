@@ -1066,7 +1066,7 @@ int main() {
 
 ```
 - flip bits
-```
+```cpp
 #include <iostream>
 #include <cstring>
 
