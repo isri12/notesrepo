@@ -1065,3 +1065,75 @@ int main() {
 }
 
 ```
+- flip bits
+```
+#include <iostream>
+#include <cstring>
+
+class EndianFlipper {
+public:
+    virtual void flip(void* data, size_t size) {
+        // Ensure data is not null and size is valid
+        if (data == nullptr || size == 0) {
+            std::cerr << "Invalid arguments for flip function." << std::endl;
+            return;
+        }
+
+        char* bytes = static_cast<char*>(data);
+
+        // Swap the bytes
+        for (size_t i = 0; i < size / 2; ++i) {
+            char temp = bytes[i];
+            bytes[i] = bytes[size - 1 - i];
+            bytes[size - 1 - i] = temp;
+        }
+    }
+};
+
+int main() {
+    EndianFlipper flipper;
+
+    int value = 123456789;
+
+    std::cout << "Original value: " << value << std::endl;
+
+    flipper.flip(&value, sizeof(value));
+
+    std::cout << "Flipped value: " << value << std::endl;
+
+    return 0;
+}
+
+
+#include <gtest/gtest.h>
+
+class EndianFlipper {
+public:
+    virtual void flip(void* data, size_t size) {
+        // Implementation of flip function
+    }
+};
+
+TEST(EndianFlipperTest, FlipInteger) {
+    EndianFlipper flipper;
+
+    // Original integer value
+    int value = 123456789;
+
+    // Make a copy of the original value
+    int originalValue = value;
+
+    // Flip the endianess
+    flipper.flip(&value, sizeof(value));
+
+    // Check if the value has been flipped
+    EXPECT_NE(originalValue, value);
+}
+
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+```
+
+
