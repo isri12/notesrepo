@@ -1,12 +1,20 @@
 ## Linux Basic commands
 
+### How to create a symlink to a file
+ln [-sf] [source] [destination]
+Example:
+``` linux
+ln -s test_file.txt link_file.txt
+```
+
+```
 df -h
 
 ifconfig
 
 sudo yum update 
 
-
+```
 
 ## Topics 
 ### PATH environment
