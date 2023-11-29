@@ -1,13 +1,24 @@
 ## Linux Basic commands
 
+### common
+```bash
+
+df -h
+ps -auf
+
+#seaech
+find . -name " "
+
+
+```
 ### How to create a symlink to a file
 ln [-sf] [source] [destination]
 Example:
-``` linux
+``` bash
 ln -s test_file.txt link_file.txt
 ```
 
-```
+```bash
 df -h
 
 ifconfig
