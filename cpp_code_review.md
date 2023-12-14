@@ -1679,3 +1679,170 @@ TEST_F(DISPDUTest, ReceiveEntityStatePDU) {
 
 This is just a basic example, and you'll need to adjust it based on your specific code and testing needs. I hope it gives you a starting point for writing your unit tests!
 
+```cpp
+#include <dis6/DISCpp.h>
+
+int main() {
+    // Initialize Open-DIS
+    DIS::Initialize();
+
+    // Create a DIS entity
+    DIS::EntityStatePdu entityPdu;
+    // Set up the entity data...
+
+    // Send or receive DIS messages as needed
+
+    // Shutdown Open-DIS when done
+    DIS::Shutdown();
+
+    return 0;
+}
+```
+
+```cpp
+#include <iostream>
+
+// Example DIS enums (This is a simplified example)
+enum EntityType {
+    PLATFORM = 1,
+    MUNITION = 2,
+    LIFE_FORM = 3,
+    SENSOR = 4
+};
+
+enum EntityState {
+    ALIVE = 1,
+    DESTROYED = 2,
+    DAMAGED = 3
+};
+
+// Function to print the entity state based on the enum
+void printEntityState(EntityState state) {
+    switch (state) {
+        case ALIVE:
+            std::cout << "Entity is alive.\n";
+            break;
+        case DESTROYED:
+            std::cout << "Entity has been destroyed.\n";
+            break;
+        case DAMAGED:
+            std::cout << "Entity is damaged.\n";
+            break;
+        default:
+            std::cout << "Unknown entity state.\n";
+    }
+}
+
+int main() {
+    // Example usage
+    EntityType entityType = PLATFORM;
+    EntityState entityState = ALIVE;
+
+    std::cout << "Entity type: " << entityType << "\n";
+    printEntityState(entityState);
+
+    return 0;
+}
+```
+Certainly! Below is an example of how you might write a Google Test (gtest) test case for the functions and enums mentioned in the previous example. For simplicity, I'm assuming that you have a header file (`dis_functions.h`) where you define your functions and enums, and a source file (`dis_functions.cpp`) where you implement those functions.
+
+Here's the header file (`dis_functions.h`):
+
+```cpp
+// dis_functions.h
+
+#ifndef DIS_FUNCTIONS_H
+#define DIS_FUNCTIONS_H
+
+#include <cstdint>
+
+// Example DIS enums (This is a simplified example)
+enum EntityType {
+    PLATFORM = 1,
+    MUNITION = 2,
+    LIFE_FORM = 3,
+    SENSOR = 4
+};
+
+enum EntityState {
+    ALIVE = 1,
+    DESTROYED = 2,
+    DAMAGED = 3
+};
+
+// Function to print the entity state based on the enum
+void printEntityState(EntityState state);
+
+#endif // DIS_FUNCTIONS_H
+```
+
+And the source file (`dis_functions.cpp`):
+
+```cpp
+// dis_functions.cpp
+
+#include "dis_functions.h"
+#include <iostream>
+
+void printEntityState(EntityState state) {
+    switch (state) {
+        case ALIVE:
+            std::cout << "Entity is alive.\n";
+            break;
+        case DESTROYED:
+            std::cout << "Entity has been destroyed.\n";
+            break;
+        case DAMAGED:
+            std::cout << "Entity is damaged.\n";
+            break;
+        default:
+            std::cout << "Unknown entity state.\n";
+    }
+}
+```
+
+Now, let's write the Google Test (`gtest`) test case (`test_dis_functions.cpp`):
+
+```cpp
+// test_dis_functions.cpp
+
+#include "gtest/gtest.h"
+#include "dis_functions.h"
+
+TEST(DISFunctionsTest, PrintEntityState) {
+    // Test case for printEntityState function
+
+    // Test ALIVE state
+    testing::internal::CaptureStdout(); // Redirect cout for testing
+    printEntityState(ALIVE);
+    std::string output_alive = testing::internal::GetCapturedStdout();
+    EXPECT_EQ(output_alive, "Entity is alive.\n");
+
+    // Test DESTROYED state
+    testing::internal::CaptureStdout();
+    printEntityState(DESTROYED);
+    std::string output_destroyed = testing::internal::GetCapturedStdout();
+    EXPECT_EQ(output_destroyed, "Entity has been destroyed.\n");
+
+    // Test DAMAGED state
+    testing::internal::CaptureStdout();
+    printEntityState(DAMAGED);
+    std::string output_damaged = testing::internal::GetCapturedStdout();
+    EXPECT_EQ(output_damaged, "Entity is damaged.\n");
+
+    // Test unknown state
+    testing::internal::CaptureStdout();
+    printEntityState(static_cast<EntityState>(42)); // 42 is an arbitrary unknown value
+    std::string output_unknown = testing::internal::GetCapturedStdout();
+    EXPECT_EQ(output_unknown, "Unknown entity state.\n");
+}
+
+int main(int argc, char **argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+```
+
+In this test case, we use the `TEST` macro to define a test case named `DISFunctionsTest` and a test named `PrintEntityState`. Inside the test, we call the `printEntityState` function with different states and use the `EXPECT_EQ` macro to check if the output matches the expected strings.
+
+Remember to compile and link the test file with the Google Test framework. The specifics may vary based on your build system. If you are using CMake, you might create a `CMakeLists.txt` file to build the tests.
