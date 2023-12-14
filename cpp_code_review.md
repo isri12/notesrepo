@@ -1135,5 +1135,502 @@ int main(int argc, char** argv) {
     return RUN_ALL_TESTS();
 }
 ```
+about OPEN DIS
 
+## DIS PDU in C++
+
+DIS PDU (Distributed Interactive Simulation Protocol Data Unit) refers to the message format used in DIS simulations to exchange information between entities. If you're working with DIS in C++, there are a few resources and options available:
+
+**Open-DIS-CPP:**
+
+* A popular open-source library implementing the IEEE 1278.1 DIS protocol in C++.
+* Provides classes and functions for creating, sending, receiving, and parsing DIS PDUs.
+* Supports both DIS v6 and v7.
+* GitHub repository: [https://github.com/open-dis/open-dis-cpp](https://github.com/open-dis/open-dis-cpp)
+* Documentation: [https://github.com/open-dis/open-dis-cpp](https://github.com/open-dis/open-dis-cpp)
+
+**Other Libraries:**
+
+* **JDISLib:** [https://sourceforge.net/directory/?q=java](https://sourceforge.net/directory/?q=java) (Java library, but could be useful for understanding PDU structure)
+* **EDIS:** [https://open-dis.sourceforge.net/DIS.html](https://open-dis.sourceforge.net/DIS.html) (commercial library)
+
+**Resources:**
+
+* **DIS Data Dictionary:** [https://ieeexplore.ieee.org/iel1/3700/10849/00499701.pdf](https://ieeexplore.ieee.org/iel1/3700/10849/00499701.pdf)
+* **Tutorials:**
+    * [https://github.com/open-dis/dis-tutorial](https://github.com/open-dis/dis-tutorial)
+    * [https://sourceforge.net/p/kdis/wiki/Sending_a_Entity_State_PDU_Tutorial/](https://sourceforge.net/p/kdis/wiki/Sending_a_Entity_State_PDU_Tutorial/)
+
+* What type of DIS PDU are you interested in? (Entity State, Fire, etc.)
+* What tasks do you need to perform with DIS PDUs? (Creating, sending, receiving, parsing)
+* Do you have any specific library or framework preferences?
+
+
+
+## Sending and Receiving a Simple DIS Entity State PDU in C++
+
+This example demonstrates the basic steps for sending and receiving a DIS Entity State PDU in C++ using the Open-DIS-CPP library. It will also showcase setting entity properties and handling timestamps.
+
+**Requirements:**
+
+* Open-DIS-CPP library: [https://github.com/open-dis/open-dis-cpp](https://github.com/open-dis/open-dis-cpp): [https://github.com/open-dis/open-dis-cpp](https://github.com/open-dis/open-dis-cpp)
+* DIS network connection (e.g., DIS server or another entity)
+
+**Code:**
+
+```cpp
+#include <open-dis/entity.h>
+#include <open-dis/simulation.h>
+
+int main() {
+  // Initialize Open-DIS-CPP
+  open_dis::init();
+
+  // Create a Simulation object
+  open_dis::Simulation simulation;
+
+  // Create an EntityState PDU
+  open_dis::EntityStatePDU entityStatePdu;
+
+  // Set entity properties
+  entityStatePdu.getEntityID() = 1; // Unique ID for this entity
+  entityStatePdu.getEntityLocation().setX(100.0); // X coordinate
+  entityStatePdu.getEntityLocation().setY(200.0); // Y coordinate
+  entityStatePdu.getLinearVelocity().setX(5.0); // X velocity
+
+  // Set timestamp
+  entityStatePdu.setTimestamp(open_dis::clock_type::now());
+
+  // Send the PDU
+  simulation.sendPdu(entityStatePdu);
+
+  // Receive a PDU (example with blocking receive)
+  open_dis::PDU receivedPdu;
+  simulation.receivePdu(receivedPdu);
+
+  // Check if received PDU is an EntityState PDU
+  if (receivedPdu.getType() == open_dis::EntityType::ENTITY_STATE) {
+    // Cast received PDU to EntityStatePDU
+    open_dis::EntityStatePDU& receivedEntityStatePdu = static_cast<open_dis::EntityStatePDU&>(receivedPdu);
+
+    // Print received entity properties
+    std::cout << "Received Entity ID: " << receivedEntityStatePdu.getEntityID() << std::endl;
+    std::cout << "Received Location (X, Y): " << receivedEntityStatePdu.getEntityLocation().getX() << ", "
+              << receivedEntityStatePdu.getEntityLocation().getY() << std::endl;
+
+    // Get and handle timestamp
+    open_dis::clock_type receivedTimestamp = receivedEntityStatePdu.getTimestamp();
+    std::cout << "Received Timestamp: " << receivedTimestamp << std::endl;
+  }
+
+  // Cleanup
+  open_dis::fini();
+
+  return 0;
+}
+```
+
+**Explanation:**
+
+* The code includes libraries for entity and simulation management.
+* It creates an `EntityStatePDU` object and sets relevant properties like entity ID, location, and velocity.
+* The timestamp is set using `open_dis::clock_type::now()`.
+* The PDU is sent through the simulation object.
+* A blocking receive call waits for a PDU and checks if it's an `EntityStatePDU`.
+* If it's a matching PDU, the received properties and timestamp are printed.
+* Finally, Open-DIS-CPP is cleaned up.
+
+This is a basic example, and you can extend it further by:
+
+* Using different PDU types and functionalities.
+* Implementing non-blocking communication with event handlers.
+* Handling specific entity properties and timestamp calculations based on your needs.
+
+Remember to adjust the code and libraries based on your specific DIS environment and desired functionalities.
+
+
+## DIS PDU Sending and Receiving with Entity Properties and Timestamps in C++
+
+Here's a simplified example demonstrating sending and receiving a DIS Entity State PDU, setting entity properties, and handling timestamps in C++ using Open-DIS-CPP:
+
+**1. Include necessary libraries:**
+
+```cpp
+#include <open-dis/open-dis.h>
+#include <chrono>
+```
+
+**2. Define entity properties:**
+
+```cpp
+// Entity properties
+int entityID = 1234;
+ENTITY_TYPE entityType = PLATFORM_TYPE;
+double x = 100.0;
+double y = 200.0;
+double z = 30.0;
+double orientation = 0.0;
+```
+
+**3. Create and populate Entity State PDU:**
+
+```cpp
+// Create Entity State PDU
+EntityStatePDU pdu;
+
+// Set entity properties
+pdu.exerciseID = 1;
+pdu.entityID = entityID;
+pdu.entityType = entityType;
+pdu.simulationTime = std::chrono::system_clock::now().time_since_epoch().count(); // Get current time in DIS timestamp format
+pdu.position.x = x;
+pdu.position.y = y;
+pdu.position.z = z;
+pdu.orientation = orientation;
+
+// Additional properties (optional)
+// ...
+```
+
+**4. Send Entity State PDU:**
+
+```cpp
+// Create DIS network communication object
+DISNetworkManager networkManager;
+
+// Connect to DIS network (replace with your network configuration)
+networkManager.connect("127.0.0.1", 3000);
+
+// Send the PDU
+networkManager.sendPDU(pdu);
+
+// Disconnect from DIS network
+networkManager.disconnect();
+```
+
+**5. Receive and process Entity State PDU:**
+
+```cpp
+// Receive PDU from network (replace with your receive logic)
+EntityStatePDU receivedPDU = networkManager.receivePDU();
+
+// Check if received PDU is an Entity State PDU
+if (receivedPDU.pduType == PDU_ENTITY_STATE) {
+  // Extract entity properties
+  int receivedEntityID = receivedPDU.entityID;
+  ENTITY_TYPE receivedEntityType = receivedPDU.entityType;
+  double receivedX = receivedPDU.position.x;
+  double receivedY = receivedPDU.position.y;
+  double receivedZ = receivedPDU.position.z;
+  double receivedOrientation = receivedPDU.orientation;
+
+  // Process received information (e.g., update entity state)
+  // ...
+}
+```
+
+**Note:** This is a simplified example and may require further modifications depending on your specific needs and network configuration. Open-DIS-CPP provides extensive documentation and functionalities for more advanced DIS interactions.
+
+**Additional points:**
+
+* You can use Open-DIS-CPP functions to set and retrieve various entity properties within the PDU.
+* The `simulationTime` field requires a specific format derived from the system clock.
+* Error handling and network management are not covered in this basic example.
+
+I hope this provides a basic understanding of sending and receiving DIS PDUs, setting entity properties, and handling timestamps in C++ using Open-DIS-CPP. Feel free to ask if you have any further questions or need more specific guidance based on your project requirements.
+
+
+
+## DIS PDU Sending and Receiving with Entity Properties and Timestamps in C++
+
+This example demonstrates sending and receiving a basic DIS Entity State PDU in C++ using Open-DIS-CPP. It sets simple entity properties and handles timestamps.
+
+**Requirements:**
+
+* Open-DIS-CPP library installed
+* Basic understanding of DIS concepts and PDU structure
+
+**Code:**
+
+```cpp
+#include <iostream>
+#include <vector>
+
+#include <opendis/entity/entity.h>
+#include <opendis/pdu/entitystate.h>
+
+using namespace opendis;
+
+int main() {
+  // Create an Entity object
+  Entity entity(EntityType::PLATFORM, 1234);
+
+  // Set some entity properties
+  entity.setPosition(Vector3D(100, 200, 300));
+  entity.setOrientation(EulerAngles(0, 45, 90));
+  entity.setLinearVelocity(Vector3D(5, -10, 2));
+
+  // Create an EntityState PDU
+  EntityStatePDU pdu;
+
+  // Set entity ID and timestamp
+  pdu.setEntityId(entity.getEntityId());
+  pdu.setTimestamp(time(nullptr));
+
+  // Set entity properties in PDU fields
+  pdu.setPosition(entity.getPosition());
+  pdu.setOrientation(entity.getOrientation());
+  pdu.setLinearVelocity(entity.getLinearVelocity());
+
+  // Send the PDU (replace "network_interface" with your actual interface)
+  pdu.send("network_interface");
+
+  // Receiving PDU (omitted for brevity, see Open-DIS-CPP docs)
+
+  return 0;
+}
+```
+
+**Explanation:**
+
+1. We create an `Entity` object with a specific type and ID.
+2. We set some basic properties like position, orientation, and velocity.
+3. We create an `EntityStatePDU` object.
+4. We set the PDU's entity ID and timestamp.
+5. We set the PDU's fields with the corresponding entity properties.
+6. We send the PDU through a network interface (replace with your actual interface).
+
+**Receiving PDU:**
+
+Receiving and parsing a PDU is similar but involves receiving data from the network, creating a PDU object from the received data, and accessing its fields to extract entity information and timestamps. Refer to Open-DIS-CPP documentation for detailed receiving and parsing instructions.
+
+**Note:** This is a simplified example and doesn't cover all aspects of DIS PDUs. Consult Open-DIS-CPP documentation and DIS specifications for more comprehensive information and advanced functionalities.
+
+I hope this example provides a basic understanding of sending and receiving DIS PDUs with entity properties and timestamps in C++. Feel free to ask if you have any further questions or need clarification on specific parts.
+
+
+unit test 
+
+## DIS PDU Sending and Receiving with Entity Properties and Timestamps in C++
+
+This example demonstrates sending and receiving a basic DIS Entity State PDU in C++ using Open-DIS-CPP. It sets simple entity properties and handles timestamps.
+
+**Requirements:**
+
+* Open-DIS-CPP library installed
+* Basic understanding of DIS concepts and PDU structure
+
+**Code:**
+
+```cpp
+#include <iostream>
+#include <vector>
+
+#include <opendis/entity/entity.h>
+#include <opendis/pdu/entitystate.h>
+
+using namespace opendis;
+
+int main() {
+  // Create an Entity object
+  Entity entity(EntityType::PLATFORM, 1234);
+
+  // Set some entity properties
+  entity.setPosition(Vector3D(100, 200, 300));
+  entity.setOrientation(EulerAngles(0, 45, 90));
+  entity.setLinearVelocity(Vector3D(5, -10, 2));
+
+  // Create an EntityState PDU
+  EntityStatePDU pdu;
+
+  // Set entity ID and timestamp
+  pdu.setEntityId(entity.getEntityId());
+  pdu.setTimestamp(time(nullptr));
+
+  // Set entity properties in PDU fields
+  pdu.setPosition(entity.getPosition());
+  pdu.setOrientation(entity.getOrientation());
+  pdu.setLinearVelocity(entity.getLinearVelocity());
+
+  // Send the PDU (replace "network_interface" with your actual interface)
+  pdu.send("network_interface");
+
+  // Receiving PDU (omitted for brevity, see Open-DIS-CPP docs)
+
+  return 0;
+}
+```
+
+**Explanation:**
+
+1. We create an `Entity` object with a specific type and ID.
+2. We set some basic properties like position, orientation, and velocity.
+3. We create an `EntityStatePDU` object.
+4. We set the PDU's entity ID and timestamp.
+5. We set the PDU's fields with the corresponding entity properties.
+6. We send the PDU through a network interface (replace with your actual interface).
+
+**Receiving PDU:**
+
+Receiving and parsing a PDU is similar but involves receiving data from the network, creating a PDU object from the received data, and accessing its fields to extract entity information and timestamps. Refer to Open-DIS-CPP documentation for detailed receiving and parsing instructions.
+
+**Note:** This is a simplified example and doesn't cover all aspects of DIS PDUs. Consult Open-DIS-CPP documentation and DIS specifications for more comprehensive information and advanced functionalities.
+
+I hope this example provides a basic understanding of sending and receiving DIS PDUs with entity properties and timestamps in C++. Feel free to ask if you have any further questions or need clarification on specific parts.
+
+## Unit GTest test_F for Sending and Receiving DIS PDUs
+
+Here's an example of a `test_F` unit test using Google Test for the previous C++ code demonstrating sending and receiving DIS PDUs:
+
+```cpp
+#include "gtest/gtest.h"
+#include "open-dis/open-dis.h"
+
+class DISPDUTest : public ::testing::Test {
+protected:
+  DISNetworkManager networkManager;
+  EntityStatePDU sentPDU;
+  EntityStatePDU receivedPDU;
+
+  virtual void SetUp() override {
+    // Define entity properties
+    sentPDU.exerciseID = 1;
+    sentPDU.entityID = 1234;
+    sentPDU.entityType = PLATFORM_TYPE;
+    sentPDU.simulationTime = std::chrono::system_clock::now().time_since_epoch().count();
+    sentPDU.position.x = 100.0;
+    sentPDU.position.y = 200.0;
+    sentPDU.position.z = 30.0;
+    sentPDU.orientation = 0.0;
+
+    // Connect to DIS network (replace with your network configuration)
+    networkManager.connect("127.0.0.1", 3000);
+  }
+
+  virtual void TearDown() override {
+    // Disconnect from DIS network
+    networkManager.disconnect();
+  }
+};
+
+TEST_F(DISPDUTest, SendAndReceiveEntityStatePDU) {
+  // Send Entity State PDU
+  networkManager.sendPDU(sentPDU);
+
+  // Receive PDU from network
+  receivedPDU = networkManager.receivePDU();
+
+  // Verify received PDU is an Entity State PDU
+  EXPECT_EQ(receivedPDU.pduType, PDU_ENTITY_STATE);
+
+  // Verify received entity properties match sent properties
+  EXPECT_EQ(receivedPDU.exerciseID, sentPDU.exerciseID);
+  EXPECT_EQ(receivedPDU.entityID, sentPDU.entityID);
+  EXPECT_EQ(receivedPDU.entityType, sentPDU.entityType);
+  EXPECT_EQ(receivedPDU.position.x, sentPDU.position.x);
+  EXPECT_EQ(receivedPDU.position.y, sentPDU.position.y);
+  EXPECT_EQ(receivedPDU.position.z, sentPDU.position.z);
+  EXPECT_EQ(receivedPDU.orientation, sentPDU.orientation);
+
+  // Additional tests for specific properties or functionalities (optional)
+  // ...
+}
+```
+
+**Explanation:**
+
+* This test defines a `DISPDUTest` fixture class that inherits from `::testing::Test`.
+* The `SetUp` method sets up the test environment by creating DIS network manager and defining the Entity State PDU to be sent.
+* The `TearDown` method disconnects from the DIS network after the test finishes.
+* The `SendAndReceiveEntityStatePDU` test case sends the PDU, receives a PDU from the network, and verifies several properties:
+    * PDU type is `PDU_ENTITY_STATE`
+    * Received entity properties match the sent properties
+* You can extend this test further by verifying additional properties or functionalities relevant to your specific use case.
+
+**Note:**
+
+* This is a basic example and may need adjustments depending on your implementation and network configuration.
+* Make sure to include the necessary header files for Open-DIS-CPP and Google Test.
+* Use appropriate assertions and error handling for robust testing.
+
+By following these guidelines and adapting the test case to your specific needs, you can create effective unit tests for your DIS PDU sending and receiving functionalities in C++.
+
+Unfortunately, writing unit tests for the example provided requires further context about the specific implementation details of your functions and classes. However, I can provide a general template for unit tests using GTest based on the above code:
+
+**1. Define Test Fixture:**
+
+```cpp
+class DISPDUTest : public ::testing::Test {
+public:
+  DISNetworkManager networkManager;
+  EntityStatePDU pdu;
+
+  // ... Additional setup members and methods
+};
+```
+
+**2. Test Sending Entity State PDU:**
+
+```cpp
+TEST_F(DISPDUTest, SendEntityStatePDU) {
+  // Mock network connection (replace with your actual connection logic)
+  EXPECT_CALL(networkManager, connect("127.0.0.1", 3000)).WillOnce(testing::Return(true));
+
+  // Set entity properties
+  pdu.exerciseID = 1;
+  pdu.entityID = 1234;
+  pdu.entityType = PLATFORM_TYPE;
+  pdu.simulationTime = std::chrono::system_clock::now().time_since_epoch().count();
+  pdu.position.x = 100.0;
+  pdu.position.y = 200.0;
+  pdu.position.z = 300.0;
+  pdu.orientation = 0.0;
+
+  // Send PDU
+  EXPECT_TRUE(networkManager.sendPDU(pdu));
+
+  // Verify network call (optional)
+  // ...
+
+  // Disconnect from network (optional)
+  networkManager.disconnect();
+}
+```
+
+**3. Test Receiving and Processing Entity State PDU:**
+
+```cpp
+TEST_F(DISPDUTest, ReceiveEntityStatePDU) {
+  // Mock network receive (replace with your actual receive logic)
+  pdu.exerciseID = 2;
+  pdu.entityID = 5678;
+  pdu.entityType = TACTICAL_VEHICLE_TYPE;
+  pdu.simulationTime = 10000;
+  pdu.position.x = 200.0;
+  pdu.position.y = 300.0;
+  pdu.position.z = 400.0;
+  pdu.orientation = 90.0;
+  networkManager.receivePDU(pdu);
+
+  // Receive PDU
+  EntityStatePDU receivedPDU = networkManager.receivePDU();
+
+  // Verify received PDU properties
+  EXPECT_EQ(receivedPDU.exerciseID, 2);
+  EXPECT_EQ(receivedPDU.entityID, 5678);
+  EXPECT_EQ(receivedPDU.entityType, TACTICAL_VEHICLE_TYPE);
+  // ... Verify other properties
+
+  // Process received information (test your processing logic here)
+  // ...
+}
+```
+
+**Remember to:**
+
+* Replace the mocked network connection and receive logic with your actual implementation.
+* Add additional tests for different scenarios and functionalities.
+* Adapt the test cases to your specific data structures and function names.
+
+This is just a basic example, and you'll need to adjust it based on your specific code and testing needs. I hope it gives you a starting point for writing your unit tests!
 
