@@ -1,3 +1,7 @@
+Study Links Topics
+- [singelton] https://www.codeproject.com/Articles/987473/Unit-Testing-a-Singleton-in-Cplusplus
+- 
+
 **Review code**
 ```cpp
 // compile: g++ -std=c++11 -o pointers pointers.cpp
