@@ -1,5 +1,5 @@
 Study Links Topics
-- [singelton] https://www.codeproject.com/Articles/987473/Unit-Testing-a-Singleton-in-Cplusplus
+- [singelton] (https://www.codeproject.com/Articles/987473/Unit-Testing-a-Singleton-in-Cplusplus)
 - 
 
 **Review code**
@@ -1169,6 +1169,47 @@ DIS PDU (Distributed Interactive Simulation Protocol Data Unit) refers to the me
 * What tasks do you need to perform with DIS PDUs? (Creating, sending, receiving, parsing)
 * Do you have any specific library or framework preferences?
 
+It looks like you might be referring to the Distributed Interactive Simulation (DIS) protocol in the context of C++..
+
+If you are interested in implementing DIS in C++, you may want to use a library that provides support for the DIS protocol. One such library is the Open-DIS library.
+
+To use Open-DIS in C++, you can follow these general steps:
+
+1. **Download Open-DIS:**
+   Visit the Open-DIS GitHub repository and download or clone the source code: [Open-DIS GitHub](https://github.com/open-dis/open-dis)
+
+2. **Build the Library:**
+   Follow the instructions provided in the repository to build the Open-DIS library. This typically involves using a build system like CMake. Make sure to satisfy any dependencies mentioned in the documentation.
+
+3. **Integrate with Your Project:**
+   Once the library is built, you can integrate it into your C++ project. This involves linking against the Open-DIS library and including the necessary headers.
+
+4. **Write Code Using Open-DIS:**
+   Refer to the Open-DIS documentation and examples to understand how to use the library in your code. You will likely need to set up a DIS entity, manage communication, and handle the various data types used in the DIS protocol.
+
+Here is a simple example using Open-DIS:
+
+```cpp
+#include <dis6/DISCpp.h>
+
+int main() {
+    // Initialize Open-DIS
+    DIS::Initialize();
+
+    // Create a DIS entity
+    DIS::EntityStatePdu entityPdu;
+    // Set up the entity data...
+
+    // Send or receive DIS messages as needed
+
+    // Shutdown Open-DIS when done
+    DIS::Shutdown();
+
+    return 0;
+}
+```
+
+Remember that the specifics of using Open-DIS may depend on the version of the library you're using, so be sure to refer to the documentation provided with the library.
 
 
 ## Sending and Receiving a Simple DIS Entity State PDU in C++
