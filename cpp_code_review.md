@@ -1848,4 +1848,94 @@ int main(int argc, char **argv) {
 
 In this test case, we use the `TEST` macro to define a test case named `DISFunctionsTest` and a test named `PrintEntityState`. Inside the test, we call the `printEntityState` function with different states and use the `EXPECT_EQ` macro to check if the output matches the expected strings.
 
-Remember to compile and link the test file with the Google Test framework. The specifics may vary based on your build system. If you are using CMake, you might create a `CMakeLists.txt` file to build the tests.
+Remember to compile and link the test file with the Google Test framework. The specifics may vary based on your build system. If you are using CMake, you might In C++, when you declare a static data member pointer, you are creating a single variable that is shared among all instances of the class. A static data member belongs to the class itself rather than to instances of the class. Here's an example to illustrate:
+
+```cpp
+#include <iostream>
+
+class MyClass {
+public:
+    // Static data member pointer
+    static int* staticPointer;
+
+    // Member function to use the static pointer
+    void printStaticPointerValue() {
+        std::cout << "Static pointer value: " << *staticPointer << std::endl;
+    }
+};
+
+// Definition of the static pointer (outside the class)
+int* MyClass::staticPointer = nullptr;
+
+int main() {
+    // Creating instances of MyClass
+    MyClass obj1, obj2;
+
+    // Assigning values to the static pointer
+    MyClass::staticPointer = new int(42);
+
+    // Accessing the static pointer through instances
+    obj1.printStaticPointerValue();  // Output: Static pointer value: 42
+    obj2.printStaticPointerValue();  // Output: Static pointer value: 42
+
+    // Cleanup
+    delete MyClass::staticPointer;
+
+    return 0;
+}
+```
+
+In this example:
+
+- `staticPointer` is a static data member of the `MyClass` class, and it is a pointer to an integer.
+- In the `main` function, we create two instances of `MyClass` (obj1 and obj2).
+- We assign a value to the static pointer by accessing it through the class name (`MyClass::staticPointer`).
+- We then use instances of the class to access and print the value of the static pointer. Note that the static pointer is shared among all instances.
+- Finally, we delete the memory allocated for the integer pointed to by the static pointer.
+
+It's important to manage the memory properly when using static pointers, just as with regular pointers, to avoid memory leaks. Additionally, be cautious with the use of static data members, as they are shared across all instances and can have implications for the design and behavior of your class.create a `CMakeLists.txt` file to build the tests.
+
+To unit test the code provided earlier, you can use a testing framework such as Google Test (gtest). Below is an example of how you can write a unit test for the `MyClass` class and its static data member pointer using Google Test.
+
+```cpp
+#include "gtest/gtest.h"
+#include "YourClassHeader.h"  // Replace with the actual header file name
+
+TEST(MyClassTest, StaticPointerTest) {
+    // Create an instance of MyClass
+    MyClass obj;
+
+    // Set the value of the static pointer
+    MyClass::staticPointer = new int(42);
+
+    // Test the printStaticPointerValue function
+    testing::internal::CaptureStdout(); // Redirect cout for testing
+    obj.printStaticPointerValue();
+    std::string output = testing::internal::GetCapturedStdout();
+    
+    // Check if the output matches the expected string
+    EXPECT_EQ(output, "Static pointer value: 42\n");
+
+    // Cleanup
+    delete MyClass::staticPointer;
+}
+
+int main(int argc, char **argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+```
+
+In this example:
+
+- The `TEST` macro defines a test case named `MyClassTest` and a test named `StaticPointerTest`.
+- In the test, an instance of `MyClass` is created.
+- The value of the static pointer (`MyClass::staticPointer`) is set to a dynamically allocated integer.
+- The `printStaticPointerValue` function is called, and the standard output (cout) is captured for testing.
+- The `EXPECT_EQ` macro is used to check if the captured output matches the expected string (`"Static pointer value: 42\n"`).
+- Finally, the allocated memory is cleaned up.
+
+Ensure that you replace `"YourClassHeader.h"` with the actual header file name where the `MyClass` class is declared.
+
+Compile and link this test file along with your main code and the Google Test framework. Run the executable to execute the tests. If you are using CMake, you would typically configure your `CMakeLists.txt` file to include the necessary dependencies for Google Test and link against the appropriate libraries.
+
