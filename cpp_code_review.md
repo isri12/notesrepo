@@ -1,6 +1,9 @@
 Study Links Topics
 - [singelton] (https://www.codeproject.com/Articles/987473/Unit-Testing-a-Singleton-in-Cplusplus)
-- 
+- Friend
+- Virtual fun
+- explicit
+- constecpr
 
 **Review code**
 ```cpp
