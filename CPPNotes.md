@@ -1,3 +1,450 @@
+--------------------------------------------------------------------------
+## TOPICS
+--------------------------------------------------------------------------
+
+REVIEW:
+- Dot and pointer operators
+- public and private access modifers 
+- methods,Constructors and destructors
+	- Class methods
+  	- default and overloaded constructors
+	- copy and move constractors
+   	- shallow vs deep copying
+      	- this pointer
+- static class members
+- virtual
+- struct vs. class
+- friend of class ????
+**Encapsulation in C++**
+**Abstraction in C++**
+**Inheritance in C++**
+**Polymorphism in C++**
+
+=============================================================================================
+###  Structure 
+- abstraction i.e collection of individual properties of real-world object. 
+- containers of hetrogenous data mambers
+- the diffrence betwen struct and class is **class is private by default** and **struct is public by default**.
+  
+```cpp   
+	struct car {
+		string name;
+		int year;
+		unsigned char car_purpose;
+		string model;
+		}
+```
+###  enum
+-user-defined data type that consists of integral constants
+-one benefit over constant is they provide encapsulation 
+```cpp
+	enum car_purpose {offroad,dailydriver,tow,camper};
+
+	int main(){
+	car mycar1;
+	mycar1.name= "Toyota";
+	mycar1.model="tacoma";
+	mycar1.car_purpose=offroad;
+        std::cout................................... finish.................
+	}
+```
+
+
+-----------------------------------------------------------
+
+### **namespace**
+  Namespaces give you one mechanism to modularize code. A namespace allows you to label
+your types, functions, and variables with a unique name so that, using the scope resolution
+operator, you can give a fully qualified name. The advantage is that you know exactly which
+item will be called. The disadvantage is that using a fully qualified name you are in effect
+switching off C++'s argument-dependent lookup mechanism for overloaded functions where
+the compiler will choose the function that has the best fit according to the arguments passed
+to the function.
+```cpp
+#include <iostream>
+namespace apple 
+{ 
+    namespace function {
+    void print(const char* text)
+    {
+        std::cout<<"apple:: "<<text<<std::endl;
+    }
+                        }
+}
+namespace mango
+{
+    void print(const char* text)
+    {
+        std::cout<<"mando:: "<<text<<std::endl;
+    }
+}
+int main()
+{
+    apple::function::print("Hello World");
+    mango::print("Hello World");
+    using namespace apple::function;
+    print("Hello from apple::function ");
+    return 0;
+}
+```
+avoiding **using namespace X**; is a form of future-proofing, a way of making sure a change to the libraries and/or header files in use is not going to break a program. Consider two libraries called Foo and Bar:
+
+``` cpp
+using namespace foo;
+using namespace bar;
+```
+Everything works fine, and you can call Blah() from Foo and Quux() from Bar without problems. But one day you upgrade to a new version of Foo 2.0, which now offers a function called Quux(). Now you've got a conflict: Both Foo 2.0 and Bar import Quux() into your global namespace. This is going to take some effort to fix, especially if the function parameters happen to match.
+If you had used foo::Blah() and bar::Quux(), then the introduction of foo::Quux() would have been a non-event.
+https://stackoverflow.com/questions/1452721/why-is-using-namespace-std-considered-bad-practice 
+
+------------------------------------------------------------------------------------------------------------
+### Template
+- the idea is to pass data type as a parameter so that we don’t need to write the same code for different data types.
+- two types: function Templates and Class templates
+  function Templates:
+
+``` cpp
+//function Template 
+#include <iostream>
+template<typename Temp>
+void swap(Temp &x, Temp &y)
+{
+    Temp z{}; 
+    std::cout<<"origin: "<<x<<","<<" "<<y<<std::endl;
+    z=x;
+    x=y;
+    y=z;
+    std::cout<<"swapped: "<<x<<","<<" "<<y<<std::endl;
+}
+
+int main()
+{
+    char x{'a'};
+    char y{'b'};
+    swap(x,y); //origin: a, b  swapped: b, a
+    
+    int a=1;
+    int b=5;
+    swap(a,b);  //origin: 1, 5 swapped: 5, 1
+    
+    double i=200.5;
+    double j=53.9;
+    swap(i,j);  //origin: 200.5, 53.9 swapped: 53.9, 200.5
+    
+    return 0;
+}
+```
+Class templates: 
+- 
+
+
+- Advanced Template: https://learn.microsoft.com/en-us/cpp/cpp/class-templates?view=msvc-170
+
+------------------------------------------------------------------------------------------------------------
+### typename
+The typename keyword must be used if a name in a template definition is a qualified name that is dependent on a template argument; it's optional if the qualified name isn't dependent.
+The typename keyword is used in two different situations:
+1) When referring to a qualified member of a class template, the compiler cannot tell whether the name refers to a type, object, or function. Use typename before the qualified name to tell the compiler that it names a type.
+2)  In a template declaration, use typename to name a type parameter. In this context, class means the same thing as typename.
+
+The typename keyword can also be used in place of class in template parameter lists. For example, the following statements are semantically equivalent:
+```cpp
+template<class T1, class T2>...
+template<typename T1, typename T2>...
+```
+```cpp
+//#define _USE_MATH_DEFINES
+#include <cassert>  /// for assert
+#include <cmath>    /// for M_PI definition and pow()
+#include <cstdint>   /// for uint16_t datatype
+#include <iostream>  /// for IO operations
+
+namespace math {
+template <typename T>
+T square_area(T length) {
+    return length * length;
+}
+} 
+
+static void test() {
+    // I/O variables for testing
+    uint16_t int_length = 0;    // 16 bit integer length input
+
+    // 1st test
+    int_length = 5;
+    int_expected = 25;
+    int_area = math::square_area(int_length);
+    
+    std::cout << "AREA OF A SQUARE (int)" << std::endl;
+    std::cout << "Input Length: " << int_length << std::endl;
+    std::cout << "Expected Output: " << int_expected << std::endl;
+    std::cout << "Output: " << int_area << std::endl;
+    assert(int_area == int_expected);
+    std::cout << "TEST PASSED" << std::endl << std::endl;
+}
+int main()
+{
+    test();
+    return 0;
+}
+```
+------------------------------------------------------------------------------------------------------------
+### Typedef 
+typedef keyword in C++ is used for aliasing existing data types, user-defined data types, and pointers to a more meaningful name. Typedefs allow you to give descriptive names to standard data types, which can also help you self-document your code. Mostly typedefs are used for aliasing, only if the predefined name is too long or complex to write again and again.  **The unnecessary use of typedef is generally not a good practice.**
+
+-typedef statement to create an alias for a type
+-syntax: 
+	typedef < existing_data_type > < new_data_type >
+
+``` cpp
+#include <iostream>
+#include <typeinfo>
+#include <bits/stdc++.h>
+#include <stdint.h>
+//typedef unsigned int age_t; //or myagetype
+
+int main()
+{
+    typedef size_t age1_t;  //*_t convention for defined typedef
+    typedef unsigned int age2_t;
+    typedef std::bitset<8> bytetype;
+
+    age1_t age1 =20;
+    std::cout<<age1<<std::endl;
+    age1++;
+    std::cout<<age1<<std::endl;
+    
+    std::cout<<typeid(age1).hash_code()<<std::endl;
+    std::cout<<typeid(age1).name()<<std::endl;
+
+    
+    age2_t age2 =30;
+    std::cout<<age2<<std::endl;
+    age2++;
+    std::cout<<age2<<std::endl;
+    
+    std::cout<<typeid(age2).hash_code()<<std::endl;
+    std::cout<<typeid(age2).name()<<std::endl;
+    
+    bytetype mb=100;
+    std::cout<<"mb=100: "<<mb<<std::endl;
+ 
+    return 0;
+}
+```
+	20
+	21
+	14947210986724563927
+	m
+	30
+	31
+	10485857595211860659
+	j
+	mb=100: 01100100
+``` cpp
+typedef struct {   
+    char name[20];
+    char sex; 
+    int age; 
+} person_t;
+
+main()
+{
+    person_t p = {"Tom", 'M', 19};
+    printf("%s %c %d\n", p.name, p.sex, p.age);
+    return 0;
+}
+//> Tom M 19
+
+```
+------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------
+### this pointer
+``` cpp
+#include <iostream>
+#include <string>
+
+struct car
+{
+    std::string name;
+    int year;
+    car(){ }
+    car(std::string name,int year)
+    {
+        this ->name = name;
+        this ->year = year;
+    }
+    void getcar()
+    {
+        std::cout<<name<<" "<<year<<std::endl;
+    }
+
+};
+
+int main()
+{
+    car car1;
+    car1.year = 2005;
+    car1.name = "Toyota"; 
+    car1.getcar();  //Toyota 2005 
+    return 0;
+}
+```
+------------------------------------------------------------------------------------------------------------
+### The Rule of 5 in modern C++
+The Rule of 5 in modern C++ refers to a set of guidelines related to resource management and object semantics. It complements the Rule of 3 (which involves implementing custom destructors, copy constructors, and copy assignment operators) by extending it to handle move semantics.
+
+As of C++11, with the introduction of move semantics and move constructors/move assignment operators, the Rule of 5 is as follows:
+
+1. **Destructor (`~MyClass()`):**
+   - Implement a destructor to clean up resources when an object is destroyed.
+
+2. **Copy Constructor (`MyClass(const MyClass&)`):**
+   - Implement a copy constructor to perform a deep copy of resources from one object to another.
+
+3. **Copy Assignment Operator (`MyClass& operator=(const MyClass&)`):**
+   - Implement a copy assignment operator to handle proper resource cleanup and deep copying when assigning one object to another.
+
+4. **Move Constructor (`MyClass(MyClass&&) noexcept`):**
+   - Implement a move constructor to transfer ownership of resources from a temporary object (rvalue) to the current object.
+
+5. **Move Assignment Operator (`MyClass& operator=(MyClass&&) noexcept`):**
+   - Implement a move assignment operator to transfer ownership of resources when moving from one object to another.
+
+Here's a brief example demonstrating the Rule of 5 in action:
+
+```cpp
+#include <iostream>
+
+class MyClass {
+private:
+    int* ptr;
+
+public:
+    // Constructor
+    MyClass(int value) {
+        ptr = new int(value);
+    }
+
+    // Destructor
+    ~MyClass() {
+        delete ptr;
+    }
+
+    // Copy Constructor
+    MyClass(const MyClass& other) {
+        ptr = new int(*other.ptr);
+    }
+
+    // Copy Assignment Operator
+    MyClass& operator=(const MyClass& other) {
+        if (this == &other)
+            return *this;
+
+        // Delete existing memory
+        delete ptr;
+
+        // Allocate new memory and copy value
+        ptr = new int(*other.ptr);
+
+        return *this;
+    }
+
+    // Move Constructor
+    MyClass(MyClass&& other) noexcept : ptr(other.ptr) {
+        other.ptr = nullptr;  // Reset the source object's pointer
+    }
+
+    // Move Assignment Operator
+    MyClass& operator=(MyClass&& other) noexcept {
+        if (this == &other)
+            return *this;
+
+        // Delete existing memory
+        delete ptr;
+
+        // Transfer ownership of the pointer
+        ptr = other.ptr;
+        other.ptr = nullptr;  // Reset the source object's pointer
+
+        return *this;
+    }
+
+    void displayValue() const {
+        std::cout << "Value: " << (ptr ? *ptr : 0) << std::endl;
+    }
+};
+
+int main() {
+    MyClass obj1(42);
+    obj1.displayValue();
+
+    MyClass obj2 = obj1;  // Copy constructor
+    obj2.displayValue();
+
+    MyClass obj3(10);
+    obj3.displayValue();
+
+    obj3 = obj1;  // Copy assignment operator
+    obj3.displayValue();
+
+    MyClass obj4(std::move(obj1));  // Move constructor
+    obj4.displayValue();
+    obj1.displayValue();  // After move, obj1 should have nullptr
+
+    MyClass obj5(99);
+    obj5 = std::move(obj2);  // Move assignment operator
+    obj5.displayValue();
+    obj2.displayValue();  // After move, obj2 should have nullptr
+
+    return 0;
+}
+```
+
+In this example, we've defined and used all the Rule of 5 members: destructor, copy constructor, copy assignment operator, move constructor, and move assignment operator. These ensure proper resource management and efficient handling of objects in C++.
+------------------------------------------------------------------------------------------------------------
+### Preprocessor directives 
+	#include<iostream>    //file will be search in a pre-defined location 
+	#define CAPACITY 5000  //the preprocessor will replace everything with 5000
+	
+
+------------------------------------------------------------------------------------------------------------	
+### Type casting 
+	-  Explicitly specifying the data type of an expression.
+	-  Suppose you want to have several lines of code that print data out for debugging purposes, but you don't want those lines to make it to the final application, for efficiency reasons. Which of the following achieves the desired behavior by using preprocessor directives?
+
+------------------------------------------------------------------------------------------------------------
+### DEBUGGING
+	// comment the following line for the final application 
+	#define DEBUGGING 
+
+	// copy and customize this for every debugging line 
+	#ifdef DEBUGGING 
+	cout<<"Var1 = "<<var1<<endl; 
+	#endif
+------------------------------------------------------------------------------------------------------------
+ ### Libraries(static Vs dynamic)
+ - There are two parts in a library usually: includes and libraries. İnclude directory has a bunch of header files and lib directory has those pre-built binaries.
+- Dynamic library is loaded(linked) into program at runtime, dynamic library can be anywhere and you do the linking whereas static library is put(compiled) into your executable program
+- We have to point our compiler to header files (include files) and then we also have to point out our linker to library files.
+------------------------------------------------------------------------------------------------------------
+- pragma once **vs** #ifdef CAR_H .... #define CAR_H.....#endif //CAR_H (include gard)
+- class and struct keywords: Used to define classes and structures.
+- Member variables: Data attributes stored within a class.
+- Member functions: Methods that define the behavior of objects.
+- Access specifiers: public, private, and protected to control member visibility.
+- Constructors and destructors: Special methods to initialize and clean up objects.
+- Inheritance: class Derived : public Base to create derived classes.
+- Polymorphism: Achieved through virtual functions and dynamic dispatch.
+- Operator overloading: Defining custom behaviors for operators like +, -, ==, etc.
+- Templates: Used to create generic classes and functions.
+- Namespaces: Used for organizing and managing code.
+
+
+------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+
 # Basics of C++
 ## 1. Variables and Data types
 ### Integer
@@ -3554,6 +4001,20 @@ int main()
   ```
 
 ```cpp
+// Copy assignment
+Mystring &Mystring::operator=(const Mystring &rhs) {
+    std::cout << "inside operator overload Copy assignment" << std::endl;
+    if (this == &rhs) //check for self assignmwnt, this = lhs
+        return *this;  
+    delete [] this->str; //deallocate 
+    str = new char[std::strlen(rhs.str) + 1]; //allocate storage for deep copy
+    std::strcpy(this->str, rhs.str); //perform the 
+    return *this; //return by ref to allow chain 
+}
+```
+
+
+```cpp
 #include <cstring>
 #include <iostream>
 #include "Mystring.h"
@@ -3668,444 +4129,6 @@ int main() {
 
 
 
-REVIEW:
-- Dot and pointer operators
-- public and private access modifers 
-- methods,Constructors and destructors
-	- Class methods
-  	- default and overloaded constructors
-	- copy and move constractors
-   	- shallow vs deep copying
-      	- this pointer
-- static class members
-- virtual
-- struct vs. class
-- friend of class ????
-**Encapsulation in C++**
-**Abstraction in C++**
-**Inheritance in C++**
-**Polymorphism in C++**
-
-=============================================================================================
-###  Structure 
-- abstraction i.e collection of individual properties of real-world object. 
-- containers of hetrogenous data mambers
-- the diffrence betwen struct and class is **class is private by default** and **struct is public by default**.
-  
-```cpp   
-	struct car {
-		string name;
-		int year;
-		unsigned char car_purpose;
-		string model;
-		}
-```
-###  enum
--user-defined data type that consists of integral constants
--one benefit over constant is they provide encapsulation 
-```cpp
-	enum car_purpose {offroad,dailydriver,tow,camper};
-
-	int main(){
-	car mycar1;
-	mycar1.name= "Toyota";
-	mycar1.model="tacoma";
-	mycar1.car_purpose=offroad;
-        std::cout................................... finish.................
-	}
-```
-
-
------------------------------------------------------------
-## TOPICS
-### **namespace**
-  Namespaces give you one mechanism to modularize code. A namespace allows you to label
-your types, functions, and variables with a unique name so that, using the scope resolution
-operator, you can give a fully qualified name. The advantage is that you know exactly which
-item will be called. The disadvantage is that using a fully qualified name you are in effect
-switching off C++'s argument-dependent lookup mechanism for overloaded functions where
-the compiler will choose the function that has the best fit according to the arguments passed
-to the function.
-```cpp
-#include <iostream>
-namespace apple 
-{ 
-    namespace function {
-    void print(const char* text)
-    {
-        std::cout<<"apple:: "<<text<<std::endl;
-    }
-                        }
-}
-namespace mango
-{
-    void print(const char* text)
-    {
-        std::cout<<"mando:: "<<text<<std::endl;
-    }
-}
-int main()
-{
-    apple::function::print("Hello World");
-    mango::print("Hello World");
-    using namespace apple::function;
-    print("Hello from apple::function ");
-    return 0;
-}
-```
-avoiding **using namespace X**; is a form of future-proofing, a way of making sure a change to the libraries and/or header files in use is not going to break a program. Consider two libraries called Foo and Bar:
-
-``` cpp
-using namespace foo;
-using namespace bar;
-```
-Everything works fine, and you can call Blah() from Foo and Quux() from Bar without problems. But one day you upgrade to a new version of Foo 2.0, which now offers a function called Quux(). Now you've got a conflict: Both Foo 2.0 and Bar import Quux() into your global namespace. This is going to take some effort to fix, especially if the function parameters happen to match.
-If you had used foo::Blah() and bar::Quux(), then the introduction of foo::Quux() would have been a non-event.
-https://stackoverflow.com/questions/1452721/why-is-using-namespace-std-considered-bad-practice 
-
-------------------------------------------------------------------------------------------------------------
-### Template
-- the idea is to pass data type as a parameter so that we don’t need to write the same code for different data types.
-- two types: function Templates and Class templates
-  function Templates:
-
-``` cpp
-//function Template 
-#include <iostream>
-template<typename Temp>
-void swap(Temp &x, Temp &y)
-{
-    Temp z{}; 
-    std::cout<<"origin: "<<x<<","<<" "<<y<<std::endl;
-    z=x;
-    x=y;
-    y=z;
-    std::cout<<"swapped: "<<x<<","<<" "<<y<<std::endl;
-}
-
-int main()
-{
-    char x{'a'};
-    char y{'b'};
-    swap(x,y); //origin: a, b  swapped: b, a
-    
-    int a=1;
-    int b=5;
-    swap(a,b);  //origin: 1, 5 swapped: 5, 1
-    
-    double i=200.5;
-    double j=53.9;
-    swap(i,j);  //origin: 200.5, 53.9 swapped: 53.9, 200.5
-    
-    return 0;
-}
-```
-Class templates: 
-- 
-
-
-- Advanced Template: https://learn.microsoft.com/en-us/cpp/cpp/class-templates?view=msvc-170
-
-------------------------------------------------------------------------------------------------------------
-### typename
-The typename keyword must be used if a name in a template definition is a qualified name that is dependent on a template argument; it's optional if the qualified name isn't dependent.
-The typename keyword is used in two different situations:
-1) When referring to a qualified member of a class template, the compiler cannot tell whether the name refers to a type, object, or function. Use typename before the qualified name to tell the compiler that it names a type.
-2)  In a template declaration, use typename to name a type parameter. In this context, class means the same thing as typename.
-
-The typename keyword can also be used in place of class in template parameter lists. For example, the following statements are semantically equivalent:
-```cpp
-template<class T1, class T2>...
-template<typename T1, typename T2>...
-```
-```cpp
-//#define _USE_MATH_DEFINES
-#include <cassert>  /// for assert
-#include <cmath>    /// for M_PI definition and pow()
-#include <cstdint>   /// for uint16_t datatype
-#include <iostream>  /// for IO operations
-
-namespace math {
-template <typename T>
-T square_area(T length) {
-    return length * length;
-}
-} 
-
-static void test() {
-    // I/O variables for testing
-    uint16_t int_length = 0;    // 16 bit integer length input
-
-    // 1st test
-    int_length = 5;
-    int_expected = 25;
-    int_area = math::square_area(int_length);
-    
-    std::cout << "AREA OF A SQUARE (int)" << std::endl;
-    std::cout << "Input Length: " << int_length << std::endl;
-    std::cout << "Expected Output: " << int_expected << std::endl;
-    std::cout << "Output: " << int_area << std::endl;
-    assert(int_area == int_expected);
-    std::cout << "TEST PASSED" << std::endl << std::endl;
-}
-int main()
-{
-    test();
-    return 0;
-}
-```
-------------------------------------------------------------------------------------------------------------
-### Typedef 
-typedef keyword in C++ is used for aliasing existing data types, user-defined data types, and pointers to a more meaningful name. Typedefs allow you to give descriptive names to standard data types, which can also help you self-document your code. Mostly typedefs are used for aliasing, only if the predefined name is too long or complex to write again and again.  **The unnecessary use of typedef is generally not a good practice.**
-
--typedef statement to create an alias for a type
--syntax: 
-	typedef < existing_data_type > < new_data_type >
-
-``` cpp
-#include <iostream>
-#include <typeinfo>
-#include <bits/stdc++.h>
-#include <stdint.h>
-//typedef unsigned int age_t; //or myagetype
-
-int main()
-{
-    typedef size_t age1_t;  //*_t convention for defined typedef
-    typedef unsigned int age2_t;
-    typedef std::bitset<8> bytetype;
-
-    age1_t age1 =20;
-    std::cout<<age1<<std::endl;
-    age1++;
-    std::cout<<age1<<std::endl;
-    
-    std::cout<<typeid(age1).hash_code()<<std::endl;
-    std::cout<<typeid(age1).name()<<std::endl;
-
-    
-    age2_t age2 =30;
-    std::cout<<age2<<std::endl;
-    age2++;
-    std::cout<<age2<<std::endl;
-    
-    std::cout<<typeid(age2).hash_code()<<std::endl;
-    std::cout<<typeid(age2).name()<<std::endl;
-    
-    bytetype mb=100;
-    std::cout<<"mb=100: "<<mb<<std::endl;
- 
-    return 0;
-}
-```
-	20
-	21
-	14947210986724563927
-	m
-	30
-	31
-	10485857595211860659
-	j
-	mb=100: 01100100
-``` cpp
-typedef struct {   
-    char name[20];
-    char sex; 
-    int age; 
-} person_t;
-
-main()
-{
-    person_t p = {"Tom", 'M', 19};
-    printf("%s %c %d\n", p.name, p.sex, p.age);
-    return 0;
-}
-//> Tom M 19
-
-```
-------------------------------------------------------------------------------------------------------------
-
-------------------------------------------------------------------------------------------------------------
-### this pointer
-``` cpp
-#include <iostream>
-#include <string>
-
-struct car
-{
-    std::string name;
-    int year;
-    car(){ }
-    car(std::string name,int year)
-    {
-        this ->name = name;
-        this ->year = year;
-    }
-    void getcar()
-    {
-        std::cout<<name<<" "<<year<<std::endl;
-    }
-
-};
-
-int main()
-{
-    car car1;
-    car1.year = 2005;
-    car1.name = "Toyota"; 
-    car1.getcar();  //Toyota 2005 
-    return 0;
-}
-```
-------------------------------------------------------------------------------------------------------------
-### The Rule of 5 in modern C++
-The Rule of 5 in modern C++ refers to a set of guidelines related to resource management and object semantics. It complements the Rule of 3 (which involves implementing custom destructors, copy constructors, and copy assignment operators) by extending it to handle move semantics.
-
-As of C++11, with the introduction of move semantics and move constructors/move assignment operators, the Rule of 5 is as follows:
-
-1. **Destructor (`~MyClass()`):**
-   - Implement a destructor to clean up resources when an object is destroyed.
-
-2. **Copy Constructor (`MyClass(const MyClass&)`):**
-   - Implement a copy constructor to perform a deep copy of resources from one object to another.
-
-3. **Copy Assignment Operator (`MyClass& operator=(const MyClass&)`):**
-   - Implement a copy assignment operator to handle proper resource cleanup and deep copying when assigning one object to another.
-
-4. **Move Constructor (`MyClass(MyClass&&) noexcept`):**
-   - Implement a move constructor to transfer ownership of resources from a temporary object (rvalue) to the current object.
-
-5. **Move Assignment Operator (`MyClass& operator=(MyClass&&) noexcept`):**
-   - Implement a move assignment operator to transfer ownership of resources when moving from one object to another.
-
-Here's a brief example demonstrating the Rule of 5 in action:
-
-```cpp
-#include <iostream>
-
-class MyClass {
-private:
-    int* ptr;
-
-public:
-    // Constructor
-    MyClass(int value) {
-        ptr = new int(value);
-    }
-
-    // Destructor
-    ~MyClass() {
-        delete ptr;
-    }
-
-    // Copy Constructor
-    MyClass(const MyClass& other) {
-        ptr = new int(*other.ptr);
-    }
-
-    // Copy Assignment Operator
-    MyClass& operator=(const MyClass& other) {
-        if (this == &other)
-            return *this;
-
-        // Delete existing memory
-        delete ptr;
-
-        // Allocate new memory and copy value
-        ptr = new int(*other.ptr);
-
-        return *this;
-    }
-
-    // Move Constructor
-    MyClass(MyClass&& other) noexcept : ptr(other.ptr) {
-        other.ptr = nullptr;  // Reset the source object's pointer
-    }
-
-    // Move Assignment Operator
-    MyClass& operator=(MyClass&& other) noexcept {
-        if (this == &other)
-            return *this;
-
-        // Delete existing memory
-        delete ptr;
-
-        // Transfer ownership of the pointer
-        ptr = other.ptr;
-        other.ptr = nullptr;  // Reset the source object's pointer
-
-        return *this;
-    }
-
-    void displayValue() const {
-        std::cout << "Value: " << (ptr ? *ptr : 0) << std::endl;
-    }
-};
-
-int main() {
-    MyClass obj1(42);
-    obj1.displayValue();
-
-    MyClass obj2 = obj1;  // Copy constructor
-    obj2.displayValue();
-
-    MyClass obj3(10);
-    obj3.displayValue();
-
-    obj3 = obj1;  // Copy assignment operator
-    obj3.displayValue();
-
-    MyClass obj4(std::move(obj1));  // Move constructor
-    obj4.displayValue();
-    obj1.displayValue();  // After move, obj1 should have nullptr
-
-    MyClass obj5(99);
-    obj5 = std::move(obj2);  // Move assignment operator
-    obj5.displayValue();
-    obj2.displayValue();  // After move, obj2 should have nullptr
-
-    return 0;
-}
-```
-
-In this example, we've defined and used all the Rule of 5 members: destructor, copy constructor, copy assignment operator, move constructor, and move assignment operator. These ensure proper resource management and efficient handling of objects in C++.
-------------------------------------------------------------------------------------------------------------
-### Preprocessor directives 
-	#include<iostream>    //file will be search in a pre-defined location 
-	#define CAPACITY 5000  //the preprocessor will replace everything with 5000
-	
-
-------------------------------------------------------------------------------------------------------------	
-### Type casting 
-	-  Explicitly specifying the data type of an expression.
-	-  Suppose you want to have several lines of code that print data out for debugging purposes, but you don't want those lines to make it to the final application, for efficiency reasons. Which of the following achieves the desired behavior by using preprocessor directives?
-
-------------------------------------------------------------------------------------------------------------
-### DEBUGGING
-	// comment the following line for the final application 
-	#define DEBUGGING 
-
-	// copy and customize this for every debugging line 
-	#ifdef DEBUGGING 
-	cout<<"Var1 = "<<var1<<endl; 
-	#endif
-------------------------------------------------------------------------------------------------------------
- ### Libraries(static Vs dynamic)
- - There are two parts in a library usually: includes and libraries. İnclude directory has a bunch of header files and lib directory has those pre-built binaries.
-- Dynamic library is loaded(linked) into program at runtime, dynamic library can be anywhere and you do the linking whereas static library is put(compiled) into your executable program
-- We have to point our compiler to header files (include files) and then we also have to point out our linker to library files.
-------------------------------------------------------------------------------------------------------------
-- pragma once **vs** #ifdef CAR_H .... #define CAR_H.....#endif //CAR_H (include gard)
-- class and struct keywords: Used to define classes and structures.
-- Member variables: Data attributes stored within a class.
-- Member functions: Methods that define the behavior of objects.
-- Access specifiers: public, private, and protected to control member visibility.
-- Constructors and destructors: Special methods to initialize and clean up objects.
-- Inheritance: class Derived : public Base to create derived classes.
-- Polymorphism: Achieved through virtual functions and dynamic dispatch.
-- Operator overloading: Defining custom behaviors for operators like +, -, ==, etc.
-- Templates: Used to create generic classes and functions.
-- Namespaces: Used for organizing and managing code.
 - Links
 	[google C++ style guide](https://google.github.io/styleguide/cppguide.html)
 	[C++ projects](https://github.com/practical-tutorials/project-based-learning#cc)
