@@ -4126,7 +4126,90 @@ int main() {
 #### 3.4.5 Overloading the assignment operator
 
 
+### 3.5 Inheritance
+#### 3.5.1 What is inheritance? 
+- provides a method os creating a classes from existing classes
+- the new class contains the data and behaviors of the existing class.
+- allow the reuse of existing classes
+- allows the new class modify beavior of existing class to make it unique without actually modifying the original class.
+- Inheritance in C++ is a powerful way to reuse code and build new classes based on existing ones. It allows you to define a base class that contains shared attributes and methods, and then create derived classes that inherit those features and can further specialize them or add their own unique traits.
 
+**1 Base Class**: This is the existing class that provides the foundation for inheritance. It defines the initial set of attributes and methods that will be inherited by derived classes.
+
+**2 Derived Class**: This is a new class that inherits from the base class. It gains access to all the public and protected members of the base class, and can then add its own members or override existing ones to create specialized functionality.
+
+- Inheritance is a fundamental concept in object-oriented programming (OOP) that allows a class (called the "derived" or "child" class) to inherit properties and behaviors from another class (called the "base" or "parent" class). This mechanism promotes code reusability and establishes a relationship between classes.
+
+In C++, the syntax for inheritance is as follows:
+
+```cpp
+class BaseClass {
+  // Base class members and methods
+};
+
+class DerivedClass : public BaseClass {
+  // Derived class members and methods
+};
+```
+
+Here, `DerivedClass` is inheriting from `BaseClass` using the `:` symbol, and the keyword `public` specifies the access level for the inheritance. The `public` keyword means that public members of the base class remain public in the derived class, while protected members remain protected.
+
+There are three types of inheritance in C++:
+
+1. **Public Inheritance:**
+   - Public members of the base class become public members of the derived class.
+   - Protected members of the base class become protected members of the derived class.
+
+   ```cpp
+   class DerivedClass : public BaseClass {
+     // ...
+   };
+   ```
+
+2. **Protected Inheritance:**
+   - Public and protected members of the base class become protected members of the derived class.
+
+   ```cpp
+   class DerivedClass : protected BaseClass {
+     // ...
+   };
+   ```
+
+3. **Private Inheritance:**
+   - Public and protected members of the base class become private members of the derived class.
+
+   ```cpp
+   class DerivedClass : private BaseClass {
+     // ...
+   };
+   ```
+
+Inheritance supports the "is-a" relationship, meaning that an object of the derived class can be treated as an object of the base class. This facilitates polymorphism, where objects of different classes can be manipulated using a common interface defined in the base class.
+
+#### 3.5.2  
+
+#### 3.5.3 
+
+
+### 3.6 Polymorphism
+
+
+### 3.7 Smart Pointers
+
+### 3.8 Exception Handling
+
+### 3.9 i/O and streams
+
+### 3.10 The standard Template Library (STL)
+
+
+### 3.11 Lambda Expressions
+
+
+### 3.12 Enumerations
+
+
+### 3.13 Bonus
 
 
 - Links
