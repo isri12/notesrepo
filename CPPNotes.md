@@ -1,14 +1,14 @@
 --------------------------------------------------------------------------
 ## TOPICS
 REVIEW:
-- Dot and pointer operators
-- public and private access modifers 
-- methods,Constructors and destructors
-	- Class methods
-  	- default and overloaded constructors
-	- copy and move constractors
-   	- shallow vs deep copying
-      	- this pointer
+	- 	Dot and pointer operators
+	- 	public and private access modifers 
+	- 	methods,Constructors and destructors
+		- Class methods
+  		- default and overloaded constructors
+		- copy and move constractors
+   		- shallow vs deep copying
+      		- this pointer
 - static class members
 - virtual
 - struct vs. class
@@ -29,7 +29,7 @@ REVIEW:
 - Templates: Used to create generic classes and functions.
 - Namespaces: Used for organizing and managing code.
 
-=============================================================================================
+------------------------------------------------------------------------------------------------------------
 ###  Structure 
 - abstraction i.e collection of individual properties of real-world object. 
 - containers of hetrogenous data mambers
