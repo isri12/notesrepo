@@ -4182,31 +4182,94 @@ There are three types of inheritance in C++:
 
 Inheritance supports the "is-a" relationship, meaning that an object of the derived class can be treated as an object of the base class. This facilitates polymorphism, where objects of different classes can be manipulated using a common interface defined in the base class.
 
-#### 3.5.2  
+#### 3.5.2  Inheretance VS Composition
 
-#### 3.5.3 
+#### 3.5.3 Deriving class from Exixting CLASS
+
+#### 3.5.4 
+#### 3.5.5  
+#### 3.5.6  
 
 
 ### 3.6 Polymorphism
 
+#### 3.6.1 
+#### 3.6.2
+#### 3.6.3
+#### 3.6.4
+#### 3.6.5
+#### 3.6.6
+#### 3.6.7
 
 ### 3.7 Smart Pointers
 
+#### 3.7.1 
+#### 3.7.2
+#### 3.7.3
+#### 3.7.4
+#### 3.7.5
+#### 3.7.6
+#### 3.7.7
+
+
 ### 3.8 Exception Handling
+
+#### 3.7.1 
+#### 3.7.2
+#### 3.7.3
+#### 3.7.4
+#### 3.7.5
+#### 3.7.6
+#### 3.7.7
 
 ### 3.9 i/O and streams
 
+#### 3.7.1 
+#### 3.7.2
+#### 3.7.3
+#### 3.7.4
+#### 3.7.5
+#### 3.7.6
+#### 3.7.7
+
 ### 3.10 The standard Template Library (STL)
 
+#### 3.7.1 
+#### 3.7.2
+#### 3.7.3
+#### 3.7.4
+#### 3.7.5
+#### 3.7.6
+#### 3.7.7
 
 ### 3.11 Lambda Expressions
 
+#### 3.7.1 
+#### 3.7.2
+#### 3.7.3
+#### 3.7.4
+#### 3.7.5
+#### 3.7.6
+#### 3.7.7
 
 ### 3.12 Enumerations
 
+#### 3.7.1 
+#### 3.7.2
+#### 3.7.3
+#### 3.7.4
+#### 3.7.5
+#### 3.7.6
+#### 3.7.7
 
 ### 3.13 Bonus
-
+#### 3.7.1 
+#### 3.7.2
+#### 3.7.3
+#### 3.7.4
+#### 3.7.5
+#### 3.7.6
+#### 3.7.7
 
 - Links
 	[google C++ style guide](https://google.github.io/styleguide/cppguide.html)
