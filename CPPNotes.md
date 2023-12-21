@@ -1,7 +1,5 @@
 --------------------------------------------------------------------------
 ## TOPICS
---------------------------------------------------------------------------
-
 REVIEW:
 - Dot and pointer operators
 - public and private access modifers 
@@ -19,6 +17,17 @@ REVIEW:
 **Abstraction in C++**
 **Inheritance in C++**
 **Polymorphism in C++**
+- pragma once **vs** #ifdef CAR_H .... #define CAR_H.....#endif //CAR_H (include gard)
+- class and struct keywords: Used to define classes and structures.
+- Member variables: Data attributes stored within a class.
+- Member functions: Methods that define the behavior of objects.
+- Access specifiers: public, private, and protected to control member visibility.
+- Constructors and destructors: Special methods to initialize and clean up objects.
+- Inheritance: class Derived : public Base to create derived classes.
+- Polymorphism: Achieved through virtual functions and dynamic dispatch.
+- Operator overloading: Defining custom behaviors for operators like +, -, ==, etc.
+- Templates: Used to create generic classes and functions.
+- Namespaces: Used for organizing and managing code.
 
 =============================================================================================
 ###  Structure 
@@ -34,6 +43,8 @@ REVIEW:
 		string model;
 		}
 ```
+------------------------------------------------------------------------------------------------------------
+
 ###  enum
 -user-defined data type that consists of integral constants
 -one benefit over constant is they provide encapsulation 
@@ -48,9 +59,7 @@ REVIEW:
         std::cout................................... finish.................
 	}
 ```
-
-
------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
 
 ### **namespace**
   Namespaces give you one mechanism to modularize code. A namespace allows you to label
@@ -258,40 +267,6 @@ main()
 
 ```
 ------------------------------------------------------------------------------------------------------------
-
-------------------------------------------------------------------------------------------------------------
-### this pointer
-``` cpp
-#include <iostream>
-#include <string>
-
-struct car
-{
-    std::string name;
-    int year;
-    car(){ }
-    car(std::string name,int year)
-    {
-        this ->name = name;
-        this ->year = year;
-    }
-    void getcar()
-    {
-        std::cout<<name<<" "<<year<<std::endl;
-    }
-
-};
-
-int main()
-{
-    car car1;
-    car1.year = 2005;
-    car1.name = "Toyota"; 
-    car1.getcar();  //Toyota 2005 
-    return 0;
-}
-```
-------------------------------------------------------------------------------------------------------------
 ### The Rule of 5 in modern C++
 The Rule of 5 in modern C++ refers to a set of guidelines related to resource management and object semantics. It complements the Rule of 3 (which involves implementing custom destructors, copy constructors, and copy assignment operators) by extending it to handle move semantics.
 
@@ -429,19 +404,6 @@ In this example, we've defined and used all the Rule of 5 members: destructor, c
 - Dynamic library is loaded(linked) into program at runtime, dynamic library can be anywhere and you do the linking whereas static library is put(compiled) into your executable program
 - We have to point our compiler to header files (include files) and then we also have to point out our linker to library files.
 ------------------------------------------------------------------------------------------------------------
-- pragma once **vs** #ifdef CAR_H .... #define CAR_H.....#endif //CAR_H (include gard)
-- class and struct keywords: Used to define classes and structures.
-- Member variables: Data attributes stored within a class.
-- Member functions: Methods that define the behavior of objects.
-- Access specifiers: public, private, and protected to control member visibility.
-- Constructors and destructors: Special methods to initialize and clean up objects.
-- Inheritance: class Derived : public Base to create derived classes.
-- Polymorphism: Achieved through virtual functions and dynamic dispatch.
-- Operator overloading: Defining custom behaviors for operators like +, -, ==, etc.
-- Templates: Used to create generic classes and functions.
-- Namespaces: Used for organizing and managing code.
-
-
 ------------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------
 
@@ -3392,7 +3354,7 @@ int main()
   return 0;
 }
 ```
-Every object in C++ has access to its own address through an important pointer called this pointer. The this pointer is an implicit parameter to all member functions. Therefore, inside a member function, this may be used to refer to the invoking object.
+Every object in C++ has access to its own address through an important pointer called this pointer. The this pointer is an implicit parameter to all member functions. Therefore, inside a member function, this may be used to refer to the **invoking object**.
 Friend functions do not have a this pointer, because friends are not members of a class. Only member functions have a this pointer.
 Let us try the following example to understand the concept of this pointer −
 
@@ -3472,8 +3434,42 @@ class Employee {
      return 0;  
  } 
 
-From <https://www.javatpoint.com/cpp-this-pointer> 
+From <https://www.javatpoint.com/cpp-this-pointer>
 ```
+
+this pointer example
+``` cpp
+#include <iostream>
+#include <string>
+
+struct car
+{
+    std::string name;
+    int year;
+    car(){ }
+    car(std::string name,int year)
+    {
+        this ->name = name;
+        this ->year = year;
+    }
+    void getcar()
+    {
+        std::cout<<name<<" "<<year<<std::endl;
+    }
+
+};
+
+int main()
+{
+    car car1;
+    car1.year = 2005;
+    car1.name = "Toyota"; 
+    car1.getcar();  //Toyota 2005 
+    return 0;
+}
+```
+
+
 #### 3.15 Using const with Classes(study more)
 Constant member functions are those functions which are denied permission to change the values of the data members of their class. To make a member function constant, the keyword “const” is appended to the function prototype and also to the function definition header.
 Like member functions and member function arguments, the objects of a class can also be declared as const. an object declared as const cannot be modified and hence, can invoke only const member functions as these functions ensure not to modify the object. 
