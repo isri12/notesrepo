@@ -4184,6 +4184,10 @@ Inheritance supports the "is-a" relationship, meaning that an object of the deri
 
 #### 3.5.2  Inheretance VS Composition
 
+
+
+
+
 #### 3.5.3 Deriving class from Exixting CLASS
 
 #### 3.5.4 
@@ -4193,7 +4197,8 @@ Inheritance supports the "is-a" relationship, meaning that an object of the deri
 
 ### 3.6 Polymorphism
 
-#### 3.6.1 
+#### 3.6.1 what is Polymorphism? 
+
 #### 3.6.2
 #### 3.6.3
 #### 3.6.4
