@@ -4198,6 +4198,144 @@ Inheritance supports the "is-a" relationship, meaning that an object of the deri
 ### 3.6 Polymorphism
 
 #### 3.6.1 what is Polymorphism? 
+- Polymorphism, meaning "many forms," is a fundamental concept in object-oriented programming that allows objects of different classes to be treated as if they were objects of a common base class. This enables you to write code that is more flexible, reusable, and modular.
+
+Polymorphism is one of the four fundamental principles of object-oriented programming (OOP), along with encapsulation, inheritance, and abstraction. In C++, polymorphism is mainly achieved through two mechanisms: function overloading and virtual functions.
+
+1. **Function Overloading:** or **compile-time Polymorphism **
+   - **1.1 Function overloading** allows you to define multiple functions with the same name but with different parameter lists. The compiler determines which function to call based on the number and types of arguments provided. Here's a simple example:
+
+    ```cpp
+    #include <iostream>
+
+    class Calculator {
+    public:
+        int add(int a, int b) {
+            return a + b;
+        }
+
+        double add(double a, double b) {
+            return a + b;
+        }
+    };
+
+    int main() {
+        Calculator calc;
+        std::cout << calc.add(5, 7) << std::endl;       // Calls the int version
+        std::cout << calc.add(3.5, 4.2) << std::endl;   // Calls the double version
+
+        return 0;
+    }
+    ```
+
+    In this example, the `add` function is overloaded with different parameter types, and the appropriate version is called based on the argument types during the function call.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+class Geeks {
+public:
+    void func (int x) {
+        cout << "value of x is " << x << endl;
+    }
+    void func (double x) {
+        cout << "value of x is " << x << endl;
+    }
+    void func (int x, int y) {
+        cout << "value of x and y is " << x << ", " << y << endl;
+    }
+};
+
+int main () {
+    Geeks obj1;
+    obj1.func (7);
+    obj1.func (9.132);
+    obj1.func (85, 64);
+    return 0;
+}
+
+```
+- **1.2 Operator Overloading:** C++ has the ability to provide the operators with a special meaning for a data type, this ability is known as operator overloading. Here is an example of operator overloading in C++:
+
+ ```cpp
+   #include <iostream>
+	using namespace std;
+
+	class Complex {
+	private:
+    int real, imag;
+	public:
+    Complex (int r = 0, int i = 0) {
+        real = r; imag = i;
+    }
+    Complex operator+ (Complex const& obj) {
+        Complex res;
+        res.real = real + obj.real;
+        res.imag = imag + obj.imag;
+        return res;
+    }
+    void print () {
+        cout << real << " + i" << imag << endl;
+    }
+	};
+
+	int main () {
+    Complex c1 (10, 5), c2 (2, 4);
+    Complex c3 = c1 + c2;
+    c3.print();
+    return 0;
+	}
+```
+3. **Virtual Functions and Polymorphism:** or ** Runtime polymorphism**
+  - This is achieved by function overriding, i.e., when a derived class has a definition for one of the member functions of the base class. That base function is said to be overridden
+  - Virtual functions enable runtime polymorphism, allowing you to achieve dynamic dispatch. This is accomplished through the use of pointers or references to base class objects. Here's an example:
+    
+
+    ```cpp
+    #include <iostream>
+
+    class Shape {
+    public:
+        virtual void draw() {
+            std::cout << "Drawing a shape." << std::endl;
+        }
+    };
+
+    class Circle : public Shape {
+    public:
+        void draw() override {
+            std::cout << "Drawing a circle." << std::endl;
+        }
+    };
+
+    class Square : public Shape {
+    public:
+        void draw() override {
+            std::cout << "Drawing a square." << std::endl;
+        }
+    };
+
+    int main() {
+        Shape* shape1 = new Circle();
+        Shape* shape2 = new Square();
+
+        shape1->draw();   // Calls the draw function of Circle
+        shape2->draw();   // Calls the draw function of Square
+
+        delete shape1;
+        delete shape2;
+
+        return 0;
+    }
+    ```
+
+    In this example, the `Shape` class has a virtual function `draw`, and the derived classes `Circle` and `Square` override this function. When you use pointers of the base class type to refer to objects of derived classes, the correct overridden function is called at runtime, achieving polymorphism.
+
+Remember that to enable polymorphism through virtual functions, you need to declare the base class function as `virtual` and use the `override` keyword in the derived class to indicate that you are intentionally overriding a virtual function.
+
+
+
 
 #### 3.6.2
 #### 3.6.3
