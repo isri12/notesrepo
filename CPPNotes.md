@@ -4334,8 +4334,63 @@ int main () {
 
 Remember that to enable polymorphism through virtual functions, you need to declare the base class function as `virtual` and use the `override` keyword in the derived class to indicate that you are intentionally overriding a virtual function.
 
+##### **The problem with static binding **
+```cpp
+#include <iostream>
+#include <memory>
+
+class BaseClass {
+  // Base class members and methods
+  public:
+  void say_hello()
+  {
+      std::cout<<"Hello - from BaseClass"<<std::endl;
+  }
+};
+
+class DerivedClass : public BaseClass {
+  // Derived class members and methods
+    public:
+    void say_hello()
+    {
+         std::cout<<"Hello - from DerivedClass"<<std::endl;
+    }
+  
+};
 
 
+void grettings( BaseClass &obj)
+{
+    std::cout<<"Grettings fun called"<<" : ";
+    obj.say_hello();
+}
+
+
+int main()
+{
+    BaseClass b;
+    b.say_hello(); //Hello - from BaseClass
+    
+    DerivedClass d;
+    d.say_hello(); //Hello - from DerivedClass
+    
+    //***********************************
+    //the Issue with static binding
+    grettings(b); //Grettings fun called : Hello - from BaseClass
+    grettings(d); //Grettings fun called : Hello - from BaseClass
+    //Also same thing happens when we haVE BASE POINTER
+    BaseClass *ptr = new DerivedClass();
+    ptr -> say_hello(); //Hello - from BaseClass
+    delete ptr;
+    //same with smart POINTER
+    std::unique_ptr<BaseClass> smart_ptr = std::make_unique<DerivedClass>();
+    smart_ptr->say_hello(); //Hello - from BaseClass
+    //THIS IS NOT WHAT WE WANT: WE WANTED  DerivedClass 
+    //***********************************
+
+    return 0;
+}
+```
 
 #### 3.6.2
 #### 3.6.3
