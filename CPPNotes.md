@@ -4335,6 +4335,11 @@ int main () {
 Remember that to enable polymorphism through virtual functions, you need to declare the base class function as `virtual` and use the `override` keyword in the derived class to indicate that you are intentionally overriding a virtual function.
 
 ##### **The problem with static binding **
+
+ which occurs when you have a function parameter or pointer/reference of the base class type, and you're passing an object of the derived class. In such cases, the function is bound to the base class version at compile-time.
+ 
+In the below  example, when you call grettings(d);, you're passing a DerivedClass object to a function that expects a BaseClass reference. Therefore, the BaseClass version of say_hello() is called due to static binding.
+
 ```cpp
 #include <iostream>
 #include <memory>
@@ -4387,6 +4392,51 @@ int main()
     smart_ptr->say_hello(); //Hello - from BaseClass
     //THIS IS NOT WHAT WE WANT: WE WANTED  DerivedClass 
     //***********************************
+
+    return 0;
+}
+```
+
+To achieve the desired polymorphic behavior (dynamic binding), you should use pointers or references to the base class with the virtual keyword for the function in the base class. Here's an updated version of your code to demonstrate this:
+```cpp
+#include <iostream>
+#include <memory>
+
+class BaseClass {
+public:
+    virtual void say_hello() {
+        std::cout << "Hello - from BaseClass" << std::endl;
+    }
+};
+
+class DerivedClass : public BaseClass {
+public:
+    void say_hello() override {
+        std::cout << "Hello - from DerivedClass" << std::endl;
+    }
+};
+
+void greetings(BaseClass& obj) {
+    std::cout << "Greetings function called: ";
+    obj.say_hello();
+}
+
+int main() {
+    BaseClass b;
+    b.say_hello(); // Hello - from BaseClass
+
+    DerivedClass d;
+    d.say_hello(); // Hello - from DerivedClass
+
+    greetings(b);  // Greetings function called: Hello - from BaseClass
+    greetings(d);  // Greetings function called: Hello - from DerivedClass
+
+    BaseClass* ptr = new DerivedClass();
+    ptr->say_hello(); // Hello - from DerivedClass
+    delete ptr;
+
+    std::unique_ptr<BaseClass> smart_ptr = std::make_unique<DerivedClass>();
+    smart_ptr->say_hello(); // Hello - from DerivedClass
 
     return 0;
 }
