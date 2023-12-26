@@ -1237,9 +1237,9 @@ int main()
 
 #### Smart Pointers
 -C++ provides absolute flexiblity with memory mnanagement 
-	-Allocation
- 	-Deallocation
-  	-Lifetime management 
+	- Allocation
+ 	- Deallocation
+  	- Lifetime management 
 - the issues with raw pointers
   	- unintalized (wild) pointers
   	- Memory leaks
@@ -1251,6 +1251,7 @@ int main()
 	- when should a pointer be deleted?
 - #include<memory>
 - wrapper around raw pointers
+- smart pointers only point to heap memory
 - Overloaded operators
   	- Dereferance (*)
   	- Member selection (->)
@@ -1285,8 +1286,7 @@ int main()
 - points to an object of type T on the heap. 
 - its unique- there can only be one unique_ptr<T> pointing to object on the heap
 - owns what it points to
-- can not be assigned or copies
-- can be moved
+- can not be assigned or copied, However can be moved
 - when the pointer is destroyed, what it points to is automatically destroyed.
 ``` cpp
 #include <iostream>
@@ -1342,6 +1342,62 @@ int main()
 }
 
 ```
+- working
+```cpp
+
+#include <iostream>
+#include <memory>
+#include <string>
+class Account
+{
+    public:
+    Account(std::string name, double balance)
+    {
+      this -> name = name; 
+      this -> balance = balance;
+    }
+    
+     // Getter for balance
+    double getBalance() const {
+        return balance;
+    }
+    
+    int deposit()
+    {
+       return 0; 
+    }
+    int withdraw()
+    {
+      return 0;  
+    }
+    
+     // Overloaded << operator
+    friend std::ostream& operator<<(std::ostream& os, const Account& account) {
+        os << "Account Holder: " << account.name << "\n";
+        os << "Balance: $" << account.balance << "\n";
+        return os;
+    }
+    
+    ~Account()
+    {
+        
+    };
+    private:
+    std::string name;
+    double balance;
+};
+
+int main()
+{
+    std::unique_ptr<Account> p1 {new Account{"Larry", 20.0}};
+    std::cout<<*p1<<std::endl;
+    return 0;
+}
+
+//error: std::default_delete<Account>::operator()(Account*) const
+```
+
+
 ``` cpp
 // not working
 #include <iostream>
@@ -1359,7 +1415,47 @@ int main()
     return 0;
 }
 
-``` 
+```
+
+```cpp
+
+#include <iostream>
+#include <memory>
+#include <vector>
+
+int main()
+{
+    std::unique_ptr<int> p1{new int {100}};
+    std::cout<<*p1<<std::endl; //100
+    *p1=200;
+    std::cout<<*p1<<std::endl;//200
+    
+    std::cout<<p1.get()<<std::endl;//0x55e4e6d73eb0
+    std::cout<<*p1.get()<<std::endl;//200
+    
+    p1.reset(); //memory is released. so p1 unique ptr wont work. released
+    std::cout<<*p1.get()<<std::endl;//0 or null
+    std::cout<<*p1<<std::endl;//0 or null
+    
+    *p1=300; //won't execute
+    std::cout<<*p1.get()<<std::endl;// won't execute
+    std::cout<<*p1<<std::endl;//won't execute
+    
+    
+    std::vector<std::unique_ptr<int>> vec;
+    std::unique_ptr<int> ptr{new int{100}};
+    
+    //vec.push_back(ptr);//ERROR- COPY NOT ALLOWED
+    
+    vec.push_back(std::move(ptr));
+    
+    return 0;
+} //p1 is out of scope , its automatically deleted
+
+```
+
+
+
 ##### B. shared_ptr 
 
 
