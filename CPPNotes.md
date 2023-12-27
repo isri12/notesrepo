@@ -377,7 +377,7 @@ int main() {
 }
 ```
 
-In this example, we've defined and used all the Rule of 5 members: destructor, copy constructor, copy assignment operator, move constructor, and move assignment operator. These ensure proper resource management and efficient handling of objects in C++.
+- In this example, we've defined and used all the Rule of 5 members: destructor, copy constructor, copy assignment operator, move constructor, and move assignment operator. These ensure proper resource management and efficient handling of objects in C++.
 ------------------------------------------------------------------------------------------------------------
 ### Preprocessor directives 
 	#include<iostream>    //file will be search in a pre-defined location 
