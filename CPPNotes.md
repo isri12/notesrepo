@@ -4546,7 +4546,7 @@ int main() {
 #### 3.6.7
 
 ### 3.7 Smart Pointers
-
+-see section 
 #### 3.7.1 
 #### 3.7.2
 #### 3.7.3
@@ -4568,17 +4568,117 @@ int main() {
 
 ### 3.9 i/O and streams
 
-#### 3.7.1 
-#### 3.7.2
-#### 3.7.3
-#### 3.7.4
-#### 3.7.5
-#### 3.7.6
-#### 3.7.7
+#### 3.9.1 Files, streams and I/O
+
+- C++ usesstreamss as an interface between the program and input and output devices
+- independent of the actua; devie
+- sequence of bytes
+- input stream provides data to the program
+- output revieves data from the program
+
+input devide --> input stream --> C++ program --> output stream --> output device 
+
+- Header files
+  	- iostream: provides definations for formatted input and output from/to streams
+  	- fstream:  provides definations for formatted input and output from/to **file** streams
+  	- iomainip: provides definations for manipulators used to format stream I/O
+commonly used fstream class
+	- ios
+  	- ifstream - input
+     	- ofstream - output
+         - fstream - both input and output
+         - stringstream - 
+         - 
+commonly used iostream class
+	- cin: connected to keyboard, buffered (wont be automatic until the user presss enter)
+   	- cout: connected to console,  buffered (wont be automatic until the user presss enter)
+   	- cerr: standard error system , by default connected to console, and unbuffered
+   	- clog: standard log stream, by default connected to console, and unbuffered
+
+
+#### 3.9.2
+#### 3.9.3
+#### 3.9.4
+#### 3.9.5
+#### 3.9.6
+#### 3.9.7
 
 ### 3.10 The standard Template Library (STL)
 
-#### 3.7.1 
+#### 3.7.1 what is standard Template Library (STL) ?
+The Standard Template Library (STL) is a powerful set of C++ template classes to provide general-purpose classes and functions with templates that implement many popular and commonly used algorithms and data structures like vectors, lists, queues, and stacks.
+
+The STL was developed by Alexander Stepanov and Meng Lee at Hewlett Packard and was incorporated into the C++ Standard Library. It provides a collection of template classes and functions, which are highly reusable and extendable, making it easier to write efficient and concise C++ code.
+
+Key components of the STL include:
+
+1. **Containers:** These are data structures that store objects or values. Examples include vectors, sets ,lists, queues, and maps.
+
+2. **Algorithms:** The STL provides a set of generic algorithms that operate on containers. Examples include sorting, searching, and modifying algorithms.
+
+3. **Iterators:** Iterators are used to iterate over the elements of a container. They provide a unified way to access the elements of various container types.
+
+4. **Function Objects (Functors):** These are objects that can be used with algorithms to define custom behavior. Function objects can be used for sorting, searching, and other operations.
+
+5. **Allocators:** Allocators manage the memory for containers. They provide a way to customize the memory allocation strategy used by a container.
+
+Using the STL can result in more efficient and readable code, as many common tasks can be accomplished with high-quality, tested, and optimized implementations provided by the library. It also encourages the use of generic programming principles, promoting code that is reusable and adaptable to different data types.
+
+Certainly! Let's look at a simple example that demonstrates the use of some common components of the Standard Template Library (STL) in C++. In this example, we'll use a vector container and some algorithms.
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    // Example of using a vector container
+    std::vector<int> numbers = {5, 2, 8, 1, 7, 3};
+
+    // Print the original vector
+    std::cout << "Original vector: ";
+    for (int num : numbers) {
+        std::cout << num << " ";
+    }
+    std::cout << "\n";
+
+    // Example of using algorithms with iterators
+    // Sorting the vector using the sort algorithm
+    std::sort(numbers.begin(), numbers.end());
+
+    // Print the sorted vector
+    std::cout << "Sorted vector: ";
+    for (int num : numbers) {
+        std::cout << num << " ";
+    }
+    std::cout << "\n";
+
+    // Using accumulate algorithm to find the sum of elements
+    int sum = std::accumulate(numbers.begin(), numbers.end(), 0);
+    std::cout << "Sum of elements: " << sum << "\n";
+
+    // Using find algorithm to search for an element
+    int searchElement = 7;
+    auto it = std::find(numbers.begin(), numbers.end(), searchElement);
+    if (it != numbers.end()) {
+        std::cout << "Element " << searchElement << " found at index: " << std::distance(numbers.begin(), it) << "\n";
+    } else {
+        std::cout << "Element " << searchElement << " not found\n";
+    }
+
+    return 0;
+}
+```
+
+In this example:
+
+- We use a `std::vector` to store a collection of integers.
+- The `std::sort` algorithm is used to sort the elements of the vector.
+- The `std::accumulate` algorithm is used to calculate the sum of the elements.
+- The `std::find` algorithm is used to search for a specific element.
+
+This is a basic example, but it illustrates how the STL provides generic, reusable components that allow you to write code that is both concise and efficient. The algorithms operate on iterators, providing a uniform interface for different types of containers.
+
 #### 3.7.2
 #### 3.7.3
 #### 3.7.4
