@@ -3959,7 +3959,7 @@ In C++, static class members are shared among all instances of a class rather th
 
      The `getInstance` function provides a global point of access to the single instance of the `Singleton` class.
 
-Static members in C++ provide a way to introduce shared data, constants, and functionalities that are not tied to individual instances of a class. They are part of the class rather than the objects created from it.
+- Static members in C++ provide a way to introduce shared data, constants, and functionalities that are not tied to individual instances of a class. They are part of the class rather than the objects created from it.
 --------------------------------------------------------------------
 ### 3.4 Operator Overloading 
 #### 3.4.1 what is Operator Overloading
