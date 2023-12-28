@@ -4692,7 +4692,7 @@ This is a basic example, but it illustrates how the STL provides generic, reusab
 - Macros Alternative
   	- use constexpr EX.  constexpr double PI = 3.14159265358979323846
   	- usage of constexpr to define the constant PI in C++ is a good practice.
-  	- constexpr is a feature introduced in C++11 that allows you to declare variables or functions as constants that can be evaluated at compile time.
+  	- constexpr is a feature introduced in C++11 that allows you to declare variables or functions as constants that can be evaluated at **compile time**.
   	  
  ```cpp
 #include <iostream>
@@ -4827,13 +4827,69 @@ In these examples:
 The template version is generally considered more flexible and type-safe, as it allows the compiler to generate the appropriate code for each type at compile time. The function overloading version is also type-safe but requires writing multiple functions for different types. The macro version should be used with caution due to potential issues with unexpected side effects and lack of type safety.
 
 ##### Templates: 
-- Templates allow you to write code that can work with different types without sacrificing type safety
-- all this happens at compile time. diffrent from other programming languages. 
+- Blueprint
+- **compile time**
+- Templates allow you to write code that can work with **different data types** without sacrificing type safety
+- all this happens at compile time. diffrent from other programming languages.
+   
 1.  Function template
 2. Class Template
-see below
-
+   
 #### 3.10.3 Function template
+
+```cpp
+#include <iostream>
+
+template <typename T>  //same as:  template <class T> 
+T max(T a, T b) {
+    return (a > b) ? a : b;
+}
+
+int main() {
+    int num1 = 10, num2 = 20;
+    double double1 = 15.5, double2 = 30.7;
+
+    std::cout << "Max of " << num1 << " and " << num2 << " is: " << max(num1, num2) << std::endl;
+    std::cout << "Max of " << double1 << " and " << double2 << " is: " << max(double1, double2) << std::endl;
+
+    return 0;
+}
+```
+```cpp
+#include <iostream>
+//max val
+template <typename T>
+T max(T val1, T val2)
+{
+    return (val1 > val2) ? val1 : val2;
+}
+//min val
+template <typename T>
+T min(T val1, T val2)
+{
+    return (val1 < val2) ? val1 : val2;
+}
+
+int main()
+{
+    int a{10};
+    int b{20};
+    std::cout<<max<int>(a,b)<<'\n'; //20
+    std::cout<<min<int>(a,b)<<'\n'; //10
+    
+    double c{10.4};
+    double d{10.9};
+    std::cout<<max<double>(c,d)<<'\n'; //10.9
+    std::cout<<min<double>(c,d)<<'\n'; //10.4
+    //or we can have the compiler deduce 
+    std::cout<<max(c,d)<<'\n'; //10.9
+    std::cout<<min(c,d)<<'\n'; //10.4
+    
+    std::cout<<max('X','Z')<<'\n'; //Z
+    
+    return 0;
+}
+```
 
 #### 3.10.4 Class Template
 
