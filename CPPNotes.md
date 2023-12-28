@@ -4890,6 +4890,46 @@ int main()
     return 0;
 }
 ```
+thmplate with struct
+```cpp
+#include <iostream>
+#include <string>
+
+template <typename T>
+T min(T a,T b)
+{
+   return (a<b) ? a:b;
+}
+
+struct Person
+{
+    std::string name;
+    int age;
+    
+    //overloading operator. 
+    bool operator<(const Person &rhs) const
+    {
+        return this->age<rhs.age;
+    }
+    
+};
+
+int main()
+{
+    Person p1{"joe",28};
+    Person p2{"smith",50};
+    
+    Person p3=min(p1,p2);  //error: no match for ‘operator<’ 
+    //(operand types are ‘Person’ and ‘Person’)
+    //we will need to write overloading operator. 
+    std::cout<<p3.name<<'\n'; //joe 
+
+    return 0;
+}
+```
+
+
+
 
 #### 3.10.4 Class Template
 
