@@ -4928,10 +4928,122 @@ int main()
 }
 ```
 
+```cpp
+#include <iostream>
+#include <string>
 
+template <typename T>
+T min(T a,T b)
+{
+   return (a<b) ? a:b;
+}
 
+template<typename T1, typename T2>
+void func(T1 a,T2 b)
+{
+    std::cout<<a<<" and " <<b<<'\n';
+}
 
+struct Person
+{
+    std::string name;
+    int age;
+    
+    //overloading operator. 
+    bool operator<(const Person &rhs) const
+    {
+        return this->age<rhs.age;
+    }
+    
+};
+
+std::ostream &operator<<(std::ostream& os, const Person& obj)
+{
+    os<<obj.name;
+    return os;
+}
+
+int main()
+{
+    Person p1{"joe",28};
+    Person p2{"smith",50};
+    
+    Person p3=min(p1,p2);  //error: no match for ‘operator<’ 
+    //(operand types are ‘Person’ and ‘Person’)
+    //we will need to write overloading operator. 
+    std::cout<<p3.name<<'\n'; //joe 
+    
+    func(p1,p2); //error: no match for ‘operator<<’ 
+    //(operand types are ‘std::ostream’ {aka ‘std::basic_ostream’} and ‘Person’)
+    //we will need to add insersion operator overloading 
+    //after overload operator//joe and smith
+
+    return 0;
+}
+```
 #### 3.10.4 Class Template
+- A class template allows you to create a template for a class that can work with different data types. 
+
+```cpp
+#include <iostream>
+
+// Class template for a generic Pair
+template <typename T1, typename T2>
+class Pair {
+public:
+    Pair(T1 first, T2 second) : first(first), second(second) {}
+
+    void display() const {
+        std::cout << "Pair: (" << first << ", " << second << ")" << std::endl;
+    }
+
+private:
+    T1 first;
+    T2 second;
+};
+
+int main() {
+    // Creating instances of Pair with different data types
+    Pair<int, double> intDoublePair(42, 3.14);
+    Pair<std::string, char> stringCharPair("Hello", 'A');
+
+    // Displaying the pairs
+    intDoublePair.display();
+    stringCharPair.display();
+
+    return 0;
+}
+```
+
+#include <iostream>
+
+template<typename T>
+class Item{
+Public:
+    Item(std::string name,T value):name(name),value(value)
+    {
+        
+    }
+    std::string get_name() const
+    {
+        return name;
+    }
+    
+    T get_value() const
+    {
+        return value;
+    }
+    
+private:
+    std::string name;
+    T value;
+};
+
+template <typename T1,typename T2>
+struct Pair{
+    T1 first;
+    T2 second;
+};
 
 #### 3.10.5
 
