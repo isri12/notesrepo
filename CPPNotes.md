@@ -1,6 +1,8 @@
+
+# Basics of C++
 --------------------------------------------------------------------------
-## TOPICS
-REVIEW:
+## 0. Topics
+REVIEW LIST:
 	- 	Dot and pointer operators
 	- 	public and private access modifers 
 	- 	methods,Constructors and destructors
@@ -270,6 +272,14 @@ main()
 ### The Rule of 5 in modern C++
 The Rule of 5 in modern C++ refers to a set of guidelines related to resource management and object semantics. It complements the Rule of 3 (which involves implementing custom destructors, copy constructors, and copy assignment operators) by extending it to handle move semantics.
 
+The Rule of 5 members: 
+- destructor, 
+- copy constructor, 
+- copy assignment operator, 
+- move constructor, and 
+- move assignment operator.
+These ensure proper resource management and efficient handling of objects in C++.
+
 As of C++11, with the introduction of move semantics and move constructors/move assignment operators, the Rule of 5 is as follows:
 
 1. **Destructor (`~MyClass()`):**
@@ -377,7 +387,44 @@ int main() {
 }
 ```
 
-- In this example, we've defined and used all the Rule of 5 members: destructor, copy constructor, copy assignment operator, move constructor, and move assignment operator. These ensure proper resource management and efficient handling of objects in C++.
+------------------------------------------------------------------------------------------------------------
+### Naming conventions
+In C++, there are several naming conventions that developers commonly follow to enhance code readability and maintainability. While different projects or organizations might adopt slightly different conventions, there are some widely accepted practices. Here are some common naming conventions in C++:
+
+1. **CamelCase for Identifiers:**
+   - Classes and structs: `MyClass`, `MyStruct`
+   - Functions and methods: `myFunction()`, `calculateTotal()`
+   - Variables: `myVariable`, `totalCount`
+
+2. **PascalCase for Type Names:**
+   - Class and struct names should start with an uppercase letter: `MyClass`, `MyStruct`
+
+3. **ALL_CAPS for Constants:**
+   - Constants and macros should be in uppercase with underscores separating words: `MAX_VALUE`, `PI`
+
+4. **Underscore Prefix/Suffix for Member Variables:**
+   - Some developers prefer using underscores as a prefix or suffix for member variables to distinguish them from local variables or parameters: `myVariable_`, `_myVariable`
+
+5. **Namespace Naming:**
+   - Namespaces should be in lowercase and follow the CamelCase convention: `namespace myNamespace { /* ... */ }`
+
+6. **File Naming:**
+   - File names should be in lowercase and may use underscores or hyphens to separate words: `my_file.cpp`, `utility_functions.h`
+
+7. **Function Overloading with Meaningful Names:**
+   - When overloading functions, use names that convey the difference in functionality: `calculateArea(float radius)`, `calculateArea(float length, float width)`
+
+8. **Abbreviations and Acronyms:**
+   - Abbreviations and acronyms should be capitalized consistently: `XMLParser`, `calculateHTTPResponse`
+
+9. **Booleans with Is/Has Prefix:**
+   - Boolean variables and functions returning a boolean should use names that suggest a true/false condition: `isEnabled`, `hasData`
+
+10. **Avoid Single-Letter Names:**
+    - Except for loop indices and some other specific cases, it's generally better to use descriptive names instead of single-letter variables or functions.
+
+Remember that consistency within a codebase is crucial. If you're working on a project, it's essential to follow the established conventions to maintain code uniformity. Additionally, these conventions are not strict rules but are widely adopted guidelines to improve code readability and maintainability.
+
 ------------------------------------------------------------------------------------------------------------
 ### Preprocessor directives 
 	#include<iostream>    //file will be search in a pre-defined location 
@@ -404,10 +451,8 @@ int main() {
 - Dynamic library is loaded(linked) into program at runtime, dynamic library can be anywhere and you do the linking whereas static library is put(compiled) into your executable program
 - We have to point our compiler to header files (include files) and then we also have to point out our linker to library files.
 ------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------
 
-# Basics of C++
+------------------------------------------------------------------------------------------------------------
 ## 1. Variables and Data types
 ### Integer
 - Signed  5 ,-5
@@ -4982,7 +5027,8 @@ int main()
 }
 ```
 #### 3.10.4 Class Template
-- A class template allows you to create a template for a class that can work with different data types. 
+-  A class template allows you to create a template for a class that can work with different data types. 
+- Template class is added in .h file. not .cpp file
 
 ```cpp
 #include <iostream>
@@ -5015,22 +5061,23 @@ int main() {
 }
 ```
 
+```cpp
 #include <iostream>
+#include <vector>
 
 template<typename T>
-class Item{
-Public:
-    Item(std::string name,T value):name(name),value(value)
-    {
+class Item {
+public:
+    Item(std::string name,T value):name(name),value(value) {
         
     }
-    std::string get_name() const
-    {
+    std::string get_name() const {
+        //std::cout<<name<<'\n';
         return name;
     }
     
-    T get_value() const
-    {
+    T get_value() const {
+        //std::cout<<value<<'\n';
         return value;
     }
     
@@ -5039,11 +5086,52 @@ private:
     T value;
 };
 
+
 template <typename T1,typename T2>
-struct Pair{
+struct MyPair{
     T1 first;
     T2 second;
 };
+
+int main()
+{
+    Item<int> item1{"ItemNum1",200};
+    item1.get_name(); //ItemNum1
+    item1.get_value(); //200
+    
+    Item<std::string> item2{"ItemNum2","stringItem"};
+    item2.get_name(); //ItemNum2
+    item2.get_value(); //stringItem
+    
+    
+    Item<Item<std::string>> item3{"frank",{"C++","Professor"}};
+    item3.get_name(); //frank
+    std::cout<<item3.get_value().get_name()<<" ";  //C++
+    std::cout<<item3.get_value().get_value()<<'\n';  //C++ Professor
+    
+    std::vector<Item<double>> vec{};
+    vec.push_back(Item<double>("Larry",100.0));
+    vec.push_back(Item<double>("BOB",100.0));
+    vec.push_back(Item<double>("SMITH",100.0));
+    
+    for(const auto& i:vec)
+    {
+        std::cout<<i.get_name()<<" : "<<i.get_value()<<std::endl;
+    }
+    
+    //Larry : 100
+    //BOB : 100
+    //SMITH : 100
+    
+    MyPair<std::string,int> p1{"Hi",100};
+    std::cout<<p1.first<<" : "<<p1.second<<'\n'; //Hi : 100
+    MyPair<int,double> p2{2,2.56};
+    std::cout<<p2.first<<" : "<<p2.second<<'\n'; //2 : 2.56
+
+}
+
+
+```
 
 #### 3.10.5
 
