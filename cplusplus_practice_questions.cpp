@@ -1,3 +1,66 @@
+/*
+
+//Leet code
+//1637. Widest Vertical Area Between Two Points Containing No Points
+//https://leetcode.com/problems/widest-vertical-area-between-two-points-containing-no-points/description/?envType=daily-question&envId=2023-12-21
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+class Solution {
+public:
+    int maxWidthOfVerticalArea(std::vector<std::vector<int>>& points) {
+        std::vector<int> yAxis;
+
+        // Extract y values
+        for (const auto& point : points) {
+            yAxis.push_back(point[1]);
+        }
+
+        // Print y values using a range-based for loop
+        std::cout << "Y Axis: ";
+        for (int y : yAxis) {
+            std::cout << y << " ";
+        }
+        std::cout << '\n';
+
+        // Sort y values
+       std::sort(yAxis.begin(), yAxis.end());
+
+      // Print y values using a range-based for loop
+        std::cout << "Y Axis: ";
+        for (int y : yAxis) {
+            std::cout << y << " ";
+        }
+        std::cout << '\n';
+
+        // Find the maximum difference between adjacent y values
+        int maxWidth = 0;
+        for (size_t i = 1; i < yAxis.size(); ++i) {
+            int currentWidth = yAxis[i] - yAxis[i - 1];
+            maxWidth = std::max(maxWidth, currentWidth);
+        }
+
+        return maxWidth;
+    }
+};
+
+//{{8,7},{9,9},{7,4},{9,7}}
+
+int main() {
+    Solution s1;
+    std::vector<std::vector<int>> coordinates = {{8,7},{9,9},{7,4},{9,7}};
+    int result = s1.maxWidthOfVerticalArea(coordinates);
+    std::cout << "Max Width: " << result << std::endl;
+    return 0;
+}
+
+
+*/
+
+
+
 
 /* Hacker rank - For Loop
 # Practice
