@@ -1939,3 +1939,268 @@ Ensure that you replace `"YourClassHeader.h"` with the actual header file name w
 
 Compile and link this test file along with your main code and the Google Test framework. Run the executable to execute the tests. If you are using CMake, you would typically configure your `CMakeLists.txt` file to include the necessary dependencies for Google Test and link against the appropriate libraries.
 
+-----------------------------------------------------------------------------------------------------------
+
+The term ".NET" typically refers to the Microsoft .NET framework, which is a set of technologies and tools for building and running Windows applications and web services. The .NET framework supports multiple programming languages, and developers can use languages like C# or Visual Basic.NET to build applications that run on the .NET runtime.
+
+If you are working in C++, you may not be directly using the .NET framework. However, there are scenarios where C++ and .NET technologies can be integrated. Here are a couple of ways C++ and .NET can be related:
+
+1. **Managed C++ (C++/CLI):**
+   - Managed C++ (also known as C++/CLI, Common Language Infrastructure) is a set of language extensions for C++ that allows developers to write code that targets the .NET runtime. This enables the use of .NET features and libraries in C++ code.
+   - Managed C++ code can interact with other .NET languages like C# or Visual Basic.NET. It allows developers to take advantage of both native C++ features and .NET capabilities.
+
+2. **Interoperability with C++ and .NET:**
+   - C++ code can be integrated with .NET code through interoperability mechanisms. For example, you can use Platform Invocation Services (P/Invoke) to call functions from a native C++ DLL in a .NET application, or you can use COM Interop to expose C++ classes to .NET.
+   - This allows developers to leverage existing C++ codebases within .NET applications or vice versa.
+
+Here's a brief example of using C++/CLI to create a managed class that can be used by a .NET application:
+
+```cpp
+// Native C++ code
+#include <iostream>
+
+class NativeClass {
+public:
+    void NativeMethod() {
+        std::cout << "Native method called.\n";
+    }
+};
+
+// Managed C++/CLI code
+#using <mscorlib.dll>
+
+using namespace System;
+
+public ref class ManagedClass {
+private:
+    NativeClass* nativeInstance;
+
+public:
+    ManagedClass() {
+        nativeInstance = new NativeClass();
+    }
+
+    ~ManagedClass() {
+        delete nativeInstance;
+    }
+
+    void ManagedMethod() {
+        Console::WriteLine("Managed method called.");
+        nativeInstance->NativeMethod();
+    }
+};
+```
+
+In this example, the `NativeClass` is a native C++ class, and the `ManagedClass` is a managed C++/CLI class that interacts with the native class. The managed class can be used in a C# or other .NET languages.
+
+Remember that the choice to use C++ with .NET depends on the specific requirements of your project and the advantages each technology brings to the table.
+
+
+To establish a TCP connection from a C++ program to a .NET server, you can use the Winsock library in C++ for the networking part. The following example demonstrates a simple TCP client in C++ that connects to a .NET TCP server. The server, in this case, could be implemented in any language, including C#.
+
+Here's a C++ example for a TCP client:
+
+```cpp
+#include <iostream>
+#include <cstring>
+#include <cstdlib>
+#include <Winsock2.h>
+
+#pragma comment(lib, "ws2_32.lib")
+
+int main() {
+    // Initialize Winsock
+    WSADATA wsaData;
+    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+        std::cerr << "WSAStartup failed.\n";
+        return EXIT_FAILURE;
+    }
+
+    // Create a socket
+    SOCKET clientSocket = socket(AF_INET, SOCK_STREAM, 0);
+    if (clientSocket == INVALID_SOCKET) {
+        std::cerr << "Error creating socket: " << WSAGetLastError() << "\n";
+        WSACleanup();
+        return EXIT_FAILURE;
+    }
+
+    // Connect to the server
+    sockaddr_in serverAddr;
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(12345); // Server port number
+    inet_pton(AF_INET, "127.0.0.1", &(serverAddr.sin_addr));
+
+    if (connect(clientSocket, reinterpret_cast<sockaddr*>(&serverAddr), sizeof(serverAddr)) == SOCKET_ERROR) {
+        std::cerr << "Connect failed with error: " << WSAGetLastError() << "\n";
+        closesocket(clientSocket);
+        WSACleanup();
+        return EXIT_FAILURE;
+    }
+
+    // Send data to the server
+    const char* message = "Hello, .NET Server!";
+    if (send(clientSocket, message, strlen(message), 0) == SOCKET_ERROR) {
+        std::cerr << "Send failed with error: " << WSAGetLastError() << "\n";
+    } else {
+        std::cout << "Message sent to .NET server.\n";
+    }
+
+    // Cleanup
+    closesocket(clientSocket);
+    WSACleanup();
+
+    return EXIT_SUCCESS;
+}
+```
+
+In this example, the client connects to a server running on the local machine (`127.0.0.1`) on port 12345. You should replace these values with the actual IP address and port number of your .NET server.
+
+Please note that for this C++ client to communicate with a .NET server, the server should be implemented to handle incoming TCP connections and messages. The server could be developed in C# using the TcpListener and TcpClient classes or in any other .NET-compatible language. The key is to have the server logic that can handle incoming connections and process data sent by the client.
+
+
+To create a simple TCP client-server connection in C++, you can use the `<iostream>`, `<cstring>`, `<cstdlib>`, and `<Winsock2.h>` headers. Note that this example is for Windows, and you need to link against the `ws2_32` library.
+
+Here's a basic example of a TCP client and server using Winsock in C++:
+
+### Server (TCP Server)
+
+```cpp
+#include <iostream>
+#include <cstring>
+#include <cstdlib>
+#include <Winsock2.h>
+
+#pragma comment(lib, "ws2_32.lib")
+
+int main() {
+    // Initialize Winsock
+    WSADATA wsaData;
+    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+        std::cerr << "WSAStartup failed.\n";
+        return EXIT_FAILURE;
+    }
+
+    // Create a socket
+    SOCKET serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+    if (serverSocket == INVALID_SOCKET) {
+        std::cerr << "Error creating socket: " << WSAGetLastError() << "\n";
+        WSACleanup();
+        return EXIT_FAILURE;
+    }
+
+    // Bind the socket
+    sockaddr_in serverAddr;
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_addr.s_addr = INADDR_ANY;
+    serverAddr.sin_port = htons(12345); // Port number
+
+    if (bind(serverSocket, reinterpret_cast<sockaddr*>(&serverAddr), sizeof(serverAddr)) == SOCKET_ERROR) {
+        std::cerr << "Bind failed with error: " << WSAGetLastError() << "\n";
+        closesocket(serverSocket);
+        WSACleanup();
+        return EXIT_FAILURE;
+    }
+
+    // Listen for incoming connections
+    if (listen(serverSocket, SOMAXCONN) == SOCKET_ERROR) {
+        std::cerr << "Listen failed with error: " << WSAGetLastError() << "\n";
+        closesocket(serverSocket);
+        WSACleanup();
+        return EXIT_FAILURE;
+    }
+
+    std::cout << "Server listening on port 12345...\n";
+
+    // Accept a connection
+    SOCKET clientSocket = accept(serverSocket, nullptr, nullptr);
+    if (clientSocket == INVALID_SOCKET) {
+        std::cerr << "Accept failed with error: " << WSAGetLastError() << "\n";
+        closesocket(serverSocket);
+        WSACleanup();
+        return EXIT_FAILURE;
+    }
+
+    // Communication with the client
+    char buffer[1024];
+    std::memset(buffer, 0, sizeof(buffer));
+
+    if (recv(clientSocket, buffer, sizeof(buffer), 0) == SOCKET_ERROR) {
+        std::cerr << "Recv failed with error: " << WSAGetLastError() << "\n";
+    } else {
+        std::cout << "Received from client: " << buffer << "\n";
+    }
+
+    // Cleanup
+    closesocket(clientSocket);
+    closesocket(serverSocket);
+    WSACleanup();
+
+    return EXIT_SUCCESS;
+}
+```
+
+### Client (TCP Client)
+
+```cpp
+#include <iostream>
+#include <cstring>
+#include <cstdlib>
+#include <Winsock2.h>
+
+#pragma comment(lib, "ws2_32.lib")
+
+int main() {
+    // Initialize Winsock
+    WSADATA wsaData;
+    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+        std::cerr << "WSAStartup failed.\n";
+        return EXIT_FAILURE;
+    }
+
+    // Create a socket
+    SOCKET clientSocket = socket(AF_INET, SOCK_STREAM, 0);
+    if (clientSocket == INVALID_SOCKET) {
+        std::cerr << "Error creating socket: " << WSAGetLastError() << "\n";
+        WSACleanup();
+        return EXIT_FAILURE;
+    }
+
+    // Connect to the server
+    sockaddr_in serverAddr;
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(12345); // Server port number
+    inet_pton(AF_INET, "127.0.0.1", &(serverAddr.sin_addr));
+
+    if (connect(clientSocket, reinterpret_cast<sockaddr*>(&serverAddr), sizeof(serverAddr)) == SOCKET_ERROR) {
+        std::cerr << "Connect failed with error: " << WSAGetLastError() << "\n";
+        closesocket(clientSocket);
+        WSACleanup();
+        return EXIT_FAILURE;
+    }
+
+    // Send data to the server
+    const char* message = "Hello, Server!";
+    if (send(clientSocket, message, strlen(message), 0) == SOCKET_ERROR) {
+        std::cerr << "Send failed with error: " << WSAGetLastError() << "\n";
+    } else {
+        std::cout << "Message sent to server.\n";
+    }
+
+    // Cleanup
+    closesocket(clientSocket);
+    WSACleanup();
+
+    return EXIT_SUCCESS;
+}
+```
+
+This example demonstrates a basic TCP client-server interaction. The server listens on port 12345, accepts a connection from a client, and receives a message from the client. The client connects to the server, sends a message, and then closes the connection. Note that error handling is minimal in this example for simplicity; in a production environment, you would want to handle errors more robustly.
+
+
+
+
+
+
+
+
+
