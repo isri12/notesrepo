@@ -2198,6 +2198,93 @@ This example demonstrates a basic TCP client-server interaction. The server list
 
 
 
+---------------
+
+
+ **Here's a C++ example demonstrating how to connect to a .NET server using TCP:**
+
+**1. Include necessary headers:**
+
+```c++
+#include <iostream>
+#include <string>
+#include <winsock2.h>  // Include Windows socket library
+#pragma comment(lib, "ws2_32.lib")  // Link with ws2_32.lib
+```
+
+**2. Initialize Winsock:**
+
+```c++
+WSADATA wsaData;
+if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+    std::cerr << "WSAStartup failed." << std::endl;
+    return 1;
+}
+```
+
+**3. Create a TCP socket:**
+
+```c++
+SOCKET sock = socket(AF_INET, SOCK_STREAM, 0);
+if (sock == INVALID_SOCKET) {
+    std::cerr << "socket failed." << std::endl;
+    WSACleanup();
+    return 1;
+}
+```
+
+**4. Specify server address and port:**
+
+```c++
+sockaddr_in serverAddr;
+serverAddr.sin_family = AF_INET;
+serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");  // Replace with server IP address
+serverAddr.sin_port = htons(8080);  // Replace with server port
+```
+
+**5. Connect to the server:**
+
+```c++
+if (connect(sock, (sockaddr*)&serverAddr, sizeof(serverAddr)) != 0) {
+    std::cerr << "connect failed." << std::endl;
+    closesocket(sock);
+    WSACleanup();
+    return 1;
+}
+```
+
+**6. Send and receive data:**
+
+```c++
+std::string message = "Hello from C++ client!";
+if (send(sock, message.c_str(), message.length(), 0) == SOCKET_ERROR) {
+    std::cerr << "send failed." << std::endl;
+    closesocket(sock);
+    WSACleanup();
+    return 1;
+}
+
+char buffer[1024];
+int bytesReceived = recv(sock, buffer, sizeof(buffer), 0);
+if (bytesReceived > 0) {
+    std::cout << "Received from server: " << std::string(buffer, 0, bytesReceived) << std::endl;
+} else {
+    std::cerr << "recv failed." << std::endl;
+}
+```
+
+**7. Close the socket and cleanup:**
+
+```c++
+closesocket(sock);
+WSACleanup();
+```
+
+**Remember:**
+
+- Replace placeholders with the actual server IP address and port.
+- Handle errors appropriately in a production environment.
+- This example assumes a compatible .NET server is listening on the specified port.
 
 
 
