@@ -4325,11 +4325,169 @@ Inheritance supports the "is-a" relationship, meaning that an object of the deri
 
 #### 3.5.2  Inheretance VS Composition
 
+- Both allow reuse of Existing Class
+- public inheretance
+  	- "is-a" relationship
+  	- EX. Employee is a person(base class)
+  	- EX. CheckingAccount is-a Account
+  	- EX Circle is-a shape
+  - Composition
+    	- Has-a relationship
+    	- Person has a Account
+    	- Circle has-a location
+    	- Player has-a special run
+    
+
+In software design, inheritance and composition are two different approaches to building relationships between classes. Let's consider an example with a `Person` class and an `Account` class to illustrate both inheritance and composition.
+
+### Inheritance Example:
+
+```cpp
+#include <iostream>
+#include <string>
+
+class Account {
+public:
+    Account(double balance) : balance(balance) {}
+
+    void deposit(double amount) {
+        balance += amount;
+    }
+
+    void withdraw(double amount) {
+        if (amount <= balance) {
+            balance -= amount;
+        } else {
+            std::cout << "Insufficient funds." << std::endl;
+        }
+    }
+
+    double getBalance() const {
+        return balance;
+    }
+
+private:
+    double balance;
+};
+
+class Person : public Account {
+public:
+    Person(const std::string& name, double balance)
+        : Account(balance), name(name) {}
+
+    void display() const {
+        std::cout << "Name: " << name << ", Balance: $" << getBalance() << std::endl;
+    }
+
+private:
+    std::string name;
+};
+
+int main() {
+    Person person("John Doe", 1000.0);
+    person.display();
+
+    person.deposit(500.0);
+    person.display();
+
+    person.withdraw(200.0);
+    person.display();
+
+    return 0;
+}
+```
+
+In this example, `Person` is inheriting from `Account`. A `Person` object has access to the `deposit`, `withdraw`, and `getBalance` methods of the `Account` class. The `Person` class adds a `display` method to show additional information.
+
+### Composition Example:
+
+```cpp
+#include <iostream>
+#include <string>
+
+class Account {
+public:
+    Account(double balance) : balance(balance) {}
+
+    void deposit(double amount) {
+        balance += amount;
+    }
+
+    void withdraw(double amount) {
+        if (amount <= balance) {
+            balance -= amount;
+        } else {
+            std::cout << "Insufficient funds." << std::endl;
+        }
+    }
+
+    double getBalance() const {
+        return balance;
+    }
+
+private:
+    double balance;
+};
+
+class Person {
+public:
+    Person(const std::string& name, double balance)
+        : name(name), account(balance) {}
+
+    void display() const {
+        std::cout << "Name: " << name << ", Balance: $" << account.getBalance() << std::endl;
+    }
+
+    void deposit(double amount) {
+        account.deposit(amount);
+    }
+
+    void withdraw(double amount) {
+        account.withdraw(amount);
+    }
+
+private:
+    std::string name;
+    Account account;
+};
+
+int main() {
+    Person person("John Doe", 1000.0);
+    person.display();
+
+    person.deposit(500.0);
+    person.display();
+
+    person.withdraw(200.0);
+    person.display();
+
+    return 0;
+}
+```
+
+In this example, `Person` has an instance of the `Account` class as a member variable. `Person` delegates calls to `deposit`, `withdraw`, and `getBalance` to the `Account` class. This is an example of composition.
+
+### Choosing Between Inheritance and Composition:
+
+- **Inheritance:**
+  - Useful when you want to model an "is-a" relationship.
+  - Can lead to a more natural hierarchy.
+  - Can reuse code from the base class.
+
+- **Composition:**
+  - Useful when you want to model a "has-a" relationship.
+  - Provides better encapsulation.
+  - More flexible and allows for easier modification.
+
+The choice between inheritance and composition depends on the specific needs of your design and the relationships between the classes. Often, a combination of both techniques is used to achieve the desired results.
+
+
+#### 3.5.3 Deriving class from Existing CLASS
 
 
 
 
-#### 3.5.3 Deriving class from Exixting CLASS
+
 
 #### 3.5.4 
 #### 3.5.5  
