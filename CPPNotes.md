@@ -4484,8 +4484,15 @@ The choice between inheritance and composition depends on the specific needs of 
 
 #### 3.5.3 Deriving class from Existing CLASS
 
+C++ derivation syntax
 
-
+class Base {
+	//Base class Members
+}
+class Derived : access-specifier Base 
+{
+	//Derived class members
+}
 
 
 
