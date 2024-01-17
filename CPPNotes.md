@@ -4482,7 +4482,7 @@ In this example, `Person` has an instance of the `Account` class as a member var
 The choice between inheritance and composition depends on the specific needs of your design and the relationships between the classes. Often, a combination of both techniques is used to achieve the desired results.
 
 
-#### 3.5.3 Deriving class from Existing CLASS
+#### 3.5.3 Deriving class from Existing class
 
 C++ derivation syntax
 
@@ -4494,9 +4494,248 @@ class Derived : access-specifier Base
 	//Derived class members
 }
 
+In C++, you can create a derived class from an existing class using the syntax:
+
+```cpp
+class BaseClass {
+    // Base class definition
+};
+
+class DerivedClass : public BaseClass {
+    // Derived class definition
+};
+```
+
+Here, `DerivedClass` is derived from `BaseClass` using the `public` access specifier. This means that the public and protected members of `BaseClass` will retain their access levels in `DerivedClass`. If you use `protected` or `private` instead of `public`, the access level of the base class members will be accordingly changed in the derived class.
+
+Here's an example to illustrate this:
+
+```cpp
+#include <iostream>
+
+class BaseClass {
+public:
+    void baseMethod() {
+        std::cout << "Base class method\n";
+    }
+};
+
+class DerivedClass : public BaseClass {
+public:
+    void derivedMethod() {
+        std::cout << "Derived class method\n";
+    }
+};
+
+int main() {
+    DerivedClass derivedObj;
+
+    // Accessing base class method through derived class object
+    derivedObj.baseMethod();
+
+    // Accessing derived class method
+    derivedObj.derivedMethod();
+
+    return 0;
+}
+```
+
+In this example, `DerivedClass` is derived from `BaseClass`. Objects of `DerivedClass` can access both the methods of the base class (`baseMethod`) and the methods specific to the derived class (`derivedMethod`). When you run this program, it will output:
+
+```
+Base class method
+Derived class method
+```
+
+Remember that the access specifier (`public`, `protected`, or `private`) determines how the members of the base class are inherited in the derived class. `public` inheritance means that public members stay public, protected members stay protected, and private members remain inaccessible in the derived class.
+
+Certainly! Let's build on the previous example and introduce more advanced concepts such as constructors, destructors, and additional methods. We'll also illustrate method overriding in the derived class.
+
+```cpp
+#include <iostream>
+
+class BaseClass {
+private:
+    int basePrivateData;
+
+protected:
+    int baseProtectedData;
+
+public:
+    BaseClass() : basePrivateData(0), baseProtectedData(0) {
+        std::cout << "Base class constructor\n";
+    }
+
+    // A virtual function to be overridden by derived classes
+    virtual void displayInfo() const {
+        std::cout << "Base class information\n";
+    }
+
+    void setBaseData(int privateData, int protectedData) {
+        basePrivateData = privateData;
+        baseProtectedData = protectedData;
+    }
+
+    ~BaseClass() {
+        std::cout << "Base class destructor\n";
+    }
+};
+
+class DerivedClass : public BaseClass {
+private:
+    int derivedPrivateData;
+
+public:
+    DerivedClass() : derivedPrivateData(0) {
+        std::cout << "Derived class constructor\n";
+    }
+
+    // Override the base class virtual function
+    void displayInfo() const override {
+        std::cout << "Derived class information\n";
+    }
+
+    void setDerivedData(int privateData) {
+        derivedPrivateData = privateData;
+    }
+
+    ~DerivedClass() {
+        std::cout << "Derived class destructor\n";
+    }
+};
+
+int main() {
+    DerivedClass derivedObj;
+
+    // Accessing base class method through derived class object
+    derivedObj.setBaseData(10, 20);
+
+    // Accessing derived class method
+    derivedObj.setDerivedData(30);
+
+    // Accessing overridden method
+    derivedObj.displayInfo();
+
+    return 0;
+}
+```
+
+In this example:
+
+- The `BaseClass` has a private member (`basePrivateData`) and a protected member (`baseProtectedData`).
+- The constructor of `BaseClass` initializes these members, and the destructor prints a message upon destruction.
+- `DerivedClass` is derived from `BaseClass` and has its private member (`derivedPrivateData`).
+- The constructor of `DerivedClass` initializes its member, and the destructor prints a message upon destruction.
+- `DerivedClass` overrides the virtual function `displayInfo` defined in `BaseClass`.
+- The `main` function demonstrates creating a `DerivedClass` object, setting data in both the base and derived parts, and invoking overridden methods.
+
+When you run this program, it will output:
+
+```
+Base class constructor
+Derived class constructor
+Derived class destructor
+Base class destructor
+```
+
+This illustrates the order of construction and destruction in the case of a derived class. The base class is constructed first, then the derived class, and the destructors are called in the reverse order.
+
+#### 3.5.4 Protected Members and Class Access
+
+In C++, the `protected` access specifier is used to specify that the members (both data members and member functions) declared under this specifier are accessible within the class and its derived classes, but not from outside the class or its derived classes. This allows for a level of encapsulation and controlled access within an inheritance hierarchy.
+
+Here's an example to illustrate the use of `protected` members and class access:
+
+```cpp
+#include <iostream>
+
+class BaseClass {
+protected:
+    int protectedData;
+
+public:
+    BaseClass() : protectedData(0) {
+        std::cout << "Base class constructor\n";
+    }
+
+    // A public member function accessing the protected member
+    void setProtectedData(int data) {
+        protectedData = data;
+    }
+
+    // A public member function displaying information
+    void displayInfo() const {
+        std::cout << "Base class information: protectedData = " << protectedData << "\n";
+    }
+
+    ~BaseClass() {
+        std::cout << "Base class destructor\n";
+    }
+};
+
+class DerivedClass : public BaseClass {
+private:
+    int derivedPrivateData;
+
+public:
+    DerivedClass() : derivedPrivateData(0) {
+        std::cout << "Derived class constructor\n";
+    }
+
+    // A public member function setting data in both base and derived parts
+    void setData(int baseData, int derivedData) {
+        setProtectedData(baseData);
+        derivedPrivateData = derivedData;
+    }
+
+    // Override the base class displayInfo method
+    void displayInfo() const override {
+        std::cout << "Derived class information: protectedData = " << protectedData
+                  << ", derivedPrivateData = " << derivedPrivateData << "\n";
+    }
+
+    ~DerivedClass() {
+        std::cout << "Derived class destructor\n";
+    }
+};
+
+int main() {
+    DerivedClass derivedObj;
+
+    // Accessing protected member using a public member function
+    derivedObj.setProtectedData(10);
+
+    // Accessing derived class method
+    derivedObj.setData(20, 30);
+
+    // Accessing overridden method
+    derivedObj.displayInfo();
+
+    return 0;
+}
+```
+
+In this example:
+
+- `BaseClass` has a protected member `protectedData`.
+- `DerivedClass` is derived from `BaseClass` and has an additional private member `derivedPrivateData`.
+- The `setData` member function of `DerivedClass` sets data in both the base and derived parts.
+- The `displayInfo` method is overridden in `DerivedClass` to display information from both base and derived parts.
+
+When you run this program, it will output:
+
+```
+Base class constructor
+Derived class constructor
+Derived class information: protectedData = 20, derivedPrivateData = 30
+Derived class destructor
+Base class destructor
+```
+
+This example demonstrates how protected members can be accessed within a derived class and how the access specifiers affect the visibility of members in different parts of the class hierarchy.
 
 
-#### 3.5.4 
+
 #### 3.5.5  
 #### 3.5.6  
 
