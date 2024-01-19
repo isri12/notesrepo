@@ -4640,7 +4640,132 @@ Base class destructor
 
 This illustrates the order of construction and destruction in the case of a derived class. The base class is constructed first, then the derived class, and the destructors are called in the reverse order.
 
+```cpp
+#include <iostream>
+#include <string>
+#include <memory>
+
+class Account {
+public:
+    Account(){
+        
+    }
+    
+    Account(double balance) : balance(balance) {
+        
+    }
+    
+    ~Account(){
+        
+    }
+
+    void deposit(double amount) {
+        // balance += amount;
+        std::cout << "@ base Account deposit: "<<amount<< std::endl;
+    }
+
+    void withdraw(double amount) {
+        // if (amount <= balance) {
+        //     balance -= amount;
+        // } else {
+            std::cout << "@ base Account withdraw: " <<amount<< std::endl;
+        //}
+    }
+
+    double getBalance() const {
+        return balance;
+    }
+
+private:
+    double balance;
+    std::string name;
+};
+
+class Person : public Account {
+public:
+    Person(const std::string& name, double balance)
+        : Account(balance), name(name) {}
+
+    void display() const {
+        std::cout << "Name: " << name << ", Balance: $" << getBalance() << std::endl;
+    }
+
+private:
+    std::string name;
+};
+
+
+class savingsAccount:public Account
+{
+public:
+  savingsAccount(){
+      
+  };
+  
+  ~savingsAccount(){
+      
+  }
+  
+   void deposit(double amount) {
+        //balance += amount;
+        std::cout << "@ savingsAccount deposit: " <<amount<<  std::endl;
+    }
+
+    void withdraw(double amount) {
+        // if (amount <= balance) {
+        //     balance -= amount;
+        // } else {
+            std::cout << "@ savingsAccount withdraw: " << amount<<std::endl;
+        //}
+    }
+
+    
+};
+
+int main() {
+   Account account1;
+   account1.deposit(100);  //@ base Account deposit: 100
+   account1.withdraw(200); //@ base Account withdraw: 200
+   
+   Account *Ptr_account = new Account();
+   Ptr_account->deposit(300);//@ base Account deposit: 300
+   Ptr_account->withdraw(400); //@ base Account withdraw: 400
+   
+   
+   std::unique_ptr<Account> unique_ptr_account = std::make_unique<Account>(); 
+   unique_ptr_account->deposit(500);//@ base Account deposit: 500
+   unique_ptr_account->withdraw(600); //@ base Account withdraw: 600
+  
+  //---------------------------------------------------------------------
+  
+  
+  savingsAccount savingsaccount1;
+  savingsaccount1.deposit(100); //@ savingsAccount deposit: 100
+  savingsaccount1.withdraw(200); //@ savingsAccount withdraw: 200
+  
+  savingsAccount *Ptr_sav_account = new savingsAccount();
+  Ptr_sav_account->deposit(300);//@ savingsAccount deposit: 300
+  Ptr_sav_account->withdraw(400); //@ savingsAccount withdraw: 400
+   
+   
+   std::unique_ptr<savingsAccount> unique_ptr_sav_account = std::make_unique<savingsAccount>(); 
+   unique_ptr_sav_account->deposit(500);//@ savingsAccount deposit: 500
+   unique_ptr_sav_account->withdraw(600); //@ savingsAccount withdraw: 600
+  
+    //---------------------------------------------------------------------
+
+  
+    return 0;
+}
+```
+
+
 #### 3.5.4 Protected Members and Class Access
+
+**Access Specifier**
+- public
+  
+- private and protected
 
 In C++, the `protected` access specifier is used to specify that the members (both data members and member functions) declared under this specifier are accessible within the class and its derived classes, but not from outside the class or its derived classes. This allows for a level of encapsulation and controlled access within an inheritance hierarchy.
 
