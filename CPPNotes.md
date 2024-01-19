@@ -4264,7 +4264,9 @@ int main() {
 
 
 ### 3.5 Inheritance
+
 #### 3.5.1 What is inheritance? 
+
 - provides a method os creating a classes from existing classes
 - the new class contains the data and behaviors of the existing class.
 - allow the reuse of existing classes
@@ -4761,11 +4763,117 @@ int main() {
 
 
 #### 3.5.4 Protected Members and Class Access
+Access specifiers (`public`, `protected`, and `private`) determine the visibility of class members (variables and functions) within the class and its derived classes. Here's an example that illustrates the use of these access specifiers:
 
 **Access Specifier**
 - public
   
-- private and protected
+- protected
+  
+- private  
+
+
+
+```cpp
+#include <iostream>
+
+// Base class
+class BaseClass {
+public:    // Public members are accessible from outside the class and its derived classes
+    int publicData;
+
+    BaseClass() : publicData(0) {
+        std::cout << "BaseClass Constructor\n";
+    }
+
+    // Public member function
+    void publicMethod() {
+        std::cout << "BaseClass publicMethod\n";
+    }
+
+protected: // Protected members are accessible within the class and its derived classes, but not from outside
+    int protectedData;
+
+    // Protected member function
+    void protectedMethod() {
+        std::cout << "BaseClass protectedMethod\n";
+    }
+
+private:   // Private members are accessible only within the class, not from derived classes or outside
+    int privateData;
+
+    // Private member function
+    void privateMethod() {
+        std::cout << "BaseClass privateMethod\n";
+    }
+
+public:
+    // Public member function that calls private and protected members
+    void accessPrivateAndProtected() {
+        std::cout << "Accessing privateData: " << privateData << "\n";
+        std::cout << "Accessing protectedData: " << protectedData << "\n";
+        privateMethod();
+        protectedMethod();
+    }
+
+    ~BaseClass() {
+        std::cout << "BaseClass Destructor\n";
+    }
+};
+
+// Derived class
+class DerivedClass : public BaseClass {
+public:
+    void derivedMethod() {
+        std::cout << "DerivedClass derivedMethod\n";
+    }
+
+    // Public member function that calls base class protected method
+    void callProtectedMethod() {
+        protectedMethod();
+    }
+};
+
+int main() {
+    // Create an object of the derived class
+    DerivedClass derivedObj;
+
+    // Access public members and methods
+    derivedObj.publicData = 42;
+    std::cout << "Accessing publicData: " << derivedObj.publicData << "\n";
+    derivedObj.publicMethod();
+
+    // Access protected members and methods (from within the derived class)
+    derivedObj.protectedData = 10;
+    std::cout << "Accessing protectedData: " << derivedObj.protectedData << "\n";
+    derivedObj.protectedMethod();
+
+    // Accessing base class public and protected members using derived class object
+    derivedObj.accessPrivateAndProtected();
+
+    // Accessing a public method that calls a protected method in the base class
+    derivedObj.callProtectedMethod();
+
+    return 0;
+}
+```
+
+
+In this example:
+
+- `BaseClass` has members with `public`, `protected`, and `private` access specifiers.
+- `DerivedClass` is derived from `BaseClass`.
+- `main` demonstrates access to these members from both within the class hierarchy and outside.
+
+Remember the key principles:
+
+- `public`: Members are accessible from anywhere.
+- `protected`: Members are accessible within the class and its derived classes.
+- `private`: Members are accessible only within the class.
+
+Inheritance allows derived classes to access protected and public members of the base class. Access specifiers play a crucial role in controlling the visibility of members in class hierarchies.
+
+-----
 
 In C++, the `protected` access specifier is used to specify that the members (both data members and member functions) declared under this specifier are accessible within the class and its derived classes, but not from outside the class or its derived classes. This allows for a level of encapsulation and controlled access within an inheritance hierarchy.
 
@@ -4859,10 +4967,72 @@ Base class destructor
 
 This example demonstrates how protected members can be accessed within a derived class and how the access specifiers affect the visibility of members in different parts of the class hierarchy.
 
+another example: 
+```cpp
+#include <iostream>
+
+class Base
+{
+public:
+int a{0};
+
+void display()
+{
+    std::cout<<"a:"<<a<<" b:"<<b<<" c:"<<c<<'\n';
+}
+
+protected:
+int b{0};
+
+private:
+int c{0};
+};
 
 
-#### 3.5.5  
-#### 3.5.6  
+class Derived: public Base{
+// friends of derived class has only access to only what Derived has access to
+//a and b are accessable
+//c is not accessable
+
+public:
+void access_base_members(){
+    a=500;
+    b=600;
+    std::cout<<"a:"<<a<<" b:"<<b<<'\n';
+    
+    //c is not accessable because its private
+    //" c:"<<c<<'\n'; //‘int Base::c’ is private within this context
+    //c=600; error: ‘int Base::c’ is private within this context
+    
+}
+
+};
+
+int main() {
+    Base base;
+    base.display(); //a:0 b:0 c:0
+    
+    base.a=100;
+    base.display(); //a:100 b:0 c:0
+    //base.b{200}; //error: int Base::b’ is protected within this context
+    //base.c{300}; //error: ‘int Base::c’ is private within this context
+    //---------------------------------------------
+    
+    Derived derived1;
+    derived1.a=400;
+    derived1.display(); //a:400 b:0 c:0
+    derived1.access_base_members(); //a:500 b:600
+    
+    
+    return 0;
+}
+```
+#### 3.5.5  Constructors and Destructors
+#### 3.5.6 Passing Arguments to base class Constructors 
+#### 3.5.7 copy/move Constructors and operator = with derived class
+#### 3.5.8 Redefining Base Class Methods
+#### 3.5.9 Multiple Ingeretance
+#### 3.5.10 The updated Account Example
 
 
 ### 3.6 Polymorphism
