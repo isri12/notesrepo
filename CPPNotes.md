@@ -5028,6 +5028,64 @@ int main() {
 }
 ```
 #### 3.5.5  Constructors and Destructors
+- when a derived object is created
+  	- Base class constructor executes then
+  	- Derived class constructor executes
+
+- Destructors are invoked in reverse order of constructors
+	- Derived class Destructed first then
+   	- Base class Destructor invoked
+
+```cpp
+#include <iostream>
+
+class Base
+{
+public:
+    Base(){
+       std::cout<<"Base Constructor called! "<<'\n'; 
+    }
+    
+     ~Base(){
+       std::cout<<"Base Destructor called! "<<'\n'; 
+    }
+};
+
+
+class Derived: public Base{
+public:
+    Derived(){
+       std::cout<<"Derived Constructor called! "<<'\n'; 
+    }
+    
+    ~Derived(){
+       std::cout<<"Derived Destructor called! "<<'\n'; 
+    }
+    
+};
+
+int main() {
+    Base base1; //Base Constructor called! 
+                //Base Destructor called! 
+    //-----------------------------------------------
+    Derived derived1;  //Base Constructor called! 
+                        //Derived Constructor called! 
+                        //Derived Destructor called! 
+                        //Base Destructor called! 
+                        
+                
+    return 0;
+}
+
+```
+- A derived class does **NOT** inherit
+  	- Base class constructor
+  	- Base class destructor
+  	- Base class overloaded assignment operators
+  	- Base class friend functions
+- However, the derived class constructors, destructors and overloaded assignment operators can invoke the base-class versions
+
+
 #### 3.5.6 Passing Arguments to base class Constructors 
 #### 3.5.7 copy/move Constructors and operator = with derived class
 #### 3.5.8 Redefining Base Class Methods
