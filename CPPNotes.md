@@ -5165,8 +5165,73 @@ what if we want to call Derived(int x){} and Base(int x){} ????
 
 #### 3.5.6 Passing Arguments to base class Constructors 
 
+```cpp
+#include <iostream>
+
+class Base
+{
+public:
+    Base(){
+       std::cout<<"Base No Args Constructor called! "<<'\n'; 
+    }
+    
+    Base(int x):value{x} {
+        std::cout<<"Base int: "<<value<<" Constructor called! "<<'\n'; 
+    }
+    
+     ~Base(){
+       std::cout<<"Base Destructor called! "<<'\n'; 
+    }
+private:
+    int value;
+};
 
 
+class Derived: public Base{
+    //using Base::Base; //  Bring the BaseClass constructor into the scope of DerivedClass //disable Derived(int x)
+public:
+    Derived(): Base{}{
+       std::cout<<"Derived Constructor called! "<<'\n'; 
+    }
+    
+    Derived(int x):Base{x},Derived_Val{x} {
+        std::cout<<"Derived_Val int: "<<Derived_Val<<" Constructor called! "<<'\n'; 
+    }
+    
+    ~Derived(){
+       std::cout<<"Derived Destructor called! "<<'\n'; 
+    }
+private:
+    int Derived_Val;
+    
+    
+};
+
+int main() {
+    //Base base; 
+    //Base No Args Constructor called! 
+    //Base Destructor called! 
+        //------------------------------------------
+    //Base base1{100};
+    //Base int: 100 Constructor called!  
+    //Base Destructor called! 
+        //------------------------------------------
+    //Derived derived;
+    //Base No Args Constructor called! 
+    //Derived Constructor called! 
+    //Derived Destructor called! 
+    //Base Destructor called! 
+    //------------------------------------------
+    Derived derived{200};
+    //Base int: 200 Constructor called! 
+    //Derived_Val int: 200 Constructor called! 
+    //Derived Destructor called! 
+    // Base Destructor called! 
+    
+    
+    return 0;
+}
+```
 
 
 
