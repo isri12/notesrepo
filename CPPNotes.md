@@ -5085,9 +5085,93 @@ int main() {
   	- Base class friend functions
 - However, the derived class constructors, destructors and overloaded assignment operators can invoke the base-class versions
 
+```cpp
+#include <iostream>
 
+class Base
+{
+public:
+    Base(){
+       std::cout<<"Base No Args Constructor called! "<<'\n'; 
+    }
+    
+    Base(int x):value{x} {
+        std::cout<<"Base int: "<<value<<" Constructor called! "<<'\n'; 
+    }
+    
+     ~Base(){
+       std::cout<<"Base Destructor called! "<<'\n'; 
+    }
+private:
+    int value;
+};
+
+
+class Derived: public Base{
+    using Base::Base; //  Bring the BaseClass constructor into the scope of DerivedClass //disable Derived(int x)
+public:
+    Derived(){
+       std::cout<<"Derived Constructor called! "<<'\n'; 
+    }
+    
+    // Derived(int x):Derived_Val{x} {
+    //     std::cout<<"Derived_Val int: "<<Derived_Val<<" Constructor called! "<<'\n'; 
+    // }
+    
+    ~Derived(){
+       std::cout<<"Derived Destructor called! "<<'\n'; 
+    }
+private:
+    int Derived_Val;
+    
+    
+};
+
+int main() {
+    //Base base1; 
+    //Base No Args Constructor called! 
+    //Base Destructor called! 
+        //-----------------------------------------------
+    //Base base2{20};
+    //Base int: 20 Constructor called!
+    //Base Destructor called! 
+      //-----------------------------------------------
+    //Derived derived1; 
+    //Base No Args Constructor called! 
+    //Derived Constructor called! 
+    //Derived Destructor called! 
+    //Base Destructor called! 
+        //-----------------------------------------------
+    //Derived derived2{200};
+    //Base No Args Constructor called! 
+    // Derived_Val int: 200 Constructor called! 
+    // Derived Destructor called! 
+    // Base Destructor called! 
+        //-----------------------------------------------
+    //after using Base::Base and disabling Derived(int x){}
+    Derived derived2{200};
+    //Base int: 200 Constructor called! 
+    //Derived Destructor called! 
+    //Base Destructor called! 
+    
+    //what if we want to call Derived(int x){} and Base(int x){} ????
+    
+    
+    return 0;
+}
+
+```
+what if we want to call Derived(int x){} and Base(int x){} ????
 
 #### 3.5.6 Passing Arguments to base class Constructors 
+
+
+
+
+
+
+
+
 #### 3.5.7 copy/move Constructors and operator = with derived class
 #### 3.5.8 Redefining Base Class Methods
 #### 3.5.9 Multiple Ingeretance
