@@ -70,7 +70,41 @@ int main() {
 5. **O(n^2)**: Polynomial Time
    - **Meaning**: The time complexity grows quadratically with the size of the data set. Typically involves nested loops where each loop iterates over the data set.
    - **Example**: Bubble sort (O(n^2)).
+```cpp
+#include <iostream>
+#include <vector>
 
+void bubbleSort(std::vector<int>& arr) {
+    int n = arr.size();
+    for (int i = 0; i < n - 1; ++i) {
+        for (int j = 0; j < n - i - 1; ++j) {
+            if (arr[j] > arr[j + 1]) {
+                // Swap arr[j] and arr[j + 1]
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+int main() {
+    // Create a vector of integers
+    std::vector<int> numbers = {5, 3, 8, 2, 1};
+
+    // Sort the array using bubble sort
+    bubbleSort(numbers);
+
+    // Print the sorted array
+    for (int num : numbers) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+
+```
 Understanding these Big O concepts helps in analyzing the efficiency and scalability of algorithms and choosing the most suitable algorithm for a given problem based on its time complexity.
 
 
