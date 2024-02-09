@@ -25,10 +25,8 @@ In summary:
 - Theta (Θ) provides a tight, average-case scenario.
 - Big O (O) gives the worst-case scenario.
 
-Understanding these notations helps in analyzing and comparing algorithms in terms of their efficiency and performance under different conditions.
-
-
 These are the basic concepts of Big O notation along with their meanings and examples:
+
 1. **O(1)**: Constant Time
    - **Meaning**: The time complexity is constant and doesn't depend on the size of the data set.
    - **Example**: Accessing an array element by its index.
@@ -40,6 +38,30 @@ These are the basic concepts of Big O notation along with their meanings and exa
 3. **O(n)**: Linear Time
    - **Meaning**: The time complexity grows directly proportional to the size of the data set.
    - **Example**: Looping through an array.
+
+```cpp
+#include <iostream>
+#include <vector>
+
+void printArray(const std::vector<int>& arr) {
+    // Iterate through the array and print each element
+    for (int num : arr) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+}
+
+int main() {
+    // Create a vector of integers
+    std::vector<int> numbers = {1, 2, 3, 4, 5};
+
+    // Call the function to print the array
+    printArray(numbers);
+
+    return 0;
+}
+```
+
 
 4. **O(n log n)**: Linearithmic Time
    - **Meaning**: The time complexity grows logarithmically with the data set size, but also performs an additional linear operation within each step.
