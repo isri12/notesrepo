@@ -7,7 +7,7 @@
 - In simple terms: It tells you the slowest an algorithm can run in the worst
 circumstances.
 
-The explanation provided discusses the concept of Big O notation and how it relates to the rate of growth of a function.
+ ##### Big O notation and how it relates to the rate of growth of a function.
 
 1. **Highest-order Term**:
    - The highest-order term of a function is the term with the highest power of the variable (in this case, 'n'). In the given function, the highest-order term is 7n^3.
