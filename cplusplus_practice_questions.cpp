@@ -1,63 +1,109 @@
-/*
 
+
+// =========Leet 647 Palindromic Substrings============================================================================================
+
+// Given a string s, return the number of palindromic substrings in it.
+// A string is a palindrome when it reads the same backward as forward.
+// A substring is a contiguous sequence of characters within the string.
+
+// Example 1:
+
+// Input: s = "abc"
+// Output: 3
+// Explanation: Three palindromic strings: "a", "b", "c".
+// Example 2:
+
+// Input: s = "aaa"
+// Output: 6
+// Explanation: Six palindromic strings: "a", "a", "a", "aa", "aa", "aaa".
+
+// Constraints:
+
+// 1 <= s.length <= 1000
+// s consists of lowercase English letters
+
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<string>
+
+class Solution {
+public:
+    int countSubstrings(std::string s) {
+        
+    }
+};
+
+
+int main()
+{
+  //Solution s1;
+ //std::vector<int> num = {5,1,3};
+  //std::vector<int> num = {1,1,2,2,3};
+  //s1.reductionOperations(num);
+}
+
+
+
+// =====================================================================================================================
 //Leet code
 //1637. Widest Vertical Area Between Two Points Containing No Points
 //https://leetcode.com/problems/widest-vertical-area-between-two-points-containing-no-points/description/?envType=daily-question&envId=2023-12-21
 
-#include <iostream>
-#include <algorithm>
-#include <vector>
+// #include <iostream>
+// #include <algorithm>
+// #include <vector>
 
-class Solution {
-public:
-    int maxWidthOfVerticalArea(std::vector<std::vector<int>>& points) {
-        std::vector<int> yAxis;
+// class Solution {
+// public:
+//     int maxWidthOfVerticalArea(std::vector<std::vector<int>>& points) {
+//         std::vector<int> yAxis;
 
-        // Extract y values
-        for (const auto& point : points) {
-            yAxis.push_back(point[1]);
-        }
+//         // Extract y values
+//         for (const auto& point : points) {
+//             yAxis.push_back(point[1]);
+//         }
 
-        // Print y values using a range-based for loop
-        std::cout << "Y Axis: ";
-        for (int y : yAxis) {
-            std::cout << y << " ";
-        }
-        std::cout << '\n';
+//         // Print y values using a range-based for loop
+//         std::cout << "Y Axis: ";
+//         for (int y : yAxis) {
+//             std::cout << y << " ";
+//         }
+//         std::cout << '\n';
 
-        // Sort y values
-       std::sort(yAxis.begin(), yAxis.end());
+//         // Sort y values
+//        std::sort(yAxis.begin(), yAxis.end());
 
-      // Print y values using a range-based for loop
-        std::cout << "Y Axis: ";
-        for (int y : yAxis) {
-            std::cout << y << " ";
-        }
-        std::cout << '\n';
+//       // Print y values using a range-based for loop
+//         std::cout << "Y Axis: ";
+//         for (int y : yAxis) {
+//             std::cout << y << " ";
+//         }
+//         std::cout << '\n';
 
-        // Find the maximum difference between adjacent y values
-        int maxWidth = 0;
-        for (size_t i = 1; i < yAxis.size(); ++i) {
-            int currentWidth = yAxis[i] - yAxis[i - 1];
-            maxWidth = std::max(maxWidth, currentWidth);
-        }
+//         // Find the maximum difference between adjacent y values
+//         int maxWidth = 0;
+//         for (size_t i = 1; i < yAxis.size(); ++i) {
+//             int currentWidth = yAxis[i] - yAxis[i - 1];
+//             maxWidth = std::max(maxWidth, currentWidth);
+//         }
 
-        return maxWidth;
-    }
-};
+//         return maxWidth;
+//     }
+// };
 
-//{{8,7},{9,9},{7,4},{9,7}}
+// //{{8,7},{9,9},{7,4},{9,7}}
 
-int main() {
-    Solution s1;
-    std::vector<std::vector<int>> coordinates = {{8,7},{9,9},{7,4},{9,7}};
-    int result = s1.maxWidthOfVerticalArea(coordinates);
-    std::cout << "Max Width: " << result << std::endl;
-    return 0;
-}
+// int main() {
+//     Solution s1;
+//     std::vector<std::vector<int>> coordinates = {{8,7},{9,9},{7,4},{9,7}};
+//     int result = s1.maxWidthOfVerticalArea(coordinates);
+//     std::cout << "Max Width: " << result << std::endl;
+//     return 0;
+// }
 
 
-*/
 
 
 
@@ -192,7 +238,6 @@ Output: [0,1]
 Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 
 */
-```cpp
 // #include <iostream>
 // #include <vector>
 
@@ -243,132 +288,130 @@ Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 //     std::cout<<std::endl;
 //     return 0;
 // }
-```cpp
+
 //-------------------------------------------------
 
-
-```cpp
 // compile: g++ -std=c++11 -o pointers pointers.cpp
-#include <iostream>
-#include <string>
+// #include <iostream>
+// #include <string>
 
-typedef struct Student {
-    int id;
-    char *f_name;
-    char *l_name;
-    int n_assignments;
-    double *grades;
-} Student;
+// typedef struct Student {
+//     int id;
+//     char *f_name;
+//     char *l_name;
+//     int n_assignments;
+//     double *grades;
+// } Student;
 
-int promptInt(std::string message, int min, int max);
-double promptDouble(std::string message, double min, double max);
-void calculateStudentAverage(void *object, double *avg);
+// int promptInt(std::string message, int min, int max);
+// double promptDouble(std::string message, double min, double max);
+// void calculateStudentAverage(void *object, double *avg);
 
-int main(int argc, char **argv)
-{
-    Student student;
-    double average;
+// int main(int argc, char **argv)
+// {
+//     Student student;
+//     double average;
 
-    // Sequence of user input -> store in fields of `student`
+//     // Sequence of user input -> store in fields of `student`
 
-    // Call `CalculateStudentAverage(???, ???)`
-    // Output `average`
+//     // Call `CalculateStudentAverage(???, ???)`
+//     // Output `average`
 
-    return 0;
-}
+//     return 0;
+// }
 
-/*
-   message: text to output as the prompt
-   min: minimum value to accept as a valid int
-   max: maximum value to accept as a valid int
-*/
-int promptInt(std::string message, int min, int max)
-{
-    // Code to prompt user for an int
-}
+// /*
+//    message: text to output as the prompt
+//    min: minimum value to accept as a valid int
+//    max: maximum value to accept as a valid int
+// */
+// int promptInt(std::string message, int min, int max)
+// {
+//     // Code to prompt user for an int
+// }
 
-/*
-   message: text to output as the prompt
-   min: minimum value to accept as a valid double
-   max: maximum value to accept as a valid double
-*/
-double promptDouble(std::string message, double min, double max)
-{
-    // Code to prompt user for a double
-}
+// /*
+//    message: text to output as the prompt
+//    min: minimum value to accept as a valid double
+//    max: maximum value to accept as a valid double
+// */
+// double promptDouble(std::string message, double min, double max)
+// {
+//     // Code to prompt user for a double
+// }
 
-/*
-   object: pointer to anything - your choice! (but choose something that will be helpful)
-   avg: pointer to a double (can store a value here)
-*/
-void calculateStudentAverage(void *object, double *avg)
-{
-    // Code to calculate and store average grade
-}
-```
+// /*
+//    object: pointer to anything - your choice! (but choose something that will be helpful)
+//    avg: pointer to a double (can store a value here)
+// */
+// void calculateStudentAverage(void *object, double *avg)
+// {
+//     // Code to calculate and store average grade
+// }
+// ```
 
 
 
-/*
+
 
 //Leet code
 //1637. Widest Vertical Area Between Two Points Containing No Points
 //https://leetcode.com/problems/widest-vertical-area-between-two-points-containing-no-points/description/?envType=daily-question&envId=2023-12-21
 
-#include <iostream>
-#include <algorithm>
-#include <vector>
+// #include <iostream>
+// #include <algorithm>
+// #include <vector>
 
-class Solution {
-public:
-    int maxWidthOfVerticalArea(std::vector<std::vector<int>>& points) {
-        std::vector<int> yAxis;
+// class Solution {
+// public:
+//     int maxWidthOfVerticalArea(std::vector<std::vector<int>>& points) {
+//         std::vector<int> yAxis;
 
-        // Extract y values
-        for (const auto& point : points) {
-            yAxis.push_back(point[1]);
-        }
+//         // Extract y values
+//         for (const auto& point : points) {
+//             yAxis.push_back(point[1]);
+//         }
 
-        // Print y values using a range-based for loop
-        std::cout << "Y Axis: ";
-        for (int y : yAxis) {
-            std::cout << y << " ";
-        }
-        std::cout << '\n';
+//         // Print y values using a range-based for loop
+//         std::cout << "Y Axis: ";
+//         for (int y : yAxis) {
+//             std::cout << y << " ";
+//         }
+//         std::cout << '\n';
 
-        // Sort y values
-       std::sort(yAxis.begin(), yAxis.end());
+//         // Sort y values
+//        std::sort(yAxis.begin(), yAxis.end());
 
-      // Print y values using a range-based for loop
-        std::cout << "Y Axis: ";
-        for (int y : yAxis) {
-            std::cout << y << " ";
-        }
-        std::cout << '\n';
+//       // Print y values using a range-based for loop
+//         std::cout << "Y Axis: ";
+//         for (int y : yAxis) {
+//             std::cout << y << " ";
+//         }
+//         std::cout << '\n';
 
-        // Find the maximum difference between adjacent y values
-        int maxWidth = 0;
-        for (size_t i = 1; i < yAxis.size(); ++i) {
-            int currentWidth = yAxis[i] - yAxis[i - 1];
-            maxWidth = std::max(maxWidth, currentWidth);
-        }
+//         // Find the maximum difference between adjacent y values
+//         int maxWidth = 0;
+//         for (size_t i = 1; i < yAxis.size(); ++i) {
+//             int currentWidth = yAxis[i] - yAxis[i - 1];
+//             maxWidth = std::max(maxWidth, currentWidth);
+//         }
 
-        return maxWidth;
-    }
-};
+//         return maxWidth;
+//     }
+// };
 
-//{{8,7},{9,9},{7,4},{9,7}}
+// //{{8,7},{9,9},{7,4},{9,7}}
 
-int main() {
-    Solution s1;
-    std::vector<std::vector<int>> coordinates = {{8,7},{9,9},{7,4},{9,7}};
-    int result = s1.maxWidthOfVerticalArea(coordinates);
-    std::cout << "Max Width: " << result << std::endl;
-    return 0;
-}
+// int main() {
+//     Solution s1;
+//     std::vector<std::vector<int>> coordinates = {{8,7},{9,9},{7,4},{9,7}};
+//     int result = s1.maxWidthOfVerticalArea(coordinates);
+//     std::cout << "Max Width: " << result << std::endl;
+//     return 0;
+// }
 
 
-*/
+
 
 
 
@@ -495,15 +538,12 @@ odd     //15
 
 //-------------------------------------------------
 
-/* Leetcode:  Two sum 
-https://leetcode.com/problems/two-sum/description/ 
+//  Leetcode:  Two sum 
+// https://leetcode.com/problems/two-sum/description/ 
 
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
-
-*/
-```cpp
+// Input: nums = [2,7,11,15], target = 9
+// Output: [0,1]
+// Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 // #include <iostream>
 // #include <vector>
 
@@ -664,31 +704,32 @@ Constraints:
 
 */
 
-#include<iostream>
-#include<vector>
-#include<algorithm>
+// #include<iostream>
+// #include<vector>
+// #include<algorithm>
 
-class Solution {
-public:
-    int reductionOperations(std::vector<int>& nums) {
-        int min = 0;
-        std::sort(nums.begin(),nums.end());
-        for(int i =0; i < nums.size(); ++i) 
-        {
-          std::cout<<nums.at(i)<<" "<<std::endl;
-        } 
-        return 0;
-    }
-};
+// class Solution {
+// public:
+//     int reductionOperations(std::vector<int>& nums) {
+//         int min = 0;
+//         std::sort(nums.begin(),nums.end());
+//         for(int i =0; i < nums.size(); ++i)  {
+//           std::cout<<nums.at(i)<<" "<<std::endl;
+//         } 
 
+//         for (int j:nums){
+//             std::cout<<j<<std::endl;
+//         }
+//         return 0;
+//     }
+// };
 
+// int main()
+// {
+//   Solution s1;
+//  std::vector<int> num = {5,1,3};
+//   //std::vector<int> num = {1,1,2,2,3};
+//   s1.reductionOperations(num);
 
-
-int main()
-{
-  Solution s1;
- std::vector<int> num = {5,1,3};
-  //std::vector<int> num = {1,1,2,2,3};
-  s1.reductionOperations(num);
-
-}
+// }
+///----------------------------------------------------
