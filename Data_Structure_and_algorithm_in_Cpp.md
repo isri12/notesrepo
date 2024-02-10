@@ -6,8 +6,8 @@
 - In simple terms: It tells you the slowest an algorithm can run in the worst
 circumstances.
 
- ### 1.1 Big O notation and how it relates to the rate of growth of a function.  \( f(n) = 7n^3 + 100n^2 + 20n + 6 \)
-
+ ### 1.1 Big O notation and how it relates to the rate of growth of a function.  
+-  consider \( f(n) = 7n^3 + 100n^2 + 20n + 6 \)
 1. **Highest-order Term**:
    - The highest-order term of a function is the term with the highest power of the variable (in this case, 'n'). In the given function, the highest-order term is 7n^3.
 
