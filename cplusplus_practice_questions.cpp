@@ -31,6 +31,11 @@
 class Solution {
 public:
     int countSubstrings(std::string s) {
+        for (char i:s){
+            std::cout<<i;
+        }
+    std::cout<<"\n";    
+    return 0;
         
     }
 };
@@ -38,10 +43,9 @@ public:
 
 int main()
 {
-  //Solution s1;
- //std::vector<int> num = {5,1,3};
-  //std::vector<int> num = {1,1,2,2,3};
-  //s1.reductionOperations(num);
+  Solution s1;
+  std::string str = "abcsapf";
+  s1.countSubstrings(str);
 }
 
 

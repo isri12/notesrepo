@@ -1,5 +1,5 @@
 
-# Data_Structure_and_algorithm_in_Cpp
+# I Data_Structure_and_algorithm_in_Cpp
 ## Data Structure 
 ### Big O - Upper Bound (Worst Case)
 - Big O, also known as Big O notation, represents an algorithm's worst-case complexity. It uses algebraic terms to describe the complexity of an algorithm.
@@ -153,16 +153,11 @@ int main() {
 ```
 Understanding these Big O concepts helps in analyzing the efficiency and scalability of algorithms and choosing the most suitable algorithm for a given problem based on its time complexity.
 
+![Big O](images/bigo.jpg)
+
+
+## II Algorithm
 
 
 
-
-
-
-
-
-
-
-
-
-## algorithm
+## III Advanced Algorithm
