@@ -79,7 +79,7 @@ These are the basic concepts of Big O notation along with their meanings and exa
 ```cpp
 int addItems(int n){
  return n+n; //one operation
- return n+n+n ....  still one operation  
+// return n+n+n ....  //still one operation  
 }
 ```
 
@@ -162,8 +162,42 @@ int main() {
     return 0;
 }
 ```
+- Different Terms for Inputs
+ To illustrate the time complexity of an algorithm with different terms for different inputs, let's consider an example where we have two separate for loops, each iterating over different inputs. 
+ Suppose we have two arrays `arr1` and `arr2` of sizes `n` and `m` respectively, and we want to perform some operation on each element of both arrays. Here's how you might write the code:
 
+```cpp
+#include <iostream>
+#include <vector>
 
+void performOperation(const std::vector<int>& arr1, const std::vector<int>& arr2) {
+    // Iterate over elements of arr1 (size n)
+    for (int i = 0; i < arr1.size(); ++i) {
+        // Perform some operation on arr1[i]
+        std::cout << "Operation on arr1[" << i << "]: " << arr1[i] << std::endl;
+    }
+
+    // Iterate over elements of arr2 (size m)
+    for (int j = 0; j < arr2.size(); ++j) {
+        // Perform some operation on arr2[j]
+        std::cout << "Operation on arr2[" << j << "]: " << arr2[j] << std::endl;
+    }
+}
+
+int main() {
+    std::vector<int> arr1 = {1, 2, 3};   // Array of size n
+    std::vector<int> arr2 = {4, 5, 6, 7}; // Array of size m
+
+    performOperation(arr1, arr2);
+
+    return 0;
+}
+```
+- We have two separate for loops iterating over `arr1` (size `n`) and `arr2` (size `m`) respectively.
+- The time complexity of the first for loop is O(n) because it iterates over `n` elements of `arr1`.
+- The time complexity of the second for loop is O(m) because it iterates over `m` elements of `arr2`.
+- Since the two loops are independent of each other, we can consider the overall time complexity as the sum of the time complexities of each loop, which is O(n + m). it wouldnt be O(n+n) = O(2n). 
+This scenario demonstrates an example where different terms are used for different inputs, and the overall time complexity is the sum of the complexities of each part.
 4. **O(n log n)**: Linearithmic Time
    - **Meaning**: The time complexity grows logarithmically with the data set size, but also performs an additional linear operation within each step.
    - **Example**: Merge sort, quick sort.
