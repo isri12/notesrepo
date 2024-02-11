@@ -76,11 +76,66 @@ These are the basic concepts of Big O notation along with their meanings and exa
 1. **O(1)**: Constant Time
    - **Meaning**: The time complexity is constant and doesn't depend on the size of the data set.
    - **Example**: Accessing an array element by its index.
+```cpp
+int addItems(int n){
+ return n+n; //one operation
+ return n+n+n ....  still one operation  
+}
+```
 
 2. **O(log n)**: Logarithmic Time
    - **Meaning**: The time complexity grows logarithmically as the size of the data set increases. Each step divides the data set in half (divide and conquer).
    - **Example**: Binary search.
+```cpp
+#include <iostream>
+#include <vector>
 
+class BinarySearch {
+public:
+    int search(const std::vector<int>& arr, int target) {
+        int left = 0;
+        int right = arr.size() - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            // If the target is found at the middle
+            if (arr[mid] == target) {
+                return mid;
+            }
+
+            // If the target is greater, ignore the left half
+            if (arr[mid] < target) {
+                left = mid + 1;
+            }
+            // If the target is smaller, ignore the right half
+            else {
+                right = mid - 1;
+            }
+        }
+
+        // If the target is not found
+        return -1;
+    }
+};
+
+int main() {
+    std::vector<int> arr = {1, 3, 5, 7, 9, 11, 13, 15, 17, 19};
+    int target = 13;
+
+    BinarySearch bs;
+    int index = bs.search(arr, target);
+
+    if (index != -1) {
+        std::cout << "Element found at index " << index << std::endl;
+    } else {
+        std::cout << "Element not found" << std::endl;
+    }
+
+    return 0;
+}
+
+```
 3. **O(n)**: Linear Time
    - **Meaning**: The time complexity grows directly proportional to the size of the data set.
    - **Example**: Looping through an array.
@@ -112,7 +167,126 @@ int main() {
 4. **O(n log n)**: Linearithmic Time
    - **Meaning**: The time complexity grows logarithmically with the data set size, but also performs an additional linear operation within each step.
    - **Example**: Merge sort, quick sort.
+```cpp
+//merge sort
+#include <iostream>
+#include <vector>
 
+class MergeSort {
+public:
+    void sort(std::vector<int>& arr) {
+        if (arr.size() <= 1) {
+            return; // Base case: Array is already sorted
+        }
+
+        // Divide the array into two halves
+        int mid = arr.size() / 2;
+        std::vector<int> left(arr.begin(), arr.begin() + mid);
+        std::vector<int> right(arr.begin() + mid, arr.end());
+
+        // Recursively sort the two halves
+        sort(left);
+        sort(right);
+
+        // Merge the sorted halves
+        merge(arr, left, right);
+    }
+
+private:
+    void merge(std::vector<int>& arr, const std::vector<int>& left, const std::vector<int>& right) {
+        int i = 0, j = 0, k = 0;
+
+        // Merge the elements from left and right arrays into arr
+        while (i < left.size() && j < right.size()) {
+            if (left[i] <= right[j]) {
+                arr[k++] = left[i++];
+            } else {
+                arr[k++] = right[j++];
+            }
+        }
+
+        // Copy the remaining elements of left array
+        while (i < left.size()) {
+            arr[k++] = left[i++];
+        }
+
+        // Copy the remaining elements of right array
+        while (j < right.size()) {
+            arr[k++] = right[j++];
+        }
+    }
+};
+
+int main() {
+    std::vector<int> arr = {12, 11, 13, 5, 6, 7};
+
+    MergeSort sorter;
+    sorter.sort(arr);
+
+    std::cout << "Sorted array: ";
+    for (int num : arr) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+
+```
+
+```cpp
+#include <iostream>
+#include <vector>
+
+class QuickSort {
+public:
+    void sort(std::vector<int>& arr) {
+        quickSort(arr, 0, arr.size() - 1);
+    }
+
+private:
+    void quickSort(std::vector<int>& arr, int low, int high) {
+        if (low < high) {
+            int pi = partition(arr, low, high);
+
+            // Recursively sort elements before and after partition
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
+        }
+    }
+
+    int partition(std::vector<int>& arr, int low, int high) {
+        int pivot = arr[high]; // Choose the last element as pivot
+        int i = low - 1; // Index of smaller element
+
+        for (int j = low; j < high; j++) {
+            // If current element is smaller than or equal to pivot
+            if (arr[j] <= pivot) {
+                i++;
+                std::swap(arr[i], arr[j]);
+            }
+        }
+        std::swap(arr[i + 1], arr[high]);
+        return i + 1;
+    }
+};
+
+int main() {
+    std::vector<int> arr = {12, 11, 13, 5, 6, 7};
+
+    QuickSort sorter;
+    sorter.sort(arr);
+
+    std::cout << "Sorted array: ";
+    for (int num : arr) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+
+```
 5. **O(n^2)**: Polynomial Time
    - **Meaning**: The time complexity grows quadratically with the size of the data set. Typically involves nested loops where each loop iterates over the data set.
    - **Example**: Bubble sort (O(n^2)).
