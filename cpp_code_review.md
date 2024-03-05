@@ -2286,7 +2286,52 @@ WSACleanup();
 - Handle errors appropriately in a production environment.
 - This example assumes a compatible .NET server is listening on the specified port.
 
+If you're encountering issues with setting the pthread priority using `pthread_setschedparam`, it could be due to various reasons. Here are some potential solutions and things to check:
 
+1. **Ensure Sufficient Privileges**:
+   - Setting thread priorities might require elevated privileges. Make sure your program has the necessary permissions to set thread priorities. On Linux systems, this typically requires running the program with root privileges or being a member of the appropriate user group (e.g., `sudo` or `root`).
+
+2. **Check Error Handling**:
+   - After calling `pthread_setschedparam`, always check the return value and `errno` to determine the cause of failure. `errno` can provide additional information about the error condition.
+
+3. **Verify Thread Policy Compatibility**:
+   - Ensure that the thread scheduling policy (`SCHED_FIFO`, `SCHED_RR`, or `SCHED_OTHER`) is compatible with setting thread priorities. Not all policies support priority settings. `SCHED_FIFO` and `SCHED_RR` typically support setting priorities, while `SCHED_OTHER` might not.
+
+4. **Check Thread Priority Limits**:
+   - Verify that the priority value you are trying to set falls within the allowable range for the specified policy. Each policy has its own range of allowable priority values. Use `sched_get_priority_min` and `sched_get_priority_max` to retrieve the minimum and maximum priority values for a given policy.
+
+5. **Verify Thread Priority Inheritance**:
+   - On some systems, setting thread priorities might be restricted or disabled due to security or resource allocation considerations. Check the system configuration to ensure that thread priority manipulation is allowed.
+
+6. **Consider Real-Time Scheduling Policies**:
+   - If your application requires deterministic or real-time behavior, consider using real-time scheduling policies (`SCHED_FIFO` or `SCHED_RR`) instead of the default `SCHED_OTHER` policy.
+
+Here's an example of how to set thread priority using `pthread_setschedparam` with error handling:
+
+```c
+#include <pthread.h>
+#include <stdio.h>
+#include <errno.h>
+
+int main() {
+    pthread_t thread;
+    struct sched_param param;
+    
+    // Set thread priority to 90
+    param.sched_priority = 90;
+    
+    // Attempt to set thread priority
+    if (pthread_setschedparam(thread, SCHED_FIFO, &param) != 0) {
+        perror("pthread_setschedparam");
+        return 1;
+    }
+    
+    printf("Thread priority set successfully.\n");
+    return 0;
+}
+```
+
+Ensure that you replace `pthread_t thread;` with the actual thread identifier of the thread you want to modify. Additionally, consider using real-time scheduling policies (`SCHED_FIFO` or `SCHED_RR`) if your application requires deterministic behavior.
 
 
 
