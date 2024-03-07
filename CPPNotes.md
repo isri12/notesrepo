@@ -6081,3 +6081,79 @@ int main()
 	[C++ projects](https://github.com/practical-tutorials/project-based-learning#cc)
 	[Calculator project](https://github.com/microsoft/calculator) 
 ------------------------------------------------------------------------------------------------------------
+map and pair 
+
+#include <iostream>
+#include <map>
+#include <string>
+
+int main() {
+    // Create a map of integers and strings
+    std::map<int, std::string> myMap = {
+        {1, "apple"},
+        {2, "banana"},
+        {3, "cherry"},
+        {4, "date"},
+        {5, "elderberry"}
+    };
+
+    // Iterate and print key-value pairs
+    std::cout << "Printing key-value pairs:" << std::endl;
+    for (const auto& pair : myMap) {
+        std::cout << "Key: " << pair.first << ", Value: " << pair.second << std::endl;
+    }
+
+    // Remove all keys and their associated values
+    std::cout << "\nRemoving all keys and values..." << std::endl;
+    myMap.clear();
+
+    // Check if the map is empty
+    if (myMap.empty()) {
+        std::cout << "Map is now empty." << std::endl;
+    } else {
+        std::cout << "Map is not empty." << std::endl;
+    }
+
+    return 0;
+}
+
+#include <iostream>
+#include <map>
+#include <string>
+
+int main() {
+    // Create a map of integers and strings
+    std::map<int, std::string> myMap = {
+        {1, "apple"},
+        {2, "banana"},
+        {3, "cherry"},
+        {4, "date"},
+        {5, "elderberry"}
+    };
+
+    // Iterate and print key-value pairs
+    std::cout << "Printing key-value pairs:" << std::endl;
+    for (const auto& pair : myMap) {
+        std::cout << "Key: " << pair.first << ", Value: " << pair.second << std::endl;
+    }
+
+    // Iterate and remove both the key and the map
+    int keyToRemove = 3;
+    std::cout << "\nRemoving key: " << keyToRemove << std::endl;
+    auto it = myMap.begin();
+    while (it != myMap.end()) {
+        if (it->first == keyToRemove) {
+            it = myMap.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
+    // Print key-value pairs after removal
+    std::cout << "\nKey-value pairs after removal:" << std::endl;
+    for (const auto& pair : myMap) {
+        std::cout << "Key: " << pair.first << ", Value: " << pair.second << std::endl;
+    }
+
+    return 0;
+}
