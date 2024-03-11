@@ -2333,6 +2333,158 @@ int main() {
 
 Ensure that you replace `pthread_t thread;` with the actual thread identifier of the thread you want to modify. Additionally, consider using real-time scheduling policies (`SCHED_FIFO` or `SCHED_RR`) if your application requires deterministic behavior.
 
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <string>
+#include <iomanip> // Include for std::fixed and std::setprecision
+
+struct SatelliteData {
+    std::string name;
+    std::string line1;
+    std::string line2;
+    std::string epoch;
+    double inclination;
+    std::string satelliteNumber;
+    std::string internationalDesignator;
+    //std::string epochTime;
+    double firstTimeDerivativeMeanMotion;
+    double secondTimeDerivativeMeanMotion;
+    double bstarDragTerm;
+    std::string ephemerisType;
+    int elementSetNumber;
+    std::string checksum;
+};
+
+int numOfSatellite(std::vector<SatelliteData> &satellites){
+    return  satellites.size();
+}
+
+
+std::vector<SatelliteData> parseTLEFile(const std::string& filename) {
+    std::vector<SatelliteData> satellites;
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Error opening file: " << filename << std::endl;
+        return satellites;
+    }
+
+
+    std::string line;
+    SatelliteData currentSatellite;
+    while (std::getline(file, line)) {
+        if (line.empty()) {
+            continue; // Skip empty lines
+        }
+         // Ensure line length is sufficient
+        if (line.size() < 33) {
+            std::cerr << "Error: Line too short in file: " << filename << std::endl;
+            continue;
+        }
+        if (line[0] == '1') {
+            currentSatellite.line1 = line;
+        } else if (line[0] == '2') {
+            currentSatellite.line2 = line;
+            // Parse Line 2 to extract relevant information
+            
+            std::istringstream iss(line.substr(8, 8)); // Extract inclination
+            iss >> currentSatellite.inclination;
+            
+                // Extract satellite number
+            currentSatellite.satelliteNumber = line.substr(2, 5);
+
+            // Extract international designator
+            currentSatellite.internationalDesignator = line.substr(9, 8);
+
+            // Extract epoch time
+            currentSatellite.epoch = line.substr(18, 14);
+
+            // Extract first time derivative of mean motion
+            currentSatellite.firstTimeDerivativeMeanMotion = std::stod(line.substr(33, 10));
+
+            // Extract second time derivative of mean motion
+            currentSatellite.secondTimeDerivativeMeanMotion = std::stod(line.substr(44, 8));
+
+            // Extract BSTAR drag term
+            currentSatellite.bstarDragTerm = std::stod(line.substr(53, 8));
+
+            // Extract ephemeris type
+            currentSatellite.ephemerisType = line.substr(62, 1);
+
+            // Extract element set number
+            currentSatellite.elementSetNumber = std::stoi(line.substr(64, 4));
+
+            // Extract checksum
+            currentSatellite.checksum = line.substr(68, 1);
+
+            // Add current satellite data to the vector
+            satellites.push_back(currentSatellite);
+            currentSatellite = SatelliteData(); // Reset for next satellite
+
+        } else {
+            currentSatellite.name += line;
+        }
+    }
+
+    file.close();
+    return satellites;
+}
+void exportToCSV(const std::vector<SatelliteData>& satellites, const std::string& filename) {
+    int counter=1;
+    
+    std::ofstream csvFile(filename);
+    std::ofstream file(filename, std::ios::trunc);
+
+    if (!csvFile.is_open()) {
+        std::cerr << "Error opening file: " << filename << std::endl;
+        return;
+    }
+
+    // Write header
+    csvFile << "ID,SatelliteNumber,InternationalDesignator,EpochTime,FirstTimeDerivativeMeanMotion,"
+            << "SecondTimeDerivativeMeanMotion,BStarDragTerm,EphemerisType,ElementSetNumber,Checksum\n";
+
+    // Write data
+    for (const auto& satellite : satellites) {
+        csvFile <<counter++ <<","<<satellite.satelliteNumber << "," << satellite.internationalDesignator << ","
+                << satellite.epoch << "," << satellite.firstTimeDerivativeMeanMotion << ","
+                << satellite.secondTimeDerivativeMeanMotion << "," << satellite.bstarDragTerm << ","
+                << satellite.ephemerisType << "," << satellite.elementSetNumber << ","
+                << satellite.checksum << "\n";
+    }
+
+    csvFile.close();
+}
+int main() {
+    std::vector<SatelliteData> satellites = parseTLEFile("satellite_data.tle");
+
+    // // Print parsed data
+    // for (const auto& satellite : satellites) {
+    //     std::cout << "Name: " << satellite.name << std::endl;
+    //     std::cout << "Line 1: " << satellite.line1 << std::endl;
+    //     std::cout << "Line 2: " << satellite.line2 << std::endl;
+    //     std::cout << std::endl;
+    // }
+
+    std::cout<<"Num of Sat: "<<numOfSatellite(satellites)<<std::endl;
+
+    // Export to CSV
+    exportToCSV(satellites, "satellite_data.csv");
+
+    std::cout << "CSV file exported successfully." << std::endl;
+
+    // Print parsed data
+    // for (size_t i = 0; i < satellites.size(); ++i) {
+    //     std::cout << "Satellite " << i+1 << ":" << std::endl;
+    //     std::cout << "Name: " << satellites[i].name << std::endl;
+    //     std::cout << "Epoch: " << satellites[i].epoch << std::endl;
+    //     std::cout << "Inclination: " << std::fixed << std::setprecision(2) << satellites[i].inclination << " degrees" << std::endl;
+    //     std::cout << std::endl;
+    // }
+
+    return 0;
+}
 
 
 
