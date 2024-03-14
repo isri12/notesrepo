@@ -2333,6 +2333,8 @@ int main() {
 
 Ensure that you replace `pthread_t thread;` with the actual thread identifier of the thread you want to modify. Additionally, consider using real-time scheduling policies (`SCHED_FIFO` or `SCHED_RR`) if your application requires deterministic behavior.
 
+
+```cpp
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -2485,6 +2487,6 @@ int main() {
 
     return 0;
 }
-
+```
 
 
