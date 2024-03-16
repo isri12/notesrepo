@@ -13,6 +13,58 @@
 // Practice them in a row for better understanding and please Upvote for more questions.
 
 
+//===========leet 525. Contiguous Array ============================================================================================
+// https://leetcode.com/problems/contiguous-array/description/?envType=daily-question&envId=2024-03-16
+
+//Given a binary array nums, return the maximum length of a contiguous subarray with an equal number of 0 and 1.
+ 
+// Example 1:
+// Input: nums = [0,1]
+// Output: 2
+// Explanation: [0, 1] is the longest contiguous subarray with an equal number of 0 and 1.
+ 
+// Example 2:
+// Input: nums = [0,1,0]
+// Output: 2
+// Explanation: [0, 1] (or [1, 0]) is a longest contiguous subarray with equal number of 0 and 1.
+ 
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<string>
+
+class Solution {
+public:
+    int findMaxLength(std::vector<int>& nums) {
+        
+        std::cout<<*nums.end()<<std::endl;
+        std::cout<<*nums.begin()<<std::endl;
+        
+        std::cout<<"[";
+        std::vector<int> soln;
+        for(int i:nums){
+            std::cout<<i;
+        }
+        std::cout<<"]";
+        '\n';
+        return 0;
+        
+    }
+};
+
+
+int main()
+{
+    //std::cout<<"Hello World";
+    std::vector<int> nums= {0,1,0,1};
+    //int nums= [0,1,0];
+    Solution s1;
+    s1.findMaxLength(nums);
+    
+    return 0;
+}
+
 
 
 //===========leet 741. cherry-pickup 2 ============================================================================================
@@ -121,25 +173,6 @@
 //         return (x == reversed) || (x == reversed / 10);
 //     }
 // };
-//===========leet 525. Contiguous Array ============================================================================================
-// https://leetcode.com/problems/contiguous-array/description/?envType=daily-question&envId=2024-03-16
-
-
-Given a binary array nums, return the maximum length of a contiguous subarray with an equal number of 0 and 1.
- 
-Example 1:
-Input: nums = [0,1]
-Output: 2
-Explanation: [0, 1] is the longest contiguous subarray with an equal number of 0 and 1.
- 
-Example 2:
-Input: nums = [0,1,0]
-Output: 2
-Explanation: [0, 1] (or [1, 0]) is a longest contiguous subarray with equal number of 0 and 1.
- 
-
-
-
 
 // =========Leet 647 Palindromic Substrings============================================================================================
 // https://leetcode.com/problems/palindromic-substrings/description/ 
