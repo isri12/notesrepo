@@ -2488,5 +2488,141 @@ int main() {
     return 0;
 }
 ```
+```cpp
+#include <iostream>
+#include <vector>
 
+// Define an event structure
+struct Event {
+    int type;
+    std::string message;
+};
+
+// Define an event router class
+class EventRouter {
+public:
+    void publish(const Event& event) {
+        // Publish the event to all subscribed listeners
+        for(auto& listener : listeners) {
+            listener(event);
+        }
+    }
+
+    void subscribe(std::function<void(const Event&)> listener) {
+        // Add listener to the list of subscribers
+        listeners.push_back(listener);
+    }
+
+private:
+    std::vector<std::function<void(const Event&)>> listeners;
+};
+
+int main() {
+    // Create an instance of the event router
+    EventRouter router;
+
+    // Subscribe a listener
+    router.subscribe([](const Event& event) {
+        std::cout << "Listener 1 received event type: " << event.type << ", message: " << event.message << std::endl;
+    });
+
+    // Subscribe another listener
+    router.subscribe([](const Event& event) {
+        std::cout << "Listener 2 received event type: " << event.type << ", message: " << event.message << std::endl;
+    });
+
+    // Publish an event
+    Event event;
+    event.type = 1;
+    event.message = "Hello, world!";
+    router.publish(event);
+
+    return 0;
+}
+```
+
+```cpp
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <functional>
+
+// Define an event structure
+struct Event {
+    int type;
+    std::string message;
+};
+
+// Define an event router class
+class EventRouter {
+public:
+    void publish(const Event& event) {
+        // Publish the event to all subscribed listeners
+        for(auto& listener : listeners) {
+            listener(event);
+        }
+    }
+
+    void subscribe(std::function<void(const Event&)> listener) {
+        // Add listener to the list of subscribers
+        listeners.push_back(listener);
+    }
+
+private:
+    std::vector<std::function<void(const Event&)>> listeners;
+};
+
+// Function to read TLE file and publish elements as events
+void readAndPublishTLE(const std::string& filename, EventRouter& router) {
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Error opening file: " << filename << std::endl;
+        return;
+    }
+
+    std::string line;
+    int lineCount = 0;
+    while (std::getline(file, line)) {
+        lineCount++;
+        if (lineCount % 3 == 1) {
+            // First line of TLE data (Line 1)
+            Event event;
+            event.type = 1; // You can define event types as per your requirements
+            event.message = line;
+            router.publish(event);
+        } else if (lineCount % 3 == 2) {
+            // Second line of TLE data (Line 2)
+            Event event;
+            event.type = 2; // You can define event types as per your requirements
+            event.message = line;
+            router.publish(event);
+        }
+        // Ignoring third line as it's not needed for basic TLE data
+    }
+
+    file.close();
+}
+
+int main() {
+    // Create an instance of the event router
+    EventRouter router;
+
+    // Subscribe a listener to handle TLE Line 1 events
+    router.subscribe([](const Event& event) {
+        std::cout << "Listener for TLE Line 1 received: " << event.message << std::endl;
+    });
+
+    // Subscribe another listener to handle TLE Line 2 events
+    router.subscribe([](const Event& event) {
+        std::cout << "Listener for TLE Line 2 received: " << event.message << std::endl;
+    });
+
+    // Read TLE file and publish elements as events
+    readAndPublishTLE("example.tle", router);
+
+    return 0;
+}
+
+```
 
