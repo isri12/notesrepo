@@ -29,41 +29,48 @@
 // Explanation: [0, 1] (or [1, 0]) is a longest contiguous subarray with equal number of 0 and 1.
  
 
-#include<iostream>
-#include<vector>
-#include<algorithm>
-#include<string>
+// #include<iostream>
+// #include<vector>
+// #include<algorithm>
+// #include<string>
 
-class Solution {
-public:
-    int findMaxLength(std::vector<int>& nums) {
+// class Solution {
+// public:
+//     int findMaxLength(std::vector<int>& nums) {
         
-        std::cout<<*nums.end()<<std::endl;
-        std::cout<<*nums.begin()<<std::endl;
+//         std::cout<<*nums.end()<<std::endl;
+//         std::cout<<*nums.begin()<<std::endl;
         
-        std::cout<<"[";
-        std::vector<int> soln;
-        for(int i:nums){
-            std::cout<<i;
-        }
-        std::cout<<"]";
-        '\n';
-        return 0;
+//         std::cout<<"[";
+//         std::vector<int> soln;
+//         for(int i:nums){
+//             std::cout<<i;
+//                if ()
+//             {
+
+//             }else if (){
+                
+//             }
+//         }
+//         std::cout<<"]";
+//         //'\n';
+//         std::cout<<std::endl;
+//         return 0;
         
-    }
-};
+//     }
+// };
 
 
-int main()
-{
-    //std::cout<<"Hello World";
-    std::vector<int> nums= {0,1,0,1};
-    //int nums= [0,1,0];
-    Solution s1;
-    s1.findMaxLength(nums);
+// int main()
+// {
+//     //std::cout<<"Hello World";
+//     std::vector<int> nums= {0,1,0,1};
+//     //int nums= [0,1,0];
+//     Solution s1;
+//     s1.findMaxLength(nums);
     
-    return 0;
-}
+//     return 0;
+// }
 
 
 
@@ -74,6 +81,38 @@ int main()
 //===========leet 741. cherry-pickup 1 ============================================================================================
 //https://leetcode.com/problems/cherry-pickup/description/
 
+
+//===========leet 13. Roman to Integer ============================================================================================
+//https://leetcode.com/problems/roman-to-integer/solutions/3651672/best-method-c-java-python-beginner-friendly/
+
+// Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
+
+// Symbol       Value
+// I             1
+// V             5
+// X             10
+// L             50
+// C             100
+// D             500
+// M             1000
+// For example, 2 is written as II in Roman numeral, just two ones added together. 12 is written as XII, which is simply X + II. The number 27 is written as XXVII, which is XX + V + II.
+
+// Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not IIII. Instead, the number four is written as IV. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as IX. There are six instances where subtraction is used:
+
+// I can be placed before V (5) and X (10) to make 4 and 9. 
+// X can be placed before L (50) and C (100) to make 40 and 90. 
+// C can be placed before D (500) and M (1000) to make 400 and 900.
+// Given a roman numeral, convert it to an integer.
+
+
+
+
+
+
+
+
+//===========leet 234. Palindrome Linked List ============================================================================================
+//https://leetcode.com/problems/palindrome-linked-list/description/?envType=daily-question&envId=2024-03-22
 
 
 
