@@ -50,9 +50,40 @@
     git reset --hard origin/master
     git grep "foo()" #Search the working directory for foo():
 
-
-
-
-
-
 https://confluence.atlassian.com/bitbucketserver/basic-git-commands-776639767.html 
+
+
+
+You can follow one of the suggestions provided in the hint messages. Here are your options:
+
+1. Merge (the default strategy):
+   ```
+   git config pull.rebase false
+   ```
+
+2. Rebase:
+   ```
+   git config pull.rebase true
+   ```
+
+3. Fast-forward only:
+   ```
+   git config pull.ff only
+   ```
+
+Choose the option that suits your workflow best. For example, if you want to perform a merge to reconcile the divergent branches, you can use:
+```
+git config pull.rebase false
+```
+
+After setting the configuration, you can pull the changes again:
+```
+git pull origin main
+```
+
+If you want to set a default preference for all repositories, you can use the `--global` flag with `git config`. For example:
+```
+git config --global pull.rebase false
+```
+
+This will set the merge strategy to be the default behavior for all repositories.
