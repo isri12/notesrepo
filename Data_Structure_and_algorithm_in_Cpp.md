@@ -366,7 +366,190 @@ Understanding these Big O concepts helps in analyzing the efficiency and scalabi
 ----------------------------------
 
 ## 2. Linked Lists
+Certainly! Below is a study note that covers arrays and linked lists in C++, along with examples:
 
+### Arrays in C++:
+
+An array is a collection of elements of the same data type stored in contiguous memory locations. Arrays have a fixed size determined at compile time.
+
+#### Declaration and Initialization:
+```cpp
+// Declaration and initialization of an array
+int arr[5] = {1, 2, 3, 4, 5};
+```
+
+#### Accessing Elements:
+```cpp
+// Accessing elements of an array
+int element = arr[2]; // Accessing the third element (index 2)
+```
+
+#### Iterating through Array:
+```cpp
+// Iterating through array elements using a for loop
+for (int i = 0; i < 5; ++i) {
+    std::cout << arr[i] << " ";
+}
+```
+
+### Linked Lists in C++:
+
+A linked list is a dynamic data structure where elements are stored in nodes. Each node consists of a data field and a pointer field pointing to the next node in the sequence.
+
+#### Node Structure:
+```cpp
+// Node structure for a singly linked list
+template<typename T>
+struct Node {
+    T data;
+    Node* next;
+};
+```
+
+#### Linked List Class:
+```cpp
+// Linked list class
+template<typename T>
+class LinkedList {
+private:
+    Node<T>* head;
+
+public:
+    LinkedList() : head(nullptr) {}
+    ~LinkedList();
+
+    // Insertion methods
+    void insertFront(const T& value);
+    void insertEnd(const T& value);
+
+    // Deletion methods
+    void removeFront();
+    void removeEnd();
+
+    // Display method
+    void display();
+};
+```
+
+#### Insertion at the Front:
+```cpp
+template<typename T>
+void LinkedList<T>::insertFront(const T& value) {
+    Node<T>* newNode = new Node<T>;
+    newNode->data = value;
+    newNode->next = head;
+    head = newNode;
+}
+```
+
+#### Insertion at the End:
+```cpp
+template<typename T>
+void LinkedList<T>::insertEnd(const T& value) {
+    Node<T>* newNode = new Node<T>;
+    newNode->data = value;
+    newNode->next = nullptr;
+
+    if (head == nullptr) {
+        head = newNode;
+        return;
+    }
+
+    Node<T>* temp = head;
+    while (temp->next != nullptr) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+}
+```
+
+#### Deletion from the Front:
+```cpp
+template<typename T>
+void LinkedList<T>::removeFront() {
+    if (head == nullptr) {
+        return;
+    }
+
+    Node<T>* temp = head;
+    head = head->next;
+    delete temp;
+}
+```
+
+#### Deletion from the End:
+```cpp
+template<typename T>
+void LinkedList<T>::removeEnd() {
+    if (head == nullptr) {
+        return;
+    }
+
+    if (head->next == nullptr) {
+        delete head;
+        head = nullptr;
+        return;
+    }
+
+    Node<T>* temp = head;
+    while (temp->next->next != nullptr) {
+        temp = temp->next;
+    }
+    delete temp->next;
+    temp->next = nullptr;
+}
+```
+
+#### Displaying the Linked List:
+```cpp
+template<typename T>
+void LinkedList<T>::display() {
+    Node<T>* temp = head;
+    while (temp != nullptr) {
+        std::cout << temp->data << " ";
+        temp = temp->next;
+    }
+    std::cout << std::endl;
+}
+```
+
+#### Destructor (Cleanup):
+```cpp
+template<typename T>
+LinkedList<T>::~LinkedList() {
+    while (head != nullptr) {
+        Node<T>* temp = head;
+        head = head->next;
+        delete temp;
+    }
+}
+```
+
+#### Example Usage:
+```cpp
+int main() {
+    // Create a linked list
+    LinkedList<int> myList;
+
+    // Insert elements
+    myList.insertFront(5);
+    myList.insertEnd(10);
+    myList.insertEnd(15);
+
+    // Display the list
+    myList.display(); // Output: 5 10 15
+
+    // Remove an element
+    myList.removeFront();
+
+    // Display the modified list
+    myList.display(); // Output: 10 15
+
+    return 0;
+}
+```
+
+This study note covers the basics of arrays and linked lists in C++, including declaration, initialization, accessing elements, insertion, deletion, and display operations.
 -------------------------------------
 
 # II Algorithm
