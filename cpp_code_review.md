@@ -1,4 +1,14 @@
 Study Links Topics
+Level 1
+- Array and Linked List
+- set and maps
+- STL container
+- gcc debuger
+- codepath
+- uml
+- socket programming
+- object oriented C++
+------------------------------------------------
 - [singelton] (https://www.codeproject.com/Articles/987473/Unit-Testing-a-Singleton-in-Cplusplus)
 - Friend
 - Virtual fun
