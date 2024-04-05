@@ -87,3 +87,4 @@ git config --global pull.rebase false
 ```
 
 This will set the merge strategy to be the default behavior for all repositories.
+

@@ -104,10 +104,39 @@
 // C can be placed before D (500) and M (1000) to make 400 and 900.
 // Given a roman numeral, convert it to an integer.
 
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<string>
+#include<map>
 
+class Solution {
+public:
+    int romanToInt(std::string s) {
+      std::map<std::string,int> romAndIntKey {{"I",1},{"V",5},{"X",10},{"L",50},{"C",100},{"D" ,500},{"M",1000}};
+      int result=0;
 
+      for (int i=0;i<romAndIntKey.size();i++){
+        
+        if (auto it = romAndIntKey.find(s); it != romAndIntKey.end()){
+          return it->second;
+        }else{
+            return -1;
+        }
 
+      }
 
+      
+    }
+
+};
+
+int main(){
+  Solution s1;
+  std::cout<<s1.romanToInt("I")<<std::endl;
+  std::cout<<s1.romanToInt("C")<<std::endl;
+
+}
 
 
 
