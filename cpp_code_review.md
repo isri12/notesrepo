@@ -2880,3 +2880,45 @@ int main() {
 //     return 0;
 // }
 ```
+```cpp
+#include <iostream>
+#include <DIS/OpenDIS.h>
+
+int main() {
+    // Example DIS PDU data (in bytes)
+    std::vector<unsigned char> pduData = {
+        // Add your PDU data here...
+    };
+
+    // Create a PDU factory
+    DIS::PduFactory pduFactory;
+
+    try {
+        // Decode the PDU
+        DIS::Pdu* pdu = pduFactory.createPdu(pduData);
+        if (pdu != nullptr) {
+            // Print PDU information
+            std::cout << "PDU type: " << pdu->getPduType() << std::endl;
+            std::cout << "PDU size: " << pdu->getPduSize() << " bytes" << std::endl;
+
+            // Example: Print entity ID if it's available
+            if (pdu->getPduType() == DIS::PDU_ENTITY_STATE) {
+                DIS::EntityStatePdu* entityStatePdu = dynamic_cast<DIS::EntityStatePdu*>(pdu);
+                if (entityStatePdu != nullptr) {
+                    std::cout << "Entity ID: " << entityStatePdu->getEntityID() << std::endl;
+                }
+            }
+
+            // Clean up
+            delete pdu;
+        } else {
+            std::cerr << "Failed to decode PDU" << std::endl;
+        }
+    } catch (std::exception& e) {
+        std::cerr << "Exception: " << e.what() << std::endl;
+    }
+
+    return 0;
+}
+
+```
