@@ -14,6 +14,83 @@
 
 //Leet code by type: https://github.com/103style/LeetCode/tree/master
 /////////////////////////////////////////////////////////////////////////////////////////////////
+//===========leet 2073. Time Needed to Buy Tickets ============================================================================================
+//https://leetcode.com/problems/time-needed-to-buy-tickets/description/?envType=daily-question&envId=2024-04-09
+
+// There are n people in a line queuing to buy tickets, where the 0th person is at the front of the line and the (n - 1)th person is at the back of the line.
+// You are given a 0-indexed integer array tickets of length n where the number of tickets that the ith person would like to buy is tickets[i].
+// Each person takes exactly 1 second to buy a ticket. A person can only buy 1 ticket at a time and has to go back to the end of the line (which happens instantaneously) in order to buy more tickets. 
+//If a person does not have any tickets left to buy, the person will leave the line.
+// Return the time taken for the person at position k (0-indexed) to finish buying tickets.
+
+// Example 1:
+// Input: tickets = [2,3,2], k = 2
+// Output: 6
+// Explanation: 
+// - In the first pass, everyone in the line buys a ticket and the line becomes [1, 2, 1].
+// - In the second pass, everyone in the line buys a ticket and the line becomes [0, 1, 0].
+// The person at position 2 has successfully bought 2 tickets and it took 3 + 3 = 6 seconds.
+
+// Example 2:
+// Input: tickets = [5,1,1,1], k = 0
+// Output: 8
+// Explanation:
+// - In the first pass, everyone in the line buys a ticket and the line becomes [4, 0, 0, 0].
+// - In the next 4 passes, only the person in position 0 is buying tickets.
+// The person at position 0 has successfully bought 5 tickets and it took 4 + 1 + 1 + 1 + 1 = 8 seconds.
+ 
+// Constraints:
+// n == tickets.length
+// 1 <= n <= 100
+// 1 <= tickets[i] <= 100
+// 0 <= k < n
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<string>
+
+class Solution {
+public:
+    int timeRequiredToBuy(std::vector<int>& tickets, int k) {
+      // for(int j:tickets){
+      //     std::cout<<j;
+      //   }
+       // std::cout<<'\n';
+      std::vector<int> buyticket{};
+      int counter=0;
+      //std::cout<<tickets.size()<<'\n';
+      
+      for (size_t i=0 ;i<tickets.size();++i){
+          //std::cout<<i<<'\n';
+          //std::cout<<tickets[i];
+          if(counter<k){
+            buyticket.push_back(tickets[i]-1);
+            counter++;
+          }
+      }
+
+      //std::cout<<'\n';
+         for(int j:buyticket){
+          std::cout<<j;
+        }
+        std::cout<<'\n';
+        return 0;
+
+    }
+     
+};
+
+
+int main(){
+  std::vector<int>tickets{2,3,2};
+  int k=2;
+
+  Solution s1;
+  s1.timeRequiredToBuy(tickets,k);
+
+}
+
 //===========leet 1544. Make The String Great ============================================================================================
 //https://leetcode.com/problems/make-the-string-great/description/?envType=daily-question&envId=2024-04-05
 
@@ -165,39 +242,87 @@
 // C can be placed before D (500) and M (1000) to make 400 and 900.
 // Given a roman numeral, convert it to an integer.
 
-#include<iostream>
-#include<vector>
-#include<algorithm>
-#include<string>
-#include<map>
+// #include<iostream>
+// #include<vector>
+// #include<algorithm>
+// #include<string>
+// #include<map>
 
-class Solution {
-public:
-    int romanToInt(std::string s) {
-      std::map<std::string,int> romAndIntKey {{"I",1},{"V",5},{"X",10},{"L",50},{"C",100},{"D" ,500},{"M",1000}};
-      int result=0;
+// class Solution {
+// public:
+// int romanToInt(std::string s) 
+// {
+//       std::map<std::string,int> romAndIntKey {{"I",1},{"V",5},{"X",10},{"L",50},{"C",100},{"D" ,500},{"M",1000}};
+//       int result=0;
+//       std::vector<int16_t>arr={};
+//       int size=s.size();
+//       //std::cout<<"size: "<<size<<std::endl;
 
-      for (int i=0;i<romAndIntKey.size();i++){
-        
-        if (auto it = romAndIntKey.find(s); it != romAndIntKey.end()){
-          return it->second;
-        }else{
-            return -1;
-        }
+//         if(0<s.size())
+//         {
+//           for(int i=0;i<s.size();++i)
+//           {
+           
 
-      }
+//               char singleChar= s[i];
+//               std::string firstVal(1,singleChar); //character to string 
+//               result=result+romAndIntKey[firstVal];
 
-      
-    }
+//             //If the numeral on the right is greater than the current numeral, 
+//             //subtract the current numeral’s value (e.g., IV = 5 - 1 = 4).
 
-};
 
-int main(){
-  Solution s1;
-  std::cout<<s1.romanToInt("I")<<std::endl;
-  std::cout<<s1.romanToInt("C")<<std::endl;
+//              //std::cout<<s[i]<<std::endl;
+//             //std::cout<<s.at(i)<<std::endl;
+//             //std::cout<<romAndIntKey[firstVal]<<std::endl;
+//             //arr.pushback(romAndIntKey[singleChar]);
+//             //std::vector<int> romanString= s.at(i);
+//             // std::cout<<firstValue<<"\n";
+//             // std::string firstVal(1,firstValue); //convert to str
+//             // std::cout<<romAndIntKey[firstVal]<<"\n";
+//             //result =result*10 + romAndIntKey[firstValue];
+//             //++result;
+//             //return 0;
+//           }
 
-}
+//           //std::cout<<result<<"\n";
+//         // if(s.size()==1){
+//         //   for (int i=0;i<1;i++){
+//         //     auto it = romAndIntKey.find(s); it != romAndIntKey.end();
+//         //     result= it->second;
+//         //   }
+//         // }else if(s.size()==2){
+//         //   char firstValue=s.at(0); //get the first string as char
+//         //   std::string firstVal(1,firstValue); //convert to str
+//         //   int num1= romAndIntKey[firstVal];//convert to int 
+//         //   char  secondValue=s[1];
+//         //   std::string secVal(1,secondValue);
+//         //   int num2= romAndIntKey[secVal];
+//           // std::cout<<firstVal<<" : "<<secVal<<"\n";
+//           // std::cout<<romAndIntKey[firstVal]<<" : "
+//           //           <<romAndIntKey[secVal]<<"\n";
+//           //result=num1+num2;
+//           // std::string firstChar=std::to_string(romAndIntKey.at("s[0]"));
+//           // std::string secondChar=std::to_string(romAndIntKey.at("s[1]"));
+//           //result=std::stoi(firstVal+romAndIntKey[secVal]);
+
+//         }else{
+//           result=0;
+//         }
+//       return result;
+//     }
+//     //}
+// };
+
+// int main(){
+//   Solution s1;
+//   std::cout<<s1.romanToInt("I")<<std::endl;
+//   std::cout<<s1.romanToInt("II")<<std::endl;
+//   std::cout<<s1.romanToInt("C")<<std::endl;
+//   std::cout<<s1.romanToInt("XV")<<std::endl;
+//   std::cout<<s1.romanToInt("XII")<<std::endl;
+//   std::cout<<s1.romanToInt("MCMXCIV")<<std::endl;
+// }
 
 
 

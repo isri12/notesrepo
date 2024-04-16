@@ -587,8 +587,8 @@ int main () {
 int main()
 {
     std::string car = "Toyota"; // A car variable of type string
-    std::cout << car << std::endl; // Outputs the value of food (Toyota)  //> Toyota
-    std::cout << &car; // Outputs the memory address of food (0x7fff996e11f0) //> 0x7fff996e11f0
+    std::cout << car << std::endl; // Outputs the value of car (Toyota)  // Toyota
+    std::cout << &car; // Outputs the memory address of car (0x7fff996e11f0) // 0x7fff996e11f0
  
     int num{10};
     std::cout<<num<<std::endl; // 10
