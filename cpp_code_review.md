@@ -2716,4 +2716,167 @@ int main() {
 
 
 ```
+```cpp 
+#include <iostream>
+#include <string>
+#include <cstring>
+//#include <sys/socket.h>
+//#include <netinet/in.h>
+//#include <arpa/inet.h>
+#include <iostream>
+#include <boost/asio.hpp>
 
+using boost::asio::ip::udp;
+
+
+// Define DIS PDU structure
+struct DisPdu {
+    int pduType;
+    int entityId;
+    // Add more fields as needed...
+    bool acknowledge;
+    bool stop;
+    bool start;
+    bool resume;
+    bool pause;
+};
+
+// Example function to send a DIS PDU over UDP
+void sendDisPdu(const DisPdu& pdu, udp::socket& socket, const udp::endpoint& endpoint) {
+    boost::system::error_code ignored_error;
+    socket.send_to(boost::asio::buffer(&pdu, sizeof(pdu)), endpoint, 0, ignored_error);
+}
+
+// Example function to receive a DIS PDU over UDP
+void receiveDisPdu(udp::socket& socket) {
+    DisPdu pdu;
+    udp::endpoint sender_endpoint;
+    boost::system::error_code error;
+
+    size_t len = socket.receive_from(boost::asio::buffer(&pdu, sizeof(pdu)), sender_endpoint, 0, error);
+    if (error && error != boost::asio::error::message_size) {
+        throw boost::system::system_error(error);
+    }
+
+    // Process received DIS PDU
+    // For example:
+    std::cout << "Received DIS PDU from " << sender_endpoint << std::endl;
+    std::cout << "PDU type: " << pdu.pduType << std::endl;
+    // Handle other fields as needed...
+}
+
+int main() {
+    try {
+        boost::asio::io_context io_context;
+
+        // Create a UDP socket
+        udp::socket socket(io_context, udp::endpoint(udp::v4(), 12345));
+
+        // Example endpoint (replace with actual destination endpoint)
+        udp::endpoint remote_endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 12345);
+
+        // Create a DIS PDU
+        DisPdu pdu;
+        pdu.pduType = 1;
+        pdu.entityId = 123;
+        pdu.acknowledge = false;
+        pdu.stop = false;
+        pdu.start = true;
+        pdu.resume = false;
+        pdu.pause = false;
+
+        // Send the DIS PDU
+        sendDisPdu(pdu, socket, remote_endpoint);
+
+        // Receive DIS PDUs
+        receiveDisPdu(socket);
+
+    } catch (std::exception& e) {
+        std::cerr << "Exception: " << e.what() << std::endl;
+    }
+
+    return 0;
+}
+
+
+
+
+
+// // Function to send a DIS PDU over UDP
+// void sendDisPdu(const DisPdu& pdu, const char* destinationIp, int destinationPort) {
+//     int sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+//     if (sock < 0) {
+//         std::cerr << "Error creating socket" << std::endl;
+//         return;
+//     }
+
+//     struct sockaddr_in destAddr;
+//     memset(&destAddr, 0, sizeof(destAddr));
+//     destAddr.sin_family = AF_INET;
+//     destAddr.sin_port = htons(destinationPort);
+//     inet_pton(AF_INET, destinationIp, &destAddr.sin_addr);
+
+//     sendto(sock, &pdu, sizeof(pdu), 0, (struct sockaddr*)&destAddr, sizeof(destAddr));
+//     close(sock);
+// }
+
+// // Function to receive a DIS PDU over UDP
+// void receiveDisPdu(int listenPort) {
+//     int sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+//     if (sock < 0) {
+//         std::cerr << "Error creating socket" << std::endl;
+//         return;
+//     }
+
+//     struct sockaddr_in listenAddr;
+//     memset(&listenAddr, 0, sizeof(listenAddr));
+//     listenAddr.sin_family = AF_INET;
+//     listenAddr.sin_addr.s_addr = htonl(INADDR_ANY);
+//     listenAddr.sin_port = htons(listenPort);
+
+//     if (bind(sock, (struct sockaddr*)&listenAddr, sizeof(listenAddr)) < 0) {
+//         std::cerr << "Error binding socket" << std::endl;
+//         close(sock);
+//         return;
+//     }
+
+//     DisPdu pdu;
+//     struct sockaddr_in clientAddr;
+//     socklen_t clientAddrLen = sizeof(clientAddr);
+//     recvfrom(sock, &pdu, sizeof(pdu), 0, (struct sockaddr*)&clientAddr, &clientAddrLen);
+
+//     std::cout << "Received PDU - Type: " << pdu.pduType << ", Entity ID: " << pdu.entityId << std::endl;
+
+//     close(sock);
+// }
+
+// // Function to send an acknowledgment PDU
+// void sendAcknowledge(int ackType, const char* destinationIp, int destinationPort) {
+//     DisPdu pdu;
+//     pdu.pduType = ackType;
+//     pdu.entityId = 0; // Set entity ID to 0 for acknowledgment PDUs
+
+//     sendDisPdu(pdu, destinationIp, destinationPort);
+// }
+
+// int main() {
+//     // Example usage: Sending and receiving DIS PDUs
+//     DisPdu pdu;
+//     pdu.pduType = 1; // Example PDU type
+//     pdu.entityId = 123; // Example entity ID
+
+//     // Send the DIS PDU
+//     sendDisPdu(pdu, "127.0.0.1", 12345);
+
+//     // Receive the DIS PDU
+//     receiveDisPdu(12345);
+
+//     // Send acknowledgment PDUs for start, stop, resume, and pause commands
+//     sendAcknowledge(10, "127.0.0.1", 12345); // Acknowledge for start command
+//     sendAcknowledge(20, "127.0.0.1", 12345); // Acknowledge for stop command
+//     sendAcknowledge(30, "127.0.0.1", 12345); // Acknowledge for resume command
+//     sendAcknowledge(40, "127.0.0.1", 12345); // Acknowledge for pause command
+
+//     return 0;
+// }
+```
