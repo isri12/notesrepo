@@ -751,6 +751,139 @@ static void test() {
     
 }
 
+```
+
+```cpp
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
+C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <iostream>
+
+
+class Node{
+    public:
+    int value;
+    Node* next;
+
+    Node(int value){
+        this->value=value;
+        next=nullptr;
+    }
+};
+
+class LinkedList{
+    private:
+        Node* head;
+        Node* tail;
+        int length;
+        
+    public:    
+    LinkedList(int value){  //constructor
+        Node* newNode = new Node (value);
+        head=newNode;
+        tail=newNode;
+        length=1;
+    }
+
+    void printList(){ //print list
+        Node* temp = head;
+        while (temp != nullptr){
+            std::cout<<"->"<<temp->value;
+            temp = temp->next;
+        }
+        std::cout<<'\n';
+    }
+    
+    void getHead(){
+        std::cout<<"Head: "<<head->value<<'\n';
+    }
+    
+    void getTail(){
+        std::cout<<"Tail: "<< tail->value<<'\n';
+        
+    }
+    
+    void getLength(){
+        std::cout<<"Length: "<<length<<'\n';
+    }
+
+    ~LinkedList(){  //destructor
+        Node* temp=head;
+        while(head){
+            head=head->next;
+            delete temp;
+            temp=head;
+        }
+    }
+    void append(int value){ //add to tail
+       Node* newNode= new Node(value);
+       if (length == 0){
+        head=newNode;
+        tail=newNode;
+       }else{
+        tail->next= newNode;
+        tail=newNode;
+       }
+       length ++;
+    }
+    
+    void deleteLast(){
+        if(length==0){
+            return ;
+        }
+        if (length==1){
+            head = nullptr;
+            tail = nullptr;
+        }else{
+            Node* temp=head;
+            Node* pre=head;
+            while(temp->next){  //when temp points to null pointer it breaks the loop
+                pre=temp;
+                temp=temp->next; //
+            }
+            tail=pre; 
+            tail->next = nullptr;
+            length --;
+            if (length ==0){
+                head = nullptr;
+                tail = nullptr;
+            }
+            delete temp;
+        }
+    }
+    void prepend(int value){ //add new node at beginning (tail)
+        length ++;
+        Node* newNode = new Node(value);
+        while(head->next){
+          tail->next=tmp
+            
+        }
+        
+        
+    }; 
+    //bool insert(){}; //insert 
+    
+};
+
+
+
+int main()
+{
+    LinkedList* mylinkedlist = new LinkedList(1);
+    // Mylinkedlist->append(1);
+    // Mylinkedlist->append(2);
+    mylinkedlist->deleteLast();
+    mylinkedlist->getHead();
+    mylinkedlist->getTail();
+    mylinkedlist->getLength();
+    mylinkedlist->printList();
+    return 0;
+}
 
 ```
 #### Linked List Destructor:

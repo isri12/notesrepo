@@ -13,6 +13,17 @@
 // Practice them in a row for better understanding and please Upvote for more questions.
 
 //Leet code by type: https://github.com/103style/LeetCode/tree/master
+
+
+
+
+
+//===========1700. Number of Students Unable to Eat Lunch ============================================================================================
+//https://leetcode.com/problems/number-of-students-unable-to-eat-lunch/description/?envType=daily-question&envId=2024-04-08
+
+
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 //===========leet 2073. Time Needed to Buy Tickets ============================================================================================
 //https://leetcode.com/problems/time-needed-to-buy-tickets/description/?envType=daily-question&envId=2024-04-09
