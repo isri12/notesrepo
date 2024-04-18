@@ -2935,3 +2935,104 @@ int main() {
 }
 
 ```
+using chrono
+```cpp
+#ifndef TIMER_HPP
+#define TIMER_HPP
+
+#include <chrono>
+#include <stdexcept>
+
+class Timer {
+public:
+    Timer() : running_(false), total_elapsed_time_millisec(0) {}
+
+    void start() {
+        if (!running_) {
+            start_time_millisec = std::chrono::high_resolution_clock::now();
+            running_ = true;
+        } else {
+            throw std::logic_error("Timer is already running");
+        }
+    }
+
+    void stop() {
+        if (running_) {
+            auto end_time_millisec = std::chrono::high_resolution_clock::now();
+            auto elapsed_time_millisec = std::chrono::duration_cast<std::chrono::milliseconds>(end_time_millisec - start_time_millisec).count();
+            total_elapsed_time_millisec += elapsed_time_millisec;
+            running_ = false;
+        } else {
+            throw std::logic_error("Timer is not running");
+        }
+    }
+
+    double duration() const {
+        if (running_) {
+            auto current_time = std::chrono::high_resolution_clock::now();
+            auto elapsed_time_millisec = std::chrono::duration_cast<std::chrono::milliseconds>(current_time - start_time_millisec).count();
+            return total_elapsed_time_millisec + elapsed_time_millisec;
+        } else {
+            return total_elapsed_time_millisec;
+        }
+    }
+
+private:
+    bool running_;
+    long long total_elapsed_time_millisec; // Total elapsed time in milliseconds
+    std::chrono::high_resolution_clock::time_point start_time_millisec;
+};
+
+#endif // TIMER_HPP
+
+
+//in seconds
+// #ifndef TIMER_HPP
+// #define TIMER_HPP
+
+// #include <chrono>
+// #include <stdexcept>
+
+// class Timer {
+// public:
+//     Timer() : running_(false), total_elapsed_time_(0) {}
+
+//     void start() {
+//         if (!running_) {
+//             start_time_ = std::chrono::high_resolution_clock::now();
+//             running_ = true;
+//         } else {
+//             throw std::logic_error("Timer is already running");
+//         }
+//     }
+
+//     void stop() {
+//         if (running_) {
+//             auto end_time = std::chrono::high_resolution_clock::now();
+//             double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(end_time - start_time_).count();
+//             total_elapsed_time_ += elapsed_seconds;
+//             running_ = false;
+//         } else {
+//             throw std::logic_error("Timer is not running");
+//         }
+//     }
+
+//     double elapsed_seconds() const {
+//         if (running_) {
+//             auto current_time = std::chrono::high_resolution_clock::now();
+//             double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(current_time - start_time_).count();
+//             return total_elapsed_time_ + elapsed_seconds;
+//         } else {
+//             return total_elapsed_time_;
+//         }
+//     }
+
+// private:
+//     bool running_;
+//     double total_elapsed_time_; // Total elapsed time in seconds
+//     std::chrono::high_resolution_clock::time_point start_time_;
+// };
+
+// #endif // TIMER_HPP
+
+```
