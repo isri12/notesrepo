@@ -590,7 +590,7 @@ class LinkedList{
     
 };
 ```
-### Linked List Practice problem 1 constructor 
+### Linked List study 
 ```cpp
 #include <iostream>
 
@@ -918,11 +918,40 @@ class LinkedList{
     }
     
     void deleteNode(int index){
+        if(index<0 || index>=length){
+            return;
+        }
+        if (index == 0){
+            return deletefirst();
+        }
+        if(index == length-1){
+            return deleteLast();
+        }
+        
+        Node* prev=get(index-1);
+        Node* temp= prev->next;
+        prev->next=temp->next;
+        delete temp;
+        length --;
         
     }
     
     void reverseNode(){
         
+        Node* temp= head;
+        head=tail;
+        tail=temp;
+        
+        Node* after=temp->next;
+        Node* before=nullptr;
+        
+        
+        for(int i=0;i<length;i++){
+            after=temp->next;
+            temp->next=before;
+            before=temp;
+            temp=after;
+        }
     }
     
 };
@@ -956,9 +985,14 @@ int main()
     mylinkedlist->insert(1,6);
     mylinkedlist->printList();
     
+    mylinkedlist->deleteNode(1);
+    mylinkedlist->printList();
+    
+    mylinkedlist->reverseNode();
+    mylinkedlist->printList();
+    
     return 0;
 }
-
 ```
 #### Linked List Destructor:
 
