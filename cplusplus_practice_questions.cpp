@@ -13,15 +13,15 @@
 // Practice them in a row for better understanding and please Upvote for more questions.
 
 //Leet code by type: https://github.com/103style/LeetCode/tree/master
+//////////////////////////////////////////////////////////////////////////////////
+//463. Island Perimeter https://leetcode.com/problems/island-perimeter/description/?envType=daily-question&envId=2024-04-18
 
+//136. Single Number https://leetcode.com/problems/single-number/
 
-
-
+//338. Counting Bits https://leetcode.com/problems/counting-bits/
 
 //===========1700. Number of Students Unable to Eat Lunch ============================================================================================
 //https://leetcode.com/problems/number-of-students-unable-to-eat-lunch/description/?envType=daily-question&envId=2024-04-08
-
-
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

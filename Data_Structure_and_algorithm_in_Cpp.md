@@ -754,14 +754,6 @@ static void test() {
 ```
 
 ```cpp
-/******************************************************************************
-
-Welcome to GDB Online.
-GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
-C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
-Code, Compile, Run and Debug online from anywhere in world.
-
-*******************************************************************************/
 #include <iostream>
 
 
@@ -856,17 +848,82 @@ class LinkedList{
             delete temp;
         }
     }
-    void prepend(int value){ //add new node at beginning (tail)
-        length ++;
+    void prepend(int value){ //add new node at beginning (Head)
         Node* newNode = new Node(value);
-        while(head->next){
-          tail->next=tmp
-            
+        if(length==0){
+            newNode=head;
+            newNode=tail;
+        }else{
+        newNode->next=head;
+        head=newNode;
         }
+     length ++;   
+    }
+    
+    void deletefirst(){
+        Node* temp=head;
+        if (length==0){
+            return ;
+        }
+        if(length==1){
+            head=nullptr;
+            tail=nullptr;
+        }else{
+            head=head->next;
+        }
+        delete temp;
+        length --;
+    }
+    
+    Node* get(int index){
+        if ( index<0 || index>=length){
+            return nullptr;
+        }
+        Node* temp=head;
+        for (int i=0;i<index;i++){
+            temp=head->next;
+        }
+        return temp;
+    }
+    
+    bool set(int index, int value){
+        Node* temp;
+        temp=get(index);
+        if (temp){
+            temp->value=value;                
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    bool insert(int index, int value){
+        if(index<0 || index>length){
+            return false;
+        }
+        if(index==0){
+            prepend(value);
+            return true;
+        }
+        if(index==length){
+            append(value);
+            return true;
+        }
+        Node* newNode = new Node(value);
+        Node* temp = get(index-1);
+        newNode->next=temp->next;
+        temp->next= newNode;
+        length++;
+        return true;
+    }
+    
+    void deleteNode(int index){
         
+    }
+    
+    void reverseNode(){
         
-    }; 
-    //bool insert(){}; //insert 
+    }
     
 };
 
@@ -875,13 +932,30 @@ class LinkedList{
 int main()
 {
     LinkedList* mylinkedlist = new LinkedList(1);
-    // Mylinkedlist->append(1);
-    // Mylinkedlist->append(2);
-    mylinkedlist->deleteLast();
+    mylinkedlist->append(2);
+    mylinkedlist->append(3);
+    
+    //mylinkedlist->deleteLast();
     mylinkedlist->getHead();
     mylinkedlist->getTail();
     mylinkedlist->getLength();
     mylinkedlist->printList();
+    
+    mylinkedlist->prepend(4);
+    mylinkedlist->printList();
+    
+    mylinkedlist->deletefirst();
+    mylinkedlist->printList();
+
+    std::cout<<mylinkedlist->get(1)->value<<'\n';
+    mylinkedlist->printList();
+
+    mylinkedlist->set(1,4);
+    mylinkedlist->printList();
+    
+    mylinkedlist->insert(1,6);
+    mylinkedlist->printList();
+    
     return 0;
 }
 
