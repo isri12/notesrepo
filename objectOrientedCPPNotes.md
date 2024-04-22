@@ -6036,11 +6036,77 @@ int main()
     std::cout<<p2.first<<" : "<<p2.second<<'\n'; //2 : 2.56
 
 }
-
-
 ```
 
-#### 3.10.5
+
+#### 3.10.5 Generic Array Template class
+
+
+---
+
+**Generic Array Template Class**
+
+**Introduction:**
+A generic array template class is a powerful tool in C++ that allows you to create arrays of any data type dynamically. Instead of creating separate array classes for different data types, you can use templates to create a single class that works with any data type.
+
+**Implementation:**
+Here's a basic implementation of a generic array template class:
+
+```cpp
+template <class T>
+class Array {
+private:
+    T *arr;
+    int size;
+public:
+    Array(int s) : size(s) {
+        arr = new T[size];
+    }
+
+    ~Array() {
+        delete[] arr;
+    }
+
+    T& operator[](int index) {
+        if (index < 0 || index >= size) {
+            throw std::out_of_range("Index out of bounds");
+        }
+        return arr[index];
+    }
+};
+```
+
+**Explanation:**
+- The `template <class T>` line declares a template class with a type parameter `T`.
+- Inside the class, we declare a pointer `arr` of type `T` to store the array elements and an integer `size` to store the size of the array.
+- The constructor initializes the array with the given size and dynamically allocates memory for it.
+- The destructor deallocates the memory when the object is destroyed to prevent memory leaks.
+- The `operator[]` overloading allows us to access elements of the array using the subscript operator (`[]`). It performs bounds checking to ensure that the index is within the array bounds.
+
+**Usage:**
+```cpp
+int main() {
+    Array<int> intArray(5);
+    for (int i = 0; i < 5; ++i) {
+        intArray[i] = i * 2;
+    }
+    
+    for (int i = 0; i < 5; ++i) {
+        std::cout << intArray[i] << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+```
+
+**Conclusion:**
+A generic array template class provides flexibility and reusability in C++ programming by allowing you to create arrays of any data type without duplicating code. It's a fundamental concept in C++ template metaprogramming and is widely used in various applications.
+
+---
+
+
+
 
 #### 3.10.6
 
