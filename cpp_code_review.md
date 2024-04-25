@@ -2977,6 +2977,18 @@ public:
         }
     }
 
+ std::time_t currentTimestamp() const {
+         return std::chrono::system_clock::to_time_t(std::chrono::high_resolution_clock::now());
+    }
+
+      std::chrono::milliseconds::rep currentTimestampMilliseconds() const {
+        return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+    }
+
+    std::chrono::microseconds::rep currentTimestampMicroseconds() const {
+        return std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+    }
+
 private:
     bool running_;
     long long total_elapsed_time_millisec; // Total elapsed time in milliseconds
@@ -2986,6 +2998,28 @@ private:
 #endif // TIMER_HPP
 
 
+int main() {
+
+    Timer timer_benchmark;
+    timer_benchmark.start();
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+
+    std::time_t timestamp_time_t=timer_benchmark.currentTimestamp();
+    std::cout << "Current timestamp: " << std::put_time(std::localtime(&timestamp_time_t), "%Y-%m-%d %H:%M:%S") << std::endl;
+
+    timer_benchmark.stop();
+    double elapsed_data = timer_benchmark.duration();
+    std::cout<<"elapsed time in seconds: "<<elapsed_data<<'\n'; 
+
+
+    int64_t milliseconds = timer_benchmark.currentTimestampMilliseconds();
+    int64_t microseconds = timer_benchmark.currentTimestampMicroseconds();
+
+    // Display milliseconds and microseconds
+    std::cout << "Current timestamp in milliseconds: " << milliseconds << std::endl;
+    std::cout << "Current timestamp in microseconds: " << microseconds << std::endl;
+
+}
 //in seconds
 // #ifndef TIMER_HPP
 // #define TIMER_HPP
