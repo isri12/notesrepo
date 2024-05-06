@@ -3070,3 +3070,37 @@ int main() {
 // #endif // TIMER_HPP
 
 ```
+```cpp
+std::string Timestamp::filename(const char* file) const {
+    std::string filename = file;
+    size_t found = filename.find_last_of("/\\");
+    if (found != std::string::npos) {
+        return filename.substr(found + 1);
+    }
+    return filename;
+}
+
+std::string Timestamp::directory(const char* file) const {
+    std::string filename = file;
+    size_t found = filename.find_last_of("/\\");
+    if (found != std::string::npos) {
+        return filename.substr(0, found);
+    }
+    return filename;
+}
+
+int Timestamp::lineNumber(int line) const {
+    return line;
+}
+
+
+std::string Timestamp::serializeToString() const {
+    // Serialize timestamp, filename, directory, and line number into a string
+    std::stringstream ss;
+    ss << "Timestamp: " << currentTimestampInMicroseconds() << ", "
+       << "Filename: " << filename(__FILE__) << ", "
+       << "Directory: " << directory(__FILE__) << ", "
+       << "Line number: " << lineNumber(__LINE__);
+    return ss.str();
+}
+```
