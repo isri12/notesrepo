@@ -3104,3 +3104,133 @@ std::string Timestamp::serializeToString() const {
     return ss.str();
 }
 ```
+```python
+import subprocess
+import sys
+
+def install_and_import(package):
+    """Check if a package is installed, and install it if not."""
+    try:
+# This line tries to import the specified package using the __import__ function.
+# __import__ is a built-in function that allows dynamic importing of modules. If the module is 
+# already installed, this line will successfully import it and the function will proceed without error.
+        __import__(package)
+# If the package is not installed, an ImportError is raised.
+# The except block catches this error and uses the subprocess module to run the pip install command.
+# subprocess.check_call runs the command provided in the list [sys.executable, '-m', 'pip', 'install', package].
+# sys.executable gives the path to the current Python interpreter.
+# -m pip install runs the pip module as a script to install the specified package.
+    except ImportError:
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', package])
+# The finally block runs regardless of whether an error occurred or not.
+# It ensures the package is imported into the current global namespace using globals().
+# globals() returns a dictionary representing the current global symbol table, and adding an entry to this dictionary effectively imports the module into the global namespace.
+# This means you can use the package as if it was imported normally at the top of the script.
+    finally:
+        globals()[package] = __import__(package)
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from datetime import datetime
+
+def read_csv(file_path):
+    """Read the CSV file into a DataFrame."""
+    return pd.read_csv(file_path)
+
+def calculate_duration(df):
+    """Calculate the duration from start to finish in seconds."""
+    df['duration'] = df['end_time'] - df['start_time']
+    return df
+
+def epoch_to_human(epoch):
+    """Convert epoch time to human-readable format."""
+    return datetime.fromtimestamp(epoch).strftime('%Y-%m-%d %H:%M:%S')
+
+def add_human_readable_times(df):
+    """Add human-readable start and end times to the DataFrame."""
+    df['start_time_human'] = df['start_time'].apply(epoch_to_human)
+    df['end_time_human'] = df['end_time'].apply(epoch_to_human)
+    return df
+
+def total_duration(df):
+    """Calculate the total duration for all records."""
+    return df['duration'].sum()
+
+def longest_duration_record(df):
+    """Find the record with the longest duration."""
+    return df.loc[df['duration'].idxmax()]
+
+def average_duration(df):
+    """Calculate the average duration."""
+    return df['duration'].mean()
+
+def plot_histogram(df):
+    """Plot a histogram of the durations."""
+    plt.figure(figsize=(10, 6))
+    plt.hist(df['duration'], bins=30, edgecolor='k', alpha=0.7)
+    plt.title('Histogram of Durations')
+    plt.xlabel('Duration (seconds)')
+    plt.ylabel('Frequency')
+    plt.show()
+
+def plot_duration_by_user(df):
+    """Plot a bar chart of the total duration by user."""
+    user_duration = df.groupby('user_id')['duration'].sum()
+    user_duration.plot(kind='bar', figsize=(12, 7), color='skyblue')
+    plt.title('Total Duration by User')
+    plt.xlabel('User ID')
+    plt.ylabel('Total Duration (seconds)')
+    plt.xticks(rotation=45)
+    plt.show()
+
+def plot_time_series(df):
+    """Plot a time series of the events."""
+    df['start_time_human'] = pd.to_datetime(df['start_time_human'])
+    df.set_index('start_time_human', inplace=True)
+    df['duration'].plot(figsize=(15, 8))
+    plt.title('Time Series of Durations')
+    plt.xlabel('Time')
+    plt.ylabel('Duration (seconds)')
+    plt.show()
+
+def save_to_csv(df, output_file_path):
+    """Save the DataFrame to a CSV file."""
+    df.to_csv(output_file_path, index=False)
+
+def main(file_path, output_file_path):
+    # Read the CSV file
+    df = read_csv(file_path)
+    
+    # Calculate duration and add human-readable times
+    df = calculate_duration(df)
+    df = add_human_readable_times(df)
+    
+    # Calculate additional statistics
+    total_dur = total_duration(df)
+    max_dur_record = longest_duration_record(df)
+    avg_dur = average_duration(df)
+    
+    # Print the results
+    print(f'Total duration (in seconds) for all records: {total_dur}')
+    print(f'Record with the longest duration:\n{max_dur_record}')
+    print(f'Average duration (in seconds): {avg_dur}')
+    
+    # Save the results to a new CSV file
+    save_to_csv(df, output_file_path)
+    print(f'Results saved to {output_file_path}')
+    
+    # Plot the statistics
+    plot_histogram(df)
+    plot_duration_by_user(df)
+    plot_time_series(df)
+
+# Replace 'your_file.csv' and 'output_with_durations.csv' with the actual file paths
+file_path = 'satellite_data.csv'
+output_file_path = 'output_with_durations.csv'
+# Ensure required packages are installed
+#install_and_import('pandas')
+#install_and_import('matplotlib')
+main(file_path, output_file_path)
+
+```
