@@ -451,7 +451,56 @@ Remember that consistency within a codebase is crucial. If you're working on a p
 - Dynamic library is loaded(linked) into program at runtime, dynamic library can be anywhere and you do the linking whereas static library is put(compiled) into your executable program
 - We have to point our compiler to header files (include files) and then we also have to point out our linker to library files.
 ------------------------------------------------------------------------------------------------------------
+### Stack vs Heap
 
+**Stack**
+
+* **Allocation/Deallocation:** Automatic, handled by the compiler. Memory is allocated when a function is called and deallocated when the function returns.
+* **Lifetime:** Variables on the stack only exist within the scope of the function they are declared in.
+* **Size:** Limited, typically much smaller than heap memory.
+* **Speed:** Faster allocation and deallocation compared to heap.
+* **Use cases:** Local variables, function arguments, small data structures with fixed size known at compile time.
+
+**Heap**
+
+* **Allocation/Deallocation:** Manual, programmer allocates memory using `new` and deallocates using `delete`.
+* **Lifetime:** Objects on the heap can persist beyond the lifetime of the function that allocated them. They need to be explicitly deallocated to avoid memory leaks.
+* **Size:** Larger than stack, can be used for dynamically sized data structures.
+* **Speed:** Slower allocation and deallocation compared to stack.
+* **Use cases:** Dynamically allocated data structures, objects with size unknown at compile time, data that needs to persist beyond the scope of a function.
+
+**Choosing between stack and heap:**
+
+* Use stack for local variables, function arguments, and small fixed-size data structures.
+* Use heap for dynamic memory allocation, large data structures, and data that needs to live longer than the function that created it.
+```cpp
+#include <iostream>
+
+void stackExample(int value) {
+  // Local variable on the stack (fixed size, automatic allocation)
+  int localVar = value * 2;
+  std::cout << "Local variable (stack): " << localVar << std::endl;
+}
+
+void heapExample() {
+  // Allocate memory on the heap (dynamic size, manual allocation)
+  int* heapVar = new int(10);
+  *heapVar = 5; // Modify the value stored at the allocated memory
+
+  std::cout << "Heap variable: " << *heapVar << std::endl;
+
+  // Deallocate memory to avoid leaks (manual deallocation)
+  delete heapVar;
+}
+
+int main() {
+  stackExample(5); // localVar goes out of scope here (deallocated)
+
+  heapExample();  // Memory leak if not deallocated
+
+  return 0;
+}
+```
 ------------------------------------------------------------------------------------------------------------
 ## 1. Variables and Data types
 ### Integer
