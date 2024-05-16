@@ -3410,3 +3410,32 @@ int main() {
     return 0;
 }
 ```
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Read the CSV file
+filename = "vehicle_data.csv"
+data = pd.read_csv(filename)
+
+# Convert the timestamp from microseconds to seconds for readability
+data['Timestamp (seconds)'] = data['Timestamp (microseconds)'] / 1e6
+
+# Plot the data
+plt.figure(figsize=(10, 6))
+plt.plot(data['Timestamp (seconds)'], data['Vehicle Count'], marker='o')
+
+# Add labels and title
+plt.xlabel('Timestamp (seconds)')
+plt.ylabel('Vehicle Count')
+plt.title('Vehicle Count Over Time')
+plt.grid(True)
+
+# Save the plot to a file
+plt.savefig('vehicle_data_plot.png')
+
+# Optionally, print a message to inform the user
+print("Plot saved as 'vehicle_data_plot.png'")
+
+```
