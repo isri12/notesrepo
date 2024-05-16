@@ -3315,3 +3315,98 @@ plt.show()
    Display the plot.
 
 You can save this script as `plot_vehicle_data.py` and run it to visualize the data collected by your C++ program.
+
+
+
+
+```cpp
+#include <iostream>
+#include <chrono>
+#include <ctime>
+#include <fstream>
+#include <random>
+#include <thread>
+#include <signal.h> // For signal handling
+#include <vector>
+
+// Define a struct to hold timestamp and vehicle count
+struct VehicleData {
+    uint64_t timestamp;
+    int vehicle_count;
+};
+
+// Function to get the current timestamp in microseconds
+uint64_t getTimestampNow() {
+    using namespace std::chrono;
+    auto now = high_resolution_clock::now();
+    return duration_cast<microseconds>(now.time_since_epoch()).count();
+}
+
+// Function to generate a random number within a specified range
+int generateRandomVehicleCount(int min, int max) {
+    std::random_device rd;  // Seed the random number generator
+    std::mt19937 gen(rd());  // Create a Mersenne Twister engine
+    std::uniform_int_distribution<> dis(min, max);  // Define the range
+    return dis(gen);
+}
+
+// Function to export vehicle data to CSV file
+void exportToCsv(const std::vector<VehicleData>& data, const std::string& filename) {
+    std::ofstream csvFile(filename);
+    if (!csvFile.is_open()) {
+        std::cerr << "Error opening CSV file: " << filename << std::endl;
+        return;
+    }
+
+    // Write header row (optional)
+    csvFile << "Timestamp (microseconds),Vehicle Count" << std::endl;
+
+    for (const auto& entry : data) {
+        csvFile << entry.timestamp << "," << entry.vehicle_count << std::endl;
+    }
+
+    std::cout << "Vehicle data exported to " << filename << std::endl;
+}
+
+bool running = true; // Flag to control loop termination
+std::vector<VehicleData> vehicleDataCollection; // Collection to store vehicle data
+
+void handle_SIGINT(int sig) {
+    running = false;
+    std::cout << "\nTerminating program...\n";
+
+    // Export collected data to CSV before exiting
+    exportToCsv(vehicleDataCollection, "vehicle_data.csv");  // Adjust filename as needed
+    std::exit(0);  // Ensure the program terminates
+}
+
+int main() {
+    // Set initial vehicle count (adjust as needed)
+    int current_vehicle_count = 0;
+    const int min_vehicle_increase = 1; // Minimum increase per loop
+    const int max_vehicle_increase = 5; // Maximum increase per loop
+
+    // Register signal handler for SIGINT (Ctrl+C)
+    signal(SIGINT, handle_SIGINT);
+
+    // Main loop to capture timestamps and vehicle counts
+    while (running) {
+        // Get current timestamp
+        uint64_t timestamp = getTimestampNow();
+
+        // Generate random increase for vehicle count
+        current_vehicle_count += generateRandomVehicleCount(min_vehicle_increase, max_vehicle_increase);
+
+        // Create vehicle data object
+        VehicleData data = {timestamp, current_vehicle_count};
+
+        // Add data to collection
+        vehicleDataCollection.push_back(data);
+
+        // Brief pause to simulate real-time processing (adjust as needed)
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));  // 100 milliseconds
+    }
+
+    return 0;
+}
+```
