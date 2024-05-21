@@ -3439,3 +3439,39 @@ plt.savefig('vehicle_data_plot.png')
 print("Plot saved as 'vehicle_data_plot.png'")
 
 ```
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the data from the CSV file
+filename = "vehicle_data.csv"
+data = pd.read_csv(filename)
+
+# Handle the scientific notation in timestamps
+data['Timestamp (microseconds)'] = data['Timestamp (microseconds)'].apply(lambda x: int(float(x)))
+
+# Convert the timestamp from microseconds to seconds for readability
+data['Timestamp (seconds)'] = data['Timestamp (microseconds)'] / 1e6
+
+# Group by 'Vehicle Number' and calculate the average timestamp for each vehicle
+average_time_per_vehicle = data.groupby('Vehicle Number')['Timestamp (seconds)'].mean().reset_index()
+
+# Plot the data
+plt.figure(figsize=(10, 6))
+plt.plot(average_time_per_vehicle['Vehicle Number'], average_time_per_vehicle['Timestamp (seconds)'], marker='o', linestyle='-', color='b')
+
+# Add labels and title
+plt.xlabel('Vehicle Number')
+plt.ylabel('Average Timestamp (seconds)')
+plt.title('Average Time Each Vehicle was Observed')
+plt.grid(True)
+
+# Save the plot to a file
+plot_filename = 'average_time_per_vehicle_plot.png'
+plt.savefig(plot_filename)
+print(f"Plot saved as '{plot_filename}'")
+
+# Show the plot (optional)
+# plt.show()  # Uncomment this line if you want to display the plot interactively
+
+```
