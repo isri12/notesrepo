@@ -142,3 +142,36 @@ print(durations[['Vehicle numbr', 'Duration (readable)']])
 
 
 ```
+```python
+import random
+import csv
+from datetime import datetime, timedelta
+
+# Function to generate random times
+def generate_random_times(count):
+    base_time = datetime.now()
+    return [(base_time + timedelta(seconds=i)).strftime("%H:%M:%S.%f") for i in range(count)]
+
+# Function to generate random average process times
+def generate_random_process_times(count):
+    return [round(random.uniform(0.1, 5.0), 3) for i in range(count)]
+
+# Generate sample data
+time_list = generate_random_times(100)
+process_time_list = generate_random_process_times(100)
+
+# Combine the data into a list of dictionaries
+sample_data = [{"Time": t, "Average Process Time": pt} for t, pt in zip(time_list, process_time_list)]
+
+# Define the CSV file name
+csv_file = "sample_data.csv"
+
+# Write the sample data to the CSV file
+with open(csv_file, mode='w', newline='') as file:
+    writer = csv.DictWriter(file, fieldnames=["Time", "Average Process Time"])
+    writer.writeheader()
+    writer.writerows(sample_data)
+
+print(f"Sample data has been exported to {csv_file}")
+
+```
