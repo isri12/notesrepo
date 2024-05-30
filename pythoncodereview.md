@@ -461,3 +461,46 @@ plt.show()
 # Save selected columns to CSV
 time_diff[['elapsed_time', 'time_from_1_to_3']].to_csv('time_diff_processed.csv', index=False)
 ```
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the data into a DataFrame
+process_data = pd.DataFrame({
+    'timestamp_microsecond': [1716407307000, 1716407348000, 1716407389000, 1716407471000, 1716407512000, 1716407553000, 1716407594000, 1716407676000, 1716407717000, 1716407758000, 1716407799000, 1716407881000, 1716407922000, 1716407963000, 1716408004000, 1716408045000, 1716408086000, 1716408127000, 1716408168000, 1716408250000, 1716408291000, 1716408332000, 1716408373000, 1716408414000, 1716408455000, 1716408496000, 1716408578000, 1716408619000, 1716408660000, 1716408701000, 1716408742000, 1716408783000, 1716408824000, 1716408865000],
+    'timestamp': ['20:46:47.307000', '20:46:47.348000', '20:46:47.389000', '20:46:47.471000', '20:46:47.512000', '20:46:47.553000', '20:46:47.594000', '20:46:47.676000', '20:46:47.717000', '20:46:47.758000', '20:46:47.799000', '20:46:47.881000', '20:46:47.922000', '20:46:47.963000', '20:46:48.004000', '20:46:48.045000', '20:46:48.086000', '20:46:48.127000', '20:46:48.168000', '20:46:48.250000', '20:46:48.291000', '20:46:48.332000', '20:46:48.373000', '20:46:48.414000', '20:46:48.455000', '20:46:48.496000', '20:46:48.578000', '20:46:48.619000', '20:46:48.660000', '20:46:48.701000', '20:46:48.742000', '20:46:48.783000', '20:46:48.824000', '20:46:48.865000'],
+    'Item_Number': [6000, 6000, 6000, 6001, 6001, 6001, 6001, 6000, 6000, 6000, 6000, 6001, 6001, 6001, 6001, 6001, 6001, 6001, 6001, 6002, 6002, 6002, 6002, 6002, 6002, 6002, 6003, 6003, 6003, 6003, 6003, 6003, 6003, 6003],
+    'name': ['Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process',   'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process'],
+    'record_position': [1, 1, 3, 1, 2, 2, 3, 1, 2, 1, 3, 1, 1, 2, 1, 2, 1, 2, 3, 2, 1, 2, 2, 1, 2, 3, 1, 2, 2, 1, 2, 1, 2, 3],
+    'Total_item': [1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3]
+})
+
+# Convert the 'timestamp' column to datetime format
+process_data['timestamp'] = pd.to_datetime(process_data['timestamp'], format='%H:%M:%S.%f')
+
+# Calculate the time it took from record position 1 to 3 for each Item_Number
+time_diff = process_data.pivot_table(index='Item_Number', columns='record_position', values='timestamp', aggfunc='first')
+time_diff['time_from_1_to_3'] = (time_diff[3] - time_diff[1]).dt.total_seconds()
+
+# Calculate elapsed time from the first timestamp
+process_data = process_data.sort_values(by='timestamp')
+process_data['elapsed_time'] = (process_data['timestamp'] - process_data['timestamp'].iloc[0]).dt.total_seconds()
+
+# Merge the elapsed time back to the time_diff dataframe
+item_first_timestamp = process_data.drop_duplicates(subset='Item_Number', keep='first')[['Item_Number', 'elapsed_time']]
+time_diff = time_diff.merge(item_first_timestamp, on='Item_Number')
+
+# Record the average time from record position 1 to 3 for each timestamp
+average_time = process_data.groupby('timestamp')['time_from_1_to_3'].mean().reset_index()
+
+# Plotting
+plt.figure(figsize=(10, 6))
+plt.plot(average_time['timestamp'], average_time['time_from_1_to_3'], marker='o')
+plt.title('Average Time from Record Position 1 to 3 Over Time')
+plt.xlabel('Timestamp')
+plt.ylabel('Average Time from Position 1 to 3 (seconds)')
+plt.tight_layout()
+plt.show()
+
+```
