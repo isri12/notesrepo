@@ -1,3 +1,4 @@
+```python
 # import pandas as pd
 # import matplotlib.pyplot as plt
 # from datetime import timedelta
@@ -43,7 +44,7 @@
 
 # # Print the data for reference
 # print(data[['Vehicle Count', 'Duration (readable)']])
-
+```
 
 import pandas as pd
 import matplotlib.pyplot as plt
