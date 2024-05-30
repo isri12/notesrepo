@@ -45,7 +45,7 @@
 # # Print the data for reference
 # print(data[['Vehicle Count', 'Duration (readable)']])
 ```
-
+```python
 import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import timedelta
@@ -140,8 +140,6 @@ plt.show()  # Uncomment this line if you want to display the plot interactively
 
 # Print the data for reference
 print(durations[['Vehicle numbr', 'Duration (readable)']])
-
-
 ```
 ```python
 import random
