@@ -593,3 +593,69 @@ plt.show()
 # Save the result DataFrame to a CSV file
 result_df.to_csv('time_differences3.csv', index=False)
 ```
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+def load_data():
+    return pd.DataFrame({
+        'timestamp_microsecond': [1716407307000, 1716407348000, 1716407389000, 1716407471000, 1716407512000, 1716407553000, 1716407594000, 1716407676000, 1716407717000, 1716407758000, 1716407799000, 1716407881000, 1716407922000, 1716407963000, 1716408004000, 1716408045000, 1716408086000, 1716408127000, 1716408168000, 1716408250000, 1716408291000, 1716408332000, 1716408373000, 1716408414000, 1716408455000, 1716408496000, 1716408578000, 1716408619000, 1716408660000, 1716408701000, 1716408742000, 1716408783000, 1716408824000, 1716408865000],
+        'timestamp': ['20:46:47.307000', '20:46:47.348000', '20:46:47.389000', '20:46:47.471000', '20:46:47.512000', '20:46:47.553000', '20:46:47.594000', '20:46:47.676000', '20:46:47.717000', '20:46:47.758000', '20:46:47.799000', '20:46:47.881000', '20:46:47.922000', '20:46:47.963000', '20:46:48.004000', '20:46:48.045000', '20:46:48.086000', '20:46:48.127000', '20:46:48.168000', '20:46:48.250000', '20:46:48.291000', '20:46:48.332000', '20:46:48.373000', '20:46:48.414000', '20:46:48.455000', '20:46:48.496000', '20:46:48.578000', '20:46:48.619000', '20:46:48.660000', '20:46:48.701000', '20:46:48.742000', '20:46:48.783000', '20:46:48.824000', '20:46:48.865000'],
+        'Item_Number': [6000, 6000, 6000, 6001, 6001, 6001, 6001, 6000, 6000, 6000, 6000, 6001, 6001, 6001, 6001, 6001, 6001, 6001, 6001, 6002, 6002, 6002, 6002, 6002, 6002, 6002, 6003, 6003, 6003, 6003, 6003, 6003, 6003, 6003],
+        'name': ['Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process'],
+        'record_position': [1, 1, 3, 1, 2, 2, 3, 1, 2, 1, 3, 1, 1, 2, 1, 2, 1, 2, 3, 2, 1, 2, 2, 1, 2, 3, 1, 2, 2, 1, 2, 1, 2, 3],
+        'Total_item': [1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3]
+    })
+
+def preprocess_data(data):
+    data['timestamp'] = pd.to_datetime(data['timestamp'], format='%H:%M:%S.%f')
+    return data
+
+def calculate_time_differences(data):
+    result_df = pd.DataFrame(columns=['start_time', 'end_time', 'time_difference', 'real_minute', 'minute_from_zero'])
+
+    start_time = None
+    initial_minute = None
+
+    for _, row in data.iterrows():
+        if row['record_position'] == 1:
+            start_time = row['timestamp']
+            if initial_minute is None:
+                initial_minute = start_time.minute
+        elif row['record_position'] == 3:
+            end_time = row['timestamp']
+            time_diff = (end_time - start_time).total_seconds()
+            real_minute = start_time.minute
+            minute_from_zero = real_minute - initial_minute
+            result_df = pd.concat([result_df, pd.DataFrame({'start_time': [start_time],
+                                                            'end_time': [end_time],
+                                                            'time_difference': [time_diff],
+                                                            'real_minute': [real_minute],
+                                                            'minute_from_zero': [minute_from_zero]})], ignore_index=True)
+
+    return result_df
+
+def plot_time_differences(result_df):
+    plt.figure(figsize=(10, 6))
+    plt.scatter(result_df['start_time'], result_df['time_difference'], marker='o', color='blue')
+    plt.xlabel('Timestamp')
+    plt.ylabel('Time Difference (seconds)')
+    plt.title('Time Difference vs Timestamp')
+    plt.grid(True)
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+
+def save_result_to_csv(result_df, filename):
+    result_df.to_csv(filename, index=False)
+
+def main():
+    data = load_data()
+    data = preprocess_data(data)
+    result_df = calculate_time_differences(data)
+    plot_time_differences(result_df)
+    save_result_to_csv(result_df, 'time_differences.csv')
+
+if __name__ == '__main__':
+    main()
+```
