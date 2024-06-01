@@ -504,3 +504,92 @@ plt.tight_layout()
 plt.show()
 
 ```
+```python
+
+import pandas as pd
+
+# Load the data into a DataFrame
+process_data = pd.DataFrame({
+    'timestamp_microsecond': [1716407307000, 1716407348000, 1716407389000, 1716407471000, 1716407512000, 1716407553000, 1716407594000, 1716407676000, 1716407717000, 1716407758000, 1716407799000, 1716407881000, 1716407922000, 1716407963000, 1716408004000, 1716408045000, 1716408086000, 1716408127000, 1716408168000, 1716408250000, 1716408291000, 1716408332000, 1716408373000, 1716408414000, 1716408455000, 1716408496000, 1716408578000, 1716408619000, 1716408660000, 1716408701000, 1716408742000, 1716408783000, 1716408824000, 1716408865000],
+    'timestamp': ['20:46:47.307000', '20:46:47.348000', '20:46:47.389000', '20:46:47.471000', '20:46:47.512000', '20:46:47.553000', '20:46:47.594000', '20:46:47.676000', '20:46:47.717000', '20:46:47.758000', '20:46:47.799000', '20:46:47.881000', '20:46:47.922000', '20:46:47.963000', '20:46:48.004000', '20:46:48.045000', '20:46:48.086000', '20:46:48.127000', '20:46:48.168000', '20:46:48.250000', '20:46:48.291000', '20:46:48.332000', '20:46:48.373000', '20:46:48.414000', '20:46:48.455000', '20:46:48.496000', '20:46:48.578000', '20:46:48.619000', '20:46:48.660000', '20:46:48.701000', '20:46:48.742000', '20:46:48.783000', '20:46:48.824000', '20:46:48.865000'],
+    'Item_Number': [6000, 6000, 6000, 6001, 6001, 6001, 6001, 6000, 6000, 6000, 6000, 6001, 6001, 6001, 6001, 6001, 6001, 6001, 6001, 6002, 6002, 6002, 6002, 6002, 6002, 6002, 6003, 6003, 6003, 6003, 6003, 6003, 6003, 6003],
+    'name': ['Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process'],
+    'record_position': [1, 1, 3, 1, 2, 2, 3, 1, 2, 1, 3, 1, 1, 2, 1, 2, 1, 2, 3, 2, 1, 2, 2, 1, 2, 3, 1, 2, 2, 1, 2, 1, 2, 3],
+    'Total_item': [1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3]
+})
+
+# Convert timestamp to datetime
+process_data['timestamp'] = pd.to_datetime(process_data['timestamp'], format='%H:%M:%S.%f')
+
+# Create a new DataFrame to store the filtered data
+filtered_df = pd.DataFrame(columns=['timestamp_microsecond', 'timestamp', 'Item_Number', 'name', 'record_position', 'Total_item'])
+
+# Initialize variables to keep track of the last record_position and Item_Number
+last_record_position = 0
+last_item_number = None
+
+# Iterate over each row in the original DataFrame
+for index, row in process_data.iterrows():
+    if row['Item_Number'] != last_item_number:
+        last_record_position = 0
+        last_item_number = row['Item_Number']
+
+    if row['record_position'] == 1 and last_record_position == 0:
+        filtered_df = pd.concat([filtered_df, row.to_frame().T], ignore_index=True)
+        last_record_position = 1
+    elif row['record_position'] == 3 and last_record_position == 1:
+        filtered_df = pd.concat([filtered_df, row.to_frame().T], ignore_index=True)
+        last_record_position = 3
+
+# Save the filtered DataFrame to a CSV file
+filtered_df.to_csv('filtered_data3.csv', index=False)
+
+##############
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the data into a DataFrame
+process_data = pd.DataFrame({
+    'timestamp': ['20:46:47.307000', '20:46:47.348000', '20:46:47.389000', '20:46:47.471000', '20:46:47.512000', '20:46:47.553000', '20:46:47.594000', '20:46:47.676000', '20:46:47.717000', '20:46:47.758000', '20:46:47.799000', '20:46:47.881000', '20:46:47.922000', '20:46:47.963000', '20:46:48.004000', '20:46:48.045000', '20:46:48.086000', '20:46:48.127000', '20:46:48.168000', '20:46:48.250000', '20:46:48.291000', '20:46:48.332000', '20:46:48.373000', '20:46:48.414000', '20:46:48.455000', '20:46:48.496000', '20:46:48.578000', '20:46:48.619000', '20:46:48.660000', '20:46:48.701000', '20:46:48.742000', '20:46:48.783000', '20:46:48.824000', '20:46:48.865000'],
+    'record_position': [1, 1, 3, 1, 2, 2, 3, 1, 2, 1, 3, 1, 1, 2, 1, 2, 1, 2, 3, 2, 1, 2, 2, 1, 2, 3, 1, 2, 2, 1, 2, 1, 2, 3],
+})
+
+# Convert timestamp to datetime
+process_data['timestamp'] = pd.to_datetime(process_data['timestamp'], format='%H:%M:%S.%f')
+
+# Create a new DataFrame to store the result
+result_df = pd.DataFrame(columns=['start_time', 'end_time', 'time_difference', 'real_minute', 'minute_from_zero'])
+
+# Find the start and end times for each segment
+start_times = process_data[process_data['record_position'] == 1]['timestamp']
+end_times = process_data[process_data['record_position'] == 3]['timestamp']
+
+# Get the initial minute value
+initial_minute = start_times.iloc[0].minute
+
+# Calculate the time difference for each segment
+for start_time, end_time in zip(start_times, end_times):
+    time_diff = (end_time - start_time).total_seconds()
+    real_minute = start_time.minute
+    minute_from_zero = real_minute - initial_minute
+    result_df = pd.concat([result_df, pd.DataFrame({'start_time': [start_time],
+                                                    'end_time': [end_time],
+                                                    'time_difference': [time_diff],
+                                                    'real_minute': [real_minute],
+                                                    'minute_from_zero': [minute_from_zero]})], ignore_index=True)
+
+# Plot the time difference against the timestamp
+plt.figure(figsize=(10, 6))
+plt.scatter(result_df['start_time'], result_df['time_difference'], marker='o', color='blue')
+plt.xlabel('Timestamp')
+plt.ylabel('Time Difference (seconds)')
+plt.title('Time Difference vs Timestamp')
+plt.grid(True)
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# Save the result DataFrame to a CSV file
+result_df.to_csv('time_differences3.csv', index=False)
+```
