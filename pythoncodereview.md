@@ -737,5 +737,77 @@ plt.show()
 # Save the result DataFrame to a CSV file
 result_df.to_csv('time_differences.csv', index=False)
 ```
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
 
+# Load the data into a DataFrame
+data = pd.DataFrame({
+    'timestamp_microsecond': [1716407307000, 1716407348000, 1716407389000, 1716407471000, 1716407512000, 1716407553000, 1716407594000, 1716407676000, 1716407717000, 1716407758000, 1716407799000, 1716407881000, 1716407922000, 1716407963000, 1716408004000, 1716408045000, 1716408086000, 1716408127000, 1716408168000, 1716408250000, 1716408291000, 1716408332000, 1716408373000, 1716408414000, 1716408455000, 1716408496000, 1716408578000, 1716408619000, 1716408660000, 1716408701000, 1716408742000, 1716408783000, 1716408824000, 1716408865000],
+    'Item_Number': [6000, 6000, 6000, 6001, 6001, 6001, 6001, 6000, 6000, 6000, 6000, 6001, 6001, 6001, 6001, 6001, 6001, 6001, 6001, 6002, 6002, 6002, 6002, 6002, 6002, 6002, 6003, 6003, 6003, 6003, 6003, 6003, 6003, 6003],
+    'name': ['Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process'],
+    'record_position': [1, 1, 3, 1, 2, 2, 3, 1, 2, 1, 3, 1, 1, 2, 1, 2, 1, 2, 3, 2, 1, 2, 2, 1, 2, 3, 1, 2, 2, 1, 2, 1, 2, 3],
+    'Total_item': [1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3]
+})
 
+# Convert timestamp_microsecond to datetime format
+data['timestamp'] = pd.to_datetime(data['timestamp_microsecond'], unit='us')
+#print(data['timestamp'])
+
+# Create a new DataFrame with the specified columns from the data DataFrame
+filtered_df = pd.DataFrame({
+    'timestamp': data['timestamp'],
+    'Item_Number': data['Item_Number'],
+    'name': data['name'],
+    'record_position': data['record_position'],
+    'Total_item': data['Total_item']
+})
+
+# Save the result DataFrame to a CSV file
+filtered_df.to_csv('filtered_df.csv', index=False)
+
+# Initialize variables to keep track of the last record_position and Item_Number
+last_record_position = 0
+last_item_number = None
+
+result_df = pd.DataFrame(columns=['start_time', 'end_time', 'time_difference', 'real_minute', 'minute_from_zero'])
+
+start_time = None
+initial_minute = None
+
+for _, row in data.iterrows():
+    if row['record_position'] == 1 and last_record_position == 0:
+        filtered_df = pd.concat([filtered_df, row.to_frame().T], ignore_index=True)
+        last_record_position = 1
+        start_time = row['timestamp']
+
+        if initial_minute is None:
+            initial_minute = start_time.minute
+    elif row['record_position'] == 3 and last_record_position == 1:
+        filtered_df = pd.concat([filtered_df, row.to_frame().T], ignore_index=True)
+        last_record_position = 3
+
+        end_time = row['timestamp']
+        time_diff = (end_time - start_time).total_seconds()
+        real_minute = start_time.minute
+        minute_from_zero = real_minute - initial_minute
+        result_df = pd.concat([result_df, pd.DataFrame({'start_time': [start_time],
+                                                        'end_time': [end_time],
+                                                        'time_difference': [time_diff],
+                                                        'real_minute': [real_minute],
+                                                        'minute_from_zero': [minute_from_zero]})], ignore_index=True)
+
+# Plot the time difference against every minute
+plt.figure(figsize=(10, 6))
+plt.scatter(result_df['start_time'], result_df['time_difference'], marker='o', color='blue')
+plt.xlabel('Timestamp')
+plt.ylabel('Time Difference (seconds)')
+plt.title('Time Difference vs Timestamp')
+plt.grid(True)
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# Save the result DataFrame to a CSV file
+result_df.to_csv('time_differences.csv', index=False)
+```
