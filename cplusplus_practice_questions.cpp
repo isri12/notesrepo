@@ -25,7 +25,7 @@
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-//===========leet 2073. Time Needed to Buy Tickets ============================================================================================
+//===========leet 2073. Time Needed to Buy Tickets - not solved============================================================================================
 //https://leetcode.com/problems/time-needed-to-buy-tickets/description/?envType=daily-question&envId=2024-04-09
 
 // There are n people in a line queuing to buy tickets, where the 0th person is at the front of the line and the (n - 1)th person is at the back of the line.
@@ -56,51 +56,51 @@
 // 1 <= tickets[i] <= 100
 // 0 <= k < n
 
-#include<iostream>
-#include<vector>
-#include<algorithm>
-#include<string>
+// #include<iostream>
+// #include<vector>
+// #include<algorithm>
+// #include<string>
 
-class Solution {
-public:
-    int timeRequiredToBuy(std::vector<int>& tickets, int k) {
-      // for(int j:tickets){
-      //     std::cout<<j;
-      //   }
-       // std::cout<<'\n';
-      std::vector<int> buyticket{};
-      int counter=0;
-      //std::cout<<tickets.size()<<'\n';
+// class Solution {
+// public:
+//     int timeRequiredToBuy(std::vector<int>& tickets, int k) {
+//       // for(int j:tickets){
+//       //     std::cout<<j;
+//       //   }
+//        // std::cout<<'\n';
+//       std::vector<int> buyticket{};
+//       int counter=0;
+//       //std::cout<<tickets.size()<<'\n';
       
-      for (size_t i=0 ;i<tickets.size();++i){
-          //std::cout<<i<<'\n';
-          //std::cout<<tickets[i];
-          if(counter<k){
-            buyticket.push_back(tickets[i]-1);
-            counter++;
-          }
-      }
+//       for (size_t i=0 ;i<tickets.size();++i){
+//           //std::cout<<i<<'\n';
+//           //std::cout<<tickets[i];
+//           if(counter<k){
+//             buyticket.push_back(tickets[i]-1);
+//             counter++;
+//           }
+//       }
 
-      //std::cout<<'\n';
-         for(int j:buyticket){
-          std::cout<<j;
-        }
-        std::cout<<'\n';
-        return 0;
+//       //std::cout<<'\n';
+//          for(int j:buyticket){
+//           std::cout<<j;
+//         }
+//         std::cout<<'\n';
+//         return 0;
 
-    }
+//     }
      
-};
+// };
 
 
-int main(){
-  std::vector<int>tickets{2,3,2};
-  int k=2;
+// int main(){
+//   std::vector<int>tickets{2,3,2};
+//   int k=2;
 
-  Solution s1;
-  s1.timeRequiredToBuy(tickets,k);
+//   Solution s1;
+//   s1.timeRequiredToBuy(tickets,k);
 
-}
+// }
 
 //===========leet 1544. Make The String Great ============================================================================================
 //https://leetcode.com/problems/make-the-string-great/description/?envType=daily-question&envId=2024-04-05
@@ -341,6 +341,42 @@ int main(){
 //https://leetcode.com/problems/palindrome-linked-list/description/?envType=daily-question&envId=2024-03-22
 
 
+
+//Leet 409. Longest Palindrome
+
+// Given a string s which consists of lowercase or uppercase letters, return the length of the longest 
+// palindrome that can be built with those letters.Letters are case sensitive, for example, "Aa" is not considered a palindrome.
+
+// Example 1:
+// Input: s = "abccccdd"
+// Output: 7
+// Explanation: One longest palindrome that can be built is "dccaccd", whose length is 7.
+// Example 2:
+// Input: s = "a"
+// Output: 1
+// Explanation: The longest palindrome that can be built is "a", whose length is 1.
+ 
+// Constraints:
+// 1 <= s.length <= 2000
+// s consists of lowercase and/or uppercase English letters only
+
+#include <string>
+#include <iostream>
+
+class Solution {
+public:
+    int longestPalindrome(std::string s) {
+      if (s.size()==0){
+        return 0;
+      }
+
+      return 1;
+
+    }
+
+int main (){}
+        
+};
 
 //===========leet 9. Palindrome Number ============================================================================================
 //https://leetcode.com/problems/palindrome-number/description/
