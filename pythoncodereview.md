@@ -811,3 +811,201 @@ plt.show()
 # Save the result DataFrame to a CSV file
 result_df.to_csv('time_differences.csv', index=False)
 ```
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the data into a DataFrame
+data = pd.DataFrame({
+    'timestamp_microsecond': [1716407307000, 1716407348000, 1716407389000, 1716407471000, 1716407512000, 1716407553000, 1716407594000, 1716407676000, 1716407717000, 1716407758000, 1716407799000, 1716407881000, 1716407922000, 1716407963000, 1716408004000, 1716408045000, 1716408086000, 1716408127000, 1716408168000, 1716408250000, 1716408291000, 1716408332000, 1716408373000, 1716408414000, 1716408455000, 1716408496000, 1716408578000, 1716408619000, 1716408660000, 1716408701000, 1716408742000, 1716408783000, 1716408824000, 1716408865000],
+    'Item_Number': [0, 6000, 6000, 6001, 6001, 6001, 6001, 6000, 6000, 6000, 6000, 6001, 6001, 6001, 6001, 6001, 6001, 6001, 6001, 6002, 6002, 6002, 6002, 6002, 6002, 6002, 6003, 6003, 6003, 6003, 6003, 6003, 6003, 6003],
+    'name': ['Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process'],
+    'record_position': [1, 1, 3, 1, 2, 2, 3, 1, 2, 1, 3, 1, 1, 2, 1, 2, 1, 2, 3, 2, 1, 2, 2, 1, 2, 3, 1, 2, 2, 1, 2, 1, 2, 3],
+    'Total_item': [1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3]
+})
+
+# Convert timestamp_microsecond to datetime format
+data['timestamp'] = pd.to_datetime(data['timestamp_microsecond'], unit='us')
+data['timestamp'] = data['timestamp'] - data['timestamp'].min()  # to start from zero
+
+# Filter the data
+filtered_df = data[(data['record_position'] == 1) | (data['record_position'] == 3)]
+filtered_df = filtered_df.reset_index(drop=True)  # Reset index for convenience
+
+
+
+# Load the data into a DataFrame
+data2 = pd.DataFrame({
+    'timestamp_microsecond': [1716407307000, 1716407348000, 1716407389000, 1716407471000, 1716407512000, 1716407553000, 1716407594000, 1716407676000, 1716407717000, 1716407758000, 1716407799000, 1716407881000, 1716407922000, 1716407963000, 1716408004000, 1716408045000, 1716408086000, 1716408127000, 1716408168000, 1716408250000, 1716408291000, 1716408332000, 1716408373000, 1716408414000, 1716408455000, 1716408496000, 1716408578000, 1716408619000, 1716408660000, 1716408701000, 1716408742000, 1716408783000, 1716408824000, 1716408865000],
+    'Item_Number': [0, 6000, 6000, 6001, 6001, 6001, 6001, 6000, 6000, 6000, 6000, 6001, 6001, 6001, 6001, 6001, 6001, 6001, 6001, 6002, 6002, 6002, 6002, 6002, 6002, 6002, 6003, 6003, 6003, 6003, 6003, 6003, 6003, 6003],
+    'name': ['Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process'],
+    'record_position': [1, 1, 3, 1, 2, 2, 3, 1, 2, 1, 3, 1, 1, 2, 1, 2, 1, 2, 3, 2, 1, 2, 2, 1, 2, 3, 1, 2, 2, 1, 2, 1, 2, 3],
+    'Total_item': [1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3]
+})
+
+# Convert timestamp_microsecond to datetime format
+data2['timestamp'] = pd.to_datetime(data2['timestamp_microsecond'], unit='us')
+data2['timestamp'] = data2['timestamp'] - data2['timestamp'].min()  # to start from zero
+
+
+# Filter the data
+filtered_df2 = data2[(data2['record_position'] == 1) | (data2['record_position'] == 3)]
+filtered_df2 = filtered_df2.reset_index(drop=True)  # Reset index for convenience
+
+# Initialize result DataFrame
+result_df = pd.DataFrame(columns=filtered_df.columns)
+result_df2 = pd.DataFrame(columns=filtered_df.columns)
+
+# Initialize variables to keep track of the last record_position
+last_record_position = 0
+
+start_record_position = 1
+end_record_position = 3
+
+# Process the filtered DataFrame
+for _, row in filtered_df.iterrows():
+    if row['record_position'] == start_record_position and last_record_position != start_record_position:
+        start_time = row['timestamp']
+        result_df = pd.concat([result_df, row.to_frame().T], ignore_index=True)
+        last_record_position = start_record_position
+
+    elif row['record_position'] == end_record_position and last_record_position == start_record_position:
+        last_record_position = 0
+
+# Process the filtered DataFrame
+for _, row in filtered_df2.iterrows():
+    if row['record_position'] == start_record_position and last_record_position != start_record_position:
+        last_record_position = start_record_position
+
+    elif row['record_position'] == end_record_position and last_record_position == start_record_position:
+        end_time = row['timestamp']
+        result_df2 = pd.concat([result_df, row.to_frame().T], ignore_index=True)
+        last_record_position = 0
+
+
+# Save the result DataFrame to a CSV file
+result_df.to_csv('result_df.csv', index=False)
+result_df2.to_csv('result_df2.csv', index=False)
+
+
+
+
+
+
+# # Optionally, plot the results
+# plt.figure(figsize=(12, 6))
+# plt.plot(result_df['timestamp'], result_df['Item_Number'], marker='o')
+# plt.xlabel('Timestamp')
+# plt.ylabel('Item Number')
+# plt.title('Filtered Items Over Time')
+# plt.grid(True)
+# plt.show()
+
+#print(filtered_df)
+# Save the result DataFrame to a CSV file
+#filtered_df.to_csv('filtered_df.csv', index=False)
+
+# Initialize variables to keep track of the last record_position and Item_Number
+# last_record_position = 0
+# last_item_number = None
+
+# start_record_position = 1
+# end_record_position = 3
+
+# Identify sequences of 1 followed by 3.
+# Ignore any subsequent 1s until a 3 is found.
+# Reset the tracking variables after a 1-3 sequence is found.
+
+
+# # Process the filtered DataFrame
+# for _, row in filtered_df.iterrows():
+#     if row['record_position'] == start_record_position and last_record_position == 0:
+#         result_df = pd.concat([result_df, row.to_frame().T], ignore_index=True)
+#         last_record_position = start_record_position
+#         #last_item_number = row['Item_Number']
+#     elif row['record_position'] == end_record_position and last_record_position == start_record_position: #and row['Item_Number'] == last_item_number:
+#         result_df = pd.concat([result_df, row.to_frame().T], ignore_index=True)
+#         last_record_position = end_record_position
+#         #last_item_number = None
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the data into DataFrames
+data = pd.DataFrame({
+    'timestamp_microsecond': [1716407307000, 1716407348000, 1716407389000, 1716407471000, 1716407512000, 1716407553000, 1716407594000, 1716407676000, 1716407717000, 1716407758000, 1716407799000, 1716407881000, 1716407922000, 1716407963000, 1716408004000, 1716408045000, 1716408086000, 1716408127000, 1716408168000, 1716408250000, 1716408291000, 1716408332000, 1716408373000, 1716408414000, 1716408455000, 1716408496000, 1716408578000, 1716408619000, 1716408660000, 1716408701000, 1716408742000, 1716408783000, 1716408824000, 1716408865000],
+    'Item_Number': [0, 6000, 6000, 6001, 6001, 6001, 6001, 6000, 6000, 6000, 6000, 6001, 6001, 6001, 6001, 6001, 6001, 6001, 6001, 6002, 6002, 6002, 6002, 6002, 6002, 6002, 6003, 6003, 6003, 6003, 6003, 6003, 6003, 6003],
+    'name': ['Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process', 'Process'],
+    'record_position': [1, 1, 3, 1, 2, 2, 3, 1, 2, 1, 3, 1, 1, 2, 1, 2, 1, 2, 3, 2, 1, 2, 2, 1, 2, 3, 1, 2, 2, 1, 2, 1, 2, 3],
+    'Total_item': [1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3]
+})
+
+# Convert timestamp_microsecond to datetime format
+data['timestamp'] = pd.to_datetime(data['timestamp_microsecond'], unit='us')
+data['timestamp'] = data['timestamp'] - data['timestamp'].min()  # to start from zero
+
+# Filter the data
+filtered_df = data[(data['record_position'] == 1) | (data['record_position'] == 3)]
+filtered_df = filtered_df.reset_index(drop=True)  # Reset index for convenience
+
+# Initialize result DataFrames
+result_df = pd.DataFrame(columns=filtered_df.columns)
+
+# Initialize variables to keep track of the last record_position
+last_record_position = 0
+
+start_record_position = 1
+end_record_position = 3
+
+# Process the filtered DataFrame
+for _, row in filtered_df.iterrows():
+    if row['record_position'] == start_record_position and last_record_position != start_record_position:
+        start_time = row['timestamp']
+        result_df = pd.concat([result_df, row.to_frame().T], ignore_index=True)
+        last_record_position = start_record_position
+
+    elif row['record_position'] == end_record_position and last_record_position == start_record_position:
+        end_time = row['timestamp']
+        result_df = pd.concat([result_df, row.to_frame().T], ignore_index=True)
+        last_record_position = 0
+
+# Repeat the same steps for data2
+data2 = data.copy()  # Assuming data2 is similar to data
+data2['timestamp'] = pd.to_datetime(data2['timestamp_microsecond'], unit='us')
+data2['timestamp'] = data2['timestamp'] - data2['timestamp'].min()
+
+filtered_df2 = data2[(data2['record_position'] == 1) | (data2['record_position'] == 3)]
+filtered_df2 = filtered_df2.reset_index(drop=True)
+
+result_df2 = pd.DataFrame(columns=filtered_df2.columns)
+last_record_position = 0
+
+for _, row in filtered_df2.iterrows():
+    if row['record_position'] == start_record_position and last_record_position != start_record_position:
+        start_time = row['timestamp']
+        result_df2 = pd.concat([result_df2, row.to_frame().T], ignore_index=True)
+        last_record_position = start_record_position
+
+    elif row['record_position'] == end_record_position and last_record_position == start_record_position:
+        end_time = row['timestamp']
+        result_df2 = pd.concat([result_df2, row.to_frame().T], ignore_index=True)
+        last_record_position = 0
+
+# Save the result DataFrames to CSV files
+result_df.to_csv('result_df.csv', index=False)
+result_df2.to_csv('result_df2.csv', index=False)
+
+# # Optionally, plot the results
+# plt.figure(figsize=(12, 6))
+# plt.plot(result_df['timestamp'], result_df['Item_Number'], marker='o', label='Data 1')
+# plt.plot(result_df2['timestamp'], result_df2['Item_Number'], marker='x', label='Data 2')
+# plt.xlabel('Timestamp')
+# plt.ylabel('Item Number')
+# plt.title('Filtered Items Over Time')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+
+
+```
