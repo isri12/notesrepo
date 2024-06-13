@@ -1009,3 +1009,45 @@ result_df2.to_csv('result_df2.csv', index=False)
 
 
 ```
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+from datetime import datetime, timedelta
+
+# Create process timestamps and duration timestamps
+process_timestamps = []
+duration_timestamps = []
+
+start_time = datetime(2023, 1, 1, 0, 0, 0)  # Starting time for the process
+
+for i in range(10):
+    process_time = start_time + timedelta(minutes=i * 5)  # Increment process time by 5 minutes
+    process_timestamp = process_time.strftime("%M:%S.%f")[:-4]  # Format process timestamp as "mm:sec.f"
+    process_timestamps.append(process_timestamp)
+    
+    duration = timedelta(hours=i, minutes=i * 2, seconds=i * 3)  # Create duration timestamp
+    duration_timestamp = str(duration)  # Format duration timestamp as "hh::mm::ss"
+    duration_timestamps.append(duration_timestamp)
+
+# Create a pandas DataFrame
+data = {
+    'Process Timestamp': process_timestamps,
+    'Duration Timestamp': duration_timestamps
+}
+df = pd.DataFrame(data)
+
+# Save the DataFrame as a CSV file
+df.to_csv('timestamps.csv', index=False)
+
+# Plot the graph
+plt.figure(figsize=(10, 6))
+plt.plot(process_timestamps, duration_timestamps, marker='o')
+plt.xlabel('Process Timestamp')
+plt.ylabel('Duration Timestamp')
+plt.title('Process vs Duration')
+plt.xticks(rotation=45)
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+```
