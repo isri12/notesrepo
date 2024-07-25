@@ -3475,3 +3475,183 @@ print(f"Plot saved as '{plot_filename}'")
 # plt.show()  # Uncomment this line if you want to display the plot interactively
 
 ```
+```cpp
+Certainly! I'll separate the implementation into header (.hpp) and source (.cpp) files for better organization and compilation efficiency. Here's the separated structure:
+
+1. BenchmarkCommon.hpp
+```cpp
+#ifndef BENCHMARK_COMMON_HPP
+#define BENCHMARK_COMMON_HPP
+
+#include <string>
+
+class BenchmarkCommon {
+public:
+    virtual void BenchmarkData(int datapoint, const char* data, int size) = 0;
+    virtual void SaveToCSV(const std::string& filename) = 0;
+    virtual ~BenchmarkCommon() = default;
+};
+
+#endif // BENCHMARK_COMMON_HPP
+```
+
+2. BenchmarkCommonFactory.hpp
+```cpp
+#ifndef BENCHMARK_COMMON_FACTORY_HPP
+#define BENCHMARK_COMMON_FACTORY_HPP
+
+#include <memory>
+#include "BenchmarkCommon.hpp"
+
+class BenchmarkCommonFactory {
+public:
+    virtual std::unique_ptr<BenchmarkCommon> createDataLogger() = 0;
+    virtual ~BenchmarkCommonFactory() = default;
+};
+
+#endif // BENCHMARK_COMMON_FACTORY_HPP
+```
+
+3. DataLogger.hpp
+```cpp
+#ifndef DATA_LOGGER_HPP
+#define DATA_LOGGER_HPP
+
+#include "BenchmarkCommon.hpp"
+#include <vector>
+#include <chrono>
+
+class DataLogger : public BenchmarkCommon {
+private:
+    struct LogEntry {
+        std::chrono::system_clock::time_point timestamp;
+        int datapoint;
+        std::string data;
+    };
+    std::vector<LogEntry> log_buffer;
+
+public:
+    void BenchmarkData(int datapoint, const char* data, int size) override;
+    void SaveToCSV(const std::string& filename) override;
+};
+
+#endif // DATA_LOGGER_HPP
+```
+
+4. DataLogger.cpp
+```cpp
+#include "DataLogger.hpp"
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+
+void DataLogger::BenchmarkData(int datapoint, const char* data, int size) {
+    std::string hex_data;
+    hex_data.reserve(size * 2);
+    for (int i = 0; i < size; ++i) {
+        char hex[3];
+        snprintf(hex, sizeof(hex), "%02x", static_cast<unsigned char>(data[i]));
+        hex_data.append(hex);
+    }
+
+    log_buffer.push_back({std::chrono::system_clock::now(), datapoint, hex_data});
+}
+
+void DataLogger::SaveToCSV(const std::string& filename) {
+    std::ofstream csv_file(filename);
+    if (!csv_file.is_open()) {
+        std::cerr << "Failed to open CSV file for writing." << std::endl;
+        return;
+    }
+
+    csv_file << "Timestamp,Datapoint,Data\n";
+
+    for (const auto& entry : log_buffer) {
+        auto timestamp = std::chrono::system_clock::to_time_t(entry.timestamp);
+        csv_file << std::put_time(std::localtime(&timestamp), "%Y-%m-%d %H:%M:%S") << ","
+                 << entry.datapoint << ","
+                 << entry.data << "\n";
+    }
+
+    csv_file.close();
+    std::cout << "CSV file saved: " << filename << std::endl;
+}
+```
+
+5. DataLoggerFactory.hpp
+```cpp
+#ifndef DATA_LOGGER_FACTORY_HPP
+#define DATA_LOGGER_FACTORY_HPP
+
+#include "BenchmarkCommonFactory.hpp"
+
+class DataLoggerFactory : public BenchmarkCommonFactory {
+public:
+    std::unique_ptr<BenchmarkCommon> createDataLogger() override;
+};
+
+#endif // DATA_LOGGER_FACTORY_HPP
+```
+
+6. DataLoggerFactory.cpp
+```cpp
+#include "DataLoggerFactory.hpp"
+#include "DataLogger.hpp"
+
+std::unique_ptr<BenchmarkCommon> DataLoggerFactory::createDataLogger() {
+    return std::make_unique<DataLogger>();
+}
+```
+
+7. main.cpp
+```cpp
+#include "DataLoggerFactory.hpp"
+#include <iostream>
+
+int main() {
+    // Create factory
+    std::unique_ptr<BenchmarkCommonFactory> factory = std::make_unique<DataLoggerFactory>();
+
+    // Create DataLogger using factory
+    std::unique_ptr<BenchmarkCommon> logger = factory->createDataLogger();
+
+    // Use the logger
+    for (int i = 0; i < 10; ++i) {
+        int data = i * i;
+        logger->BenchmarkData(i, reinterpret_cast<const char*>(&data), sizeof(data));
+    }
+
+    // Save logged data to CSV
+    logger->SaveToCSV("benchmark_results.csv");
+
+    return 0;
+}
+```
+
+This separation allows for better organization of the code and enables separate compilation of different parts of the program. It also makes it easier to maintain and extend the codebase in the future.
+
+To compile this program, you would typically create a Makefile or use a build system like CMake. Here's a simple Makefile example:
+
+```makefile
+CXX = g++
+CXXFLAGS = -std=c++17 -Wall -Wextra
+
+SRCS = main.cpp DataLogger.cpp DataLoggerFactory.cpp
+OBJS = $(SRCS:.cpp=.o)
+EXEC = benchmark_program
+
+all: $(EXEC)
+
+$(EXEC): $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $<
+
+clean:
+	rm -f $(OBJS) $(EXEC)
+```
+
+You can compile the program by running `make` in the directory containing these files.
+
+```
