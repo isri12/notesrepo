@@ -3655,3 +3655,560 @@ clean:
 You can compile the program by running `make` in the directory containing these files.
 
 ```
+
+``` 
+@startuml
+enum TimestampConfigType {
+    LOG_TOOL
+    STATISTICS
+    MEMORY_ONLY
+    NOOL
+}
+
+class TimestampConfig {
+    -type: TimestampConfigType
+    +getType(): TimestampConfigType
+    +setType(TimestampConfigType)
+}
+
+interface ClockIF {
+    +nsSinceEpoch(): unsigned long long
+}
+
+class ClockChrono {
+    +nsSinceEpoch(): unsigned long long
+}
+
+interface TimestampInterface {
+    +tic()
+    +tac()
+    +stamp()
+    +getTime(): unsigned long long
+}
+
+class TimestampMemOnly {
+    -m_clock: unique_ptr<ClockIF>
+    -m_start: unsigned long long
+    -m_end: unsigned long long
+    -m_time: unsigned long long
+    +TimestampMemOnly(unique_ptr<ClockIF>)
+    +tic()
+    +tac()
+    +stamp()
+    +getTime(): unsigned long long
+}
+
+class OutputHandler {
+    -vec: vector<pair<unique_ptr<TimestampInterface>, int>>
+    -configType: TimestampConfigType
+    -OutputHandler(TimestampConfigType)
+    +~OutputHandler()
+    +{static} getInstance(TimestampConfigType): OutputHandler*
+    +recordData(unique_ptr<TimestampInterface>, int)
+    +getConfigType(): TimestampConfigType
+}
+
+class TimestampFactory {
+    +{static} stamp(OutputHandler*): unique_ptr<TimestampInterface>
+}
+
+ClockIF <|-- ClockChrono
+TimestampInterface <|-- TimestampMemOnly
+TimestampMemOnly o-- ClockIF
+OutputHandler o-- TimestampInterface
+TimestampFactory ..> OutputHandler
+TimestampFactory ..> TimestampInterface
+@enduml
+```
+
+```cpp
+/**
+ * @file timestamp_system.cpp
+ * @brief Implements a flexible timestamp recording system.
+ */
+
+#include <fstream>
+#include <iostream>
+#include <chrono>
+#include <vector>
+#include <memory>
+#include <thread>
+
+/**
+ * @enum TimestampConfigType
+ * @brief Defines different types of timestamp configurations.
+ */
+enum TimestampConfigType {
+    LOG_TOOL,    ///< Logging tool configuration
+    STATISTICS,  ///< Statistics configuration
+    MEMORY_ONLY, ///< Memory-only configuration
+    NOOL,        ///< No operation configuration
+};
+
+/**
+ * @class TimestampConfig
+ * @brief Represents a timestamp configuration.
+ */
+class TimestampConfig {
+public:
+    /**
+     * @brief Get the type of the timestamp configuration.
+     * @return The type of the timestamp configuration.
+     */
+    TimestampConfigType getType() const;
+
+    /**
+     * @brief Set the type of the timestamp configuration.
+     * @param t The type to set.
+     */
+    void setType(TimestampConfigType t);
+
+private:
+    TimestampConfigType type; ///< The type of the timestamp configuration
+};
+
+/**
+ * @class ClockIF
+ * @brief Interface for clock implementations.
+ */
+class ClockIF {
+public:
+    /**
+     * @brief Get the number of nanoseconds since epoch.
+     * @return The number of nanoseconds since epoch.
+     */
+    virtual unsigned long long nsSinceEpoch() = 0;
+    virtual ~ClockIF() = default;
+};
+
+/**
+ * @class ClockChrono
+ * @brief Implements ClockIF using std::chrono.
+ */
+class ClockChrono : public ClockIF {
+public:
+    ClockChrono() = default;
+    ~ClockChrono() = default;
+    unsigned long long nsSinceEpoch() override;
+};
+
+/**
+ * @class TimestampInterface
+ * @brief Interface for timestamp implementations.
+ */
+class TimestampInterface {
+public:
+    virtual void tic() = 0;
+    virtual void tac() = 0;
+    virtual void stamp() = 0;
+    /**
+     * @brief Get the recorded time.
+     * @return The recorded time in nanoseconds.
+     */
+    virtual unsigned long long getTime() const = 0;
+    virtual ~TimestampInterface() = default;
+};
+
+/**
+ * @class TimestampNull
+ * @brief Implements TimestampInterface for memory-only operations.
+ */
+class TimestampNull : public TimestampInterface {
+public:
+    /**
+     * @brief Construct a new TimestampNull object.
+     * @param clock A unique pointer to a ClockIF implementation.
+     */
+    TimestampNull(std::unique_ptr<ClockIF> clock);
+    ~TimestampNull() = default;
+
+    void tic() override;
+    void tac() override;
+    void stamp() override;
+    unsigned long long getTime() const override;
+
+private:
+    std::unique_ptr<ClockIF> m_clock;
+    unsigned long long m_start = 0;
+    unsigned long long m_end = 0;
+    unsigned long long m_time = 0;
+};
+
+/**
+ * @class OutputHandler
+ * @brief Manages the recording and output of timestamps.
+ */
+class OutputHandler {
+private:
+    std::vector<std::pair<std::unique_ptr<TimestampInterface>, int>> vec;
+    TimestampConfigType configType;
+
+    OutputHandler(TimestampConfigType type);
+    OutputHandler(const OutputHandler&) = delete;
+    OutputHandler& operator=(const OutputHandler&) = delete;
+
+public:
+    ~OutputHandler();
+
+    /**
+     * @brief Get the singleton instance of OutputHandler.
+     * @param type The type of timestamp configuration to use.
+     * @return A pointer to the OutputHandler instance.
+     */
+    static OutputHandler* getInstance(TimestampConfigType type);
+
+    /**
+     * @brief Record timestamp data.
+     * @param stamp A unique pointer to a TimestampInterface implementation.
+     * @param id An identifier for the timestamp.
+     */
+    void recordData(std::unique_ptr<TimestampInterface> stamp, int id);
+
+    /**
+     * @brief Get the current timestamp configuration type.
+     * @return The current timestamp configuration type.
+     */
+    TimestampConfigType getConfigType() const;
+};
+
+/**
+ * @class TimestampFactory
+ * @brief Factory class for creating TimestampInterface instances.
+ */
+class TimestampFactory {
+public:
+    /**
+     * @brief Create a TimestampInterface instance based on the configuration.
+     * @param config A pointer to the OutputHandler containing the configuration.
+     * @return A unique pointer to a TimestampInterface implementation.
+     */
+    static std::unique_ptr<TimestampInterface> stamp(OutputHandler* config);
+};
+
+/**
+ * @brief Main function demonstrating the usage of the timestamp system.
+ * @return 0 on successful execution.
+ */
+int main();
+
+
+
+//#################################
+// #include <fstream>
+// #include <iostream>
+// #include <chrono>
+// #include <vector>
+// #include <memory>
+// #include <thread>
+
+// enum TimestampConfigType {
+//     LOG_TOOL,
+//     STATISTICS,
+//     MEMORY_ONLY,
+//     NOOL,
+// };
+
+// class TimestampConfig {
+// public:
+//     TimestampConfigType getType() const {
+//         return type;
+//     }
+//     void setType(TimestampConfigType t) {
+//         type = t;
+//     }
+// private:
+//     TimestampConfigType type;
+// };
+
+// class ClockIF {
+// public:
+//     virtual unsigned long long nsSinceEpoch() = 0;
+//     virtual ~ClockIF() = default;
+// };
+
+// class ClockChrono : public ClockIF {
+// public:
+//     ClockChrono() = default;
+//     ~ClockChrono() = default;
+//     unsigned long long nsSinceEpoch() override {
+//         const auto now = std::chrono::high_resolution_clock::now().time_since_epoch();
+//         return std::chrono::duration_cast<std::chrono::nanoseconds>(now).count();
+//     }
+// };
+
+// class TimestampInterface {
+// public:
+//     virtual void tic() = 0;
+//     virtual void tac() = 0;
+//     virtual void stamp() = 0;
+//     virtual unsigned long long getTime() const = 0;
+//     virtual ~TimestampInterface() = default;
+// };
+
+// class TimestampNull : public TimestampInterface {
+// public:
+//     TimestampNull(std::unique_ptr<ClockIF> clock) : m_clock(std::move(clock)) {
+//         stamp(); // Initialize m_time when created
+//     }
+//     ~TimestampNull() = default;
+
+//     void tic() override {
+//         m_start = m_clock->nsSinceEpoch();
+//     }
+
+//     void tac() override {
+//         m_end = m_clock->nsSinceEpoch();
+//     }
+
+//     void stamp() override {
+//         m_time = m_clock->nsSinceEpoch();
+//     }
+
+//     unsigned long long getTime() const override {
+//         return m_time;
+//     }
+
+// private:
+//     std::unique_ptr<ClockIF> m_clock;
+//     unsigned long long m_start = 0;
+//     unsigned long long m_end = 0;
+//     unsigned long long m_time = 0;
+// };
+
+// class OutputHandler {
+// private:
+//     std::vector<std::pair<std::unique_ptr<TimestampInterface>, int>> vec;
+//     TimestampConfigType configType;
+
+//     OutputHandler(TimestampConfigType type) : configType(type) {}
+//     OutputHandler(const OutputHandler&) = delete;
+//     OutputHandler& operator=(const OutputHandler&) = delete;
+
+// public:
+//     ~OutputHandler() {
+//         std::ofstream file("example.csv", std::ios::trunc);
+//         file <<"ID,Timestamp"<<std::endl;
+//         for (const auto& [stamp, id] : vec) {
+//             file<< id << ", " << stamp->getTime() << std::endl;
+//         }
+//     }
+
+//     static OutputHandler* getInstance(TimestampConfigType type) {
+//         static OutputHandler instance(type);
+//         return &instance;
+//     }
+
+//     void recordData(std::unique_ptr<TimestampInterface> stamp, int id) {
+//         stamp->stamp(); // Ensure we have the latest time
+//         vec.emplace_back(std::move(stamp), id);
+//     }
+
+//     TimestampConfigType getConfigType() const {
+//         return configType;
+//     }
+// };
+
+
+// class TimestampFactory {
+// public:
+//     static std::unique_ptr<TimestampInterface> stamp(OutputHandler* config) {
+//         // Assuming we can get the TimestampConfigType from OutputHandler
+//         TimestampConfigType type = config->getConfigType();
+//         switch(type) {
+//             case TimestampConfigType::MEMORY_ONLY:
+//                 return std::make_unique<TimestampNull>(std::make_unique<ClockChrono>());
+//             case TimestampConfigType::LOG_TOOL:
+//             case TimestampConfigType::STATISTICS:
+//             case TimestampConfigType::NOOL:
+//             default:
+//                 return nullptr; // Or throw an exception
+//         }
+//     }
+// };
+
+
+// int main() {
+//     OutputHandler* config = OutputHandler::getInstance(TimestampConfigType::MEMORY_ONLY);
+    
+//     int id = 1; // Example ID
+
+//     auto stamp = TimestampFactory::stamp(config);
+//     config->recordData(std::move(stamp), id);
+
+//     //for (int i = 0; i <= 5; i++) {
+//         // Simulate a 5 second loop
+//         std::this_thread::sleep_for(std::chrono::seconds(6));
+//     //}
+
+//     id = 2; // New ID for the second timestamp
+//     stamp = TimestampFactory::stamp(config);
+//     config->recordData(std::move(stamp), id);
+
+//     // OutputHandler will be automatically destroyed at the end of the program,
+//     // which will trigger the recording of all stored timestamps to the file.
+
+//     return 0;
+// }
+```
+
+```cpp
+#include <fstream>
+#include <iostream>
+#include <chrono>
+#include <vector>
+#include <memory>
+#include <thread>
+
+enum TimestampConfigType {
+    LOG_TOOL,
+    STATISTICS,
+    MEMORY_ONLY,
+    NOOL,
+};
+
+class TimestampConfig {
+public:
+    TimestampConfigType getType() const {
+        return type;
+    }
+    void setType(TimestampConfigType t) {
+        type = t;
+    }
+private:
+    TimestampConfigType type;
+};
+
+class ClockIF {
+public:
+    virtual unsigned long long nsSinceEpoch() = 0;
+    virtual ~ClockIF() = default;
+};
+
+class ClockChrono : public ClockIF {
+public:
+    ClockChrono() = default;
+    ~ClockChrono() = default;
+    unsigned long long nsSinceEpoch() override {
+        const auto now = std::chrono::high_resolution_clock::now().time_since_epoch();
+        return std::chrono::duration_cast<std::chrono::nanoseconds>(now).count();
+    }
+};
+
+class TimestampInterface {
+public:
+    virtual void tic() = 0;
+    virtual void tac() = 0;
+    virtual void stamp() = 0;
+    virtual unsigned long long getTime() const = 0;
+    virtual ~TimestampInterface() = default;
+};
+
+class TimestampMemOnly : public TimestampInterface {
+public:
+    TimestampMemOnly(std::unique_ptr<ClockIF> clock) : m_clock(std::move(clock)) {
+        stamp(); // Initialize m_time when created
+    }
+    ~TimestampMemOnly() = default;
+
+    void tic() override {
+        m_start = m_clock->nsSinceEpoch();
+    }
+
+    void tac() override {
+        m_end = m_clock->nsSinceEpoch();
+    }
+
+    void stamp() override {
+        m_time = m_clock->nsSinceEpoch();
+    }
+
+    unsigned long long getTime() const override {
+        return m_time;
+    }
+
+private:
+    std::unique_ptr<ClockIF> m_clock;
+    unsigned long long m_start = 0;
+    unsigned long long m_end = 0;
+    unsigned long long m_time = 0;
+};
+
+class OutputHandler {
+private:
+    std::vector<std::pair<std::unique_ptr<TimestampInterface>, int>> vec;
+    TimestampConfigType configType;
+
+    OutputHandler(TimestampConfigType type) : configType(type) {}
+    OutputHandler(const OutputHandler&) = delete;
+    OutputHandler& operator=(const OutputHandler&) = delete;
+
+public:
+    ~OutputHandler() {
+        std::ofstream file("example.csv", std::ios::trunc);
+        file <<"ID,Timestamp"<<std::endl;
+        for (const auto& [stamp, id] : vec) {
+            file<< id << ", " << stamp->getTime() << std::endl;
+        }
+    }
+
+    static OutputHandler* getInstance(TimestampConfigType type) {
+        static OutputHandler instance(type);
+        return &instance;
+    }
+
+    void recordData(std::unique_ptr<TimestampInterface> stamp, int id) {
+        stamp->stamp(); // Ensure we have the latest time
+        vec.emplace_back(std::move(stamp), id);
+    }
+
+    TimestampConfigType getConfigType() const {
+        return configType;
+    }
+};
+
+
+class TimestampFactory {
+public:
+    static std::unique_ptr<TimestampInterface> stamp(OutputHandler* config) {
+        // Assuming we can get the TimestampConfigType from OutputHandler
+        TimestampConfigType type = config->getConfigType();
+        switch(type) {
+            case TimestampConfigType::MEMORY_ONLY:
+                return std::make_unique<TimestampMemOnly>(std::make_unique<ClockChrono>());
+            case TimestampConfigType::LOG_TOOL:
+            case TimestampConfigType::STATISTICS:
+            case TimestampConfigType::NOOL:
+            default:
+                return nullptr; // Or throw an exception
+        }
+    }
+};
+
+
+int main() {
+    OutputHandler* config = OutputHandler::getInstance(TimestampConfigType::MEMORY_ONLY);
+    
+    int id = 1; // Example ID
+
+    auto stamp = TimestampFactory::stamp(config);
+    config->recordData(std::move(stamp), id);
+
+    //for (int i = 0; i <= 5; i++) {
+        // Simulate a 5 second loop
+        std::this_thread::sleep_for(std::chrono::seconds(6));
+    //}
+
+    id = 2; // New ID for the second timestamp
+    stamp = TimestampFactory::stamp(config);
+    config->recordData(std::move(stamp), id);
+
+    // OutputHandler will be automatically destroyed at the end of the program,
+    // which will trigger the recording of all stored timestamps to the file.
+
+    return 0;
+}
+```
+
+
+
+
