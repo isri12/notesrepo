@@ -3656,7 +3656,9 @@ You can compile the program by running `make` in the directory containing these 
 
 ```
 
-``` 
+
+<div hidden>
+```
 @startuml
 enum TimestampConfigType {
     LOG_TOOL
@@ -3719,6 +3721,12 @@ OutputHandler o-- TimestampInterface
 TimestampFactory ..> OutputHandler
 TimestampFactory ..> TimestampInterface
 @enduml
+
+```
+</div>
+
+![](firstDiagram.svg)
+
 ```
 
 ```cpp
