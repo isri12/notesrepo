@@ -9,6 +9,16 @@ Level 1
 - socket programming
 - object oriented C++
 ------------------------------------------------
+
+L1 Data Structure:
+1. Arrays and lists
+2. Sets, pair, Tuples and dictionaries
+3. Linked lists (singly linked lists, doubly linked lists)
+4. Two Pointers
+5. Stacks
+6. Queues
+7. Deques (double-ended queues)
+------------------------------------------------
 - [singelton] (https://www.codeproject.com/Articles/987473/Unit-Testing-a-Singleton-in-Cplusplus)
 - Friend
 - Virtual fun
