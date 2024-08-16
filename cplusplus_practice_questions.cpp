@@ -21,7 +21,7 @@
 //338. Counting Bits https://leetcode.com/problems/counting-bits/
 
 
-//===========860. Lemonade Change ============================================================================================
+//===========860. Lemonade Change ======working======================================================================================
 //<https://leetcode.com/problems/lemonade-change/?envType=daily-question&envId=2024-08-16>
 // 
 // At a lemonade stand, each lemonade costs $5. Customers are standing 
@@ -33,10 +33,7 @@
 // Given an integer array bills where bills[i] is the bill the ith customer pays, return true if you can provide 
 //every customer with the correct change, or false otherwise.
 
- 
-
 // Example 1:
-
 // Input: bills = [5,5,5,10,20]
 // Output: true
 // Explanation: 
@@ -44,8 +41,8 @@
 // From the fourth customer, we collect a $10 bill and give back a $5.
 // From the fifth customer, we give a $10 bill and a $5 bill.
 // Since all customers got correct change, we output true.
-// Example 2:
 
+// Example 2:
 // Input: bills = [5,5,10,10,20]
 // Output: false
 // Explanation: 
@@ -54,11 +51,55 @@
 // For the last customer, we can not give the change of $15 back because we only have two $10 bills.
 // Since not every customer received the correct change, the answer is false.
  
-
 // Constraints:
-
 // 1 <= bills.length <= 105
 // bills[i] is either 5, 10, or 20.
+
+#include<iostream>
+#include <vector>
+class Solution {
+public:
+    bool lemonadeChange(std::vector<int>& bills) {
+      int bill5=0;
+      int bill10=0;
+      //int bill20=0;
+
+      for(int i:bills){
+        if (i == 5){
+          bill5++;
+        }else if (i == 10) {
+          if (bill5 == 0) return false;
+          bill5--;
+          bill10++;
+        }else{ //i=20
+          if(bill5>0 && bill10>0){
+            bill5--;
+            bill10--;
+          }else if(bill5 > 3){
+            bill5-=3;
+          }else{
+            return false;
+          }
+        }
+      }
+      //std::cout<<'\n';
+      // std::cout<<bill5<<'\n';
+      // std::cout<<bill10<<'\n';
+      return true;
+    }
+      
+};
+
+int main (){
+  Solution s1;
+  std::vector<int> bills1 ={5,5,5,10,20};  //expected true
+  std::vector<int> bills2 = {5,5,10,10,20};
+  std::vector<int> bills3= {5,5,5,10,5,5,10,20,20,20};//expected false but getting true
+  //std::cout<<s1.lemonadeChange(bill);
+  std::cout << "Test case 1: " << (s1.lemonadeChange(bills1) ? "true" : "false") << std::endl;
+  std::cout << "Test case 2: " << (s1.lemonadeChange(bills2) ? "true" : "false") << std::endl;
+  std::cout << "Test case 2: " << (s1.lemonadeChange(bills3) ? "true" : "false") << std::endl;
+}
 
 //===========1700. Number of Students Unable to Eat Lunch ============================================================================================
 //https://leetcode.com/problems/number-of-students-unable-to-eat-lunch/description/?envType=daily-question&envId=2024-04-08
@@ -380,8 +421,6 @@
 //===========leet 234. Palindrome Linked List ============================================================================================
 //https://leetcode.com/problems/palindrome-linked-list/description/?envType=daily-question&envId=2024-03-22
 
-
-
 //Leet 409. Longest Palindrome
 
 // Given a string s which consists of lowercase or uppercase letters, return the length of the longest 
@@ -400,23 +439,23 @@
 // 1 <= s.length <= 2000
 // s consists of lowercase and/or uppercase English letters only
 
-#include <string>
-#include <iostream>
+// #include <string>
+// #include <iostream>
 
-class Solution {
-public:
-    int longestPalindrome(std::string s) {
-      if (s.size()==0){
-        return 0;
-      }
+// class Solution {
+// public:
+//     int longestPalindrome(std::string s) {
+//       if (s.size()==0){
+//         return 0;
+//       }
 
-      return 1;
+//       return 1;
 
-    }
+//     }
 
-int main (){}
+// int main (){}
         
-};
+// };
 
 //===========leet 9. Palindrome Number ============================================================================================
 //https://leetcode.com/problems/palindrome-number/description/
