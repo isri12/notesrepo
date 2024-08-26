@@ -94,7 +94,7 @@ int main (){
   Solution s1;
   std::vector<int> bills1 ={5,5,5,10,20};  //expected true
   std::vector<int> bills2 = {5,5,10,10,20};
-  std::vector<int> bills3= {5,5,5,10,5,5,10,20,20,20};//expected false but getting true
+  std::vector<int> bills3= {5,5,5,10,5,5,10,20,20,20};//expected false 
   //std::cout<<s1.lemonadeChange(bill);
   std::cout << "Test case 1: " << (s1.lemonadeChange(bills1) ? "true" : "false") << std::endl;
   std::cout << "Test case 2: " << (s1.lemonadeChange(bills2) ? "true" : "false") << std::endl;
