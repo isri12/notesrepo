@@ -4227,6 +4227,268 @@ int main() {
 }
 ```
 
+```make
+cmake_minimum_required(VERSION 3.10)
+project(MyProject)
+
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# FetchContent setup
+include(FetchContent)
+
+# Add spdlog
+FetchContent_Declare(
+  spdlog
+  GIT_REPOSITORY https://github.com/gabime/spdlog.git
+  GIT_TAG v1.10.0
+)
+
+# Add GoogleTest
+FetchContent_Declare(
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG release-1.11.0
+)
+
+FetchContent_MakeAvailable(spdlog googletest)
+
+# Add include directories
+include_directories(include)
+
+# Add the main executable
+add_executable(app 
+    src/main.cpp
+    src/ComponentToTest.cpp
+    src/Timestamp/TimestampConfig.cpp
+    src/Timestamp/ClockChrono.cpp
+    src/Timestamp/TimestampFactory.cpp
+    src/Timestamp/TimestampSaveToCsv.cpp
+)
+
+target_link_libraries(app PRIVATE spdlog::spdlog)
+
+# Add the test executable
+add_executable(timestamp_tests
+    tests/test_timestamp_components.cpp
+    src/ComponentToTest.cpp
+    src/Timestamp/TimestampConfig.cpp
+    src/Timestamp/ClockChrono.cpp
+    src/Timestamp/TimestampFactory.cpp
+    src/Timestamp/TimestampSaveToCsv.cpp
+)
+
+target_link_libraries(timestamp_tests PRIVATE gtest gtest_main spdlog::spdlog)
+
+# Add test
+add_test(NAME timestamp_tests COMMAND timestamp_tests)
+
+# Enable testing
+enable_testing()
+```
+```cpp
+#include <gtest/gtest.h>
+#include "Timestamp/TimestampConfig.h"
+#include "Timestamp/TimestampFactory.h"
+#include "Timestamp/TimestampSaveToCsv.hpp"
+#include "Timestamp/ClockChrono.h"
+#include "ComponentToTest.h"
+#include <fstream>
+#include <chrono>
+#include <thread>
+
+// Mock ClockIF for testing
+class MockClock : public ClockIF {
+public:
+    unsigned long long nsSinceEpoch() override {
+        return ++current_time;
+    }
+
+private:
+    unsigned long long current_time = 0;
+};
+
+// Test TimestampConfig
+TEST(TimestampConfigTest, ConstructorAndGetters) {
+    TimestampConfig config("SAVE_TO_CSV", 100);
+    EXPECT_EQ(config.getType(), TimestampConfigType::SAVE_TO_CSV);
+    EXPECT_EQ(config.getComponentId(), 100);
+}
+
+// Test TimestampFactory
+TEST(TimestampFactoryTest, GetInstance) {
+    TimestampConfig config("SAVE_TO_CSV", 100);
+    TimestampFactory factory(config);
+    TimestampIF* timestamp = factory.getInstance();
+    EXPECT_NE(timestamp, nullptr);
+    delete timestamp;
+}
+
+// Test TimestampSaveToCsv
+TEST(TimestampSaveToCsvTest, StampAndSummarize) {
+    MockClock* clock = new MockClock();
+    TimestampSaveToCsv timestamp(clock, 100, 5);
+    
+    for (int i = 0; i < 5; ++i) {
+        timestamp.stamp(i);
+    }
+    
+    // Force summarize by destroying the object
+    timestamp.~TimestampSaveToCsv();
+    
+    // Check if the CSV file was created
+    std::string filename = timestamp.getCurrentTime() + ".csv";
+    std::ifstream file(filename);
+    EXPECT_TRUE(file.good());
+    
+    // Clean up
+    file.close();
+    std::remove(filename.c_str());
+    delete clock;
+}
+
+// Test ClockChrono
+TEST(ClockChronoTest, NsSinceEpoch) {
+    ClockChrono clock;
+    unsigned long long t1 = clock.nsSinceEpoch();
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    unsigned long long t2 = clock.nsSinceEpoch();
+    EXPECT_GT(t2, t1);
+}
+
+// Test ComponentToTest
+TEST(ComponentToTestTest, Run) {
+    ComponentToTest component(200);
+    
+    // Redirect cout to capture output
+    std::stringstream buffer;
+    std::streambuf* prevcoutbuf = std::cout.rdbuf(buffer.rdbuf());
+    
+    component.run();
+    
+    // Restore cout
+    std::cout.rdbuf(prevcoutbuf);
+    
+    // Check if any output was produced (assuming run() might print something)
+    EXPECT_FALSE(buffer.str().empty());
+}
+
+int main(int argc, char** argv) {
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+```
+Certainly. I'll provide a brief explanation of what the project does and then explain the factory design pattern used in it.
 
 
 
+Project Overview:
+This project appears to be a timing and benchmarking system, likely used for performance analysis of software components. The main features include:
+
+1. Timing operations: The system can record timestamps at various points in a component's execution.
+2. Configurable output: It can save timing data in different formats, with CSV being one of the implemented options.
+3. Flexible clock system: The project uses an abstract clock interface, allowing for different clock implementations.
+4. Component testing: There's a `ComponentToTest` class that demonstrates how the timing system can be integrated into a component.
+
+Factory Design Pattern Explanation:
+The project uses the Factory design pattern, specifically in the `TimestampFactory` class. Here's how it's implemented and why it's useful:
+
+1. Purpose: The Factory pattern is used to create different types of Timestamp objects based on the configuration provided.
+
+2. Implementation:
+   - There's an abstract `TimestampIF` interface that defines the common methods for all Timestamp classes.
+   - The `TimestampFactory` class has a `getInstance()` method that creates and returns the appropriate `TimestampIF` object.
+   - The factory uses a `TimestampConfig` object to determine which type of Timestamp to create.
+
+3. Benefits of using the Factory pattern here:
+   - Encapsulation: The creation logic is centralized in the factory, making it easier to manage and modify.
+   - Flexibility: New Timestamp types can be added without changing the client code that uses the factory.
+   - Configuration-driven: The type of Timestamp created can be changed by modifying the configuration, without changing the code.
+
+4. How it works:
+   - A client creates a `TimestampConfig` object specifying the desired type (e.g., "SAVE_TO_CSV").
+   - The client passes this config to the `TimestampFactory`.
+   - The factory's `getInstance()` method checks the config and creates the appropriate Timestamp object.
+   - The client receives a `TimestampIF` pointer, allowing it to use the Timestamp object without knowing its specific type.
+
+This design allows the project to easily support different types of timing and logging mechanisms (e.g., saving to CSV, logging to console, or calculating statistics) while keeping the client code simple and decoupled from the specific implementations.
+
+```uml
+classDiagram
+    class ClockIF {
+        <<interface>>
+        +nsSinceEpoch() unsigned long long
+    }
+    class ClockChrono {
+        +nsSinceEpoch() unsigned long long
+    }
+    class TimestampIF {
+        <<interface>>
+        +stamp(id: unsigned int)
+    }
+    class TimestampSaveToCsv {
+        -clockIF: ClockIF*
+        -componentID: unsigned int
+        -maxRecordsToTake: size_t
+        -timestamps: vector<pair<unsigned int, unsigned long>>
+        +stamp(id: unsigned int)
+        -summarize() bool
+    }
+    class TimestampConfig {
+        -configType: TimestampConfigType
+        -componentID: unsigned int
+        +getType() TimestampConfigType
+        +getComponentId() unsigned int
+    }
+    class TimestampFactory {
+        -tsConfig: TimestampConfig
+        +getInstance() TimestampIF*
+    }
+    class ComponentToTest {
+        -component_id: unsigned int
+        -timer: TimestampIF*
+        +run()
+        -alg1()
+        -alg2()
+        -alg3()
+    }
+
+    ClockIF <|-- ClockChrono
+    TimestampIF <|-- TimestampSaveToCsv
+    TimestampSaveToCsv --> ClockIF
+    TimestampFactory --> TimestampConfig
+    TimestampFactory --> TimestampIF
+    ComponentToTest --> TimestampIF
+```
+```uml
+sequenceDiagram
+    participant Main
+    participant ComponentToTest
+    participant TimestampFactory
+    participant TimestampSaveToCsv
+    participant ClockChrono
+
+    Main->>ComponentToTest: create(component_id)
+    ComponentToTest->>TimestampFactory: getInstance(config)
+    TimestampFactory->>TimestampSaveToCsv: create
+    TimestampSaveToCsv->>ClockChrono: create
+    TimestampFactory-->>ComponentToTest: return TimestampIF*
+    Main->>ComponentToTest: run()
+    loop 20 times
+        ComponentToTest->>TimestampSaveToCsv: stamp(001)
+        TimestampSaveToCsv->>ClockChrono: nsSinceEpoch()
+        ClockChrono-->>TimestampSaveToCsv: return time
+        ComponentToTest->>ComponentToTest: alg1()
+        ComponentToTest->>TimestampSaveToCsv: stamp(002)
+        TimestampSaveToCsv->>ClockChrono: nsSinceEpoch()
+        ClockChrono-->>TimestampSaveToCsv: return time
+        ComponentToTest->>ComponentToTest: alg2()
+        ComponentToTest->>TimestampSaveToCsv: stamp(003)
+        TimestampSaveToCsv->>ClockChrono: nsSinceEpoch()
+        ClockChrono-->>TimestampSaveToCsv: return time
+        ComponentToTest->>ComponentToTest: alg3()
+    end
+    ComponentToTest->>TimestampSaveToCsv: ~TimestampSaveToCsv()
+    TimestampSaveToCsv->>TimestampSaveToCsv: summarize()
+```
