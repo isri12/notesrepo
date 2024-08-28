@@ -4669,5 +4669,179 @@ int main(int argc, char** argv) {
 }
 ```cpp
 
+#include <gtest/gtest.h>
+#include "Timestamp/TimestampConfig.h"
+#include "Timestamp/TimestampFactory.h"
+#include "Timestamp/TimestampSaveToCsv.hpp"
+#include "Timestamp/ClockChrono.h"
+#include "ComponentToTest.h"
+#include <fstream>
+#include <chrono>
+#include <thread>
 
+// Mock ClockIF for testing
+class MockClock : public ClockIF {
+public:
+    unsigned long long nsSinceEpoch() override {
+        return ++current_time;
+    }
+
+    void setTime(unsigned long long time) {
+        current_time = time;
+    }
+
+private:
+    unsigned long long current_time = 0;
+};
+
+// Test TimestampConfig
+TEST(TimestampConfigTest, ConstructorAndGetters) {
+    TimestampConfig config("SAVE_TO_CSV", 100);
+    EXPECT_EQ(config.getType(), TimestampConfigType::SAVE_TO_CSV);
+    EXPECT_EQ(config.getComponentId(), 100);
+}
+
+TEST(TimestampConfigTest, InvalidType) {
+    TimestampConfig config("INVALID_TYPE", 200);
+    EXPECT_EQ(config.getType(), TimestampConfigType::NOOP);
+}
+
+// Test TimestampFactory
+TEST(TimestampFactoryTest, GetInstance) {
+    TimestampConfig config("SAVE_TO_CSV", 100);
+    TimestampFactory factory(config);
+    TimestampIF* timestamp = factory.getInstance();
+    EXPECT_NE(timestamp, nullptr);
+    delete timestamp;
+}
+
+TEST(TimestampFactoryTest, GetInstanceWithDifferentConfigs) {
+    TimestampFactory factory;
+    
+    TimestampConfig csvConfig("SAVE_TO_CSV", 100);
+    TimestampIF* csvTimestamp = factory.getInstance(csvConfig);
+    EXPECT_NE(csvTimestamp, nullptr);
+    delete csvTimestamp;
+
+    TimestampConfig noopConfig("NOOP", 200);
+    TimestampIF* noopTimestamp = factory.getInstance(noopConfig);
+    EXPECT_NE(noopTimestamp, nullptr);
+    delete noopTimestamp;
+}
+
+// Test TimestampSaveToCsv
+TEST(TimestampSaveToCsvTest, StampAndSummarize) {
+    MockClock* clock = new MockClock();
+    TimestampSaveToCsv timestamp(clock, 100, 5);
+    
+    for (int i = 0; i < 5; ++i) {
+        timestamp.stamp(i);
+    }
+    
+    // Force summarize by destroying the object
+    timestamp.~TimestampSaveToCsv();
+    
+    // Check if the CSV file was created
+    std::string filename = timestamp.getCurrentTime() + ".csv";
+    std::ifstream file(filename);
+    EXPECT_TRUE(file.good());
+    
+    // Check file content
+    std::string line;
+    int lineCount = 0;
+    while (std::getline(file, line)) {
+        lineCount++;
+    }
+    EXPECT_EQ(lineCount, 6); // Header + 5 data lines
+    
+    // Clean up
+    file.close();
+    std::remove(filename.c_str());
+    delete clock;
+}
+
+TEST(TimestampSaveToCsvTest, ExceedMaxRecords) {
+    MockClock* clock = new MockClock();
+    TimestampSaveToCsv timestamp(clock, 100, 3);
+    
+    for (int i = 0; i < 5; ++i) {
+        timestamp.stamp(i);
+    }
+    
+    timestamp.~TimestampSaveToCsv();
+    
+    std::string filename = timestamp.getCurrentTime() + ".csv";
+    std::ifstream file(filename);
+    EXPECT_TRUE(file.good());
+    
+    std::string line;
+    int lineCount = 0;
+    while (std::getline(file, line)) {
+        lineCount++;
+    }
+    EXPECT_EQ(lineCount, 4); // Header + 3 data lines (max records)
+    
+    file.close();
+    std::remove(filename.c_str());
+    delete clock;
+}
+
+// Test ClockChrono
+TEST(ClockChronoTest, NsSinceEpoch) {
+    ClockChrono clock;
+    unsigned long long t1 = clock.nsSinceEpoch();
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    unsigned long long t2 = clock.nsSinceEpoch();
+    EXPECT_GT(t2, t1);
+}
+
+TEST(ClockChronoTest, MonotonicTime) {
+    ClockChrono clock;
+    unsigned long long prev = 0;
+    for (int i = 0; i < 1000; ++i) {
+        unsigned long long current = clock.nsSinceEpoch();
+        EXPECT_GE(current, prev);
+        prev = current;
+    }
+}
+
+// Test ComponentToTest
+class TestComponentToTest : public ComponentToTest {
+public:
+    TestComponentToTest(unsigned int component_id) : ComponentToTest(component_id) {}
+    
+    using ComponentToTest::alg1;
+    using ComponentToTest::alg2;
+    using ComponentToTest::alg3;
+};
+
+TEST(ComponentToTestTest, Run) {
+    TestComponentToTest component(200);
+    
+    // Redirect cout to capture output
+    std::stringstream buffer;
+    std::streambuf* prevcoutbuf = std::cout.rdbuf(buffer.rdbuf());
+    
+    component.run();
+    
+    // Restore cout
+    std::cout.rdbuf(prevcoutbuf);
+    
+    // Check if any output was produced (assuming run() might print something)
+    EXPECT_FALSE(buffer.str().empty());
+}
+
+TEST(ComponentToTestTest, IndividualAlgorithms) {
+    TestComponentToTest component(300);
+    
+    // Test individual algorithms
+    EXPECT_NO_THROW(component.alg1());
+    EXPECT_NO_THROW(component.alg2());
+    EXPECT_NO_THROW(component.alg3());
+}
+
+int main(int argc, char** argv) {
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
 ```
