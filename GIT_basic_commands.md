@@ -1,3 +1,50 @@
+
+- `git checkout -b <branch-name>`: Creates a new branch and switches to it.
+- `git push origin <branch-name>`: Pushes your new branch to the remote repository.
+- `git push --set-upstream origin <branch-name>`: Pushes the branch and sets it up to track the corresponding remote branch, so future `git push` and `git pull` commands are simplified.
+
+### 1. `git checkout -b <branch-name>`
+- This command **creates a new branch** and switches to it immediately.
+- The `-b` option tells `git` to create a new branch with the given name.
+  
+  **Example:**
+  ```bash
+  git checkout -b feature-branch
+  ```
+  This creates a new branch called `feature-branch` and switches to it.
+
+### 2. `git push origin <branch-name>`
+- This command **pushes your branch** (local branch) to the remote repository (in this case, called `origin`).
+- `origin` is the default name for the remote repository you cloned from, but you can push to other remotes as well.
+  
+  **Example:**
+  ```bash
+  git push origin feature-branch
+  ```
+  This pushes your `feature-branch` to the `origin` remote (usually the main Git repository you're working with).
+
+### 3. `git push --set-upstream origin <branch-name>` or `git push -u origin <branch-name>`
+- This command pushes the branch **and sets the upstream tracking** so that future `git push` and `git pull` commands can be executed without specifying the remote and branch name.
+- The `--set-upstream` or `-u` option links your local branch to the remote branch, so `git` knows which branch to push or pull changes from in the future without needing additional arguments.
+  
+  **Example:**
+  ```bash
+  git push --set-upstream origin feature-branch
+  ```
+  After running this, you can simply run `git push` or `git pull` without specifying `origin feature-branch` every time, as `git` will remember that this local branch is linked to the remote `feature-branch`.
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+ ```   
     git config --global user.name "sam smith"
     
     git config --global user.email sam@example.com
@@ -9,7 +56,9 @@
     git clone /path/to/repository
     
     git clone username@host:/path/to/repository
+```
 ------
+```
     git status
     
     git add <filename>
@@ -49,9 +98,9 @@
     git fetch origin #Instead, to drop all your local changes and commits, fetch the latest history from the server and point your local master branch at it, do this:
     git reset --hard origin/master
     git grep "foo()" #Search the working directory for foo():
-
+```
 https://confluence.atlassian.com/bitbucketserver/basic-git-commands-776639767.html 
-
+```
 
 
 You can follow one of the suggestions provided in the hint messages. Here are your options:
