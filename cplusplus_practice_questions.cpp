@@ -1,5 +1,6 @@
 
-
+//Leet code
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // If you are a beginner solve these problems which makes concepts clear for future coding:
 // 	1. Two Sum
 // 	2. Roman to Integer
@@ -10,17 +11,147 @@
 // 	7. Add Two Numbers
 // 	8. Majority Element
 // 	9. Remove Duplicates from Sorted Array
+
+//Microsoft
+// Implement Queue using Stacks: https://leetcode.com/problems/implement-queue-using-stacks/
+// Spiral Matrix: https://leetcode.com/problems/spiral-matrix/
+// Find Winner on a Tic Tac Toe Game: https://leetcode.com/problems/find-winner-on-a-tic-tac-toe-game/
+// LRU Cache: https://leetcode.com/problems/lru-cache/
+
+// Linked List: https://leetcode.com/problem-list/linked-list/?difficulty=EASY 
+
 // Practice them in a row for better understanding and please Upvote for more questions.
 
 //Leet code by type: https://github.com/103style/LeetCode/tree/master
-//////////////////////////////////////////////////////////////////////////////////
+
 //463. Island Perimeter https://leetcode.com/problems/island-perimeter/description/?envType=daily-question&envId=2024-04-18
 
 //136. Single Number https://leetcode.com/problems/single-number/
 
 //338. Counting Bits https://leetcode.com/problems/counting-bits/
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//===========707. Design Linked List ============================================================================================
+// https://leetcode.com/problems/design-linked-list/description/?envType=problem-list-v2&envId=linked-list&difficulty=MEDIUM
+
+// struct Node{
+//     Node* next;
+//     int val;
+//     Node(int x):next(nullptr),val(x){
+
+//     }
+// }; 
+
+// class MyLinkedList {
+// private:
+//     Node *head;
+//     int size;
+
+// public:
+//     MyLinkedList(): head(nullptr),size(0) {
+        
+//     }
+    
+//     int get(int index) {
+//         if (index >= size || index < 0){
+//             return -1;
+//         }else{
+//             Node* current= head;
+//             for (int i=0;i<index;i++){
+//                 current = current -> next;
+//             }
+//             return current ->val;
+//         }
+        
+//     }
+    
+//     void addAtHead(int val) {
+//         Node* newNode= new Node(val);
+//         newNode->next=head;
+//         head=newNode;
+//         size++;
+//     }
+    
+//     void addAtTail(int val) {
+//         Node* newNode= new Node(val);
+//         if (head == nullptr){
+//             head=newNode;
+//         }else{
+//             Node* current = head;
+//             while (current->next != nullptr){
+//                 current=current->next;
+//             }
+//             current->next=newNode;
+//         }
+//         size++;
+//     }
+    
+//     void addAtIndex(int index, int val) {
+      
+//         if (index<0 || index>size){
+//             return;
+//         }
+//         if( index == 0){
+//             addAtHead(val);
+//             return;
+//         }
+//         if(index == size){
+//             addAtTail(val);
+//             return;
+//         }
+//         Node* NewNode = new Node(val);
+//         Node* current= head;
+//         for(int i=0;i<index-1;i++){
+//             current=current->next;
+//         }
+//         NewNode -> next = current->next;
+//         current->next = NewNode;
+//         size++;
+//     }
+    
+//     void deleteAtIndex(int index) {
+//     if (index < 0 || index >= size) {
+//         return;
+//     }
+//     Node* toDelete;
+//     if (index == 0) {
+//         toDelete = head;
+//         head = head->next;
+//     } else {
+//         Node* current = head;
+//         for (int i = 0; i < index - 1; i++) {
+//             current = current->next;
+//         }
+//         toDelete = current->next;
+//         current->next = current->next->next;
+//     }
+//     delete toDelete;
+//     size--;
+// }
+
+// ~MyLinkedList() {
+//     Node* current = head;
+//     while (current != nullptr) {
+//         Node* next = current->next;
+//         delete current;
+//         current = next;
+//     }
+// }
 
 
+// };
+
+// /**
+//  * Your MyLinkedList object will be instantiated and called as such:
+//  * MyLinkedList* obj = new MyLinkedList();
+//  * int param_1 = obj->get(index);
+//  * obj->addAtHead(val);
+//  * obj->addAtTail(val);
+//  * obj->addAtIndex(index,val);
+//  * obj->deleteAtIndex(index);
+//  */
+
+ 
 //===========860. Lemonade Change ======working======================================================================================
 //<https://leetcode.com/problems/lemonade-change/?envType=daily-question&envId=2024-08-16>
 // 
@@ -55,51 +186,51 @@
 // 1 <= bills.length <= 105
 // bills[i] is either 5, 10, or 20.
 
-#include<iostream>
-#include <vector>
-class Solution {
-public:
-    bool lemonadeChange(std::vector<int>& bills) {
-      int bill5=0;
-      int bill10=0;
-      //int bill20=0;
+// #include<iostream>
+// #include <vector>
+// class Solution {
+// public:
+//     bool lemonadeChange(std::vector<int>& bills) {
+//       int bill5=0;
+//       int bill10=0;
+//       //int bill20=0;
 
-      for(int i:bills){
-        if (i == 5){
-          bill5++;
-        }else if (i == 10) {
-          if (bill5 == 0) return false;
-          bill5--;
-          bill10++;
-        }else{ //i=20
-          if(bill5>0 && bill10>0){
-            bill5--;
-            bill10--;
-          }else if(bill5 > 3){
-            bill5-=3;
-          }else{
-            return false;
-          }
-        }
-      }
-      //std::cout<<'\n';
-      // std::cout<<bill5<<'\n';
-      // std::cout<<bill10<<'\n';
-      return true;
-    }
+//       for(int i:bills){
+//         if (i == 5){
+//           bill5++;
+//         }else if (i == 10) {
+//           if (bill5 == 0) return false;
+//           bill5--;
+//           bill10++;
+//         }else{ //i=20
+//           if(bill5>0 && bill10>0){
+//             bill5--;
+//             bill10--;
+//           }else if(bill5 > 3){
+//             bill5-=3;
+//           }else{
+//             return false;
+//           }
+//         }
+//       }
+//       //std::cout<<'\n';
+//       // std::cout<<bill5<<'\n';
+//       // std::cout<<bill10<<'\n';
+//       return true;
+//     }
       
-};
+// };
 
-int main (){
-  Solution s1;
-  std::vector<int> bills1 ={5,5,5,10,20};  //expected true
-  std::vector<int> bills2 = {5,5,10,10,20};
-  std::vector<int> bills3= {5,5,5,10,5,5,10,20,20,20};//expected false 
-  //std::cout<<s1.lemonadeChange(bill);
-  std::cout << "Test case 1: " << (s1.lemonadeChange(bills1) ? "true" : "false") << std::endl;
-  std::cout << "Test case 2: " << (s1.lemonadeChange(bills2) ? "true" : "false") << std::endl;
-  std::cout << "Test case 2: " << (s1.lemonadeChange(bills3) ? "true" : "false") << std::endl;
-}
+// int main (){
+//   Solution s1;
+//   std::vector<int> bills1 ={5,5,5,10,20};  //expected true
+//   std::vector<int> bills2 = {5,5,10,10,20};
+//   std::vector<int> bills3= {5,5,5,10,5,5,10,20,20,20};//expected false 
+//   //std::cout<<s1.lemonadeChange(bill);
+//   std::cout << "Test case 1: " << (s1.lemonadeChange(bills1) ? "true" : "false") << std::endl;
+//   std::cout << "Test case 2: " << (s1.lemonadeChange(bills2) ? "true" : "false") << std::endl;
+//   std::cout << "Test case 2: " << (s1.lemonadeChange(bills3) ? "true" : "false") << std::endl;
+// }
 
 //===========1700. Number of Students Unable to Eat Lunch ============================================================================================
 //https://leetcode.com/problems/number-of-students-unable-to-eat-lunch/description/?envType=daily-question&envId=2024-04-08

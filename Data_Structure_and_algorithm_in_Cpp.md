@@ -1003,8 +1003,35 @@ int main()
 #### Linked List Prepend:
 -------------------------------------
 
+## Arrays and lists
+## Sets, pair, Tuples and dictionaries
+## doubly linked lists
+## Two Pointers
+## Stacks
+## Queues
+## Deques (double-ended queues)
+
+## TREES
+## TREE see https://neetcode.io/courses/dsa-for-beginners/0 
+
+
+
 # II Algorithm
 
+## Recursion
+### Factorial
+### Fibonacci Sequence
 
+## Sorting
+### Insertion Sort
+### Merge Sort
+### quick Sort
+### Bucket Sort
+
+## search
+### Search Array
+### Search Range
+
+## Dynamic programming 
 
 # III Advanced Algorithm
