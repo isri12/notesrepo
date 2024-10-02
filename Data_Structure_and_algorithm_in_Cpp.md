@@ -1418,7 +1418,77 @@ public:
 .
 ```
 ### DLL: Append(add at end)
+```cpp
+   //append or add at tail
+    void append(int val){
+        Node* newNode=new Node(val);
+        current= head;
+        if(head == nullptr){
+            head=newNode;
+            tail=newNode;
+        }else{
+            tail->next=newNode;
+            newNode->prev=tail;
+            tail = newNode;
+        }
+        size++;
+    }
+```
 
+### DLL: Delete Last
+
+```cpp
+    void deleteLast(){
+        if(head == nullptr){
+            return;
+        }else if(size == 1){
+             head =nullptr;
+             tail=nullptr;
+        }else{
+            Node* temp=tail;
+            tail=temp->prev;
+            tail->next=nullptr;
+            delete temp;
+        }
+       
+        size --;
+    }
+```
+
+### DLL: Prepend (add at beginning)
+
+```cpp
+    void prepend(int x){
+        Node* newNode=new Node(x);
+        if(head == nullptr){
+            head=newNode;
+            tail=newNode;
+        }else{
+           newNode->next=head;
+           head->prev=newNode;
+           head=newNode;
+        }
+        size++;
+    }
+```
+### DLL: Delete First (add at beginning)
+
+```cpp
+void deleteFirst(){
+        if(head == nullptr){
+            return;
+        }else if(size == 1){
+            head=nullptr;
+            tail=nullptr;
+        }else{
+            Node* temp = head;
+            head=head->next;
+            head->prev=nullptr;
+            delete temp;
+        }
+        size--;
+    }
+```
 
 -------------------------------------
 
@@ -1449,6 +1519,11 @@ public:
 ## search
 ### Search Array
 ### Search Range
+### binary search
+### Depth first search
+### breadth first search
+
+## greedy Algorithm
 
 ## Dynamic programming 
 
