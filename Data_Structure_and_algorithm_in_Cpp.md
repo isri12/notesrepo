@@ -366,7 +366,6 @@ Understanding these Big O concepts helps in analyzing the efficiency and scalabi
 ----------------------------------
 
 ## 2. Linked Lists
-Certainly! Below is a study note that covers arrays and linked lists in C++, along with examples:
 
 ### Arrays in C++:
 
@@ -391,6 +390,376 @@ for (int i = 0; i < 5; ++i) {
     std::cout << arr[i] << " ";
 }
 ```
+### Arrays and lists in c++
+# Arrays and Lists in C++
+
+## Arrays
+
+### Built-in Arrays
+
+C++ has built-in arrays which are fixed-size sequential collections of elements of the same type.
+
+```cpp
+int numbers[5] = {1, 2, 3, 4, 5};
+```
+
+Characteristics:
+- Fixed size (determined at compile-time)
+- Contiguous memory allocation
+- Fast random access (O(1))
+- Cannot be resized
+- No built-in bounds checking
+
+### std::array
+
+`std::array` is a container that encapsulates fixed-size arrays from the C++ Standard Template Library (STL).
+
+```cpp
+#include <array>
+std::array<int, 5> numbers = {1, 2, 3, 4, 5};
+```
+
+Characteristics:
+- Fixed size (determined at compile-time)
+- Contiguous memory allocation
+- Fast random access (O(1))
+- Cannot be resized
+- Provides bounds checking with the `at()` method
+- Knows its own size
+
+## Lists
+
+### std::list
+
+`std::list` is a container that supports constant time insertion and removal of elements from anywhere in the container.
+
+```cpp
+#include <list>
+std::list<int> numbers = {1, 2, 3, 4, 5};
+```
+
+Characteristics:
+- Dynamic size
+- Non-contiguous memory allocation (doubly-linked list)
+- Slow random access (O(n))
+- Fast insertion and deletion at any position (O(1))
+- No direct element access (must use iterators)
+
+## Comparison
+
+| Feature | Built-in Array | std::array | std::list |
+|---------|----------------|------------|-----------|
+| Size | Fixed | Fixed | Dynamic |
+| Memory | Contiguous | Contiguous | Non-contiguous |
+| Random Access | O(1) | O(1) | O(n) |
+| Insertion/Deletion | N/A | N/A | O(1) at any position |
+| Size Overhead | None | Small | Higher |
+| Iterator Invalidation | N/A | Never | Only for erased elements |
+
+## When to Use Each
+
+- Use built-in arrays when you need a lightweight, fixed-size collection and don't need additional safety features.
+- Use `std::array` when you want a fixed-size collection with the benefits of STL containers (like bounds checking and size awareness).
+- Use `std::list` when you need frequent insertions and deletions at arbitrary positions and don't need random access.
+
+## Basic Operations
+
+### Array Operations
+
+```cpp
+// Built-in array
+int arr[5] = {1, 2, 3, 4, 5};
+int element = arr[2];  // Access element (no bounds checking)
+
+// std::array
+std::array<int, 5> stdArr = {1, 2, 3, 4, 5};
+int element = stdArr.at(2);  // Access with bounds checking
+int size = stdArr.size();    // Get size
+```
+
+### List Operations
+
+```cpp
+std::list<int> myList = {1, 2, 3, 4, 5};
+
+// Insert at the beginning
+myList.push_front(0);
+
+// Insert at the end
+myList.push_back(6);
+
+// Insert at a specific position
+auto it = std::next(myList.begin(), 3);
+myList.insert(it, 10);
+
+// Remove an element
+myList.remove(3);
+
+// Access elements (using iterator)
+for (const auto& elem : myList) {
+    std::cout << elem << " ";
+}
+```
+
+Remember, the choice between arrays and lists depends on your specific use case, considering factors like size flexibility, access patterns, and performance requirements.
+### std::vector vs std::list(doubly linked list) in C++
+
+# std::vector vs std::list in C++
+
+## std::vector
+
+std::vector is a dynamic array that can grow or shrink in size.
+
+Characteristics:
+- Contiguous memory allocation
+- Fast random access (O(1))
+- Fast insertion/deletion at the end (amortized O(1))
+- Slow insertion/deletion at the beginning or middle (O(n))
+- Automatic resizing when capacity is exceeded
+
+## std::list
+
+std::list is implemented as a doubly-linked list.
+
+Characteristics:
+- Non-contiguous memory allocation
+- Slow random access (O(n))
+- Fast insertion/deletion anywhere in the list (O(1))
+- No random access operator []
+- No capacity concept (size == capacity always)
+
+## Comparison Table
+
+| Feature | std::vector | std::list |
+|---------|-------------|-----------|
+| Memory layout | Contiguous | Non-contiguous |
+| Random access | O(1) | O(n) |
+| Insertion at end | Amortized O(1) | O(1) |
+| Insertion at beginning | O(n) | O(1) |
+| Insertion in middle | O(n) | O(1) |
+| Deletion at end | O(1) | O(1) |
+| Deletion at beginning | O(n) | O(1) |
+| Deletion in middle | O(n) | O(1) |
+| Memory overhead | Low | Higher (two pointers per element) |
+| Iterator invalidation | On reallocation | Only for erased elements |
+
+## When to Use Each
+
+Use std::vector when:
+- You need fast random access
+- You mostly add/remove elements at the end
+- You want to minimize memory usage
+- You need cache-friendly traversal
+
+Use std::list when:
+- You need frequent insertions/deletions at arbitrary positions
+- You don't need random access
+- You want to avoid iterator invalidation on insertion/deletion
+- The size of your data structure changes frequently
+
+## Basic Usage Examples
+
+### std::vector
+
+```cpp
+#include <vector>
+#include <iostream>
+
+int main() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    
+    // Add element to the end
+    vec.push_back(6);
+    
+    // Access element
+    std::cout << "Third element: " << vec[2] << std::endl;
+    
+    // Insert in the middle
+    vec.insert(vec.begin() + 3, 10);
+    
+    // Remove last element
+    vec.pop_back();
+    
+    // Print all elements
+    for (int num : vec) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+    
+    return 0;
+}
+```
+
+### std::list
+
+```cpp
+#include <list>
+#include <iostream>
+
+int main() {
+    std::list<int> lst = {1, 2, 3, 4, 5};
+    
+    // Add element to the beginning
+    lst.push_front(0);
+    
+    // Add element to the end
+    lst.push_back(6);
+    
+    // Insert in the middle
+    auto it = std::next(lst.begin(), 3);
+    lst.insert(it, 10);
+    
+    // Remove an element
+    lst.remove(4);
+    
+    // Print all elements
+    for (int num : lst) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+    
+    return 0;
+}
+```
+
+Remember, the choice between std::vector and std::list depends on your specific use case and the operations you'll be performing most frequently.
+
+
+### Sets, pair, Tuples and dictionaries in c++
+
+#### Sets
+
+Sets in C++ are containers that store unique elements in a specific order. The standard library provides three types of sets:
+
+1. `std::set`: Stores unique elements in sorted order.
+2. `std::unordered_set`: Stores unique elements in no particular order, but offers faster access.
+3. `std::multiset`: Allows duplicate elements, stored in sorted order.
+
+##### Example of std::set
+
+```cpp
+#include <set>
+#include <iostream>
+
+int main() {
+    std::set<int> mySet = {3, 1, 4, 1, 5, 9};
+    
+    // Inserting elements
+    mySet.insert(2);
+    
+    // Checking if an element exists
+    if (mySet.find(4) != mySet.end()) {
+        std::cout << "4 is in the set" << std::endl;
+    }
+    
+    // Printing all elements (will be in sorted order)
+    for (int num : mySet) {
+        std::cout << num << " ";
+    }
+    // Output: 1 2 3 4 5 9
+    
+    return 0;
+}
+```
+
+#### Pairs
+
+`std::pair` is a simple container that holds two data elements.
+
+##### Example of std::pair
+
+```cpp
+#include <utility>
+#include <iostream>
+
+int main() {
+    std::pair<std::string, int> person("Alice", 30);
+    
+    std::cout << person.first << " is " << person.second << " years old." << std::endl;
+    
+    // Creating a pair using make_pair
+    auto couple = std::make_pair("Bob", "Carol");
+    
+    return 0;
+}
+```
+
+#### Tuples
+
+`std::tuple` is a fixed-size collection of heterogeneous values.
+
+##### Example of std::tuple
+
+```cpp
+#include <tuple>
+#include <iostream>
+
+int main() {
+    std::tuple<int, std::string, double> myTuple(1, "Hello", 3.14);
+    
+    std::cout << std::get<0>(myTuple) << std::endl;  // Prints 1
+    std::cout << std::get<1>(myTuple) << std::endl;  // Prints Hello
+    
+    // Unpacking a tuple
+    int a;
+    std::string b;
+    double c;
+    std::tie(a, b, c) = myTuple;
+    
+    return 0;
+}
+```
+
+#### Dictionaries (Maps)
+
+Dictionaries in C++ are implemented as maps. There are four types of maps in the STL:
+
+1. `std::map`: Stores key-value pairs in sorted order by keys.
+2. `std::unordered_map`: Stores key-value pairs in no particular order, but offers faster access.
+3. `std::multimap`: Allows duplicate keys, stored in sorted order.
+4. `std::unordered_multimap`: Allows duplicate keys, stored in no particular order.
+
+##### Example of std::map
+
+```cpp
+#include <map>
+#include <iostream>
+
+int main() {
+    std::map<std::string, int> ages;
+    
+    // Inserting key-value pairs
+    ages["Alice"] = 30;
+    ages["Bob"] = 25;
+    ages.insert({"Carol", 35});
+    
+    // Accessing values
+    std::cout << "Alice's age: " << ages["Alice"] << std::endl;
+    
+    // Checking if a key exists
+    if (ages.find("David") == ages.end()) {
+        std::cout << "David is not in the map" << std::endl;
+    }
+    
+    // Iterating through the map
+    for (const auto& pair : ages) {
+        std::cout << pair.first << " is " << pair.second << " years old." << std::endl;
+    }
+    
+    return 0;
+}
+```
+
+#### Key Differences and Use Cases
+
+- Use `set` when you need to maintain a collection of unique elements in sorted order.
+- Use `unordered_set` when you need fast lookup and don't care about the order.
+- Use `pair` when you need to group two values together.
+- Use `tuple` when you need to group more than two values together.
+- Use `map` when you need to associate keys with values and maintain sorted order.
+- Use `unordered_map` when you need fast key-value lookup and don't care about the order.
+
+Remember, `unordered_` variants generally offer faster access times (O(1) average case) but may use more memory and don't maintain any specific order. The ordered variants maintain a specific order (usually sorted) but have slower access times (O(log n)).
 
 ### Linked Lists in C++:
 
@@ -524,6 +893,25 @@ LinkedList<T>::~LinkedList() {
     }
 }
 ```
+
+#### Linked List :Destructor:
+
+#### Linked List :Append(Add something to the end):
+
+#### Linked List :Delete Last:
+
+#### Linked List :Prepend(add at first):
+
+#### Linked List :delete first:
+
+#### Linked List :Get:
+
+#### Linked List :set:
+
+#### Linked List :insert:
+
+#### Linked List :delete node:
+
 
 #### Example Usage:
 ```cpp
@@ -994,17 +1382,47 @@ int main()
     return 0;
 }
 ```
-#### Linked List Destructor:
+=========================================================================================================
+## 3. Doubly Linked list
+### DLL: Constructor
 
-#### Linked List Append:
+ A doubly linked list is a data structure where each node contains data and two pointers - one to the next node and one to the previous node. This allows for traversal in both directions.
 
-    ### Linked List Delete Last:
+```cpp
+struct Node{
+    int val;
+    Node* next;
+    Node* prev;
+    Node(int x):next(nullptr),prev(nullptr),val(x){
 
-#### Linked List Prepend:
+    }
+}; 
+
+class MyDoublyLinkedList {
+private:
+    Node *head;
+    Node *tail;
+    int size;
+
+public:
+    MyLinkedList(int val) {
+        Node* newNode= new Node(val);
+        head=newNode;
+        tail=newNode;
+        size=1;
+    }
+
+.
+.
+.
+.
+```
+### DLL: Append(add at end)
+
+
 -------------------------------------
 
-## Arrays and lists
-## Sets, pair, Tuples and dictionaries
+
 ## doubly linked lists
 ## Two Pointers
 ## Stacks
