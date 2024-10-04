@@ -1489,6 +1489,42 @@ void deleteFirst(){
         size--;
     }
 ```
+### DLL:get
+```cpp
+Node* get(int index){
+        if(index<0 || index>=size){
+            return nullptr;
+        }
+        if(index < size/2){
+            Node* current=head;
+            for(int i=0;i<index;i++){
+                current=current->next;
+            }
+            return current;
+        }else{
+            Node* current = tail;
+            for(int i=size-1;i>index;i--){
+                current=current->prev;
+            }
+            return current;
+        }
+}  
+```
+### DLL:set
+```cpp     
+bool set(int index, int value){
+    Node* temp= get(index);
+    if (temp){
+        temp->val=value;
+        return true;
+    }else{
+        return false;
+    }
+
+}
+```
+
+
 
 -------------------------------------
 
