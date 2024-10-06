@@ -1563,4 +1563,246 @@ bool set(int index, int value){
 
 ## Dynamic programming 
 
+
+
 # III Advanced Algorithm
+
+
+# IIII Coding Interview Patterns https://www.educative.io/module/WnDG1YSxqj4k4gzB0/10370001/5626850551529472
+
+## Sliding Door 
+
+The sliding window technique is a method for performing operations on arrays or strings, typically to reduce the use of nested loops and optimize the given solution. It's particularly useful for problems involving subarrays or substrings.
+
+Here's an explanation of the sliding window basics:
+
+1. The idea is to create a "window" that slides over the data.
+2. This window can be fixed-size or variable-size, depending on the problem.
+3. As the window slides, we process the elements within it.
+4. We typically use two pointers: one for the start of the window and one for the end.
+
+I've provided two examples in the code above:
+
+1. Fixed-size window: Finding the maximum sum subarray of size k
+   - We initialize the sum of the first k elements.
+   - Then we slide the window by one position at a time, adding the new element and subtracting the element that's no longer in the window.
+   - We keep track of the maximum sum encountered.
+
+2. Variable-size window: Finding the longest substring with at most k distinct characters
+   - We use a hash map to keep count of characters in the current window.
+   - We expand the window to the right, adding characters to the map.
+   - If the number of distinct characters exceeds k, we shrink the window from the left until we're back to k distinct characters.
+   - We keep track of the maximum length encountered.
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+// Example 1: Find the maximum sum subarray of size k
+int maxSubarraySum(vector<int>& nums, int k) {
+    int n = nums.size();
+    // Check if the array is smaller than the window size
+    if (n < k) return -1;  // Invalid case
+    
+    // Calculate the sum of first k elements (first window)
+    int maxSum = 0;
+    for (int i = 0; i < k; i++)
+        maxSum += nums[i];
+    
+    // Slide the window and update the sum
+    int windowSum = maxSum;
+    for (int i = k; i < n; i++) {
+        // Add the next element and remove the first element of the previous window
+        windowSum = windowSum - nums[i-k] + nums[i];
+        // Update maxSum if current windowSum is greater
+        maxSum = max(maxSum, windowSum);
+    }
+    
+    return maxSum;
+}
+
+// Example 2: Find the longest substring with at most k distinct characters
+int longestSubstringKDistinct(string s, int k) {
+    // Use a hash map to store character frequencies
+    unordered_map<char, int> charCount;
+    int left = 0, maxLen = 0;
+    
+    // Right pointer to expand the window
+    for (int right = 0; right < s.length(); right++) {
+        // Add the current character to the window
+        charCount[s[right]]++;
+        
+        // Shrink the window if we have more than k distinct characters
+        while (charCount.size() > k) {
+            // Decrease the count of the leftmost character
+            charCount[s[left]]--;
+            // If its count becomes 0, remove it from the map
+            if (charCount[s[left]] == 0)
+                charCount.erase(s[left]);
+            // Move the left pointer to shrink the window
+            left++;
+        }
+        
+        // Update the maximum length if current window is longer
+        maxLen = max(maxLen, right - left + 1);
+    }
+    
+    return maxLen;
+}
+
+int main() {
+    // Test Example 1
+    vector<int> nums = {1, 4, 2, 10, 23, 3, 1, 0, 20};
+    int k = 4;
+    cout << "Max sum subarray of size " << k << ": " << maxSubarraySum(nums, k) << endl;
+    
+    // Test Example 2
+    string s = "aabacbebebe";
+    k = 3;
+    cout << "Longest substring with at most " << k << " distinct characters: " 
+         << longestSubstringKDistinct(s, k) << endl;
+    
+    return 0;
+}
+
+```
+Key points to remember:
+
+- The sliding window technique often reduces the time complexity from O(n^2) to O(n).
+- It's particularly useful for problems involving subarrays or substrings.
+- The window can be fixed-size or variable-size, depending on the problem.
+- Often, you'll use additional data structures (like hash maps) to keep track of information about the elements in the window.
+
+Common problem types where sliding window is useful:
+- Maximum/minimum sum subarray of size k
+- Longest/shortest substring with certain properties
+- Finding anagrams or permutations in a string
+- Maximum of all subarrays of size k
+
+## The Two-Pointer Technique:
+ 
+The two-pointer technique is an algorithm design pattern where two pointers iterate through the data structure (often an array) in a coordinated way. This technique is often used to solve problems with a time complexity of O(n) and a space complexity of O(1).
+
+Types of Two-Pointer Approaches:
+1. Opposite Directional: Two pointers start from the opposite ends and move towards each other.
+2. Same Directional: Both pointers generally move in the same direction.
+3. Fast and Slow Pointers: One pointer moves faster than the other.
+
+Let's examine each example:
+
+1. Two Sum II - Input array is sorted
+   - This uses the opposite directional approach.
+   - We have two pointers: `left` starts at the beginning, `right` starts at the end.
+   - We sum the values at these pointers and compare with the target.
+   - If the sum is too small, we move `left` to increase the sum.
+   - If the sum is too large, we move `right` to decrease the sum.
+   - Time Complexity: O(n), Space Complexity: O(1)
+
+2. Remove Duplicates from Sorted Array
+   - This uses the same directional approach.
+   - We have two pointers: `writePointer` and `readPointer`.
+   - `readPointer` scans through the array.
+   - `writePointer` keeps track of where to write the next unique element.
+   - We only move unique elements to the position of `writePointer`.
+   - Time Complexity: O(n), Space Complexity: O(1)
+
+3. Reverse String
+   - This uses the opposite directional approach.
+   - We have two pointers: `left` starts at the beginning, `right` starts at the end.
+   - We swap the characters at these pointers and move them towards each other.
+   - We stop when the pointers meet in the middle.
+   - Time Complexity: O(n), Space Complexity: O(1)
+
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+// Example 1: Two Sum II - Input array is sorted
+vector<int> twoSum(vector<int>& numbers, int target) {
+    int left = 0, right = numbers.size() - 1;
+    
+    while (left < right) {
+        int sum = numbers[left] + numbers[right];
+        if (sum == target) {
+            return {left + 1, right + 1}; // 1-indexed
+        } else if (sum < target) {
+            left++;
+        } else {
+            right--;
+        }
+    }
+    
+    return {}; // No solution found
+}
+
+// Example 2: Remove Duplicates from Sorted Array
+int removeDuplicates(vector<int>& nums) {
+    if (nums.empty()) return 0;
+    
+    int writePointer = 1;
+    for (int readPointer = 1; readPointer < nums.size(); readPointer++) {
+        if (nums[readPointer] != nums[writePointer - 1]) {
+            nums[writePointer] = nums[readPointer];
+            writePointer++;
+        }
+    }
+    
+    return writePointer;
+}
+
+// Example 3: Reverse String
+void reverseString(vector<char>& s) {
+    int left = 0, right = s.size() - 1;
+    while (left < right) {
+        swap(s[left], s[right]);
+        left++;
+        right--;
+    }
+}
+
+int main() {
+    // Test Example 1
+    vector<int> numbers = {2, 7, 11, 15};
+    int target = 9;
+    vector<int> result = twoSum(numbers, target);
+    cout << "Two Sum II Result: [" << result[0] << ", " << result[1] << "]" << endl;
+
+    // Test Example 2
+    vector<int> nums = {0, 0, 1, 1, 1, 2, 2, 3, 3, 4};
+    int newLength = removeDuplicates(nums);
+    cout << "Remove Duplicates Result: ";
+    for (int i = 0; i < newLength; i++) {
+        cout << nums[i] << " ";
+    }
+    cout << endl;
+
+    // Test Example 3
+    vector<char> s = {'h', 'e', 'l', 'l', 'o'};
+    reverseString(s);
+    cout << "Reverse String Result: ";
+    for (char c : s) {
+        cout << c;
+    }
+    cout << endl;
+
+    return 0;
+}
+
+```
+Key Points to Remember:
+1. Two-pointer technique often helps reduce time complexity from O(n^2) to O(n).
+2. It's particularly useful for problems involving arrays or linked lists.
+3. The technique can help solve problems with constant space complexity.
+4. Common problem types include searching pairs, reversing, or removing elements.
+
+Practice Problems:
+1. Container With Most Water (LeetCode 11)
+2. 3Sum (LeetCode 15)
+3. Move Zeroes (LeetCode 283)
+4. Palindrome Linked List (LeetCode 234)
+
