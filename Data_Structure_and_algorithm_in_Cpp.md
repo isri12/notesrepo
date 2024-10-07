@@ -765,134 +765,7 @@ Remember, `unordered_` variants generally offer faster access times (O(1) averag
 
 A linked list is a dynamic data structure where elements are stored in nodes. Each node consists of a data field and a pointer field pointing to the next node in the sequence.
 
-#### Node Structure:
-```cpp
-// Node structure for a singly linked list
-template<typename T>
-struct Node {
-    T data;
-    Node* next;
-};
-```
 
-#### Linked List Class:
-```cpp
-// Linked list class
-template<typename T>
-class LinkedList {
-private:
-    Node<T>* head;
-
-public:
-    LinkedList() : head(nullptr) {}
-    ~LinkedList();
-
-    // Insertion methods
-    void insertFront(const T& value);
-    void insertEnd(const T& value);
-
-    // Deletion methods
-    void removeFront();
-    void removeEnd();
-
-    // Display method
-    void display();
-};
-```
-
-#### Insertion at the Front:
-```cpp
-template<typename T>
-void LinkedList<T>::insertFront(const T& value) {
-    Node<T>* newNode = new Node<T>;
-    newNode->data = value;
-    newNode->next = head;
-    head = newNode;
-}
-```
-
-#### Insertion at the End:
-```cpp
-template<typename T>
-void LinkedList<T>::insertEnd(const T& value) {
-    Node<T>* newNode = new Node<T>;
-    newNode->data = value;
-    newNode->next = nullptr;
-
-    if (head == nullptr) {
-        head = newNode;
-        return;
-    }
-
-    Node<T>* temp = head;
-    while (temp->next != nullptr) {
-        temp = temp->next;
-    }
-    temp->next = newNode;
-}
-```
-
-#### Deletion from the Front:
-```cpp
-template<typename T>
-void LinkedList<T>::removeFront() {
-    if (head == nullptr) {
-        return;
-    }
-
-    Node<T>* temp = head;
-    head = head->next;
-    delete temp;
-}
-```
-
-#### Deletion from the End:
-```cpp
-template<typename T>
-void LinkedList<T>::removeEnd() {
-    if (head == nullptr) {
-        return;
-    }
-
-    if (head->next == nullptr) {
-        delete head;
-        head = nullptr;
-        return;
-    }
-
-    Node<T>* temp = head;
-    while (temp->next->next != nullptr) {
-        temp = temp->next;
-    }
-    delete temp->next;
-    temp->next = nullptr;
-}
-```
-
-#### Displaying the Linked List:
-```cpp
-template<typename T>
-void LinkedList<T>::display() {
-    Node<T>* temp = head;
-    while (temp != nullptr) {
-        std::cout << temp->data << " ";
-        temp = temp->next;
-    }
-    std::cout << std::endl;
-}
-```
-
-#### Destructor (Cleanup):
-```cpp
-template<typename T>
-LinkedList<T>::~LinkedList() {
-    while (head != nullptr) {
-        Node<T>* temp = head;
-        head = head->next;
-        delete temp;
-    }
-}
-```
 
 #### Linked List :Destructor:
 
@@ -911,235 +784,6 @@ LinkedList<T>::~LinkedList() {
 #### Linked List :insert:
 
 #### Linked List :delete node:
-
-
-#### Example Usage:
-```cpp
-int main() {
-    // Create a linked list
-    LinkedList<int> myList;
-
-    // Insert elements
-    myList.insertFront(5);
-    myList.insertEnd(10);
-    myList.insertEnd(15);
-
-    // Display the list
-    myList.display(); // Output: 5 10 15
-
-    // Remove an element
-    myList.removeFront();
-
-    // Display the modified list
-    myList.display(); // Output: 10 15
-
-    return 0;
-}
-///////////////////////////////////////////////////////////////
-```
-#### Linked List EXAMPLE 2
-```cpp
-class Node{
-    int value;
-    Node* next;
-
-    Node(int value){
-        this->value=value;
-        next=nullptr;
-    }
-};
-```
-```cpp
-class LinkedList{
-    private:
-        Node* head;
-        Node* tail;
-        int length;
-        
-    public:    
-    LinkedList(int value){  //constructor
-        Node* newNode = new Node (value);
-        head=newNode;
-        tail=newNode;
-        length=1;
-    }
-
-    void printList(int value){ //print list
-        Node* temp = head;
-        while (temp != nullptr){
-            std::cout<<temp->value<<'\n';
-            temp = temp->next;
-        }
-    }
-
-    void append(){};
-    void prepend(){}; //add new node at beginning 
-    bool insert(){}; //insert 
-    
-};
-```
-### Linked List study 
-```cpp
-#include <iostream>
-
-using namespace std;
-
-class Node { 
-    public:
-        int value;
-        Node* next;
-
-        Node(int value) {
-            this->value = value;
-            next = nullptr;
-        }
-}; 
-
-
-class LinkedList {
-    private:
-        Node* head;
-        Node* tail;
-        int length;
-
-    public:
-    
-        //   +======================================================+
-        //   |                 WRITE YOUR CODE HERE                 |
-        //   | Description:                                         |
-        //   | - Write the LinkedList constructor                   |
-        //   | - Constructor takes an int value                     |
-        //   | - Create a new node                                  |
-        //   | - Initialize head, tail to the new node              |
-        //   | - Length starts at 1                                 |
-        //   |                                                      |
-        //   | Tips:                                                |
-        //   | - Use 'new' to allocate memory for the new node      |
-        //   | - Make sure to set head and tail pointers            |
-        //   | - Make sure to set length                            |
-        //   | - Check output from Test.cpp in "User logs"          |
-        //   +======================================================+
-    LinkedList(int value){
-            Node* newNode = new Node(value);
-            head=newNode;
-            tail=newNode;
-            length=1;
-        }
-
-        ~LinkedList() {
-            Node* temp = head;
-            while (head) {
-                head = head->next;
-                delete temp;
-                temp = head;
-            }
-        }
-
-        void printList() {
-            Node* temp = head;
-            if (temp == nullptr) {
-                cout << "empty";
-            } else {
-                while (temp != nullptr) {
-                    cout << temp->value;
-                    temp = temp->next;
-                    if (temp != nullptr) {
-                        cout << " -> ";
-                    }
-                }
-            }
-            cout << endl;
-        }
-
-        Node* getHead() {
-            return head;
-        }
-
-        Node* getTail() {
-            return tail; 
-        }
-
-        int getLength() {
-            return length;
-        }
-
-};
-
-```
-```cpp
-#include <iostream>
-#include "LinkedList.cpp"
-
-using namespace std;
-
-
-//  +=====================================================+
-//  |                                                     |
-//  |          THE TEST CODE BELOW WILL PRINT             |
-//  |              OUTPUT TO "USER LOGS"                  |
-//  |                                                     |
-//  |  Use the output to test and troubleshoot your code  |
-//  |                                                     |
-//  +=====================================================+
-
-
-static void test() {
-    
-    // Helper function to check test result
-    auto checkTestResult = [](bool condition) {
-        cout << (condition ? "PASS" : "FAIL") << endl;
-    };
-
-    // Test 1: InitializesHeadCorrectly
-    {
-        cout << "\n------ LinkedList Test: InitializesHeadCorrectly ------\n";
-        
-        LinkedList ll(5);
-        
-        cout << "Expected Head Value: 5\n";
-        cout << "Actual Head Value: " << ll.getHead()->value << "\n";
-
-        checkTestResult(ll.getHead()->value == 5);
-    }
-
-    // Test 2: InitializesTailCorrectly
-    {
-        cout << "\n------ LinkedList Test: InitializesTailCorrectly ------\n";
-        
-        LinkedList ll(5);
-        
-        cout << "Expected Tail Value: 5\n";
-        cout << "Actual Tail Value: " << ll.getTail()->value << "\n";
-
-        checkTestResult(ll.getTail()->value == 5);
-    }
-
-    // Test 3: InitializesLengthCorrectly
-    {
-        cout << "\n------ LinkedList Test: InitializesLengthCorrectly ------\n";
-        
-        LinkedList ll(5);
-        
-        cout << "Expected Length: 1\n";
-        cout << "Actual Length: " << ll.getLength() << "\n";
-
-        checkTestResult(ll.getLength() == 1);
-    }
-
-    // Test 4: HeadAndTailAreTheSameNode
-    {
-        cout << "\n------ LinkedList Test: HeadAndTailAreTheSameNode ------\n";
-        
-        LinkedList ll(5);
-        
-        cout << "Checking if head and tail point to the same node...\n";
-        
-        checkTestResult(ll.getHead() == ll.getTail());
-    }
-    
-}
-
-```
 
 ```cpp
 #include <iostream>
@@ -1344,8 +988,6 @@ class LinkedList{
     
 };
 
-
-
 int main()
 {
     LinkedList* mylinkedlist = new LinkedList(1);
@@ -1382,6 +1024,190 @@ int main()
     return 0;
 }
 ```
+
+#### Example Usage:
+```cpp
+// Node structure for a singly linked list
+struct Node {
+    int data;
+    Node* next;
+};
+```
+```cpp
+// Linked list class
+template<typename T>
+class LinkedList {
+private:
+    Node<T>* head;
+
+public:
+    LinkedList() : head(nullptr) {}
+    ~LinkedList();
+
+    // Insertion methods
+    void insertFront(const T& value);
+    void insertEnd(const T& value);
+
+    // Deletion methods
+    void removeFront();
+    void removeEnd();
+
+    // Display method
+    void display();
+};
+```
+```cpp
+template<typename T>
+void LinkedList<T>::insertFront(const T& value) {
+    Node<T>* newNode = new Node<T>;
+    newNode->data = value;
+    newNode->next = head;
+    head = newNode;
+}
+```
+```cpp
+template<typename T>
+void LinkedList<T>::insertEnd(const T& value) {
+    Node<T>* newNode = new Node<T>;
+    newNode->data = value;
+    newNode->next = nullptr;
+
+    if (head == nullptr) {
+        head = newNode;
+        return;
+    }
+
+    Node<T>* temp = head;
+    while (temp->next != nullptr) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+}
+```
+```cpp
+template<typename T>
+void LinkedList<T>::removeFront() {
+    if (head == nullptr) {
+        return;
+    }
+
+    Node<T>* temp = head;
+    head = head->next;
+    delete temp;
+}
+```
+```cpp
+template<typename T>
+void LinkedList<T>::removeEnd() {
+    if (head == nullptr) {
+        return;
+    }
+
+    if (head->next == nullptr) {
+        delete head;
+        head = nullptr;
+        return;
+    }
+
+    Node<T>* temp = head;
+    while (temp->next->next != nullptr) {
+        temp = temp->next;
+    }
+    delete temp->next;
+    temp->next = nullptr;
+}
+```
+```cpp
+template<typename T>
+void LinkedList<T>::display() {
+    Node<T>* temp = head;
+    while (temp != nullptr) {
+        std::cout << temp->data << " ";
+        temp = temp->next;
+    }
+    std::cout << std::endl;
+}
+```
+```cpp
+template<typename T>
+LinkedList<T>::~LinkedList() {
+    while (head != nullptr) {
+        Node<T>* temp = head;
+        head = head->next;
+        delete temp;
+    }
+}
+```
+
+```cpp
+int main() {
+    // Create a linked list
+    LinkedList<int> myList;
+
+    // Insert elements
+    myList.insertFront(5);
+    myList.insertEnd(10);
+    myList.insertEnd(15);
+
+    // Display the list
+    myList.display(); // Output: 5 10 15
+
+    // Remove an element
+    myList.removeFront();
+
+    // Display the modified list
+    myList.display(); // Output: 10 15
+
+    return 0;
+}
+///////////////////////////////////////////////////////////////
+```
+#### Linked List EXAMPLE 2
+```cpp
+class Node{
+    int value;
+    Node* next;
+
+    Node(int value){
+        this->value=value;
+        next=nullptr;
+    }
+};
+```
+```cpp
+class LinkedList{
+    private:
+        Node* head;
+        Node* tail;
+        int length;
+        
+    public:    
+    LinkedList(int value){  //constructor
+        Node* newNode = new Node (value);
+        head=newNode;
+        tail=newNode;
+        length=1;
+    }
+
+    void printList(int value){ //print list
+        Node* temp = head;
+        while (temp != nullptr){
+            std::cout<<temp->value<<'\n';
+            temp = temp->next;
+        }
+    }
+
+    void append(){};
+    void prepend(){}; //add new node at beginning 
+    bool insert(){}; //insert 
+    
+};
+```
+
+
+[Leet code practice] (https://leetcode.com/problem-list/linked-list/)
+
+
 =========================================================================================================
 ## 3. Doubly Linked list
 ### DLL: Constructor
@@ -1523,8 +1349,39 @@ bool set(int index, int value){
 
 }
 ```
+### DLL:insert
 
+```cpp
+    bool insert(int index, int value){
+        
+        if(index<0 || index >size ){
+            return false;
+        }else if(index==0){
+            prepend(value);
+            return true;
+        }else if(index == size){
+            append(value);
+            return true;
+        }else{
+            Node* newNode = new Node(value);
+            Node* prevNode=get(index-1);
+            Node* nextNode=prevNode->next;
+         
+            newNode->prev=prevNode;
+            newNode->next=nextNode;
+            prevNode->next=newNode;
+            nextNode->prev=newNode; 
+            size++;
+            return true;
+        }
+    }
 
+```
+### DLL:Delete node
+
+```cpp
+
+```
 
 -------------------------------------
 

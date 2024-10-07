@@ -19,6 +19,23 @@ L1 Data Structure:
 6. Queues
 7. Deques (double-ended queues)
 
+1. **Searching Algorithms:**
+    - Linear Search
+    - Binary Search
+    - Depth-First Search (DFS)
+    - Breadth-First Search (BFS)
+
+2. **Sorting Algorithms:**
+    - Bubble Sort
+    - Selection Sort
+    - Insertion Sort
+    - Merge Sort
+    - Quick Sort
+    - Heap Sort
+
+- sliding window
+- trees 
+
 ------------------------------------------------
 - [singelton] (https://www.codeproject.com/Articles/987473/Unit-Testing-a-Singleton-in-Cplusplus)
 - Friend
