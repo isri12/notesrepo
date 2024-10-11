@@ -1025,7 +1025,7 @@ int main()
 }
 ```
 
-#### Example Usage:
+#### Example 2:
 ```cpp
 // Node structure for a singly linked list
 struct Node {
@@ -1163,46 +1163,6 @@ int main() {
 ///////////////////////////////////////////////////////////////
 ```
 #### Linked List EXAMPLE 2
-```cpp
-class Node{
-    int value;
-    Node* next;
-
-    Node(int value){
-        this->value=value;
-        next=nullptr;
-    }
-};
-```
-```cpp
-class LinkedList{
-    private:
-        Node* head;
-        Node* tail;
-        int length;
-        
-    public:    
-    LinkedList(int value){  //constructor
-        Node* newNode = new Node (value);
-        head=newNode;
-        tail=newNode;
-        length=1;
-    }
-
-    void printList(int value){ //print list
-        Node* temp = head;
-        while (temp != nullptr){
-            std::cout<<temp->value<<'\n';
-            temp = temp->next;
-        }
-    }
-
-    void append(){};
-    void prepend(){}; //add new node at beginning 
-    bool insert(){}; //insert 
-    
-};
-```
 
 
 [Leet code practice] (https://leetcode.com/problem-list/linked-list/)

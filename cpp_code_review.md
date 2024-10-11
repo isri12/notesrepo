@@ -1,3 +1,39 @@
+
+
+## L1 Data Structure:
+1. Arrays and lists
+2. Sets, pair, Tuples and dictionaries
+3. Linked lists (singly linked lists, doubly linked lists)
+4. Two Pointers
+5. Stacks
+6. Queues
+7. Deques (double-ended queues)
+
+## L1 Data Structure:
+1. recursion
+2. sliding window
+
+3. **Searching Algorithms:**
+    - Linear Search
+    - Binary Search
+    - Depth-First Search (DFS)
+    - Breadth-First Search (BFS)
+
+4. **Sorting Algorithms:**
+    - Bubble Sort
+    - Selection Sort
+    - Insertion Sort
+    - Merge Sort
+    - Quick Sort
+    - Heap Sort
+5.  trees 
+
+
+
+
+
+------------------------------------------------
+
 Study Links Topics
 Level 1
 - Array and Linked List
@@ -10,39 +46,12 @@ Level 1
 - object oriented C++
 ------------------------------------------------
 
-L1 Data Structure:
-1. Arrays and lists
-2. Sets, pair, Tuples and dictionaries
-3. Linked lists (singly linked lists, doubly linked lists)
-4. Two Pointers
-5. Stacks
-6. Queues
-7. Deques (double-ended queues)
-
-1. **Searching Algorithms:**
-    - Linear Search
-    - Binary Search
-    - Depth-First Search (DFS)
-    - Breadth-First Search (BFS)
-
-2. **Sorting Algorithms:**
-    - Bubble Sort
-    - Selection Sort
-    - Insertion Sort
-    - Merge Sort
-    - Quick Sort
-    - Heap Sort
-
-- sliding window
-- trees 
-
-------------------------------------------------
 - [singelton] (https://www.codeproject.com/Articles/987473/Unit-Testing-a-Singleton-in-Cplusplus)
 - Friend
 - Virtual fun
 - explicit
 - constecpr
-
+------------------------------------------------
 **Review code**
 ```cpp
 // compile: g++ -std=c++11 -o pointers pointers.cpp
