@@ -362,7 +362,7 @@ int main() {
 Understanding these Big O concepts helps in analyzing the efficiency and scalability of algorithms and choosing the most suitable algorithm for a given problem based on its time complexity.
 
 ![Big O](images/bigo.jpg)
-
+![Common Data Structure Operations](images/dsa_op.png)
 ----------------------------------
 
 ## 2. Linked Lists
@@ -1198,10 +1198,6 @@ public:
         size=1;
     }
 
-.
-.
-.
-.
 ```
 ### DLL: Append(add at end)
 ```cpp

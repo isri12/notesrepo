@@ -9,7 +9,7 @@
 6. Queues
 7. Deques (double-ended queues)
 
-## L1 Data Structure:
+## L1 Alg.:
 1. recursion
 2. sliding window
 
@@ -28,7 +28,7 @@
     - Heap Sort
 5.  trees 
 
-
+## L1 System Design:
 
 
 

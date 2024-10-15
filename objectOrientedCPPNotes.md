@@ -30,6 +30,134 @@ REVIEW LIST:
 - Operator overloading: Defining custom behaviors for operators like +, -, ==, etc.
 - Templates: Used to create generic classes and functions.
 - Namespaces: Used for organizing and managing code.
+------------------------------------------------------------------------------------------------------------
+### Advanced C++ Techniques: Multithreading, Concurrency, and Parallel Processing
+
+```cpp
+#include <iostream>
+#include <thread>
+#include <mutex>
+#include <vector>
+#include <future>
+#include <algorithm>
+
+// 1. Multithreading Example
+void multithread_example() {
+    // Lambda function to be executed by each thread
+    auto worker = [](int id) {
+        std::cout << "Thread " << id << " is working\n";
+    };
+
+    std::vector<std::thread> threads;
+    // Create and start 4 threads
+    for (int i = 0; i < 4; ++i) {
+        // emplace_back constructs the thread object in-place,
+        // avoiding unnecessary copying or moving
+        threads.emplace_back(worker, i);
+    }
+
+    // Wait for all threads to complete
+    for (auto& t : threads) {
+        t.join();
+    }
+    // Note: join() is important to avoid program termination before threads finish
+}
+
+// 2. Concurrency Example
+std::mutex mtx;  // Global mutex for thread synchronization
+void concurrent_example() {
+    // Lambda function with thread-safe printing
+    auto worker = [](int id) {
+        // lock_guard automatically locks the mutex when constructed
+        // and unlocks it when destroyed (RAII principle)
+        std::lock_guard<std::mutex> lock(mtx);
+        std::cout << "Thread " << id << " is working safely\n";
+        // lock_guard goes out of scope here, releasing the mutex
+    };
+
+    std::vector<std::thread> threads;
+    // Create and start 4 threads
+    for (int i = 0; i < 4; ++i) {
+        threads.emplace_back(worker, i);
+    }
+
+    // Wait for all threads to complete
+    for (auto& t : threads) {
+        t.join();
+    }
+}
+
+// 3. Parallel Processing Example
+// Helper function to sum a vector of integers
+int parallel_sum(const std::vector<int>& nums) {
+    return std::accumulate(nums.begin(), nums.end(), 0);
+}
+
+void parallel_processing_example() {
+    // Create a large vector filled with 1's
+    std::vector<int> numbers(10000, 1);
+    int num_threads = 4;
+    int chunk_size = numbers.size() / num_threads;
+
+    std::vector<std::future<int>> futures;
+
+    // Divide the work into chunks and process each chunk in parallel
+    for (int i = 0; i < num_threads; ++i) {
+        int start = i * chunk_size;
+        int end = (i == num_threads - 1) ? numbers.size() : (i + 1) * chunk_size;
+
+        // Launch async task for each chunk
+        futures.push_back(std::async(std::launch::async, [&numbers, start, end]() {
+            // Create a sub-vector and sum it
+            return parallel_sum(std::vector<int>(numbers.begin() + start, numbers.begin() + end));
+        }));
+    }
+
+    // Collect and sum results from all async tasks
+    int total_sum = 0;
+    for (auto& f : futures) {
+        total_sum += f.get();  // get() waits for the future to be ready and returns the result
+    }
+
+    std::cout << "Parallel sum: " << total_sum << std::endl;
+}
+
+int main() {
+    std::cout << "Multithreading Example:\n";
+    multithread_example();
+
+    std::cout << "\nConcurrency Example:\n";
+    concurrent_example();
+
+    std::cout << "\nParallel Processing Example:\n";
+    parallel_processing_example();
+
+    return 0;
+}
+
+```
+
+Additional explanations:
+
+1. Multithreading:
+   - The `worker` lambda function represents a task that each thread will execute.
+   - `std::thread` objects are created and stored in a vector, allowing us to manage multiple threads easily.
+   - The `join()` function is called on each thread to ensure the main thread waits for all worker threads to complete before continuing.
+
+2. Concurrency:
+   - The global `std::mutex` `mtx` is used to synchronize access to the shared resource (std::cout).
+   - `std::lock_guard` is used to automatically lock and unlock the mutex, ensuring thread-safe access to the shared resource.
+   - This demonstrates how to prevent data races and ensure correct behavior in multi-threaded environments.
+
+3. Parallel Processing:
+   - The large vector is divided into chunks to distribute the workload across multiple threads.
+   - `std::async` is used to launch tasks asynchronously, potentially utilizing multiple CPU cores.
+   - `std::future` objects store the results of these asynchronous operations, allowing us to retrieve them later.
+   - The `get()` function is called on each future to obtain the results and combine them.
+
+These techniques demonstrate how to leverage modern C++ features to improve application performance and responsiveness. By using multithreading, we can execute multiple tasks concurrently. Proper concurrency management with mutexes ensures thread safety. Parallel processing allows us to distribute computational work across multiple cores, potentially achieving significant speedups for suitable tasks.
+
+Remember that the effectiveness of these techniques can vary depending on the specific task, hardware, and system load. It's always important to measure and profile your application to ensure that parallelization actually improves performance in your specific use case.
 
 ------------------------------------------------------------------------------------------------------------
 ###  Structure 
