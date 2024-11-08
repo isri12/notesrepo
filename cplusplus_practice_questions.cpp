@@ -372,6 +372,70 @@
 
 // }
 
+//// https://leetcode.com/problems/merge-strings-alternately/submissions/1443334537/?envType=study-plan-v2&envId=leetcode-75
+
+// class Solution {
+// public:
+//     std::string mergeAlternately(std::string word1, std::string word2) {
+//         std::string ans ={};
+//         int minsize = std::min(word2.size(),word1.size());
+
+
+//         for(int i=0;i<minsize;i++){
+//             ans.push_back(word1[i]);
+//             ans.push_back(word2[i]);
+//             // for(int j=0;j<word2.size();j++){
+//             //     std::cout<<word2[j];
+//             // }
+//         }
+
+//         if (word1.size() > word2.size()){
+//             // int extra = word1.size()-word2.size();
+//              ans = ans + word1.substr(word2.size());
+//         }
+
+//         if (word1.size() < word2.size()){
+//             //int extra = word2.size() - word1.size();
+//             //std::cout<<extra<<std::endl;
+//             //std::cout<<word2.substr(extra)<<std::endl;
+//             ans = ans + word2.substr(word1.size());
+//         }
+//         return ans;
+//     }
+// };
+
+
+// https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/?envType=study-plan-v2&envId=top-interview-150
+// 121. best time to sell stock 
+
+// class Solution {
+// public:
+//     int maxProfit(vector<int>& prices) {
+//         int min_val=prices[0];
+//         int current_val=0;
+//         int max_Val=0;
+
+//         for (int i=0;i<prices.size();i++){
+            
+//             //std::cout<<prices[i]<<std::endl;
+
+//             if (min_val>prices[i]){
+//                 min_val=prices[i];
+//                 //std::cout<<"min: "<<min_val<<std::endl;
+//             }
+            
+//             current_val=prices[i]-min_val;
+            
+//             if (max_Val<current_val){
+//                 max_Val=current_val;
+//                 //std::cout<<"max: "<<max_Val<<std::endl;
+//             }
+//         }
+        
+//         return max_Val;
+//     }
+// };
+
 //===========leet 525. Contiguous Array ============================================================================================
 // https://leetcode.com/problems/contiguous-array/description/?envType=daily-question&envId=2024-03-16
 
