@@ -1,5 +1,87 @@
 # System Design Basics Study Guide
 
+### **Summary: System Design Interview, Chapter 1: Scale from Zero to Millions of Users**
+
+This chapter provides a roadmap for designing systems that can grow seamlessly from a small number of users to millions. It introduces fundamental concepts and strategies for scalable architecture while addressing the trade-offs and challenges at each stage.
+
+---
+
+### **1. Scaling Phases**
+- **Single Server Setup**  
+  - Start simple with a monolithic application hosted on a single server.  
+  - Suitable for low traffic and early-stage applications.  
+  - Challenges: Limited by server resources (CPU, memory, disk, network).
+
+- **Database Scaling**  
+  - **Vertical Scaling:** Increase server capacity (e.g., more CPU, RAM).  
+  - **Horizontal Scaling:** Split data across multiple database servers (e.g., sharding, replication).
+
+- **Read/Write Splitting:**  
+  - Use a primary database for writes and replicas for reads to distribute load.
+
+---
+
+### **2. Horizontal Scaling with Load Balancers**
+- Introduce load balancers to distribute requests across multiple servers.  
+- Common techniques:
+  - **Round-robin:** Simple distribution across servers.
+  - **Least connections:** Send traffic to servers with the lowest load.  
+
+---
+
+### **3. Caching**  
+- Caching significantly reduces latency and decreases database load.  
+- **Types of Caching:**  
+  - **CDN (Content Delivery Networks):** Cache static assets (images, CSS, JS) close to users.  
+  - **Application-Level Cache:** Store frequently accessed data in-memory (e.g., Redis, Memcached).
+
+---
+
+### **4. Asynchronous Processing**  
+- Use message queues (e.g., RabbitMQ, Kafka) to handle high-throughput tasks asynchronously.  
+- Common use cases:  
+  - Sending emails.  
+  - Processing user uploads.
+
+---
+
+### **5. Stateless and Stateful Services**  
+- Design stateless services to scale easily.  
+  - Store user/session data in external services (e.g., Redis for sessions).  
+- Minimize dependencies between nodes for better fault tolerance.
+
+---
+
+### **6. Database Optimization**  
+- Techniques include indexing, query optimization, and denormalization.  
+- Consider NoSQL databases for flexibility and scalability.
+
+---
+
+### **7. Monitoring and Observability**  
+- Track system performance using tools like Prometheus, Grafana, or New Relic.  
+- Measure metrics like latency, error rates, and throughput.
+
+---
+
+### **8. Security and Reliability**  
+- Implement SSL/TLS for secure communication.  
+- Use replication and backups for data reliability.  
+- Design for fault tolerance (e.g., failover strategies).
+
+---
+
+### **Key Takeaways:**
+- Start simple and evolve architecture as user demand grows.  
+- Prioritize scalability, reliability, and performance incrementally.  
+- Understand trade-offs in cost, complexity, and resource utilization at each stage.  
+
+This chapter emphasizes iterative growth and modular design principles, ensuring systems remain robust as they scale to millions of users.
+
+
+
+
+
 ## Study List
 
 1. **Scalability**
