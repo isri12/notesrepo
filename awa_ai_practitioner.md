@@ -66,6 +66,10 @@ Input → [Hidden Layer 1] → [Hidden Layer 2] → Output
 
 ---
 
+### Gen AI
+
+
+
 ## 📚 Key AI Terminologies
 
 | Term | Definition | Example |
