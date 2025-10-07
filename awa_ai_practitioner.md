@@ -70,6 +70,20 @@ Input → [Hidden Layer 1] → [Hidden Layer 2] → Output
 
 
 
+### foundation model
+- pre trained model
+
+- general purpose model
+
+example llama, clouded , Gemini 
+
+
+
+### large language model
+
+
+
+
 ## 📚 Key AI Terminologies
 
 | Term | Definition | Example |
