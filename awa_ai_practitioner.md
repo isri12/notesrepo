@@ -1,6 +1,3 @@
-Perfect ✅ Here's your AWS AI Practitioner Study Guide (Domain 1.1) in clean, well-formatted Markdown, ready for note apps, GitHub, or printable use.
-
-
 ---
 
 # 🧠 AWS AI Practitioner Study Guide  
@@ -24,8 +21,9 @@ Artificial Intelligence (AI) is the ability of machines to perform tasks that no
 
 ### 🔹 What is Machine Learning (ML)?
 **Definition:**  
-Machine Learning (ML) is a subset of AI that enables computers to learn from **data** and make predictions or decisions **without being explicitly programmed**.
-
+- Machine Learning (ML) is a subset of AI that enables computers to learn from **data** and make predictions or decisions **without being explicitly programmed**.
+- powered by Algorithms that incorporate Intellegance into machines
+  
 **How ML works (simplified flow):**
 1. Collect Data  
 2. Prepare (clean) Data  
@@ -38,6 +36,24 @@ Machine Learning (ML) is a subset of AI that enables computers to learn from **d
 - Predicting customer churn  
 - Detecting spam emails  
 - Forecasting product demand  
+- self driving cars
+---
+
+## 🧩 Types of Machine Learning
+
+| Type | Description | Example |
+|-------|--------------|----------|
+| **Supervised Learning** | Uses labeled data; learns mapping input→output. | Predicting house prices |
+| **Unsupervised Learning** | Uses unlabeled data; finds hidden patterns. | Customer segmentation |
+| **Reinforcement Learning** | Learns via rewards and penalties. | Training robots, game AI |
+
+**Supervised Learning**
+    - Regression
+    - Classification 
+
+ **Unsupervised Learning** 
+
+---
 
 ---
 
@@ -50,14 +66,10 @@ Deep Learning (DL) is a **subset of Machine Learning** that uses **artificial ne
 - Speech-to-text (Siri, Alexa)  
 - Text generation (ChatGPT)
 
+
+- Deep Learning Models-sequence Models
+- Deep Learning Models - CNN
 ---
-
-Perfect — you’re expanding your AWS AI Practitioner Domain 1.1 study guide with modern AI model architectures (foundation, diffusion, LLMs, SVM, RNN, etc.).
-Here’s the enhanced Markdown section, fully integrated with clean formatting and concise technical explanations — great for quick review or flashcard-style learning later.
-
-
----
-
 ---
 
 ### 🔹 Neural Networks Overview
@@ -73,7 +85,7 @@ Neural networks mimic how the human brain processes information.
 Input → [Hidden Layer 1] → [Hidden Layer 2] → Output
 
 ---
-
+---
 ### 🔹 Foundation Models
 
 **Definition:**  
@@ -91,7 +103,7 @@ A **foundation model** is a **large, pre-trained model** trained on massive, gen
 - **Amazon Titan (AWS)**  
 
 ---
-
+---
 ### 🔹 Large Language Models (LLMs)
 
 **Definition:**  
@@ -127,7 +139,7 @@ Diffusion models are **generative models** that create new data (like images or 
 - **Midjourney**
 
 ---
-
+---
 ### 🔹 Generative AI (GenAI)
 
 **Definition:**  
@@ -175,7 +187,7 @@ Through this “game,” the generator improves until its outputs look convincin
 - Style transfer
 
 ---
-
+---
 ## 📚 Advanced AI Model Types and Terms
 
 | Model / Term | Description | Example Use |
@@ -190,7 +202,7 @@ Through this “game,” the generator improves until its outputs look convincin
 | **Transformer** | Deep learning architecture that uses **self-attention** for parallel text processing; basis for LLMs. | GPT, BERT, Claude |
 | **Autoencoder** | Learns compressed representations of data by encoding and decoding. | Anomaly detection, image compression |
 | **Reinforcement Learning (RL)** | Learning through **rewards and penalties** to optimize decision-making. | Robotics, gaming AI |
-
+---
 ---
 
 ## ⚡ Summary Visualization (AI Model Landscape)
@@ -198,7 +210,7 @@ Through this “game,” the generator improves until its outputs look convincin
 AI │ ├── Traditional ML │   ├── Linear / Logistic Regression │   ├── Decision Trees / Random Forest │   ├── SVM │   └── XGBoost │ ├── Deep Learning (Neural Networks) │   ├── CNN (images) │   ├── RNN / LSTM (sequences) │   ├── Transformer (text) │   ├── GAN (generative) │   └── Diffusion Models │ └── Foundation Models ├── LLM (GPT, Claude, Titan) ├── Multimodal Models └── GenAI (Text-to-Image/Video/Audio)
 
 ---
-
+---
 ## 💬 Quick Practice Q&A
 
 1. **Q:** What is the main difference between traditional ML and foundation models?  
@@ -235,15 +247,6 @@ AI │ ├── Traditional ML │   ├── Linear / Logistic Regression │
 - AWS context-ready AI vocabulary
 
 ---
-
-
-
-
----
-
-
-
-
 
 
 ## 📚 Key AI Terminologies
@@ -284,16 +287,6 @@ AI │ ├── Traditional ML │   ├── Linear / Logistic Regression │
 | **Time-Series Data** | Sequential with timestamps. | Stock prices |
 | **Image Data** | Pixel-based visual info. | Photos, X-rays |
 | **Text Data** | Sentences or words. | Chat logs |
-
----
-
-## 🧩 Types of Machine Learning
-
-| Type | Description | Example |
-|-------|--------------|----------|
-| **Supervised Learning** | Uses labeled data; learns mapping input→output. | Predicting house prices |
-| **Unsupervised Learning** | Uses unlabeled data; finds hidden patterns. | Customer segmentation |
-| **Reinforcement Learning** | Learns via rewards and penalties. | Training robots, game AI |
 
 ---
 
@@ -434,12 +427,7 @@ Artificial Intelligence │ ├── Machine Learning │   ├── Supervise
 🧭 **Next Step:**  
 Continue to **Task 1.2 – Explain key ML model evaluation concepts (accuracy, precision, recall, confusion matrix, etc.)**
 
----
-🧭 **Next Suggested Section:**  
-**Task 1.2 – Explain Key ML Model Evaluation Concepts**  
-(accuracy, precision, recall, confusion matrix, etc.)
-
----
+### **Task Statement 1.2: **Explain Basic AI Concepts and Terminologies****
 
 ---
 
