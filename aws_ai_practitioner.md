@@ -1,6 +1,6 @@
 ---
 
-# 🧠 AWS AI Practitioner Study Guide  
+# AWS AI Practitioner Study Guide  
 ## **Domain 1: Fundamentals of AI and ML**  
 ### **Task Statement 1.1: Explain Basic AI Concepts and Terminologies**
 
@@ -47,11 +47,58 @@ Artificial Intelligence (AI) is the ability of machines to perform tasks that no
 | **Unsupervised Learning** | Uses unlabeled data; finds hidden patterns. | Customer segmentation |
 | **Reinforcement Learning** | Learns via rewards and penalties. | Training robots, game AI |
 
-**Supervised Learning**
+### **Supervised Learning**
     - Regression
+        - Output Label: Continious, Predict a continuous numerical value.  
+        - Example: House price Predictor , A number (e.g., 150,000,72∘F)
     - Classification 
+         - Output Label: Catagorical, Predict a discrete label or category.
+         - Example: Spam detector, A category (e.g., "Cat" or "Dog," "Fraud" or "Not Fraud"), 
 
- **Unsupervised Learning** 
+🌸 Classification vs. Regression in the IRIS Dataset  - use with anaconda python. 
+
+1. Classification (The Primary Task)
+The most common and intended use of the Iris dataset is a multi-class classification problem.
+Goal: To predict which of the three distinct species a flower belongs to.
+Target Variable (Output): The flower's species, which is a categorical output.
+Iris Setosa
+Iris Versicolor
+Iris Virginica
+Since the output is one of a limited number of categories, it is a classification task. It's often called the "Hello World" of Machine Learning classification problems.
+
+2. Regression (A Secondary/Alternative Task)
+While the species prediction is classification, the Iris dataset's features are continuous numerical measurements, which can be used to set up a different task—a regression problem.
+Goal: To predict a continuous numerical measurement (like sepal length) based on the other measurements (like petal length, sepal width, etc.).
+Target Variable (Output): A continuous numerical value (e.g., predicting the exact sepal length in centimeters).
+While you can use the data for regression in an academic setting, the dataset's original and most widely adopted purpose is classification.
+
+ 
+ ### **Unsupervised Learning** 
+Unsupervised Learning is about finding "hidden insights" in a dataset without any prior guidance.
+
+|Sub-Task  |	High-Level Goal	|What it Does |
+|-------|--------------|----------|
+|Clustering 📦	| Group similar observations together.	| Divides the data into natural groupings (clusters) based on similarity.|
+|Dimensionality Reduction 📉|	Simplify the data (compression).	| Reduces the number of features/variables while preserving essential information.|
+|Association Rule Mining 🔗	| Find relationships between data elements.	| Discovers rules about items that often occur together (e.g., if a customer buys A, they often buy B).|
+
+### 🤖 **Reinforcement Learning: High-Level Overview**
+Reinforcement Learning is about an "agent" learning how to behave in an "environment" to maximize a long-term "reward".
+
+Component	Role	Analogy
+Agent	The machine learning program that takes action.	A student.
+Environment	The setting the agent interacts with.	The school/classroom.
+Action	The choices the agent can make.	Studying, playing, asking questions.
+Reward/Penalty	Feedback on the agent's action.	Getting a good grade (reward) or detention (penalty).
+Policy	The learned strategy of what action to take in a given state.	The student's learned habit/strategy for studying or behaving.
+
+** ML Process:**
+1. load Data  
+2. Process Data  
+3. Choose a Model (algorithm)  example classfier  
+4. Train the Model (learn from data)  
+5. Evaluate the Model (measure accuracy)  
+6. Deploy for **inference** (make predictions)
 
 ---
 
