@@ -153,7 +153,7 @@ ANN Train using BackPropagation Algorithm
 
 #### deep learning network architectures.
 
-1.** FNN (Feed Forward Neural Network)**
+1. ** FNN (Feed Forward Neural Network)**
 A Feed Forward Neural Network (FNN), also known as a Multi-Layer Perceptron (MLP), is the simplest type of neural network where information moves in only one direction—forward—from the input layer, through one or more hidden layers, and to the output layer, with no loops or cycles.
 
 **Key Concept**: Unidirectional data flow (no memory). Each input is processed independently of previous inputs.
@@ -182,21 +182,21 @@ Architectural Types (Input-Output Mappings):
 
 **Many-to-Many**: A sequence input generates a sequence output. (e.g., Machine Translation, where input and output sequences have different lengths).
 
-4. Autoencoders
+4. ** Autoencoders**
 An Autoencoder is a network designed for unsupervised learning whose main goal is to learn an efficient, compressed representation (encoding) of the input data. The network is trained to reconstruct its own input.
 
 **Key Concept**: Consists of two symmetrical parts: an Encoder that compresses the input into a lower-dimensional representation (latent space or bottleneck), and a Decoder that attempts to reconstruct the original input from that compressed representation.
 **Learning Goal**: Minimize the reconstruction error (the difference between the input and the output). The bottleneck forces the network to learn only the most essential features of the data.
 **Primary Uses**: Dimensionality Reduction (data compression) and Anomaly Detection (data that cannot be reconstructed well is likely an anomaly or outlier), and Denoising (reconstructing clean data from corrupted input).
 
-5. Long Short-Term Memory (LSTM)
+5. **Long Short-Term Memory (LSTM)**
 LSTM is a special type of Recurrent Neural Network (RNN) explicitly designed to overcome the vanishing gradient problem of standard RNNs and effectively learn long-term dependencies in sequential data.
 
 **Key Concept**: Instead of a single hidden state, LSTMs use a more complex structure called a memory cell and three types of regulatory gates (Forget, Input, and Output) within their recurrent unit.
 **Gates Function**: The Forget Gate decides what information to discard from the cell state. The Input Gate decides what new information to store in the cell state. The Output Gate decides what part of the cell state to output as the hidden state. This control structure allows the information flow to be maintained or cut off over long sequences.
 **Primary Uses**: Any sequential task requiring context over long time steps, such as speech recognition, handwriting recognition, and complex natural language processing (NLP).
 
-6. GAN (Generative Adversarial Networks)
+6. **GAN (Generative Adversarial Networks)**
 A GAN is a framework composed of two competing neural networks—a Generator and a Discriminator—that are trained simultaneously in an adversarial (competitive) process.
 
 Key Concept: The training is a "two-player game."
@@ -209,7 +209,7 @@ The Goal: The Generator's goal is to fool the Discriminator, and the Discriminat
 
 Primary Uses: Generating highly realistic synthetic data, especially images (e.g., deepfakes, realistic artwork, novel material design).
 
-7. Transformers
+7. **Transformers**
 The Transformer is a novel architecture introduced in 2017 that eschewed recurrent and convolutional layers in favor of a mechanism called Self-Attention. It is the foundational architecture for modern Large Language Models (LLMs) like GPT and BERT.
 
 Key Concept: The Self-Attention Mechanism allows the model to weigh the importance of all other words/tokens in the input sequence when processing a single word/token. This captures complex, long-range dependencies in the data much more efficiently than RNNs.
