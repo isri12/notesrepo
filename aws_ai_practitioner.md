@@ -85,12 +85,13 @@ Unsupervised Learning is about finding "hidden insights" in a dataset without an
 ### 🤖 **Reinforcement Learning: High-Level Overview**
 Reinforcement Learning is about an "agent" learning how to behave in an "environment" to maximize a long-term "reward".
 
-Component	Role	Analogy
-Agent	The machine learning program that takes action.	A student.
-Environment	The setting the agent interacts with.	The school/classroom.
-Action	The choices the agent can make.	Studying, playing, asking questions.
-Reward/Penalty	Feedback on the agent's action.	Getting a good grade (reward) or detention (penalty).
-Policy	The learned strategy of what action to take in a given state.	The student's learned habit/strategy for studying or behaving.
+| Component	| Role	| Analogy |
+|-------|--------------|----------|
+|Agent|	The machine learning program that takes action.	| A student.|
+|Environment|	The setting the agent interacts with.	| The school/classroom.|
+|Action|	The choices the agent can make.	| Studying, playing, asking questions.|
+|Reward/Penalty|	Feedback on the agent's action. |	Getting a good grade (reward) or detention (penalty).|
+|Policy|	The learned strategy of what action to take in a given state.	| The student's learned habit/strategy for studying or behaving.|
 
 ** ML Process:**
 1. load Data  
