@@ -111,7 +111,7 @@ Reinforcement Learning  is a type of Machine Learning algorithm that learns from
 
 ---
 
-### 🔹 What is Deep Learning (DL)?
+### 🔹 Deep Learning (DL)?
 **Definition:**  
 Deep Learning (DL) is a **subset of Machine Learning** that uses **artificial neural networks** with many layers (deep) to learn complex patterns from massive datasets.
 
@@ -146,31 +146,79 @@ ANN Train using BackPropagation Algorithm
 - Adjust the Guess
 - update the Weights
 
- ### Deep Learning Models-sequence Models
+ #### Deep Learning Models-sequence Models
 - NLP
 - Speech Recognition
 - Music Generation
 
-#### 1 FNN - Feed Forward Neural Network
+#### deep learning network architectures.
 
-#### 2 CNN - Convolutional Neural Networks(CNN)
-- **CNN (Convolutional Neural Network)**  Specialized neural network for **image data**, extracts spatial features via filters. Face recognition, medical imaging 
-- introduced in 1990
-- designed for process Grid like data 
+1.** FNN (Feed Forward Neural Network)**
+A Feed Forward Neural Network (FNN), also known as a Multi-Layer Perceptron (MLP), is the simplest type of neural network where information moves in only one direction—forward—from the input layer, through one or more hidden layers, and to the output layer, with no loops or cycles.
 
-####  3 RNN(Recurrent Neural Network)
-  - 1 to 1
-  - 1 to many
-  - Many to one
-  - Many to Many 
- 
-#### 4 Autoencoders
+**Key Concept**: Unidirectional data flow (no memory). Each input is processed independently of previous inputs.
+Structure: Consists of fully connected layers of neurons, where the output of a neuron is an input to all neurons in the next layer.
+**Primary Uses**: Classification, regression, and function approximation for tabular or simple data where the input order is irrelevant (e.g., email spam detection, stock price forecasting).
 
-#### 5 Long Short-Term Memory (LSTM)
+2. **CNN (Convolutional Neural Network)**
+A CNN is a specialized network for processing data with a grid-like topology (like images, which are 2D pixel grids). It uses a mathematical operation called convolution to efficiently extract spatial and hierarchical features.
 
-#### 6 Generative Adversarial Networks (GAN)
+**Key Concept**: Uses convolutional layers with shared weights (filters) to learn patterns like edges, textures, and shapes across the entire image. This makes it translation-invariant (it can recognize a feature regardless of where it appears in the image).
+**Components**: Alternating layers of Convolution (feature extraction), Pooling (dimensionality reduction), and a final Fully Connected layer (classification).
+**Primary Uses**: Image and video processing (e.g., image classification, object detection, face recognition), which is its most common application.
 
-#### 7 Transformers
+3. **RNN (Recurrent Neural Network)**
+An RNN is a network designed to handle sequential data (like text, speech, and time series) by having connections that form loops (recurrency). This allows information from a previous step to be carried forward, giving the network a form of "memory" to process data where the order matters. Recurrent Neural Networks (RNNs) are a type of neural network architecture that includes feedback connections. These feedback connections allow RNNs to process sequential data, such as time series, natural language, speech, and more.
+
+**Key Concept**: Hidden state (or 'memory') is passed from one step in the sequence to the next, enabling the network to learn patterns and dependencies across time steps. Parameters are shared across all time steps.
+Limitations: Simple RNNs struggle with long-term dependencies due to the vanishing gradient problem.
+Architectural Types (Input-Output Mappings):
+
+**One-to-One**: Standard FNN processing. (e.g., Image Classification)
+
+**One-to-Many**: One input generates a sequence output. (e.g., Image Captioning)
+
+**Many-to-One**: A sequence input generates a single output. (e.g., Sentiment Analysis)
+
+**Many-to-Many**: A sequence input generates a sequence output. (e.g., Machine Translation, where input and output sequences have different lengths).
+
+4. Autoencoders
+An Autoencoder is a network designed for unsupervised learning whose main goal is to learn an efficient, compressed representation (encoding) of the input data. The network is trained to reconstruct its own input.
+
+**Key Concept**: Consists of two symmetrical parts: an Encoder that compresses the input into a lower-dimensional representation (latent space or bottleneck), and a Decoder that attempts to reconstruct the original input from that compressed representation.
+**Learning Goal**: Minimize the reconstruction error (the difference between the input and the output). The bottleneck forces the network to learn only the most essential features of the data.
+**Primary Uses**: Dimensionality Reduction (data compression) and Anomaly Detection (data that cannot be reconstructed well is likely an anomaly or outlier), and Denoising (reconstructing clean data from corrupted input).
+
+5. Long Short-Term Memory (LSTM)
+LSTM is a special type of Recurrent Neural Network (RNN) explicitly designed to overcome the vanishing gradient problem of standard RNNs and effectively learn long-term dependencies in sequential data.
+
+**Key Concept**: Instead of a single hidden state, LSTMs use a more complex structure called a memory cell and three types of regulatory gates (Forget, Input, and Output) within their recurrent unit.
+**Gates Function**: The Forget Gate decides what information to discard from the cell state. The Input Gate decides what new information to store in the cell state. The Output Gate decides what part of the cell state to output as the hidden state. This control structure allows the information flow to be maintained or cut off over long sequences.
+**Primary Uses**: Any sequential task requiring context over long time steps, such as speech recognition, handwriting recognition, and complex natural language processing (NLP).
+
+6. GAN (Generative Adversarial Networks)
+A GAN is a framework composed of two competing neural networks—a Generator and a Discriminator—that are trained simultaneously in an adversarial (competitive) process.
+
+Key Concept: The training is a "two-player game."
+
+Generator (The Forger): Takes random noise as input and tries to create synthetic data (e.g., an image) that looks real.
+
+Discriminator (The Detective): Receives both real data from the training set and fake data from the Generator, and tries to distinguish between the two (classify the input as Real or Fake).
+
+The Goal: The Generator's goal is to fool the Discriminator, and the Discriminator's goal is to not be fooled. This competition drives the Generator to produce increasingly realistic data until the Discriminator can't tell the difference.
+
+Primary Uses: Generating highly realistic synthetic data, especially images (e.g., deepfakes, realistic artwork, novel material design).
+
+7. Transformers
+The Transformer is a novel architecture introduced in 2017 that eschewed recurrent and convolutional layers in favor of a mechanism called Self-Attention. It is the foundational architecture for modern Large Language Models (LLMs) like GPT and BERT.
+
+Key Concept: The Self-Attention Mechanism allows the model to weigh the importance of all other words/tokens in the input sequence when processing a single word/token. This captures complex, long-range dependencies in the data much more efficiently than RNNs.
+
+Key Advantage: Unlike RNNs, which process sequences step-by-step (serially), the Transformer can process the entire sequence in parallel, drastically reducing training time and increasing efficiency.
+
+Components: Built from stacked Encoder and Decoder blocks (though many modern variants use only one or the other). Each block contains a Multi-Head Attention layer and a Feed-Forward Network.
+
+Primary Uses: State-of-the-art in nearly all sequence tasks, especially Natural Language Processing (NLP) like machine translation, text generation, summarization, and also increasingly in computer vision (Vision Transformers).
 
 ---
 ---
