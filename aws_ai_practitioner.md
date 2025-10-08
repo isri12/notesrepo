@@ -48,12 +48,17 @@ Artificial Intelligence (AI) is the ability of machines to perform tasks that no
 | **Reinforcement Learning** | Learns via rewards and penalties. | Training robots, game AI |
 
 ### **Supervised Learning**
+Model is trained on Labeled data. The data includes both the input and correct output. 
     - Regression
         - Output Label: Continious, Predict a continuous numerical value.  
         - Example: House price Predictor , A number (e.g., 150,000,72∘F)
     - Classification 
          - Output Label: Catagorical, Predict a discrete label or category.
          - Example: Spam detector, A category (e.g., "Cat" or "Dog," "Fraud" or "Not Fraud"), 
+
+Sigmoidal function to predict the probability of binary outcome.
+Logistic Regression is a binary classification algorithm commonly used in Machine Learning to predict binary outcomes, such as whether a loan will be defaulted or not. The key idea behind Logistic Regression is to model the probability of an event occurring as a function of input features. The output of this model is transformed using the sigmoidal (also known as logistic) function. The sigmoidal function, often represented as the sigmoid function, has an S-shaped curve that maps any input value to an output value between 0 and 1.
+
 
 🌸 Classification vs. Regression in the IRIS Dataset  - use with anaconda python. 
 
@@ -84,6 +89,7 @@ Unsupervised Learning is about finding "hidden insights" in a dataset without an
 
 ### 🤖 **Reinforcement Learning: High-Level Overview**
 Reinforcement Learning is about an "agent" learning how to behave in an "environment" to maximize a long-term "reward".
+Reinforcement Learning  is a type of Machine Learning algorithm that learns from outcomes to make decisions. In reinforcement learning, an agent interacts with an environment and takes actions to maximize cumulative rewards.
 
 | Component	| Role	| Analogy |
 |-------|--------------|----------|
@@ -114,9 +120,58 @@ Deep Learning (DL) is a **subset of Machine Learning** that uses **artificial ne
 - Speech-to-text (Siri, Alexa)  
 - Text generation (ChatGPT)
 
+Deep Learning Algorithms:
+- Images ans videos
+    - Convolutional Neural Network (CNN)
+- Sequntial. TimeSeries and Natural Language Data
+    - Transformers
+    - Long Short Term Memory (LSTM)
+    - Recurrent Neural Networks (RNN)
+- Images Text Audio Generation
+  - Transformers
+  - Diffusion Models
+  - Generative Adversarial Networks(GAN)
 
-- Deep Learning Models-sequence Models
-- Deep Learning Models - CNN
+
+#### Artifical Neural Network
+- Layers
+- Neurons
+- Weights
+- Activation Function
+- Bias
+
+ANN Train using BackPropagation Algorithm
+- Guess and coplare
+- Measure the Error
+- Adjust the Guess
+- update the Weights
+
+ ### Deep Learning Models-sequence Models
+- NLP
+- Speech Recognition
+- Music Generation
+
+#### 1 FNN - Feed Forward Neural Network
+
+#### 2 CNN - Convolutional Neural Networks(CNN)
+- **CNN (Convolutional Neural Network)**  Specialized neural network for **image data**, extracts spatial features via filters. Face recognition, medical imaging 
+- introduced in 1990
+- designed for process Grid like data 
+
+####  3 RNN(Recurrent Neural Network)
+  - 1 to 1
+  - 1 to many
+  - Many to one
+  - Many to Many 
+ 
+#### 4 Autoencoders
+
+#### 5 Long Short-Term Memory (LSTM)
+
+#### 6 Generative Adversarial Networks (GAN)
+
+#### 7 Transformers
+
 ---
 ---
 
