@@ -1,0 +1,675 @@
+This comprehensive quiz is structured according to the five content domains and weightings specified for the AWS Certified AI Practitioner (AIF-C01) exam, covering key concepts from the official exam guide and related study materials.
+Quiz Questions
+Domain 1: Fundamentals of AI and ML (20% of scored content)
+Question 1
+An organization is developing a model to find groups of similar customer purchase patterns without using any prior labeled data about the customers. Which type of machine learning approach is best suited for this task?
+A) Classification
+B) Regression
+C) Supervised learning
+D) Unsupervised learning
+Question 2
+What is the hierarchical relationship between Artificial Intelligence (AI), Machine Learning (ML), and Deep Learning (DL)?
+A) AI is a subset of ML, and DL is a subset of AI.
+B) ML is the overall science, and AI and DL are subsets of ML.
+C) AI is the overall science, ML is a subset of AI, and DL is a subset of ML.
+D) DL is the science of mimicking human behavior, and AI and ML are subsets of DL.
+Question 3
+Which component of the Machine Learning (ML) workflow involves identifying and correcting records with incomplete, missing, or badly formatted data?
+A) Data Preparation
+B) Data Cleaning
+C) Feature Engineering
+D) Model Training
+Question 4
+A machine learning model is too simplistic and did not learn enough from the training data, resulting in poor performance on both training and test data. What is this scenario called, and what are its corresponding characteristics regarding bias and variance?
+A) Overfitting, characterized by low bias and high variance.
+B) Underfitting, characterized by high bias and low variance.
+C) Underfitting, characterized by low bias and high variance.
+D) Overfitting, characterized by high bias and low variance.
+Question 5
+Which evaluation metric for a binary classification model measures the overall correctness of predictions?
+A) Precision
+B) Recall
+C) Accuracy
+D) F1 Score
+Question 6
+Which AWS service is designed to simplify the preparation and transformation of data for machine learning by providing tools to aggregate and clean data?
+A) Amazon SageMaker JumpStart
+B) Amazon SageMaker Canvas
+C) Amazon SageMaker Data Wrangler
+D) Amazon SageMaker Feature Store
+Question 7
+A team wants to use machine learning to identify objects within images. Which deep learning architecture is particularly effective for processing images and grid-like data?
+A) Recurrent Neural Networks (RNN)
+B) Generative Adversarial Networks (GAN)
+C) Convolutional Neural Networks (CNN)
+D) Diffusion Models
+Question 8
+When hosting a machine learning model, which inference type is best suited for processing a large data set offline in a cost-effective manner, especially when low latency is not required?
+A) Real-time inference
+B) Batch inference
+C) On-demand serverless inference
+D) Asynchronous inference
+Domain 2: Fundamentals of Generative AI (24% of scored content)
+Question 9
+In Natural Language Processing (NLP), what term refers to the numerical representations of data that capture semantic relationships, often used for semantic similarity searches?
+A) Token
+B) Chunk
+C) Vector embeddings
+D) Context Window
+Question 10
+Which evaluation metric is appropriate for assessing the quality of text that has been machine translated from one natural language to another by comparing n-gram overlap with reference translations?
+A) ROUGE (Recall-Oriented Understudy for Gisting Evaluation)
+B) BERTScore
+C) BLEU (Bilingual Evaluation Understudy)
+D) Word Error Rate (WER)
+Question 11
+What term describes the maximum amount of text (tokens) a Large Language Model (LLM) can process and understand in a single interaction?
+A) Token limit
+B) Latent Space
+C) Vocabulary size
+D) Context window
+Question 12
+Which category of AI models, available via Amazon Bedrock, is trained on massive amounts of data and can process and generate multiple types of data, such as text, images, and audio?
+A) Large Language Models (LLMs)
+B) Diffusion Models
+C) Multimodal models
+D) Generative Adversarial Networks (GANs)
+Question 13
+A company needs to generate highly detailed images based on text descriptions. Which specialized model, designed for text-to-image generative tasks, is most suitable?
+A) Generative Adversarial Networks (GAN)
+B) Recurrent Neural Networks (RNN)
+C) Convolutional Neural Networks (CNN)
+D) Stable Diffusion (a type of diffusion model)
+Question 14
+When choosing a Foundation Model (FM) for an application, which factor relates to the model generating text that is factually incorrect, inconsistent, or nonsensical, representing a significant disadvantage of Generative AI solutions?
+A) Interpretability
+B) Overfitting
+C) Hallucinations
+D) Nondeterminism
+Question 15
+A company with unpredictable workloads wants to use various Foundation Models (FMs) available through Amazon Bedrock. Which pricing model offers flexible usage and is most suitable for experimentation?
+A) Provisioned throughput
+B) Model customization
+C) On-demand (Pay As You Go)
+D) Reserved capacity
+Question 16
+Amazon Titan, a model used for generating text like summaries, stories, and code, falls into which category of models?
+A) Multimodal model
+B) Diffusion model
+C) Foundation model (Large Language Model)
+D) Generative Adversarial Network (GAN)
+Domain 3: Applications of Foundation Models (28% of scored content)
+Question 17
+To improve the quality of Large Language Model (LLM) responses by incorporating current, proprietary information from external sources, a technique is used where the user prompt is augmented with queried information from a knowledge repository before being sent to the LLM. What is this technique called?
+A) Few-shot learning
+B) Zero-shot learning
+C) Retrieval Augmented Generation (RAG)
+D) Continuous Pre-training
+Question 18
+A developer is fine-tuning a pre-trained model on a small amount of domain-specific labeled data to achieve better performance on a new task. What general fine-tuning method is this known as?
+A) Zero-shot learning
+B) Data augmentation
+C) Transfer learning
+D) Adversarial training
+Question 19
+A team is building a search application that relies on semantic similarity using vector embeddings. Which inference time parameter should they adjust to control the randomness of the model's output generation, increasing creativity if needed?
+A) Learning Rate
+B) Batch Size
+C) Epoch
+D) Temperature
+Question 20
+Which two AWS services are specifically noted as providing support for vector-based storage and search, enabling fast semantic similarity searches? (Select two.)
+A) Amazon Redshift
+B) Amazon OpenSearch Service
+C) Amazon MemoryDB
+D) Amazon S3
+E) Amazon Aurora RDS PostgreSQL with PG Vector extension
+Question 21
+What prompt engineering technique involves crafting inputs designed to bypass a model's existing safety constraints, potentially leading to prohibited or harmful outputs?
+A) Prompt Poisoning
+B) Jailbreaking
+C) Adversarial Prompting
+D) Zero-shot learning
+Question 22
+What is the primary purpose of Agents for Amazon Bedrock?
+A) To deploy and monitor custom machine learning models on Amazon SageMaker.
+B) To assist developers with coding tasks and queries.
+C) To enable foundation models to break down tasks, make API calls, and perform multi-step tasks to achieve a goal.
+D) To enhance Business Intelligence (BI) users' productivity by summarizing insights.
+Question 23
+When evaluating foundation model performance, which metric leverages a pre-trained language model (like BERT) to calculate the semantic similarity between the generated text and human-written reference text?
+A) ROUGE
+B) BLEU
+C) BERTScore
+D) Perplexity
+Question 24
+Which concept of prompt engineering involves providing the model with a few labeled examples to generalize to new tasks or classes, rather than relying on prior training?
+A) Zero-shot learning
+B) One-shot learning
+C) Few-shot learning
+D) Chain-of-thought
+Domain 4: Guidelines for Responsible AI (14% of scored content)
+Question 25
+What is the primary purpose of Amazon SageMaker Clarify in the context of responsible AI?
+A) To automatically train and tune machine learning models.
+B) To provide a visual interface for building ML models without code.
+C) To analyze model predictions, detect bias, and enhance transparency and explainability.
+D) To debug and profile machine learning models during training.
+Question 26
+A machine learning model for loan approvals performs better for applicants from urban areas because the training data contains more approval examples from urban areas. What type of bias does this illustrate?
+A) Algorithm bias
+B) Recency bias
+C) Sampling bias
+D) Observer bias
+Question 27
+A company is using Amazon Bedrock and wants to ensure that the content generated by its application avoids harmful or inappropriate content based on organizational compliance requirements. Which specific safety feature is used to enforce these boundaries on the foundation model's behavior?
+A) Amazon SageMaker Model Monitor
+B) AWS AI Service Cards
+C) Amazon SageMaker Clarify
+D) Guardrails for Amazon Bedrock
+Question 28
+A financial company uses an ML model for credit risk assessment. The company must document the model's intended purpose, training data characteristics, and key evaluation metrics for audit purposes. Which AWS service is best suited for generating and sharing this documentation?
+A) AWS AI Service Cards
+B) Amazon SageMaker Ground Truth
+C) Amazon SageMaker Model Cards
+D) AWS Audit Manager
+Question 29
+Why is human oversight considered essential when a company uses generative AI to produce creative content, such as marketing slogans?
+A) Generative AI requires extensive training data to generate effective slogans.
+B) Generative AI models may produce content that is inappropriate, biased, or misleading.
+C) Generative AI models often struggle to capture the unique brand identity.
+D) Generative AI models produce outputs that are too long to be memorable.
+Question 30
+Which principle should an organization prioritize to establish clear guidelines, oversight, and accountability mechanisms encompassing the policies and procedures for managing its AI systems?
+A) Bias prevention
+B) Data protection and security
+C) Governance
+D) Accuracy and reliability
+Question 31
+Which AWS service is used to incorporate human review into machine learning workflows for tasks like reviewing document processing or content moderation, contributing to responsible AI development?
+A) Amazon SageMaker Model Monitor
+B) Amazon SageMaker Ground Truth
+C) Amazon A2I (Augmented AI)
+D) Amazon Comprehend
+Question 32
+Which type of legal risk is specifically associated with working with generative AI solutions, particularly concerning the content they generate?
+A) Sampling bias
+B) Overfitting risk
+C) Intellectual property infringement claims
+D) High variance risk
+Domain 5: Security, Compliance, and Governance for AI Solutions (14% of scored content)
+Question 33
+A company needs to audit and track every API call made to AWS services (including Amazon Bedrock) for compliance purposes, ensuring they record the API call, the user, and the timestamp. Which AWS service is required for recording this AWS API activity?
+A) AWS Config
+B) Amazon CloudWatch
+C) AWS CloudTrail
+D) AWS Trusted Advisor
+Question 34
+A team is training an ML model on sensitive customer data stored in Amazon S3. Which two best practices are recommended to ensure sensitive information (like PII) is identified and handled before being used for training? (Select two.)
+A) Use S3 encryption to protect the data at rest.
+B) Implement S3 access controls to limit access.
+C) Implement data masking techniques to replace sensitive information.
+D) Use Amazon Macie to identify and analyze sensitive data like PII in the data set.
+Question 35
+Under the AWS shared responsibility model, when training a machine learning model using Amazon SageMaker, which security aspect is considered the customer's primary responsibility?
+A) Securing the underlying operating system
+B) Securing the SageMaker infrastructure
+C) Ensuring security for the customer data stored in Amazon S3
+D) Patching the AWS SageMaker software
+Question 36
+A team is setting up network connectivity between their VPC and a partner's VPC to securely share ML features, requiring that the connection remain private and not expose data to the public internet. Which AWS networking feature should they use?
+A) AWS Direct Connect
+B) AWS PrivateLink
+C) AWS Transit Gateway
+D) AWS VPN
+Question 37
+When assessing the risk level of a generative AI project using the Generative AI Security Scoping Matrix, what attribute of the data is considered a critical factor?
+A) The model's computational efficiency
+B) The sensitivity of the data used to train the model
+C) Inference latency
+D) The model's training region
+Question 38
+Which AWS service allows an organization to perform automated security assessments, vulnerability scanning, and compliance checks for their EC2 instances that host AI infrastructure?
+A) AWS Config
+B) AWS Audit Manager
+C) Amazon Inspector
+D) AWS Trusted Advisor
+Question 39
+The process of introducing biased or misleading data into prompts to influence or degrade the model's output is known as what type of prompt attack?
+A) Jailbreaking
+B) Prompt Poisoning
+C) Adversarial Prompting
+D) Prompt Injection
+Question 40
+Which AWS service provides access to a centralized repository containing AWS compliance reports, attestations, and certifications, which is useful for verifying vendor compliance?
+A) AWS Organization
+B) Amazon Inspector
+C) AWS CloudTrail
+D) AWS Artifact
+Quiz Answers
+Domain 1: Fundamentals of AI and ML (20% of scored content)
+| Question | Answer | Explanation/Citation |
+|---|---|---|
+| 1 | D) Unsupervised learning | Unsupervised learning algorithms, such as clustering, are used to find patterns or groupings in unlabeled data. Classification and Regression are forms of supervised learning. |
+| 2 | C) AI is the overall science, ML is a subset of AI, and DL is a subset of ML | Artificial Intelligence (AI) is the broad field of machines mimicking human intelligence. Machine Learning (ML) is a subset of AI where systems learn from data. Deep Learning (DL) is a subset of ML that uses deep neural networks. |
+| 3 | B) Data Cleaning | Data cleaning is the step where records with incomplete, missing, duplicate, or badly formatted data are identified and corrected. |
+| 4 | B) Underfitting, characterized by high bias and low variance | Underfitting occurs when a model is too simple to capture the underlying patterns, resulting in consistently poor performance (high bias) on both training and test data, but it is very consistent in its error (low variance). |
+| 5 | C) Accuracy | Accuracy measures the overall proportion of correct predictions (both true positives and true negatives) out of the total number of predictions. |
+| 6 | C) Amazon SageMaker Data Wrangler | Amazon SageMaker Data Wrangler is designed to simplify and accelerate data preparation and feature engineering for machine learning. |
+| 7 | C) Convolutional Neural Networks (CNN) | CNNs are a class of deep neural networks specifically effective for processing visual and grid-like data like images. |
+| 8 | B) Batch inference | Batch inference is ideal for large datasets processed offline, prioritizing cost-effectiveness and throughput over low latency. |
+Domain 2: Fundamentals of Generative AI (24% of scored content)
+| Question | Answer | Explanation/Citation |
+|---|---|---|
+| 9 | C) Vector embeddings | Vector embeddings are numerical representations that capture the meaning and semantic relationships of data (words, sentences, images) in a multi-dimensional space. |
+| 10 | C) BLEU (Bilingual Evaluation Understudy) | BLEU is a standard metric used to evaluate the quality of text generated by machine translation, by comparing n-grams with a set of reference translations. |
+| 11 | D) Context window | The Context window (or context length) is the maximum number of tokens an LLM can process to generate its response in a single turn. |
+| 12 | C) Multimodal models | Multimodal models can process and generate content across different data types, such as text, images, and audio. |
+| 13 | D) Stable Diffusion (a type of diffusion model) | Diffusion models, such as Stable Diffusion, are highly effective generative models used for creating high-quality images from text prompts. |
+| 14 | C) Hallucinations | Hallucination refers to the LLM generating text that is plausible but factually incorrect, inconsistent, or nonsensical. |
+| 15 | C) On-demand (Pay As You Go) | On-demand pricing is the most suitable for unpredictable or experimental workloads, allowing users to pay only for the resources they consume. |
+| 16 | C) Foundation model (Large Language Model) | Amazon Titan models are a family of foundation models, specifically Large Language Models (LLMs), developed by Amazon. |
+Domain 3: Applications of Foundation Models (28% of scored content)
+| Question | Answer | Explanation/Citation |
+|---|---|---|
+| 17 | C) Retrieval Augmented Generation (RAG) | RAG is a technique that retrieves relevant information from an external, proprietary knowledge base and uses it to augment the prompt sent to the LLM, grounding the response in external facts. |
+| 18 | C) Transfer learning | Transfer learning is the general approach of using a model pre-trained on a large dataset and fine-tuning it on a smaller, specific dataset for a new task. |
+| 19 | D) Temperature | Temperature is an inference parameter that controls the randomness of the model's output. A higher value (e.g., 1.0) increases creativity and diversity, while a lower value (e.g., 0.1) makes the output more deterministic. |
+| 20 | B) Amazon OpenSearch Service and E) Amazon Aurora RDS PostgreSQL with PG Vector extension | Both Amazon OpenSearch Service and the PG Vector extension for Amazon Aurora RDS PostgreSQL are noted AWS services for storing and querying high-dimensional vector embeddings. |
+| 21 | B) Jailbreaking | Jailbreaking is a prompt engineering attack where the user crafts an input specifically to bypass the model's safety and alignment constraints. |
+| 22 | C) To enable foundation models to break down tasks, make API calls, and perform multi-step tasks to achieve a goal. | Agents for Amazon Bedrock allow FMs to reason, plan, and execute multi-step tasks by making API calls to external systems and using a knowledge base. |
+| 23 | C) BERTScore | BERTScore uses a pre-trained BERT model to calculate semantic similarity, providing a more nuanced quality assessment than purely lexical overlap metrics like ROUGE or BLEU. |
+| 24 | C) Few-shot learning | Few-shot learning is a prompt engineering technique where the user provides a prompt with a small number of labeled examples to guide the model's behavior. |
+Domain 4: Guidelines for Responsible AI (14% of scored content)
+| Question | Answer | Explanation/Citation |
+|---|---|---|
+| 25 | C) To analyze model predictions, detect bias, and enhance transparency and explainability. | Amazon SageMaker Clarify is the dedicated service for detecting potential bias in ML data and models, and for providing explainability into model predictions. |
+| 26 | C) Sampling bias | Sampling bias occurs when the training data is not representative of the real-world population or all scenarios, leading to an underrepresentation of certain groups (in this case, non-urban applicants). |
+| 27 | D) Guardrails for Amazon Bedrock | Guardrails for Amazon Bedrock are safety features used to enforce custom policies and boundaries on the foundation model's behavior to prevent harmful or inappropriate content. |
+| 28 | C) Amazon SageMaker Model Cards | Amazon SageMaker Model Cards provide a standardized, centralized way to document critical information about an ML model's purpose, training, and performance for governance and auditing. |
+| 29 | B) Generative AI models may produce content that is inappropriate, biased, or misleading. | Human oversight is necessary to review and filter content to ensure it aligns with brand guidelines, ethical standards, and is not biased or misleading. |
+| 30 | C) Governance | Governance is the principle that encompasses establishing clear guidelines, oversight, and accountability mechanisms for the policies and procedures used to manage AI systems. |
+| 31 | C) Amazon A2I (Augmented AI) | Amazon A2I is a service that makes it easy to incorporate human review into ML workflows, which is key for tasks requiring human judgment for responsible AI development. |
+| 32 | C) Intellectual property infringement claims | A key legal risk with generative AI is that the model's output may inadvertently reproduce or be substantially similar to copyrighted material used in its training, leading to intellectual property infringement claims. |
+Domain 5: Security, Compliance, and Governance for AI Solutions (14% of scored content)
+| Question | Answer | Explanation/Citation |
+|---|---|---|
+| 33 | C) AWS CloudTrail | AWS CloudTrail is the service used to record API activity, including calls made to AWS services (like Amazon Bedrock), logging details like the API call, the user, and the timestamp for auditing and compliance. |
+| 34 | C) Implement data masking techniques to replace sensitive information. and D) Use Amazon Macie to identify and analyze sensitive data like PII in the data set. | Amazon Macie helps discover and classify sensitive data (like PII), and data masking techniques ensure that this sensitive data is replaced or anonymized before being used for model training. |
+| 35 | C) Ensuring security for the customer data stored in Amazon S3 | Under the Shared Responsibility Model, AWS is responsible for the security of the cloud (infrastructure, compute, storage), while the customer is responsible for security in the cloud, including securing their customer data and model artifacts. |
+| 36 | B) AWS PrivateLink | AWS PrivateLink allows secure, private connectivity between VPCs and services using private endpoints, without exposing data to the public internet. |
+| 37 | B) The sensitivity of the data used to train the model | The sensitivity of the data (e.g., PII, confidential business information) is a critical factor in the Generative AI Security Scoping Matrix, as it dictates the required security controls. |
+| 38 | C) Amazon Inspector | Amazon Inspector is an automated security assessment service that helps improve the security and compliance of applications deployed on AWS, including vulnerability scanning for EC2 instances. |
+| 39 | B) Prompt Poisoning | Prompt Poisoning (or data poisoning) involves introducing biased or misleading data into the prompt or the model's training data to influence or degrade its output. |
+| 40 | D) AWS Artifact | AWS Artifact is a centralized, on-demand repository for AWS compliance reports, attestations, and certifications, useful for vendor compliance verification. |
+You can find more tips and a study guide for this certification in this video: AWS Certified AI Practitioner (AIF-C01) Certification Exam: Topics, Tips, and Study Guide.
+
+YouTube video views will be stored in your YouTube History, and your data will be stored and used by YouTube according to its Terms of Service
+
+
+Below is an extended Markdown (.md) formatted quiz with additional AWS Certified AI Practitioner questions + answers, designed to complement your existing 40-question set.
+✅ Same style
+✅ Same domain coverage
+✅ Ready to copy into .md file
+
+
+---
+
+AWS Certified AI Practitioner – Additional Practice Questions
+
+> Extension to full 40-question master set
+
+
+
+
+---
+
+Additional Questions (Q41–Q60)
+
+Domain 1: Fundamentals of AI & ML
+
+
+---
+
+Question 41
+
+Which type of machine learning model output predicts a continuous numerical value?
+
+Option	Answer
+
+A	Classification
+B	Regression ✅
+C	Clustering
+D	Dimensionality reduction
+
+
+
+---
+
+Question 42
+
+Which method helps prevent overfitting in ML models?
+
+Option	Answer
+
+A	Increase model complexity
+B	Early stopping ✅
+C	Remove regularization
+D	Train with more noise
+
+
+
+---
+
+Question 43
+
+Which AWS service helps automate the full ML lifecycle, including training, deployment, and monitoring?
+
+Option	Answer
+
+A	AWS Lambda
+B	Amazon Lex
+C	Amazon SageMaker ✅
+D	AWS Glue
+
+
+
+---
+
+Domain 2: Fundamentals of Generative AI
+
+
+---
+
+Question 44
+
+What is the process of adapting a Foundation Model with your private data without retraining the whole model?
+
+Option	Answer
+
+A	Data labeling
+B	Fine-tuning ✅
+C	Batch inference
+D	Data augmentation
+
+
+
+---
+
+Question 45
+
+Which method expands input text into meaningful chunks for LLM input processing?
+
+Option	Answer
+
+A	Embedding
+B	Chunking ✅
+C	Tokenization
+D	Sampling
+
+
+
+---
+
+Question 46
+
+Which Amazon Bedrock feature lets you try different models and parameters in a UI without coding?
+
+Option	Answer
+
+A	Bedrock Studio
+B	Bedrock Playground ✅
+C	SageMaker Notebook
+D	Amazon Lex console
+
+
+
+---
+
+Question 47
+
+What is the main purpose of model hallucination testing?
+
+Option	Answer
+
+A	Model speed
+B	Creativity level
+C	Factual accuracy ✅
+D	Vocabulary size
+
+
+
+---
+
+Domain 3: Applications of Foundation Models
+
+
+---
+
+Question 48
+
+A company wants LLMs to read PDF documents and answer questions about them. Which approach should they use?
+
+Option	Answer
+
+A	Data lake query
+B	Computer vision
+C	RAG ✅
+D	Zero-shot prompting
+
+
+
+---
+
+Question 49
+
+What AWS feature allows LLM workloads to run in isolated secure environments?
+
+Option	Answer
+
+A	IAM policies
+B	Amazon VPC ✅
+C	CloudTrail
+D	Auto Scaling
+
+
+
+---
+
+Question 50
+
+Which parameter controls how much new content the LLM generates vs repeating known text?
+
+Option	Answer
+
+A	Temperature
+B	Top-p ✅
+C	Latency
+D	Epoch
+
+
+
+---
+
+Question 51
+
+Which AWS service helps classify text, extract entities, and analyze sentiment?
+
+Option	Answer
+
+A	Amazon Lex
+B	Amazon Comprehend ✅
+C	AWS Glue
+D	SageMaker JumpStart
+
+
+
+---
+
+Question 52
+
+Which model type is best for summarizing call center transcripts?
+
+Option	Answer
+
+A	Text classification
+B	Object detection
+C	Large language model ✅
+D	GAN
+
+
+
+---
+
+Domain 4: Responsible AI
+
+
+---
+
+Question 53
+
+Which practice helps prevent AI misuse and bias?
+
+Option	Answer
+
+A	Ignore edge cases
+B	Remove all human review
+C	Responsible AI governance ✅
+D	Disable logging
+
+
+
+---
+
+Question 54
+
+What should an organization implement to document model decisions and audit performance?
+
+Option	Answer
+
+A	Model deletion script
+B	Explainability report
+C	Model card ✅
+D	KMS key rotation
+
+
+
+---
+
+Question 55
+
+Which AWS tool detects fairness issues in ML training data and predictions?
+
+Option	Answer
+
+A	CloudTrail
+B	SageMaker Clarify ✅
+C	IAM Access Analyzer
+D	AWS Shield
+
+
+
+---
+
+Domain 5: Security, Compliance, Governance
+
+
+---
+
+Question 56
+
+Which IAM best practice applies to AI workloads?
+
+Option	Answer
+
+A	Use root user often
+B	Use least-privilege IAM roles ✅
+C	Store credentials in code
+D	Disable MFA
+
+
+
+---
+
+Question 57
+
+Which AWS tool helps detect unusual user activity that may indicate fraud or insider attacks?
+
+Option	Answer
+
+A	CloudTrail
+B	GuardDuty ✅
+C	KMS
+D	Secrets Manager
+
+
+
+---
+
+Question 58
+
+Where should encryption keys for AI datasets be stored?
+
+Option	Answer
+
+A	Spreadsheet
+B	Hard-coded in scripts
+C	AWS Key Management Service (KMS) ✅
+D	Email inbox
+
+
+
+---
+
+Question 59
+
+Which service checks resource configuration against security best practices?
+
+Option	Answer
+
+A	IAM Analyzer
+B	AWS Config ✅
+C	Amazon Connect
+D	Rekognition
+
+
+
+---
+
+Question 60
+
+Which AWS feature allows enforcing private Bedrock access without public Internet traffic?
+
+Option	Answer
+
+A	WAF
+B	PrivateLink ✅
+C	CloudFront
+D	Route 53
+
+
+
+---
+
+✅ End of Extended Quiz
+
+
+---
+
+Next Suggestion
+
+Want me to:
+
+1. Generate this as a downloadable .md file?
+
+
+2. Add answer explanations in table form like your original?
+
+
+3. Create flashcards?
+
+
+4. Turn these into a practice exam UI (HTML/React)?
+
+
+
