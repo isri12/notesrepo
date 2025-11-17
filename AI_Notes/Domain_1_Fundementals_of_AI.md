@@ -1,1 +1,0 @@
-# Domain 1: Fundamentals of AI and ML (20% of scored content) 
