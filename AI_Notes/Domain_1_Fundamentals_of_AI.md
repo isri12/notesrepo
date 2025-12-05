@@ -41,6 +41,8 @@ I'll add a bullet point about Generative AI that mentions it will be covered in 
 
 - **Large Language Model (LLM)**: A type of AI model trained on vast amounts of text data, capable of understanding and generating human-like text across a wide range of topics and tasks.[^214]
 
+- **Transformer Model (LLM)**: They process entire sequences in parallel rather than one element at a time, making them highly efficient. They can capture long-range dependencies in text much better than previous models. The architecture scales extremely well, leading to models with billions or trillions of parameters. They're versatile and work for translation, text generation, image processing, protein folding, and more.
+
 To illustrate the relationships between these concepts, let's consider a diagram:
 ```mermaid
 flowchart TD
