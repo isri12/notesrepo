@@ -1,5 +1,248 @@
 ## 1. Cluster Architecture, Installation & Configuration (25%)
 
+------
+
+# Kubernetes Architecture Study Notes for CKA
+
+Here’s a comprehensive breakdown of Kubernetes components to help you prepare for the Certified Kubernetes Administrator exam:
+
+## Control Plane Components
+
+**API Server (kube-apiserver)**
+
+- The front-end for the Kubernetes control plane and the central management point
+- All communication goes through the API server - it’s the only component that talks directly to etcd
+- Validates and processes REST requests, then updates corresponding objects in etcd
+- Exposes the Kubernetes API (typically on port 6443)
+- Horizontally scalable - you can run multiple instances for high availability
+
+**etcd**
+
+- Distributed, consistent key-value store that serves as Kubernetes’ backing store
+- Stores all cluster data including configuration, state, and metadata
+- Only the API server communicates directly with etcd
+- Critical for cluster operation - if etcd fails, the cluster loses its source of truth
+- Should be backed up regularly (critical for disaster recovery on the CKA exam)
+- Runs on port 2379 (client) and 2380 (peer communication)
+
+**Scheduler (kube-scheduler)**
+
+- Watches for newly created Pods with no assigned node and selects a node for them to run on
+- Considers factors like resource requirements, hardware/software constraints, affinity/anti-affinity rules, data locality, and workload deadlines
+- Two-phase process: filtering (finds feasible nodes) and scoring (ranks feasible nodes)
+- Doesn’t actually place the Pod - it just updates the Pod object with the node assignment
+
+**Controller Manager (kube-controller-manager)**
+
+- Runs multiple controller processes as a single binary
+- Controllers include: Node Controller (monitors node health), Replication Controller (maintains correct number of pods), Endpoints Controller (populates endpoint objects), Service Account & Token Controllers (creates default accounts and API access tokens for namespaces)
+- Each controller watches the cluster state through the API server and makes changes to move current state toward desired state
+- Works on a reconciliation loop pattern
+
+**Cloud Controller Manager (cloud-controller-manager)**
+
+- Embeds cloud-specific control logic (only relevant if running on a cloud provider)
+- Allows you to link your cluster into your cloud provider’s API
+- Runs controllers like Node Controller (cloud-specific), Route Controller, and Service Controller (for cloud load balancers)
+
+## Node Components
+
+**kubelet**
+
+- Primary node agent that runs on each worker node
+- Ensures containers described in PodSpecs are running and healthy
+- Communicates with the API server to receive Pod specifications
+- Manages Pod lifecycle, reports node and pod status back to control plane
+- Doesn’t manage containers not created by Kubernetes
+- Mounts volumes, downloads secrets, and runs container health checks
+
+**kube-proxy**
+
+- Network proxy that runs on each node
+- Maintains network rules that allow communication to Pods from inside or outside the cluster
+- Implements part of the Kubernetes Service concept
+- Can use iptables, IPVS, or userspace modes for traffic forwarding
+- Handles load balancing for Services across backend Pods
+
+**Container Runtime**
+
+- Software responsible for running containers
+- Kubernetes supports runtimes that implement the Container Runtime Interface (CRI)
+- Common runtimes: containerd, CRI-O, Docker Engine (via cri-dockerd)
+- Pulls images, manages container lifecycle (start, stop, delete)
+
+## Additional Important Concepts for CKA
+
+**Pods**
+
+- Smallest deployable unit in Kubernetes
+- Can contain one or more containers that share network and storage
+- Each Pod gets a unique IP address
+
+**Worker vs Control Plane Nodes**
+
+- Control plane nodes run the control plane components (API server, scheduler, controller manager, etcd)
+- Worker nodes run your application workloads (Pods)
+- In small clusters or single-node setups, control plane nodes can also run workloads
+
+**Communication Flow Example**
+
+1. User submits a Deployment via kubectl to API server
+1. API server validates and stores it in etcd
+1. Controller manager detects the new Deployment and creates ReplicaSet
+1. ReplicaSet controller creates Pod objects
+1. Scheduler assigns Pods to nodes
+1. kubelet on assigned nodes sees the Pods and starts containers via container runtime
+1. kube-proxy configures networking rules for the new Pods
+
+**Key Points for the Exam**
+
+- Know where each component runs (control plane vs worker nodes)
+- Understand the data flow and which components communicate with each other
+- Be familiar with troubleshooting commands like `kubectl logs`, `kubectl describe`, and checking component logs in `/var/log`
+- Practice backing up and restoring etcd (common exam task)
+- Know how to check component health and status
+
+-------
+
+# Kubernetes Command-Line Tools Comparison
+
+Here’s a clear breakdown of the key Kubernetes tools and their purposes:
+
+## Core Kubernetes Tools
+
+**kubectl**
+
+- **What it is**: Command-line tool for interacting with Kubernetes clusters
+- **Purpose**: Allows you to run commands against Kubernetes clusters to deploy applications, inspect resources, view logs, and manage cluster operations
+- **Runs on**: Your local machine, bastion host, or any machine configured to communicate with the cluster
+- **Common uses**:
+  - `kubectl get pods` - list pods
+  - `kubectl apply -f deployment.yaml` - create/update resources
+  - `kubectl logs <pod-name>` - view container logs
+  - `kubectl exec -it <pod-name> -- /bin/bash` - execute commands in containers
+  - `kubectl describe node <node-name>` - get detailed info about resources
+- **Key point**: This is your main interface for day-to-day cluster management
+
+**kubelet**
+
+- **What it is**: Node agent that runs on every worker node (and control plane nodes)
+- **Purpose**: Ensures containers are running in Pods as specified
+- **Runs on**: Each node in the cluster as a system service/daemon
+- **Key responsibilities**:
+  - Registers the node with the API server
+  - Watches for Pod assignments to its node
+  - Starts/stops containers via the container runtime
+  - Reports node and Pod status back to control plane
+  - Performs container health checks (liveness/readiness probes)
+  - Mounts volumes into Pods
+- **Key point**: This is NOT a command you run - it’s a background service running on nodes
+
+**kubeadm**
+
+- **What it is**: Tool for bootstrapping and managing Kubernetes clusters
+- **Purpose**: Helps you create, upgrade, and maintain production-ready Kubernetes clusters
+- **Runs on**: Nodes where you’re setting up or managing the cluster
+- **Common uses**:
+  - `kubeadm init` - initialize a control plane node
+  - `kubeadm join` - join worker nodes to the cluster
+  - `kubeadm upgrade` - upgrade cluster components
+  - `kubeadm reset` - tear down a node’s Kubernetes installation
+  - `kubeadm token create` - generate join tokens
+- **Key point**: Used primarily during cluster setup and maintenance, not for daily operations
+
+## Other Important Kubernetes Tools
+
+**kube-proxy**
+
+- **What it is**: Network proxy running on each node
+- **Purpose**: Maintains network rules for Service-to-Pod communication
+- **Runs on**: Each node as a DaemonSet or system service
+- **Key point**: Like kubelet, this runs in the background - not a command you execute
+
+**kube-apiserver**
+
+- **What it is**: The Kubernetes API server (control plane component)
+- **Purpose**: Front-end for the Kubernetes control plane
+- **Runs on**: Control plane nodes as a static Pod or system service
+- **Key point**: This is the component kubectl talks to
+
+**kube-scheduler**
+
+- **What it is**: Control plane component that assigns Pods to nodes
+- **Runs on**: Control plane nodes
+- **Key point**: Background service, not a user-facing command
+
+**kube-controller-manager**
+
+- **What it is**: Runs controller processes
+- **Runs on**: Control plane nodes
+- **Key point**: Background service
+
+## Additional Useful Tools
+
+**crictl**
+
+- Command-line tool for CRI-compatible container runtimes
+- Used for troubleshooting containers at the runtime level
+- Similar to `docker` commands but works with containerd, CRI-O, etc.
+- Examples: `crictl ps`, `crictl logs`, `crictl inspect`
+
+**etcdctl**
+
+- Command-line tool for interacting with etcd
+- Used for backing up/restoring etcd, checking cluster health
+- Important for CKA exam: `etcdctl snapshot save/restore`
+
+**systemctl**
+
+- Not Kubernetes-specific, but essential for managing kubelet and other services
+- `systemctl status kubelet` - check kubelet status
+- `systemctl restart kubelet` - restart the kubelet service
+- `systemctl enable kubelet` - enable kubelet to start on boot
+
+## Quick Comparison Table
+
+|Tool          |Type              |Where It Runs           |When You Use It                     |
+|--------------|------------------|------------------------|------------------------------------|
+|**kubectl**   |CLI command       |Your workstation/bastion|Daily cluster management            |
+|**kubelet**   |Background service|Every node              |Always running (you don’t invoke it)|
+|**kubeadm**   |CLI command       |Cluster nodes           |Cluster setup/upgrade/maintenance   |
+|**kube-proxy**|Background service|Every node              |Always running (you don’t invoke it)|
+|**crictl**    |CLI command       |Cluster nodes           |Container runtime troubleshooting   |
+|**etcdctl**   |CLI command       |Control plane/etcd nodes|etcd backup/restore operations      |
+
+## Common Confusion Points
+
+**kubectl vs kubelet**
+
+- `kubectl` = what you type commands into
+- `kubelet` = the agent running on nodes doing the actual work
+
+**kubeadm vs kubectl**
+
+- `kubeadm` = sets up the cluster infrastructure
+- `kubectl` = manages workloads and resources in an existing cluster
+
+**When do you use each?**
+
+- Setting up a new cluster? → `kubeadm init`
+- Deploying an application? → `kubectl apply`
+- Troubleshooting why containers won’t start on a node? → Check `kubelet` logs with `journalctl -u kubelet`
+- Backing up cluster state? → `etcdctl snapshot save`
+
+## CKA Exam Tips
+
+- Know the difference between these tools cold - exam questions often require using the right tool
+- Practice using `kubeadm` to bootstrap clusters
+- Master `kubectl` commands - you’ll use it constantly
+- Understand that `kubelet` is a service you manage with `systemctl`, not a command you run directly
+- Be comfortable troubleshooting by checking logs: `journalctl -u kubelet` for kubelet issues​​​​​​​​​​​​​​​​
+
+
+
+
+------
 This section tests your ability to **build, configure, and manage Kubernetes clusters** using `kubeadm` and core Kubernetes components.
 
 ### Manage Role-Based Access Control (RBAC)
